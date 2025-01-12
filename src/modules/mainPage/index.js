@@ -1,0 +1,8 @@
+export { default as Homepage } from "./Homepage"
+export { default as About } from "./About"
+export { default as Courses } from "./Courses"
+export { default as Trainers } from "./Trainers"
+export { default as Events } from "./Events"
+export { default as Pricing } from "./Pricing"
+export { default as Contact } from "./Contact"
+export { default as CourseDetail } from "./CourseDetail"
