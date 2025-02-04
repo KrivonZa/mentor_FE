@@ -1,12 +1,25 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import CourseTitle from '../components/templates/course/CourseTitle';
 import CourseRender from '../components/templates/course/CourseRender';
+import courseService from '../services/courseService';
 
 export const CourseContext = createContext({});
 
 export const CourseProvider = ({ children }) => {
 
     const [courseList, setCourseList] = useState([]);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchFilter, setSearchFilter] = useState("");
+
+    const fetchCoursePagi = async (currentPage, searchFilter) => {
+        const list = await courseService.getAllCoursePagination(currentPage, searchFilter)
+        setCourseList(list.data);
+    }
+
+    useEffect(() => {
+        fetchCoursePagi(currentPage, searchFilter);
+    }, [currentPage, searchFilter])
 
     return (
         <CourseContext.Provider value={{
@@ -21,8 +34,8 @@ export const CourseLayout = () => {
     return (
         <CourseProvider>
             <div className="main">
-                <CourseTitle/>
-                <CourseRender/>
+                <CourseTitle />
+                <CourseRender />
             </div>
         </CourseProvider>
     )
