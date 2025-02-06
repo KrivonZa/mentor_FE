@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
-import { CourseContext } from '../../../layouts/CourseLayout'
 import SkeletonCourse from '../../ui/SkeletonCourse';
+import { CourseContext } from '../../../modules/mainPage/Courses';
 
 export const CourseRender = () => {
 
