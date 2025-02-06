@@ -1,43 +1,20 @@
-import React, { createContext, useEffect, useState } from 'react'
-import CourseTitle from '../components/templates/course/CourseTitle';
+import React from 'react'
 import CourseRender from '../components/templates/course/CourseRender';
-import courseService from '../services/courseService';
+import PageBanner from '../components/templates/PageBanner';
 
-export const CourseContext = createContext({});
-
-export const CourseProvider = ({ children }) => {
-
-    const [courseList, setCourseList] = useState([]);
-
-    const [currentPage, setCurrentPage] = useState(1);
-    const [searchFilter, setSearchFilter] = useState("");
-
-    const fetchCoursePagi = async (currentPage, searchFilter) => {
-        const list = await courseService.getAllCoursePagination(currentPage, searchFilter)
-        setCourseList(list.data);
-    }
-
-    useEffect(() => {
-        fetchCoursePagi(currentPage, searchFilter);
-    }, [currentPage, searchFilter])
-
-    return (
-        <CourseContext.Provider value={{
-            courseList
-        }}>
-            {children}
-        </CourseContext.Provider>
-    )
-}
 
 export const CourseLayout = () => {
     return (
-        <CourseProvider>
-            <div className="main">
-                <CourseTitle />
-                <CourseRender />
-            </div>
-        </CourseProvider>
+        <div className="main">
+            <PageBanner
+                title="Course"
+                description="Odio et unde deleniti. Deserunt numquam exercitationem.
+                                Officiis quo odio sint voluptas consequatur ut a odio
+                    voluptatem. Sit dolorum debitis veritatis natus dolores. Quasi
+                                ratione sint. Sit quaerat ipsum dolorem."
+            />
+            <CourseRender />
+        </div>
     )
 }
 

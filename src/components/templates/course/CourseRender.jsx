@@ -1,140 +1,82 @@
 import React, { useContext, useEffect } from 'react'
-import { CourseContext } from '../../../layouts/CourseLayout'
+import SkeletonCourse from '../../ui/SkeletonCourse';
+import { CourseContext } from '../../../modules/mainPage/Courses';
 
 export const CourseRender = () => {
 
-    const { courseList } = useContext(CourseContext);
+    const { courseList, isLoading } = useContext(CourseContext);
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log("courseL: ", courseList);
-    },[courseList])
+    }, [courseList])
 
     return (
         <section id="courses" className="courses section">
             <div className="container">
                 <div className="row">
-                    <div
-                        className="col-lg-4 col-md-6 d-flex align-items-stretch"
-                        data-aos="zoom-in"
-                        data-aos-delay="100"
-                    >
-                        <div className="course-item">
-                            <img src="/img/course-1.jpg" className="img-fluid" alt="..." />
-                            <div className="course-content">
-                                <div className="d-flex justify-content-between align-items-center mb-3">
-                                    <p className="category">Web Development</p>
-                                    <p className="price">$169</p>
-                                </div>
+                    {isLoading
+                        ? <>
+                            <SkeletonCourse />
+                            <SkeletonCourse />
+                            <SkeletonCourse />
+                        </>
+                        : courseList?.map(course =>
+                            <div
+                                key={course?.courseID || 0}
+                                className="col-lg-4 col-md-6 d-flex align-items-stretch "
+                                data-aos="zoom-in"
+                                data-aos-delay="100"
+                                style={{ height: '495px' }}
+                            >
+                                <div className="course-item w-100">
+                                    <img
+                                        src={course.thumbnail}
+                                        className="img-fluid"
+                                        alt={course.courseName}
+                                        style={{ height: '200px', objectFit: 'cover', width: '100%' }}
+                                    />
+                                    <div className="course-content d-flex flex-column justify-content-between"
+                                        style={{ height: '295px' }}
+                                    >
+                                        <div>
+                                            <div className="d-flex justify-content-between align-items-center mb-3">
+                                                <div className='d-flex w-75' style={{ gap: 5, overflowX: scroll }}>
+                                                    {course.skills.map(skill =>
+                                                        <span className="category" key={skill.skillDetail.skillID}>{skill.skillDetail.skillName}</span>
+                                                    )}
+                                                </div>
+                                                <div className="price">${course.price}</div>
+                                            </div>
 
-                                <h3>
-                                    <a href="/course-detail">Website Design</a>
-                                </h3>
-                                <p className="description">
-                                    Et architecto provident deleniti facere repellat nobis iste.
-                                    Id facere quia quae dolores dolorem tempore.
-                                </p>
-                                <div className="trainer d-flex justify-content-between align-items-center">
-                                    <div className="trainer-profile d-flex align-items-center">
-                                        <img
-                                            src="/img/trainers/trainer-1-2.jpg"
-                                            className="img-fluid"
-                                            alt=""
-                                        />
-                                        <a href="" className="trainer-link">
-                                            Antonio
-                                        </a>
-                                    </div>
-                                    <div className="trainer-rank d-flex align-items-center">
-                                        <i className="bi bi-person user-icon"></i>&nbsp;50
-                                        &nbsp;&nbsp;
-                                        <i className="bi bi-heart heart-icon"></i>&nbsp;65
+                                            {/* nav to courseDetail */}
+                                            <h3>
+                                                <a href="/course-detail">{course?.courseName}</a>
+                                            </h3>
+                                            <p className="description">
+                                                {course?.description}
+                                            </p>
+                                        </div>
+                                        <div className="trainer d-flex justify-content-between align-items-center">
+                                            <div className="trainer-profile d-flex align-items-center">
+                                                <img
+                                                    src={course.mentor.avatar}
+                                                    className="img-fluid"
+                                                    alt={course.mentor.mentorName}
+                                                />
+                                                <a href="" className="trainer-link">
+                                                    {course.mentor.mentorName}
+                                                </a>
+                                            </div>
+                                            <div className="trainer-rank d-flex align-items-center">
+                                                <i className="bi bi-person user-icon"></i>&nbsp;{course.remainSlot}
+                                                &nbsp;&nbsp;
+                                                <i className="bi bi-heart heart-icon"></i>&nbsp;{course.mentor.favoritedCount}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div
-                        className="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0"
-                        data-aos="zoom-in"
-                        data-aos-delay="200"
-                    >
-                        <div className="course-item">
-                            <img src="/img/course-2.jpg" className="img-fluid" alt="..." />
-                            <div className="course-content">
-                                <div className="d-flex justify-content-between align-items-center mb-3">
-                                    <p className="category">Marketing</p>
-                                    <p className="price">$250</p>
-                                </div>
-
-                                <h3>
-                                    <a href="/course-detail">Search Engine Optimization</a>
-                                </h3>
-                                <p className="description">
-                                    Et architecto provident deleniti facere repellat nobis iste.
-                                    Id facere quia quae dolores dolorem tempore.
-                                </p>
-                                <div className="trainer d-flex justify-content-between align-items-center">
-                                    <div className="trainer-profile d-flex align-items-center">
-                                        <img
-                                            src="/img/trainers/trainer-2-2.jpg"
-                                            className="img-fluid"
-                                            alt=""
-                                        />
-                                        <a href="" className="trainer-link">
-                                            Lana
-                                        </a>
-                                    </div>
-                                    <div className="trainer-rank d-flex align-items-center">
-                                        <i className="bi bi-person user-icon"></i>&nbsp;35
-                                        &nbsp;&nbsp;
-                                        <i className="bi bi-heart heart-icon"></i>&nbsp;42
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div
-                        className="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0"
-                        data-aos="zoom-in"
-                        data-aos-delay="300"
-                    >
-                        <div className="course-item">
-                            <img src="/img/course-3.jpg" className="img-fluid" alt="..." />
-                            <div className="course-content">
-                                <div className="d-flex justify-content-between align-items-center mb-3">
-                                    <p className="category">Content</p>
-                                    <p className="price">$180</p>
-                                </div>
-
-                                <h3>
-                                    <a href="/course-detail">Copywriting</a>
-                                </h3>
-                                <p className="description">
-                                    Et architecto provident deleniti facere repellat nobis iste.
-                                    Id facere quia quae dolores dolorem tempore.
-                                </p>
-                                <div className="trainer d-flex justify-content-between align-items-center">
-                                    <div className="trainer-profile d-flex align-items-center">
-                                        <img
-                                            src="/img/trainers/trainer-3-2.jpg"
-                                            className="img-fluid"
-                                            alt=""
-                                        />
-                                        <a href="" className="trainer-link">
-                                            Brandon
-                                        </a>
-                                    </div>
-                                    <div className="trainer-rank d-flex align-items-center">
-                                        <i className="bi bi-person user-icon"></i>&nbsp;20
-                                        &nbsp;&nbsp;
-                                        <i className="bi bi-heart heart-icon"></i>&nbsp;85
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        )}
                 </div>
             </div>
         </section>
