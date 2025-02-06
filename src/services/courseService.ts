@@ -3,7 +3,7 @@ import { apiInstance } from '../constants/apiInstance';
 
 const categoryApi = apiInstance({
   // baseURL: "http://empoweru.trangiangkhanh.site/..."
-  baseURL: "http://localhost:9090/course"
+  baseURL: "http://localhost:9090/empoweru/sba/course"
 });
 
 const courseService = {
@@ -20,7 +20,7 @@ export interface CoursePagination {
   totalElement: number,
   totalPage: number,
   currentPage: number,
-  message?:string,
+  message?: string,
   data: CourseOverall[]
 }
 
@@ -32,6 +32,24 @@ export interface CourseOverall {
   thumbnail: string,
   freeTrial: boolean,
   totalStudent: number,
+  remainSlot: number,
   level: string,
-  numberOfLesson: number
+  numberOfLesson: number,
+  mentor: {
+    mentorID: number,
+    mentorName: string,
+    status: string,
+    avatar: string,
+    favoritedCount: number
+  }
+  skills: {
+    createdAt: string,
+    skillDetail: {
+      skillID: number,
+      skillName: string,
+      description: string,
+      createdAt: string,
+      updatedAt: string
+    }
+  }[]
 }

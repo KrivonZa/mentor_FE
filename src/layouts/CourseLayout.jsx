@@ -8,13 +8,16 @@ export const CourseContext = createContext({});
 export const CourseProvider = ({ children }) => {
 
     const [courseList, setCourseList] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [searchFilter, setSearchFilter] = useState("");
 
     const fetchCoursePagi = async (currentPage, searchFilter) => {
-        const list = await courseService.getAllCoursePagination(currentPage, searchFilter)
-        setCourseList(list.data);
+        setIsLoading(true);
+        const paginationItem = await courseService.getAllCoursePagination(currentPage, searchFilter)
+        setCourseList(paginationItem.data);
+        setIsLoading(false);
     }
 
     useEffect(() => {
@@ -23,7 +26,8 @@ export const CourseProvider = ({ children }) => {
 
     return (
         <CourseContext.Provider value={{
-            courseList
+            courseList,
+            isLoading
         }}>
             {children}
         </CourseContext.Provider>
