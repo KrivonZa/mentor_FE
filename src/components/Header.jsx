@@ -6,7 +6,7 @@ export default function Header() {
       <div className="container-fluid container-xl position-relative d-flex align-items-center">
         <a href="/" className="logo d-flex align-items-center me-auto">
           {/* <img src="/img/logo.png" alt="" /> */}
-          <h1 className="sitename">Mentor</h1>
+          <h1 className="sitename">Empower U</h1>
         </a>
 
         <nav id="navmenu" className="navmenu">
