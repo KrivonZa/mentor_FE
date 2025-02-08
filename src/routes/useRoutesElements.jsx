@@ -8,7 +8,14 @@ import {
   Events,
   Pricing,
   Contact,
-  CourseDetail
+  CourseDetail,
+  UserBody,
+  AddNewStaff,
+  MentorBody,
+  AdminDashboard,
+  UpdateMentorForm,
+  UpdateStaffForm,
+  LoginForm
 } from "../modules/mainPage";
 import { useEffect } from "react";
 
@@ -51,6 +58,36 @@ const useRoutesElements = () => {
         {
           path: "/course-detail",
           element: <CourseDetail />,
+        },
+        {
+          path: "/login",
+          element: <LoginForm />,
+        },
+        {
+          path: "admin",
+          element: <AdminDashboard />,
+          children: [
+            {
+              path: "users",
+              element: <UserBody />,
+            },
+            {
+              path: "staffs/add-new-staff",
+              element: <AddNewStaff />,
+            },
+            {
+              path: "mentors",
+              element: <MentorBody />,
+            },
+            {
+              path: "mentors/update-mentor",
+              element: <UpdateMentorForm />,
+            },
+            {
+              path: "staffs/update-staff",
+              element: <UpdateStaffForm />,
+            },
+          ],
         },
       ],
     },
