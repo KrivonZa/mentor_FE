@@ -161,6 +161,14 @@ export default function Header() {
                 Contact
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/login"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Login
+              </NavLink>
+            </li>
           </ul>
           <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>

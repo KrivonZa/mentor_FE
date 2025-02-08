@@ -11,7 +11,7 @@ export default function AdminDashboard(){
         <AdminSidebar />
         <div className="flex-1 flex flex-col">
           <Header />
-          {/* <Outlet /> */}
+          <Outlet />
           <Footer />
         </div>
       </div>

@@ -64,28 +64,30 @@ const useRoutesElements = () => {
           element: <LoginForm />,
         },
         {
-          path: "/admin/users",
-          element: <UserBody />,
-        },
-        {
-          path: "/admin/staffs/add-new-staff",
-          element: <AddNewStaff />,
-        },
-        {
-          path: "/admin/mentors",
-          element: <MentorBody />,
-        },
-        {
-          path: "/admin",
+          path: "admin",
           element: <AdminDashboard />,
-        },
-        {
-          path: "/admin/mentors/update-mentor",
-          element: <UpdateMentorForm/>,
-        },
-        {
-          path: "/admin/staffs/update-staff",
-          element: <UpdateStaffForm/>,
+          children: [
+            {
+              path: "users",
+              element: <UserBody />,
+            },
+            {
+              path: "staffs/add-new-staff",
+              element: <AddNewStaff />,
+            },
+            {
+              path: "mentors",
+              element: <MentorBody />,
+            },
+            {
+              path: "mentors/update-mentor",
+              element: <UpdateMentorForm />,
+            },
+            {
+              path: "staffs/update-staff",
+              element: <UpdateStaffForm />,
+            },
+          ],
         },
       ],
     },
