@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-export default function MentorBody (){
-  const [allUsers, setAllUsers] = useState([]);
+import { getAllMentors } from "../../../services/MentorService";
+export default function MentorBody() {
+  const [allMentors, setAllMentors] = useState([]);
   const [userToDelete, setUserToDelete] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
-    const getAllUser = () => {
-      setAllUsers(JSON.parse(localStorage.getItem("userList") || []));
+    const fetchUsers = async () => {
+      try {
+        const users = await getAllUsers();
+        setAllUsers(users.data);
+      } catch (err) {
+        setError(err.message);
+        console.error("Error in useEffect:", err);
+      }
     };
-    getAllUser();
+    fetchUsers();
   }, []);
-  const handleDelete = (accountId) => {
-    const deletedData = allUsers.filter((user) => user.AccountID !== accountId);
-    setAllUsers(deletedData);
-    localStorage.setItem("userList", JSON.stringify(deletedData));
-  };
 
   const handleShowConfirm = (user) => {
     setUserToDelete(user);
