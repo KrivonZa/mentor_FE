@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import SkeletonCourse from '../../ui/SkeletonCourse';
 import { CourseContext } from '../../../modules/mainPage/Courses';
+import { Link } from 'react-router-dom';
 
 export const CourseRender = () => {
 
@@ -50,7 +51,10 @@ export const CourseRender = () => {
 
                                             {/* nav to courseDetail */}
                                             <h3>
-                                                <a href="/course-detail">{course?.courseName}</a>
+                                                <Link
+                                                    to={`/courses/${course?.courseID}`}
+                                                    state={{ courseName: course.courseName }}
+                                                >{course?.courseName}</Link>
                                             </h3>
                                             <p className="description">
                                                 {course?.description}

@@ -33,6 +33,10 @@ const useRoutesElements = () => {
           element: <Courses />,
         },
         {
+          path: "/courses/:courseID",
+          element: <CourseDetail />, // Component for course details
+        },
+        {
           path: "/trainers",
           element: <Trainers />,
         },
@@ -47,11 +51,7 @@ const useRoutesElements = () => {
         {
           path: "/contact",
           element: <Contact />,
-        },
-        {
-          path: "/course-detail",
-          element: <CourseDetail />,
-        },
+        }
       ],
     },
   ]);
