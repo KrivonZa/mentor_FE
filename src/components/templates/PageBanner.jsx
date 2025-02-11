@@ -1,7 +1,14 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom';
 
-export const PageBanner = ({ title, description }) => {
+//? ***********************
+//? type PageBannerProps = {
+//?     title: string,
+//?     description: string
+//?     alternateLastPath ?: string
+//? }
+//? ***********************
+export const PageBanner = ({ title, description, alternateLastPath }) => {
     const location = useLocation();
     const pathnames = location.pathname.split("/").filter(x => x);
 
@@ -32,7 +39,11 @@ export const PageBanner = ({ title, description }) => {
                             return (
                                 <li key={to} className={isLast ? "current" : ""}>
                                     {isLast ? (
-                                        value.charAt(0).toUpperCase() + value.slice(1)
+                                        alternateLastPath ? (
+                                            alternateLastPath
+                                        ) : (
+                                            value.charAt(0).toUpperCase() + value.slice(1)
+                                        )
                                     ) : (
                                         <Link to={to}>
                                             {value.charAt(0).toUpperCase() + value.slice(1)}

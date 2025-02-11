@@ -2,49 +2,49 @@ import React from 'react'
 
 export const CourseDetailSchedule = () => {
   return (
-      <section id="tabs" class="tabs section">
-          <div class="container" data-aos="fade-up" data-aos-delay="100">
-              <div class="row">
-                  <div class="col-lg-3">
-                      <ul class="nav nav-tabs flex-column">
-                          <li class="nav-item">
+      <section id="tabs" className="tabs section">
+          <div className="container" data-aos="fade-up" data-aos-delay="100">
+              <div className="row">
+                  <div className="col-lg-3">
+                      <ul className="nav nav-tabs flex-column">
+                          <li className="nav-item">
                               <a
-                                  class="nav-link active show"
+                                  className="nav-link active show"
                                   data-bs-toggle="tab"
                                   href="#tab-1"
                               >
                                   Modi sit est
                               </a>
                           </li>
-                          <li class="nav-item">
-                              <a class="nav-link" data-bs-toggle="tab" href="#tab-2">
+                          <li className="nav-item">
+                              <a className="nav-link" data-bs-toggle="tab" href="#tab-2">
                                   Unde praesentium sed
                               </a>
                           </li>
-                          <li class="nav-item">
-                              <a class="nav-link" data-bs-toggle="tab" href="#tab-3">
+                          <li className="nav-item">
+                              <a className="nav-link" data-bs-toggle="tab" href="#tab-3">
                                   Pariatur explicabo vel
                               </a>
                           </li>
-                          <li class="nav-item">
-                              <a class="nav-link" data-bs-toggle="tab" href="#tab-4">
+                          <li className="nav-item">
+                              <a className="nav-link" data-bs-toggle="tab" href="#tab-4">
                                   Nostrum qui quasi
                               </a>
                           </li>
-                          <li class="nav-item">
-                              <a class="nav-link" data-bs-toggle="tab" href="#tab-5">
+                          <li className="nav-item">
+                              <a className="nav-link" data-bs-toggle="tab" href="#tab-5">
                                   Iusto ut expedita aut
                               </a>
                           </li>
                       </ul>
                   </div>
-                  <div class="col-lg-9 mt-4 mt-lg-0">
-                      <div class="tab-content">
-                          <div class="tab-pane active show" id="tab-1">
-                              <div class="row">
-                                  <div class="col-lg-8 details order-2 order-lg-1">
+                  <div className="col-lg-9 mt-4 mt-lg-0">
+                      <div className="tab-content">
+                          <div className="tab-pane active show" id="tab-1">
+                              <div className="row">
+                                  <div className="col-lg-8 details order-2 order-lg-1">
                                       <h3>Architecto ut aperiam autem id</h3>
-                                      <p class="fst-italic">
+                                      <p className="fst-italic">
                                           Qui laudantium consequatur laborum sit qui ad sapiente
                                           dila parde sonata raqer a videna mareta paulona marka
                                       </p>
@@ -56,16 +56,16 @@ export const CourseDetailSchedule = () => {
                                           quaerat quos qui similique accusamus nostrum rem vero
                                       </p>
                                   </div>
-                                  <div class="col-lg-4 text-center order-1 order-lg-2">
-                                      <img src="/img/tabs/tab-1.png" alt="" class="img-fluid" />
+                                  <div className="col-lg-4 text-center order-1 order-lg-2">
+                                      <img src="/img/tabs/tab-1.png" alt="" className="img-fluid" />
                                   </div>
                               </div>
                           </div>
-                          <div class="tab-pane" id="tab-2">
-                              <div class="row">
-                                  <div class="col-lg-8 details order-2 order-lg-1">
+                          <div className="tab-pane" id="tab-2">
+                              <div className="row">
+                                  <div className="col-lg-8 details order-2 order-lg-1">
                                       <h3>Et blanditiis nemo veritatis excepturi</h3>
-                                      <p class="fst-italic">
+                                      <p className="fst-italic">
                                           Qui laudantium consequatur laborum sit qui ad sapiente
                                           dila parde sonata raqer a videna mareta paulona marka
                                       </p>
@@ -77,16 +77,16 @@ export const CourseDetailSchedule = () => {
                                           pakto madirna desera vafle de nideran pal
                                       </p>
                                   </div>
-                                  <div class="col-lg-4 text-center order-1 order-lg-2">
-                                      <img src="/img/tabs/tab-2.png" alt="" class="img-fluid" />
+                                  <div className="col-lg-4 text-center order-1 order-lg-2">
+                                      <img src="/img/tabs/tab-2.png" alt="" className="img-fluid" />
                                   </div>
                               </div>
                           </div>
-                          <div class="tab-pane" id="tab-3">
-                              <div class="row">
-                                  <div class="col-lg-8 details order-2 order-lg-1">
+                          <div className="tab-pane" id="tab-3">
+                              <div className="row">
+                                  <div className="col-lg-8 details order-2 order-lg-1">
                                       <h3>Impedit facilis occaecati odio neque aperiam sit</h3>
-                                      <p class="fst-italic">
+                                      <p className="fst-italic">
                                           Eos voluptatibus quo. Odio similique illum id quidem non
                                           enim fuga. Qui natus non sunt dicta dolor et. In
                                           asperiores velit quaerat perferendis aut
@@ -99,19 +99,19 @@ export const CourseDetailSchedule = () => {
                                           ullam. Soluta et harum voluptatem optio quae
                                       </p>
                                   </div>
-                                  <div class="col-lg-4 text-center order-1 order-lg-2">
-                                      <img src="/img/tabs/tab-3.png" alt="" class="img-fluid" />
+                                  <div className="col-lg-4 text-center order-1 order-lg-2">
+                                      <img src="/img/tabs/tab-3.png" alt="" className="img-fluid" />
                                   </div>
                               </div>
                           </div>
-                          <div class="tab-pane" id="tab-4">
-                              <div class="row">
-                                  <div class="col-lg-8 details order-2 order-lg-1">
+                          <div className="tab-pane" id="tab-4">
+                              <div className="row">
+                                  <div className="col-lg-8 details order-2 order-lg-1">
                                       <h3>
                                           Fuga dolores inventore laboriosam ut est accusamus
                                           laboriosam dolore
                                       </h3>
-                                      <p class="fst-italic">
+                                      <p className="fst-italic">
                                           Totam aperiam accusamus. Repellat consequuntur iure
                                           voluptas iure porro quis delectus
                                       </p>
@@ -123,22 +123,22 @@ export const CourseDetailSchedule = () => {
                                           aperiam quia a laborum inventore
                                       </p>
                                   </div>
-                                  <div class="col-lg-4 text-center order-1 order-lg-2">
+                                  <div className="col-lg-4 text-center order-1 order-lg-2">
                                       <img
                                           src="a/img/tabs/tab-4.png"
                                           alt=""
-                                          class="img-fluid"
+                                          className="img-fluid"
                                       />
                                   </div>
                               </div>
                           </div>
-                          <div class="tab-pane" id="tab-5">
-                              <div class="row">
-                                  <div class="col-lg-8 details order-2 order-lg-1">
+                          <div className="tab-pane" id="tab-5">
+                              <div className="row">
+                                  <div className="col-lg-8 details order-2 order-lg-1">
                                       <h3>
                                           Est eveniet ipsam sindera pad rone matrelat sando reda
                                       </h3>
-                                      <p class="fst-italic">
+                                      <p className="fst-italic">
                                           Omnis blanditiis saepe eos autem qui sunt debitis porro
                                           quia.
                                       </p>
@@ -149,8 +149,8 @@ export const CourseDetailSchedule = () => {
                                           sed est sint aut vitae molestiae voluptate vel
                                       </p>
                                   </div>
-                                  <div class="col-lg-4 text-center order-1 order-lg-2">
-                                      <img src="/img/tabs/tab-5.png" alt="" class="img-fluid" />
+                                  <div className="col-lg-4 text-center order-1 order-lg-2">
+                                      <img src="/img/tabs/tab-5.png" alt="" className="img-fluid" />
                                   </div>
                               </div>
                           </div>

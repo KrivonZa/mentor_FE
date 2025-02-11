@@ -10,10 +10,31 @@ const courseService = {
   getAllCoursePagination: async (page: number, name: string): Promise<CoursePagination> => {
     const list = await categoryApi.get(`/get-all-courses?page${page}&name=${name}`)
     return list.data;
+  },
+
+  getCourseDetail: async (id: number) : Promise<CourseDetail> => {
+    const list = await categoryApi.get(`/get-detail/${id}`)
+    return list.data;
   }
 }
 
-export default courseService
+// export default courseService
+
+
+
+const courseServiceJS = {
+  getAllCoursePagination: async (page) => {
+    const list = await categoryApi.get(`/get-all-courses?page${page}&name=${name}`)
+    return list.data.data;
+  },
+
+  getCourseDetail: async (id) => {
+    const list = await categoryApi.get(`/get-detail/${id}`)
+    return list.data;
+  }
+}
+
+export default courseServiceJS
 
 
 export interface CoursePagination {
@@ -52,4 +73,53 @@ export interface CourseOverall {
       updatedAt: string
     }
   }[]
+}
+
+export interface CourseDetail {
+  courseID: number
+  mentor: {
+    mentorID: number
+    introductionVideo: string
+    status: string
+    feedbacks: any[]
+    bio: string
+    cv: string
+    mentorInfo: {
+      fullname: string
+      email: string
+      role: string
+      phoneNumber: string
+      status: boolean
+    }
+  }
+  courseName: string
+  description: string
+  price: number
+  thumbnail: string
+  freeTrial: boolean
+  totalStudent: number
+  level: string
+  updatedAt: string
+  courseAppointments: {
+    courseAppointmentID: number
+    createdAt: string
+    updatedAt: string
+  }[]
+  lesson: {
+    schedule: {
+      scheduleID: number
+      startTime: string
+      endTime: string
+      createdAt: string
+      updatedAt: string
+      booked: boolean
+    }
+    description: string
+    lessonStatus: string
+    trialLesson: boolean
+    createdAt: string
+    updatedAt: string
+    lessonID: number
+  }[]
+  numberOfLesson: number
 }
