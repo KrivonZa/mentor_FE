@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="row gy-4">
         <div className="col-lg-4 col-md-6 footer-about">
           <a href="/" className="logo d-flex align-items-center">
-            <span className="sitename">Mentor</span>
+            <span className="sitename">Empower U</span>
           </a>
           <div className="footer-contact pt-3">
             <p>A108 Adam Street</p>
