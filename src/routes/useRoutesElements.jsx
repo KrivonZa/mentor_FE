@@ -19,11 +19,32 @@ import {
   Report
 } from "../modules/mainPage";
 import { useEffect } from "react";
+import AuthLayout from "../layouts/LoginLayout";
+import RegisterForm from "../components/templates/auth/RegisterForm";
+import CourseAdmin from "../components/templates/courseAdmin/CourseAdmin";
 
 const useRoutesElements = () => {
   const location = useLocation();
 
   const element = useRoutes([
+    {
+      path:"/auth",
+      element: <AuthLayout />,
+      children: [
+        {
+          index: true,
+          element:<LoginForm/>
+        },
+        {
+          path: "/auth/register",
+          element: <RegisterForm />
+        }
+      ]
+    },
+    {
+      path:"/course-portal",
+      element: <CourseAdmin />
+    },
     {
       path: "",
       element: <MainLayout />,
@@ -65,6 +86,7 @@ const useRoutesElements = () => {
           element: <CourseDetail />,
         },
         {
+
           path: "/report",
           element: <Report />,
         },
@@ -72,7 +94,9 @@ const useRoutesElements = () => {
           path: "/login",
           element: <LoginForm />,
         },
+
         {
+
           path: "admin",
           element: <AdminDashboard />,
           children: [
