@@ -15,7 +15,8 @@ import {
   AdminDashboard,
   UpdateMentorForm,
   UpdateStaffForm,
-  LoginForm
+  LoginForm,
+  Report
 } from "../modules/mainPage";
 import { useEffect } from "react";
 
@@ -58,10 +59,14 @@ const useRoutesElements = () => {
         {
           path: "/contact",
           element: <Contact />,
-        },
+        }, 
         {
           path: "/course-detail",
           element: <CourseDetail />,
+        },
+        {
+          path: "/report",
+          element: <Report />,
         },
         {
           path: "/login",
