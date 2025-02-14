@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { login } from "../../services/AuthenService";
-import "../../assets/css/Login.css";
+import { Link, useNavigate } from "react-router-dom";
+import "/src/assets/css/Login.css";
+import authenService from "../../../services/authenService";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 export default function LoginForm() {
     const [loginData, setLoginData] = useState({
         email: "",
         password: "",
     });
-    const [error, setError] = useState(null);
     const navigate = useNavigate();
     const handleChange = (event) => {
         setLoginData({ ...loginData, [event.target.name]: event.target.value });
@@ -17,13 +18,14 @@ export default function LoginForm() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const data = await login(loginData);
-            console.log("Login successful:", data);
-            localStorage.setItem("token", data.token);
+            const data = await authenService.login(loginData);
+            localStorage.setItem("USER", data.token);
             navigate("/");
         } catch (err) {
-            console.error("Login error:", err);
-            setError(err.message || "Invalid credentials");
+            // alert("Invalid credentials")
+            toast.error("Invalid Username or Password")
+            // console.error("Login error:", err);
+            // setError(err.message || "Invalid credentials");
         }
     };
 
@@ -35,7 +37,6 @@ export default function LoginForm() {
                         <h1 className="text-3xl font-bold text-[#5fd080] mb-2">Welcome Back!</h1>
                         <p className="text-neutral-600">Please sign in to continue</p>
                     </header>
-                    {error && <p className="text-red-500">{error}</p>}
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
                             <label className="block text-sm font-medium mb-2">Email Address</label>
@@ -72,7 +73,7 @@ export default function LoginForm() {
                     </form>
                     <p className="mt-6 text-center text-sm text-neutral-600">
                         Don't have an account?
-                        <a href="/signup" className="ml-1 text-[#5fd080] hover:text-[#4db068] transition-colors duration-200">Sign up</a>
+                        <Link to={"/auth/register"} className="ml-1 text-[#5fd080] hover:text-[#4db068] transition-colors duration-200">Sign up</Link>
                     </p>
                 </div>
             </div>

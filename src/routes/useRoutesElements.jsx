@@ -20,11 +20,27 @@ import {
   StaffBody,
 } from "../modules/mainPage";
 import { useEffect } from "react";
+import AuthLayout from "../layouts/LoginLayout";
+import RegisterForm from "../components/templates/auth/RegisterForm";
 
 const useRoutesElements = () => {
   const location = useLocation();
 
   const element = useRoutes([
+    {
+      path:"/auth",
+      element: <AuthLayout />,
+      children: [
+        {
+          index: true,
+          element:<LoginForm/>
+        },
+        {
+          path: "/auth/register",
+          element: <RegisterForm />
+        }
+      ]
+    },
     {
       path: "",
       element: <MainLayout />,
@@ -64,10 +80,6 @@ const useRoutesElements = () => {
         {
           path: "/course-detail",
           element: <CourseDetail />,
-        },
-        {
-          path: "/login",
-          element: <LoginForm />,
         },
         {
           path: "admin",
