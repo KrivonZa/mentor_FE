@@ -1,29 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getAllUsers, getUserByID, deleteUserByID } from "../../../services/UserService";
+import {
+  getAllStudents,
+  getStudentByID,
+  deleteStudentByID,
+} from "../../../services/StudentService";
 
-export default function UserBody() {
-  const [allUsers, setAllUsers] = useState([]);
-  const [userToDelete, setUserToDelete] = useState(null);
+export default function StudentBody() {
+  const [allStudents, setAllStudents] = useState([]);
+  const [studentToDelete, setStudentToDelete] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchUsers();
+    fetchStudents();
   }, []);
 
-  const fetchUsers = async () => {
+  const fetchStudents = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await getAllUsers();
-      setAllUsers(response.data || []);
+      const response = await getAllStudents();
+      setAllStudents(response.data || []);
       console.log("Response: ", response.data);
     } catch (err) {
       setError(err.message);
-      console.error("Error fetching users:", err);
+      console.error("Error fetching students: ", err);
     } finally {
       setLoading(false);
     }
@@ -32,20 +36,20 @@ export default function UserBody() {
   const handleSearchByID = async (event) => {
     event.preventDefault();
     if (!searchTerm) {
-      fetchUsers();
+      fetchStudents();
       return;
     }
 
     setLoading(true);
     setError(null);
     try {
-      const response = await getUserByID(searchTerm);
-      const user = response.data;
-      setAllUsers(user ? [user] : []);
+      const response = await getStudentByID(searchTerm);
+      const student = response.data;
+      setAllStudents(student ? [student] : []);
     } catch (err) {
       setError(err.message);
       console.error("Error searching by ID:", err);
-      setAllUsers([]);
+      setAllStudents([]);
     } finally {
       setLoading(false);
     }
@@ -53,7 +57,7 @@ export default function UserBody() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await deleteUserByID(id);
+      const response = await deleteStudentByID(id);
       console.log("Response: ", response.data);
       alert(response.data.message);
     } catch (err) {
@@ -62,23 +66,22 @@ export default function UserBody() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const handleShowConfirm = (user) => {
     setShowConfirm(true);
-    setUserToDelete(user);
+    setStudentToDelete(user);
   };
 
   const handleConfirm = () => {
-    if (userToDelete) {
-      handleDelete(userToDelete.userID);
+    if (studentToDelete) {
+      handleDelete(studentToDelete.studentID);
     }
-
   };
 
   const handleCancel = () => {
     setShowConfirm(false);
-    setUserToDelete(null);
+    setStudentToDelete(null);
   };
 
   if (loading) return <div>Loading...</div>;
@@ -88,15 +91,15 @@ export default function UserBody() {
     <main className="flex-1 p-6">
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">All Users</h2>
+          <h2 className="text-2xl font-bold">All Students</h2>
           <Link to="/add-new-user">
             <button className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors">
-              Add new user
+              Add new student
             </button>
           </Link>
           <div>
             <form onSubmit={handleSearchByID}>
-              <label htmlFor="search">Search user by ID: </label>
+              <label htmlFor="search">Search student by ID: </label>
               <input
                 type="text"
                 id="search"
@@ -104,7 +107,10 @@ export default function UserBody() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="border p-2 rounded"
               />
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded ml-2">
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-4 py-2 rounded ml-2"
+              >
                 Search
               </button>
             </form>
@@ -114,33 +120,30 @@ export default function UserBody() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Account ID</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Name</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Email</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Role</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Status</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Actions</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">
+                  Student ID
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">
+                  Level
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {allUsers.length > 0 ? (
-                allUsers.map((user) => (
-                  <tr key={user.userID} className="hover:bg-gray-50">
-                    <td className="px-6 py-4">{user.userID}</td>
-                    <td className="px-6 py-4">{user.fullname}</td>
-                    <td className="px-6 py-4">{user.email}</td>
-                    <td className="px-6 py-4">{user.role}</td>
-                    <td className="px-6 py-4">{user.status}</td>
+              {allStudents.length > 0 ? (
+                allStudents.map((student) => (
+                  <tr key={student.studentID} className="hover:bg-gray-50">
+                    <td className="px-6 py-4">{student.studentID}</td>
+                    <td className="px-6 py-4">{student.level}</td>
                     <td className="px-6 py-4">
                       <div className="flex space-x-2">
-                        <Link to={`/update-user/${user.userID}`}>
+                        <Link to={`/update-user/${student.studentID}`}>
                           <span className="material-symbols-outlined cursor-pointer hover:text-[#5fd080] transition-colors">
                             edit
                           </span>
                         </Link>
                         <span
                           className="material-symbols-outlined cursor-pointer hover:text-red-500 transition-colors"
-                          onClick={() => handleShowConfirm(user)}
+                          onClick={() => handleShowConfirm(student)}
                         >
                           delete
                         </span>
@@ -163,9 +166,10 @@ export default function UserBody() {
       {showConfirm && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-md">
-            {userToDelete && (
+            {studentToDelete && (
               <p>
-                Are you sure you want to delete user: <strong>{userToDelete.fullname}</strong>?
+                Are you sure you want to delete student:
+                <strong>{studentToDelete.studentID}</strong>?
               </p>
             )}
             <p>This action cannot be undone.</p>
