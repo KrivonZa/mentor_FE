@@ -73,7 +73,7 @@ export default function LoginForm() {
                     </form>
                     <p className="mt-6 text-center text-sm text-neutral-600">
                         Don't have an account?
-                        <Link to={"/auth/register"} className="ml-1 text-[#5fd080] hover:text-[#4db068] transition-colors duration-200">Sign up</Link>
+                        <Link to={"/auth/signup"} className="ml-1 text-[#5fd080] hover:text-[#4db068] transition-colors duration-200">Sign up</Link>
                     </p>
                 </div>
             </div>
