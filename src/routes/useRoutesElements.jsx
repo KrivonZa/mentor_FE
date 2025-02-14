@@ -18,6 +18,7 @@ import {
   LoginForm,
   StudentBody,
   StaffBody,
+  Report
 } from "../modules/mainPage";
 import { useEffect } from "react";
 import AuthLayout from "../layouts/LoginLayout";
@@ -81,19 +82,19 @@ const useRoutesElements = () => {
         {
           path: "/contact",
           element: <Contact />,
-        },
+        }, 
         {
           path: "/course-detail",
           element: <CourseDetail />,
         },
-        // {
-        //   path: "/login",
-        //   element: <LoginForm />,
-        // },
-        // {
-        //   path: "/signup",
-        //   element: <SingupForm/>,
-        // },
+        {
+          path: "/report",
+          element: <Report />,
+        },
+        {
+          path: "/login",
+          element: <LoginForm />,
+        },
         {
           path: "admin",
           element: <AdminDashboard />,
