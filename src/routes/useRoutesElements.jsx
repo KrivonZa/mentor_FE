@@ -20,6 +20,7 @@ import {
 import { useEffect } from "react";
 import AuthLayout from "../layouts/LoginLayout";
 import RegisterForm from "../components/templates/auth/RegisterForm";
+import CourseAdmin from "../components/templates/courseAdmin/CourseAdmin";
 
 const useRoutesElements = () => {
   const location = useLocation();
@@ -38,6 +39,10 @@ const useRoutesElements = () => {
           element: <RegisterForm />
         }
       ]
+    },
+    {
+      path:"/course-portal",
+      element: <CourseAdmin />
     },
     {
       path: "",

@@ -9,7 +9,7 @@ const courseApi = apiInstance({
 const courseService = {
   getAllCoursePagination: async (page: number, name: string): Promise<CoursePagination> => {
     const list = await courseApi.get(`/get-all-courses?page${page}&name=${name}`)
-    return list.data;
+    return list.data.data;
   },
 
   getCourseDetail: async (id: number) : Promise<CourseDetail> => {
