@@ -36,15 +36,15 @@ import GLightbox from "glightbox";
    * Mobile nav toggle
    */
   function initMobileNav() {
-    const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
+    const mobileNavToggleBtn = document.querySelector(".mobile-nav-toggle");
 
     if (mobileNavToggleBtn) {
       function mobileNavToogle() {
-        document.querySelector('body').classList.toggle('mobile-nav-active');
-        mobileNavToggleBtn.classList.toggle('bi-list');
-        mobileNavToggleBtn.classList.toggle('bi-x');
+        document.querySelector("body").classList.toggle("mobile-nav-active");
+        mobileNavToggleBtn.classList.toggle("bi-list");
+        mobileNavToggleBtn.classList.toggle("bi-x");
       }
-      mobileNavToggleBtn.addEventListener('click', mobileNavToogle);
+      mobileNavToggleBtn.addEventListener("click", mobileNavToogle);
     } else {
       console.error("Mobile nav toggle button not found");
     }
@@ -68,18 +68,36 @@ import GLightbox from "glightbox";
    * Toggle mobile nav dropdowns
    */
   function initDropdowns() {
-    document.querySelectorAll(".navmenu .toggle-dropdown").forEach((navmenu) => {
-      navmenu.addEventListener("click", function (e) {
-        e.preventDefault();
-        this.parentNode.classList.toggle("active");
-        this.parentNode.nextElementSibling.classList.toggle("dropdown-active");
-        e.stopImmediatePropagation();
+    document
+      .querySelectorAll(".navmenu .toggle-dropdown")
+      .forEach((navmenu) => {
+        navmenu.addEventListener("click", function (e) {
+          e.preventDefault();
+          this.parentNode.classList.toggle("active");
+          this.parentNode.nextElementSibling.classList.toggle(
+            "dropdown-active"
+          );
+          e.stopImmediatePropagation();
+        });
       });
-    });
   }
 
   // Initialize dropdown functionality
   window.addEventListener("load", initDropdowns);
+
+  function waitForElement(selector, callback) {
+    const observer = new MutationObserver((mutations, obs) => {
+      if (document.querySelector(selector)) {
+        callback();
+        obs.disconnect();
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  waitForElement("#scroll-top", initScrollTop);
+  waitForElement(".mobile-nav-toggle", initMobileNav);
 
   /**
    * Preloader
@@ -99,9 +117,13 @@ import GLightbox from "glightbox";
 
     if (scrollTop) {
       function toggleScrollTop() {
-        window.scrollY > 100
-          ? scrollTop.classList.add("active")
-          : scrollTop.classList.remove("active");
+        if (window.scrollY > 100) {
+          console.log("add");
+          scrollTop.classList.add("active");
+        } else {
+          console.log("remove");
+          scrollTop.classList.remove("active");
+        }
       }
 
       scrollTop.addEventListener("click", (e) => {
