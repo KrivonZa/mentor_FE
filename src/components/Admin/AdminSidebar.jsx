@@ -15,7 +15,7 @@ export default function AdminSidebar() {
                 Users
               </li>
             </Link>
-            <Link to="metors">
+            <Link to="mentors">
               <li className="p-2 hover:bg-gray-100 rounded-lg cursor-pointer transition-colors flex items-center">
                 <span className="material-symbols-outlined mr-2">Computer</span>
                 Mentors
