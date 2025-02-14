@@ -16,3 +16,4 @@ export {default as UpdateMentorForm} from "../../components/Admin/Mentor/UpdateM
 export {default as UpdateStaffForm} from "../../components/Admin/Staff/UpdateStaffForm"
 export {default as StudentBody} from "../../components/Admin/Student/StudentBody"
 export {default as StaffBody} from "../../components/Admin/Staff/StaffBody"
+export {default as SingupForm} from "./SignupForm"

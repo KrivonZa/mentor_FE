@@ -16,9 +16,10 @@ import {
   UpdateMentorForm,
   UpdateStaffForm,
   LoginForm,
-  StudentBody,
+  Report,
+  SingupForm,
   StaffBody,
-  Report
+  StudentBody,
 } from "../modules/mainPage";
 import { useEffect } from "react";
 import AuthLayout from "../layouts/LoginLayout";
@@ -30,22 +31,22 @@ const useRoutesElements = () => {
 
   const element = useRoutes([
     {
-      path:"/auth",
+      path: "/auth",
       element: <AuthLayout />,
       children: [
         {
           index: true,
-          element:<LoginForm/>
+          element: <LoginForm />,
         },
         {
           path: "/auth/register",
-          element: <RegisterForm />
-        }
-      ]
+          element: <RegisterForm />,
+        },
+      ],
     },
     {
-      path:"/course-portal",
-      element: <CourseAdmin />
+      path: "/course-portal",
+      element: <CourseAdmin />,
     },
     {
       path: "",
@@ -82,13 +83,20 @@ const useRoutesElements = () => {
         {
           path: "/contact",
           element: <Contact />,
-        }, 
+        },
         {
           path: "/course-detail",
           element: <CourseDetail />,
         },
         {
-
+          path: "/login",
+          element: <LoginForm />,
+        },
+        {
+          path: "/signup",
+          element: <SingupForm />,
+        },
+        {
           path: "/report",
           element: <Report />,
         },
@@ -98,7 +106,6 @@ const useRoutesElements = () => {
         },
 
         {
-
           path: "admin",
           element: <AdminDashboard />,
           children: [
