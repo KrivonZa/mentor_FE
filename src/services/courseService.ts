@@ -1,24 +1,41 @@
 import React from 'react'
 import { apiInstance } from '../constants/apiInstance';
 
-const courseApi = apiInstance({
+const categoryApi = apiInstance({
   // baseURL: "http://empoweru.trangiangkhanh.site/..."
   baseURL: "http://localhost:9090/empoweru/sba/course"
 });
 
 const courseService = {
   getAllCoursePagination: async (page: number, name: string): Promise<CoursePagination> => {
-    const list = await courseApi.get(`/get-all-courses?page${page}&name=${name}`)
+    const list = await categoryApi.get(`/get-all-courses?page${page}&name=${name}`)
     return list.data;
   },
 
   getCourseDetail: async (id: number) : Promise<CourseDetail> => {
-    const list = await courseApi.get(`/get-detail/${id}`)
+    const list = await categoryApi.get(`/get-detail/${id}`)
     return list.data;
   }
 }
 
-export default courseService
+// export default courseService
+
+
+
+const courseServiceJS = {
+  getAllCoursePagination: async (page) => {
+    const list = await categoryApi.get(`/get-all-courses?page${page}&name=${name}`)
+    return list.data.data;
+  },
+
+  getCourseDetail: async (id) => {
+    const list = await categoryApi.get(`/get-detail/${id}`)
+    return list.data;
+  }
+}
+
+export default courseServiceJS
+
 
 export interface CoursePagination {
   totalElement: number,

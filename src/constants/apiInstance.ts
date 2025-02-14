@@ -5,18 +5,19 @@ export const apiInstance = (config) => {
     const api = axios.create(config);
     api.interceptors.request.use((config: any) => {        
         //TODO: decode JWT here..
-        localStorage.getItem("token");
-        
+        const userToken = localStorage.getItem("USER") || null;
         //TODO
-
-        return {
-            ...config,
-            headers: {
-                ...config.headers,
-                // "Content-Type": "application/json",
-                Authorization: "Bearer" + " " + localStorage.getItem("USER")
-            },
-        };
+        if (userToken) {
+            return {
+                ...config,
+                headers: {
+                    ...config.headers,
+                    // "Content-Type": "application/json",
+                    Authorization: "Bearer " + userToken
+                },
+            };
+        }
+        return config;
     });
 
     return api;

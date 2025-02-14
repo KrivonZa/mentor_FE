@@ -18,10 +18,12 @@ import {
   LoginForm,
   StudentBody,
   StaffBody,
+  Report
 } from "../modules/mainPage";
 import { useEffect } from "react";
 import AuthLayout from "../layouts/LoginLayout";
 import RegisterForm from "../components/templates/auth/RegisterForm";
+import CourseAdmin from "../components/templates/courseAdmin/CourseAdmin";
 
 const useRoutesElements = () => {
   const location = useLocation();
@@ -40,6 +42,10 @@ const useRoutesElements = () => {
           element: <RegisterForm />
         }
       ]
+    },
+    {
+      path:"/course-portal",
+      element: <CourseAdmin />
     },
     {
       path: "",
@@ -76,12 +82,23 @@ const useRoutesElements = () => {
         {
           path: "/contact",
           element: <Contact />,
-        },
+        }, 
         {
           path: "/course-detail",
           element: <CourseDetail />,
         },
         {
+
+          path: "/report",
+          element: <Report />,
+        },
+        {
+          path: "/login",
+          element: <LoginForm />,
+        },
+
+        {
+
           path: "admin",
           element: <AdminDashboard />,
           children: [
