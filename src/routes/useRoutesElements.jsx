@@ -15,7 +15,9 @@ import {
   AdminDashboard,
   UpdateMentorForm,
   UpdateStaffForm,
-  LoginForm
+  LoginForm,
+  StudentBody,
+  StaffBody,
 } from "../modules/mainPage";
 import { useEffect } from "react";
 
@@ -72,6 +74,10 @@ const useRoutesElements = () => {
               element: <UserBody />,
             },
             {
+              path: "staffs",
+              element: <StaffBody />,
+            },
+            {
               path: "staffs/add-new-staff",
               element: <AddNewStaff />,
             },
@@ -86,6 +92,10 @@ const useRoutesElements = () => {
             {
               path: "staffs/update-staff",
               element: <UpdateStaffForm />,
+            },
+            {
+              path: "students",
+              element: <StudentBody />,
             },
           ],
         },
