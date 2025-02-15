@@ -51,6 +51,10 @@ export const CourseDetailModal = () => {
         { value: "INTERMEDIATE", label: "Intermediate" },
         { value: "ADVANCED", label: "Advanced" }
     ];
+    useEffect(() => { 
+        console.log("courseDetailFormData: ", courseDetailFormData);
+        
+    }, [courseDetailFormData])
 
     return (
         <>
