@@ -62,7 +62,9 @@ export default function Header() {
             <li className="dropdown">
               <NavLink
                 to="#"
-                className={({ isActive }) => (isActive ? "active toggle-dropdown" : "toggle-dropdown")}
+                className={({ isActive }) =>
+                  isActive ? "active toggle-dropdown" : "toggle-dropdown"
+                }
               >
                 <span>Dropdown</span>
                 <i className="bi bi-chevron-down"></i>
@@ -79,7 +81,9 @@ export default function Header() {
                 <li className="dropdown">
                   <NavLink
                     to="#"
-                    className={({ isActive }) => (isActive ? "active toggle-dropdown" : "toggle-dropdown")}
+                    className={({ isActive }) =>
+                      isActive ? "active toggle-dropdown" : "toggle-dropdown"
+                    }
                   >
                     <span>Deep Dropdown</span>
                     <i className="bi bi-chevron-down"></i>

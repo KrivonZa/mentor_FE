@@ -1,4 +1,4 @@
-export default function Events() {
+export function Events() {
   return (
     <main className="main">
       <div className="page-title" data-aos="fade">

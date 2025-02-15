@@ -1,65 +1,65 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  getAllMentors,
-  getMentorByID,
-  getActiveMentors,
-  getDisableMentors,
-  deleteMentorByID
-} from "../../../services/MentorService";
+  getAllStaffs,
+  getStaffByID,
+  deleteStaffByID,
+  getActiveStaffs,
+  getDisableStaffs,
+} from "../../../services/StaffService";
 
-export default function MentorBody() {
-  const [allMentors, setAllMentors] = useState([]);
-  const [mentorToDelete, setMentorToDelete] = useState(null);
+export function StaffBody() {
+  const [allStaffs, setAllStaffs] = useState([]);
+  const [staffToDelete, setStaffToDelete] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchMentors();
+    fetchStaffs();
   }, []);
 
-  const fetchMentors = async () => {
+  const fetchStaffs = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await getActiveMentors();
-      setAllMentors(response.data || []);
+      const response = await getActiveStaffs();
+      setAllStaffs(response.data || []);
       console.log("Response: ", response.data);
     } catch (err) {
       setError(err.message);
-      console.error("Error fetching mentors: ", err);
+      console.error("Error fetching staffs: ", err);
     } finally {
       setLoading(false);
     }
   };
 
-  const getAllSystemMentors = async () => {
+  const getAllSystemStaffs = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await getAllMentors();
-      setAllMentors(response.data || []);
+      const response = await getAllStaffs();
+      setAllStaffs(response.data || []);
       console.log("Response: ", response.data);
     } catch (err) {
       setError(err.message);
-      console.error("Error fetching mentor: ", err);
+      console.error("Error fetching staffs: ", err);
     } finally {
       setLoading(false);
     }
   };
 
-  const getAllDisableMentors = async () => {
+  const getAllDisableStaffs = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await getDisableMentors();
-      setAllMentors(response.data || []);
+      const response = await getDisableStaffs();
+      setAllStaffs(response.data || []);
       console.log("Response: ", response.data);
     } catch (err) {
       setError(err.message);
-      console.error("Error fetching mentors: ", err);
+      console.error("Error fetching staffs: ", err);
     } finally {
       setLoading(false);
     }
@@ -68,24 +68,24 @@ export default function MentorBody() {
   const handleSearchByID = async (event) => {
     event.preventDefault();
     if (!searchTerm.trim()) {
-      fetchMentors();
+      fetchStaffs();
       return;
     }
     setLoading(true);
     setError(null);
     try {
-      const response = await getMentorByID(searchTerm);
-      const mentor = response.data;
+      const response = await getStaffByID(searchTerm);
+      const staff = response.data;
 
-      if (mentor) {
-        setAllStaffs([mentor]);
+      if (staff) {
+        setAllStaffs([staff]);
       } else {
-        setError("No mentor found with this ID");
-        setAllMentors([]);
+        setError("No staff found with this ID");
+        setAllStaffs([]);
       }
     } catch (err) {
-      setError("mentor not found");
-      setAllMentors([]);
+      setError("Staff not found");
+      setAllStaffs([]);
       console.error("Error searching by ID:", err);
     } finally {
       setLoading(false);
@@ -94,70 +94,70 @@ export default function MentorBody() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await deleteMentorByID(id);
+      const response = await deleteStaffByID(id);
       console.log("Response: ", response.data);
       alert(response.data.message);
-      fetchMentors();
+      fetchStaffs();
     } catch (err) {
       setError(err.message);
-      console.error("Error deleting mentor:", err);
+      console.error("Error deleting staff:", err);
     } finally {
       setLoading(false);
       setShowConfirm(false);
-      setMentorToDelete(null);
+      setStaffToDelete(null);
     }
   };
 
-  const handleShowConfirm = (mentor) => {
-    setMentorToDelete(mentor);
+  const handleShowConfirm = (staff) => {
     setShowConfirm(true);
+    setStaffToDelete(staff);
   };
 
   const handleConfirm = () => {
-    if (mentorToDelete) {
-      handleDelete(mentorToDelete.mentorID);
-      setShowConfirm(false);
-      setMentorToDelete(null);
+    if (staffToDelete) {
+      handleDelete(staffToDelete.staffID);
     }
   };
 
   const handleCancel = () => {
     setShowConfirm(false);
-    setMentorToDelete(null);
+    setStaffToDelete(null);
   };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
+
   return (
     <main className="flex-1 p-6">
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">All Mentors</h2>
+          <h2 className="text-2xl font-bold">All Staffs</h2>
           <Link to="/add-new-user">
             <button className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors">
-              Check New Mentor Request
+              Add new staff
             </button>
           </Link>
           <button
-            onClick={getAllSystemMentors}
+            onClick={getAllSystemStaffs}
             className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
           >
-            Get all mentors
+            Get all staffs
           </button>
           <button
-            onClick={getAllDisableMentors}
+            onClick={getAllDisableStaffs}
             className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
           >
-            Get disable mentors
+            Get disable staffs
           </button>
           <button
-            onClick={fetchMentors}
+            onClick={fetchStaffs}
             className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
           >
-            Get active mentors
+            Get active staffs
           </button>
           <div>
             <form onSubmit={handleSearchByID}>
-              <label htmlFor="search">Search mentor by ID: </label>
+              <label htmlFor="search">Search staff by ID: </label>
               <input
                 type="text"
                 id="search"
@@ -167,7 +167,7 @@ export default function MentorBody() {
               />
               <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded ml-2"
+                className="bg-blue-500 text-black px-4 py-2 rounded ml-2"
               >
                 Search
               </button>
@@ -179,16 +179,10 @@ export default function MentorBody() {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-sm font-semibold">
-                  Mentor ID
+                  Staff ID
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">
-                  Mentor Status Request
-                </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
-                  bio
-                </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
-                  cv
+                  Level
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">
                   Status
@@ -199,56 +193,65 @@ export default function MentorBody() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {allMentors.map((mentor) => (
-                <tr key={mentor.mentorID} className="hover:bg-gray-50">
-                  <td className="px-6 py-4">{mentor.mentorID}</td>
-                  <td className="px-6 py-4">{mentor.mentorStatus}</td>
-                  <td className="px-6 py-4">{mentor.bio}</td>
-                  <td className="px-6 py-4">{mentor.cv}</td>
-                  <td className="px-6 py-4">
-                    {mentor?.user?.status ? "Active" : "Disabled"}
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex space-x-2">
-                      <Link to={`/update-user/${mentor.mentorID}`}>
-                        <span className="material-symbols-outlined cursor-pointer hover:text-[#5fd080] transition-colors">
-                          edit
+              {allStaffs.length > 0 ? (
+                allStaffs.map((staff) => (
+                  <tr key={staff.staffID} className="hover:bg-gray-50">
+                    <td className="px-6 py-4">{staff.staffID}</td>
+                    <td className="px-6 py-4">{staff.level}</td>
+                    <td className="px-6 py-4">
+                      {staff?.user?.status ? "Active" : "Disabled"}
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex space-x-2">
+                        <Link to={`/update-user/${staff.staffID}`}>
+                          <span className="material-symbols-outlined cursor-pointer hover:text-[#5fd080] transition-colors">
+                            edit
+                          </span>
+                        </Link>
+                        <span
+                          className="material-symbols-outlined cursor-pointer hover:text-red-500 transition-colors"
+                          onClick={() => handleShowConfirm(staff)}
+                        >
+                          delete
                         </span>
-                      </Link>
-                      <span
-                        className="material-symbols-outlined cursor-pointer hover:text-red-500 transition-colors"
-                        onClick={() => handleShowConfirm(mentor)}
-                      >
-                        delete
-                      </span>
-                    </div>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5} className="text-center py-4">
+                    No staff found
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
       </div>
+
       {showConfirm && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-md">
-            {mentorToDelete && (
+            {staffToDelete && (
               <p>
-                Are you sure you want to delete mentor:{" "}
-                {mentorToDelete.mentorID}?
+                Are you sure you want to delete staff:
+                <strong>{staffToDelete.staffID}</strong>?
               </p>
             )}
             <p>This action cannot be undone.</p>
             <div className="flex justify-end mt-4 space-x-2">
               <button
                 className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
-                onClick={handleCancel}
+                onClick={() => handleCancel(false)}
               >
                 Cancel
               </button>
               <button
-                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
-                onClick={handleConfirm}
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                onClick={() => {
+                  handleConfirm();
+                }}
               >
                 Delete
               </button>

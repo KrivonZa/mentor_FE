@@ -4,7 +4,7 @@ import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 import PureCounter from "@srexi/purecounterjs";
 
-export default function About() {
+export function About() {
   useEffect(() => {
     document.title = "About";
     new PureCounter();
