@@ -35,6 +35,12 @@ export function AdminSidebar() {
                 Staffs
               </li>
             </Link>
+            <Link to="report">
+              <li className="p-2 hover:bg-gray-100 rounded-lg cursor-pointer transition-colors flex items-center">
+                <span className="material-symbols-outlined mr-2">Flag</span>
+                Reports
+              </li>
+            </Link>
           </ul>
         </nav>
       </aside>

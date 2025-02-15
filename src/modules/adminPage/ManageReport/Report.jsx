@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { reportService} from "../../services/reportService";
+import { reportService } from "../../../services/reportService";
 
 
 export function Report() {
@@ -10,7 +10,7 @@ export function Report() {
     const fetchReports = async () => {
       try {
         const response = await reportService.getAllReportPagination(currentPage);
-  
+
         setReports(response.data);
         setTotalPages(response.totalPage);
       } catch (error) {
@@ -56,13 +56,12 @@ export function Report() {
                     <td>{report.reason}</td>
                     <td>
                       <span
-                        className={`badge ${
-                          report.reportStatus === "PENDING"
+                        className={`badge ${report.reportStatus === "PENDING"
                             ? "bg-warning text-dark"
                             : report.reportStatus === "APPROVED"
-                            ? "bg-success"
-                            : "bg-danger"
-                        }`}
+                              ? "bg-success"
+                              : "bg-danger"
+                          }`}
                       >
                         {report.reportStatus}
                       </span>
