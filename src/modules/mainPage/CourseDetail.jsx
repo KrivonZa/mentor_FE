@@ -37,7 +37,7 @@ export const CourseDetailProvider = ({ children }) => {
   )
 }
 
-export default function CourseDetail() {
+export function CourseDetail() {
   return (
     <CourseDetailProvider>
       <CourseDetailLayout />

@@ -731,7 +731,7 @@ h6 {
   visibility: hidden;
   opacity: 0;
   right: 15px;
-  bottom: -15px;
+  bottom: 15px;
   z-index: 99999;
   background-color: var(--accent-color);
   width: 44px;
@@ -828,6 +828,12 @@ section,
   padding: 60px 0;
   scroll-margin-top: 900px;
   overflow: clip;
+}
+
+.Toastify {
+  padding: 0 !important; /* Loại bỏ padding của Toastify */
+  scroll-margin-top: unset !important; /* Vô hiệu hóa thuộc tính này cho Toastify */
+  overflow: visible !important; /* Đảm bảo nội dung Toast không bị ẩn */
 }
 
 @media (max-width: 1199px) {

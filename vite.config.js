@@ -10,4 +10,9 @@ export default defineConfig({
       usePolling: true,
     },
   },
+  resolve: {
+    alias: {
+      '@public': '/public',
+    },
+  },
 })

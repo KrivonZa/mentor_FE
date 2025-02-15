@@ -1,4 +1,4 @@
-export default function Contact() {
+export function Contact() {
   return (
     <main className="main">
       <div className="page-title" data-aos="fade">
