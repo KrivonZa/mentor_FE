@@ -1,5 +1,6 @@
 import React from 'react'
 import { apiInstance } from '../constants/apiInstance';
+import { CoursePortalDetail } from '../types/courseModel';
 
 const courseApi = apiInstance({
   // baseURL: "http://empoweru.trangiangkhanh.site/..."
@@ -15,6 +16,11 @@ const courseService = {
   getCourseDetail: async (id: number) : Promise<CourseDetail> => {
     const list = await courseApi.get(`/get-detail/${id}`)
     return list.data;
+  },
+
+  getCoursePortalDetail: async (mentorID: number, page: number): Promise<CoursePortalDetail[]> => { 
+    const list = await courseApi.get(`/get-all-course-by-mentor/${mentorID}?page=${page}&size=5`)
+    return list.data.data;
   }
 }
 

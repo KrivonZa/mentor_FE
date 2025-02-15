@@ -21,7 +21,7 @@ import {
 import { useEffect } from "react";
 import AuthLayout from "../layouts/LoginLayout";
 import RegisterForm from "../components/templates/auth/RegisterForm";
-import CourseAdmin from "../components/templates/courseAdmin/CourseAdmin";
+import CoursePortal from "../modules/mainPage/CoursePortal";
 
 const useRoutesElements = () => {
   const location = useLocation();
@@ -43,7 +43,7 @@ const useRoutesElements = () => {
     },
     {
       path:"/course-portal",
-      element: <CourseAdmin />
+      element: <CoursePortal />
     },
     {
       path: "",
