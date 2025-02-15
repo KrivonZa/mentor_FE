@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "@public/css/Signup.css";
+import "/public/css/Signup.css";
 import { signUp } from "../../services/SignupService";
 
 export const SignupForm = () => {

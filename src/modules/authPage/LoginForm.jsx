@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "@public/css/Login.css";
+import "/public/css/Login.css";
 import authenService from "../../services/authenService";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
@@ -68,7 +68,7 @@ export function LoginForm() {
             </div>
             <div className="flex items-center justify-between">
               <a
-                href="/update-password"
+                href="auth/update-password"
                 className="text-sm text-[#5fd080] hover:text-[#4db068] transition-colors duration-200"
               >
                 Forgot Password?
