@@ -118,10 +118,8 @@ import GLightbox from "glightbox";
     if (scrollTop) {
       function toggleScrollTop() {
         if (window.scrollY > 100) {
-          console.log("add");
           scrollTop.classList.add("active");
         } else {
-          console.log("remove");
           scrollTop.classList.remove("active");
         }
       }

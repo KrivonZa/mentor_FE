@@ -6,7 +6,7 @@ import {
   deleteStudentByID,
 } from "../../../services/StudentService";
 
-export default function StudentBody() {
+export function StudentBody() {
   const [allStudents, setAllStudents] = useState([]);
   const [studentToDelete, setStudentToDelete] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);

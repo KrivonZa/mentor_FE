@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { reportService} from "../../services/reportService";
 
 
-function Report() {
+export function Report() {
   const [reports, setReports] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -107,5 +107,3 @@ function Report() {
     </div>
   );
 }
-
-export default Report;

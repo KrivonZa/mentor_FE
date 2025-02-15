@@ -77,7 +77,7 @@ export const CourseProvider = ({ children }) => {
   );
 };
 
-export default function Courses() {
+export function Courses() {
   return (
     <CourseProvider>
       <CourseLayout />

@@ -1,5 +1,7 @@
 import { useRoutes, useLocation } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
+import AuthLayout from "../layouts/LoginLayout";
+import AdminLayout from "../layouts/AdminLayout";
 import {
   Homepage,
   About,
@@ -9,26 +11,21 @@ import {
   Pricing,
   Contact,
   CourseDetail,
-  UserBody,
+} from "../modules/mainPage";
+import { LoginForm, SignupForm } from "../modules/authPage"
+import {
   AddNewStaff,
   MentorBody,
-  AdminDashboard,
-  UpdateMentorForm,
-  UpdateStaffForm,
-  LoginForm,
-  Report,
-  SingupForm,
   StaffBody,
   StudentBody,
-} from "../modules/mainPage";
-import { useEffect } from "react";
-import AuthLayout from "../layouts/LoginLayout";
-import RegisterForm from "../components/templates/auth/RegisterForm";
+  UpdateMentorForm,
+  UpdateStaffForm,
+  UserBody,
+} from "../modules/adminPage";
+import { Report } from "../modules/userPage"
 import CourseAdmin from "../components/templates/courseAdmin/CourseAdmin";
 
 const useRoutesElements = () => {
-  const location = useLocation();
-
   const element = useRoutes([
     {
       path: "/auth",
@@ -39,8 +36,8 @@ const useRoutesElements = () => {
           element: <LoginForm />,
         },
         {
-          path: "/auth/register",
-          element: <RegisterForm />,
+          path: "signup",
+          element: <SignupForm />,
         },
       ],
     },
@@ -53,91 +50,74 @@ const useRoutesElements = () => {
       element: <MainLayout />,
       children: [
         {
-          path: "",
+          index: true,
           element: <Homepage />,
         },
         {
-          path: "/about",
+          path: "about",
           element: <About />,
         },
         {
-          path: "/courses",
+          path: "courses",
           element: <Courses />,
         },
         {
-          path: "/courses/:courseID",
+          path: "courses/:courseID",
           element: <CourseDetail />, // Component for course details
         },
         {
-          path: "/trainers",
+          path: "trainers",
           element: <Trainers />,
         },
         {
-          path: "/events",
+          path: "events",
           element: <Events />,
         },
         {
-          path: "/pricing",
+          path: "pricing",
           element: <Pricing />,
         },
         {
-          path: "/contact",
+          path: "contact",
           element: <Contact />,
         },
         {
-          path: "/course-detail",
-          element: <CourseDetail />,
-        },
-        {
-          path: "/login",
-          element: <LoginForm />,
-        },
-        {
-          path: "/signup",
-          element: <SingupForm />,
-        },
-        {
-          path: "/report",
+          path: "report",
           element: <Report />,
         },
+      ],
+    },
+    {
+      path: "/admin",
+      element: <AdminLayout />,
+      children: [
         {
-          path: "/login",
-          element: <LoginForm />,
+          index: true,
+          element: <UserBody />,
         },
-
         {
-          path: "admin",
-          element: <AdminDashboard />,
-          children: [
-            {
-              path: "users",
-              element: <UserBody />,
-            },
-            {
-              path: "staffs",
-              element: <StaffBody />,
-            },
-            {
-              path: "staffs/add-new-staff",
-              element: <AddNewStaff />,
-            },
-            {
-              path: "mentors",
-              element: <MentorBody />,
-            },
-            {
-              path: "mentors/update-mentor",
-              element: <UpdateMentorForm />,
-            },
-            {
-              path: "staffs/update-staff",
-              element: <UpdateStaffForm />,
-            },
-            {
-              path: "students",
-              element: <StudentBody />,
-            },
-          ],
+          path: "staffs",
+          element: <StaffBody />,
+        },
+        {
+          path: "staffs/add-new-staff",
+          element: <AddNewStaff />,
+        },
+        {
+          path: "mentors",
+          element: <MentorBody />,
+        },
+        {
+          path: "mentors/update-mentor",
+          element: <UpdateMentorForm />,
+        },
+        {
+          path: "staffs/update-staff",
+          element: <UpdateStaffForm />,
+        },
+        {
+          path: "students",
+          element: <StudentBody />,
         },
       ],
     },

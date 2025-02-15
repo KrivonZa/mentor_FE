@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Link, useParams } from "react-router-dom";
 
-export default function UpdateStaffForm(){
+export function UpdateMentorForm() {
   const [user, setUser] = useState(null);
   const [allUsers, setAllUsers] = useState([]);
   const { AccountID } = useParams();
@@ -107,4 +107,4 @@ export default function UpdateStaffForm(){
       </div>
     </div>
   );
-};
+}

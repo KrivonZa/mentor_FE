@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import PureCounter from "@srexi/purecounterjs";
 
-export default function Homepage() {
+export function Homepage() {
   useEffect(() => {
     document.title = "Homepage";
     new PureCounter();

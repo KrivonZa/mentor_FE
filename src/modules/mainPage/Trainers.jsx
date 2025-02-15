@@ -1,4 +1,4 @@
-export default function Trainers() {
+export function Trainers() {
   return (
     <main className="main">
       <div className="page-title" data-aos="fade">

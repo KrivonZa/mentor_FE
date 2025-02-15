@@ -1,4 +1,4 @@
-export default function Pricing() {
+export function Pricing() {
   return (
     <main className="main">
       <div className="page-title" data-aos="fade">

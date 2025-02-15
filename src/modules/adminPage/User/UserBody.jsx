@@ -1,65 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  getAllStaffs,
-  getStaffByID,
-  deleteStaffByID,
-  getActiveStaffs,
-  getDisableStaffs,
-} from "../../../services/StaffService";
+  getAllUsers,
+  getUserByID,
+  deleteUserByID,
+} from "../../../services/UserService";
 
-export default function StaffBody() {
-  const [allStaffs, setAllStaffs] = useState([]);
-  const [staffToDelete, setStaffToDelete] = useState(null);
+export function UserBody() {
+  const [allUsers, setAllUsers] = useState([]);
+  const [userToDelete, setUserToDelete] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchStaffs();
+    fetchUsers();
   }, []);
 
-  const fetchStaffs = async () => {
+  const fetchUsers = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await getActiveStaffs();
-      setAllStaffs(response.data || []);
+      const response = await getAllUsers();
+      setAllUsers(response.data || []);
       console.log("Response: ", response.data);
     } catch (err) {
       setError(err.message);
-      console.error("Error fetching staffs: ", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getAllSystemStaffs = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await getAllStaffs();
-      setAllStaffs(response.data || []);
-      console.log("Response: ", response.data);
-    } catch (err) {
-      setError(err.message);
-      console.error("Error fetching staffs: ", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getAllDisableStaffs = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await getDisableStaffs();
-      setAllStaffs(response.data || []);
-      console.log("Response: ", response.data);
-    } catch (err) {
-      setError(err.message);
-      console.error("Error fetching staffs: ", err);
+      console.error("Error fetching users:", err);
     } finally {
       setLoading(false);
     }
@@ -67,26 +35,21 @@ export default function StaffBody() {
 
   const handleSearchByID = async (event) => {
     event.preventDefault();
-    if (!searchTerm.trim()) {
-      fetchStaffs();
+    if (!searchTerm) {
+      fetchUsers();
       return;
     }
+
     setLoading(true);
     setError(null);
     try {
-      const response = await getStaffByID(searchTerm);
-      const staff = response.data;
-
-      if (staff) {
-        setAllStaffs([staff]);
-      } else {
-        setError("No staff found with this ID");
-        setAllStaffs([]);
-      }
+      const response = await getUserByID(searchTerm);
+      const user = response.data;
+      setAllUsers(user ? [user] : []);
     } catch (err) {
-      setError("Staff not found");
-      setAllStaffs([]);
+      setError(err.message);
       console.error("Error searching by ID:", err);
+      setAllUsers([]);
     } finally {
       setLoading(false);
     }
@@ -94,34 +57,31 @@ export default function StaffBody() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await deleteStaffByID(id);
+      const response = await deleteUserByID(id);
       console.log("Response: ", response.data);
       alert(response.data.message);
-      fetchStaffs();
     } catch (err) {
       setError(err.message);
-      console.error("Error deleting staff:", err);
+      console.error("Error fetching users:", err);
     } finally {
       setLoading(false);
-      setShowConfirm(false);
-      setStaffToDelete(null);
     }
   };
 
-  const handleShowConfirm = (staff) => {
+  const handleShowConfirm = (user) => {
     setShowConfirm(true);
-    setStaffToDelete(staff);
+    setUserToDelete(user);
   };
 
   const handleConfirm = () => {
-    if (staffToDelete) {
-      handleDelete(staffToDelete.staffID);
+    if (userToDelete) {
+      handleDelete(userToDelete.userID);
     }
   };
 
   const handleCancel = () => {
     setShowConfirm(false);
-    setStaffToDelete(null);
+    setUserToDelete(null);
   };
 
   if (loading) return <div>Loading...</div>;
@@ -131,33 +91,15 @@ export default function StaffBody() {
     <main className="flex-1 p-6">
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">All Staffs</h2>
+          <h2 className="text-2xl font-bold">All Users</h2>
           <Link to="/add-new-user">
             <button className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors">
-              Add new staff
+              Add new user
             </button>
           </Link>
-          <button
-            onClick={getAllSystemStaffs}
-            className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
-          >
-            Get all staffs
-          </button>
-          <button
-            onClick={getAllDisableStaffs}
-            className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
-          >
-            Get disable staffs
-          </button>
-          <button
-            onClick={fetchStaffs}
-            className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
-          >
-            Get active staffs
-          </button>
           <div>
             <form onSubmit={handleSearchByID}>
-              <label htmlFor="search">Search staff by ID: </label>
+              <label htmlFor="search">Search user by ID: </label>
               <input
                 type="text"
                 id="search"
@@ -167,7 +109,7 @@ export default function StaffBody() {
               />
               <button
                 type="submit"
-                className="bg-blue-500 text-black px-4 py-2 rounded ml-2"
+                className="bg-blue-500 text-white px-4 py-2 rounded ml-2"
               >
                 Search
               </button>
@@ -179,10 +121,16 @@ export default function StaffBody() {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-sm font-semibold">
-                  Staff ID
+                  Account ID
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">
-                  Level
+                  Name
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">
+                  Email
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">
+                  Role
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">
                   Status
@@ -193,24 +141,24 @@ export default function StaffBody() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {allStaffs.length > 0 ? (
-                allStaffs.map((staff) => (
-                  <tr key={staff.staffID} className="hover:bg-gray-50">
-                    <td className="px-6 py-4">{staff.staffID}</td>
-                    <td className="px-6 py-4">{staff.level}</td>
-                    <td className="px-6 py-4">
-                      {staff?.user?.status ? "Active" : "Disabled"}
-                    </td>
+              {allUsers.length > 0 ? (
+                allUsers.map((user) => (
+                  <tr key={user.userID} className="hover:bg-gray-50">
+                    <td className="px-6 py-4">{user.userID}</td>
+                    <td className="px-6 py-4">{user.fullname}</td>
+                    <td className="px-6 py-4">{user.email}</td>
+                    <td className="px-6 py-4">{user.role}</td>
+                    <td className="px-6 py-4">{user.status}</td>
                     <td className="px-6 py-4">
                       <div className="flex space-x-2">
-                        <Link to={`/update-user/${staff.staffID}`}>
+                        <Link to={`/update-user/${user.userID}`}>
                           <span className="material-symbols-outlined cursor-pointer hover:text-[#5fd080] transition-colors">
                             edit
                           </span>
                         </Link>
                         <span
                           className="material-symbols-outlined cursor-pointer hover:text-red-500 transition-colors"
-                          onClick={() => handleShowConfirm(staff)}
+                          onClick={() => handleShowConfirm(user)}
                         >
                           delete
                         </span>
@@ -221,7 +169,7 @@ export default function StaffBody() {
               ) : (
                 <tr>
                   <td colSpan={5} className="text-center py-4">
-                    No staff found
+                    No user found
                   </td>
                 </tr>
               )}
@@ -233,10 +181,10 @@ export default function StaffBody() {
       {showConfirm && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-md">
-            {staffToDelete && (
+            {userToDelete && (
               <p>
-                Are you sure you want to delete staff:
-                <strong>{staffToDelete.staffID}</strong>?
+                Are you sure you want to delete user:{" "}
+                <strong>{userToDelete.fullname}</strong>?
               </p>
             )}
             <p>This action cannot be undone.</p>
