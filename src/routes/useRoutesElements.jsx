@@ -2,6 +2,8 @@ import { useRoutes, useLocation } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/LoginLayout";
 import AdminLayout from "../layouts/AdminLayout";
+import UserLayout from "../layouts/UserLayout";
+
 import {
   Homepage,
   About,
@@ -12,7 +14,7 @@ import {
   Contact,
   CourseDetail,
 } from "../modules/mainPage";
-import { LoginForm, SignupForm } from "../modules/authPage"
+import { LoginForm, SignupForm, ForgotPassForm } from "../modules/authPage"
 import {
   AddNewStaff,
   MentorBody,
@@ -21,8 +23,9 @@ import {
   UpdateMentorForm,
   UpdateStaffForm,
   UserBody,
+  Report
 } from "../modules/adminPage";
-import { Report } from "../modules/userPage"
+import { UserProfile, Transaction } from "../modules/userPage";
 import CourseAdmin from "../components/templates/courseAdmin/CourseAdmin";
 
 const useRoutesElements = () => {
@@ -36,10 +39,14 @@ const useRoutesElements = () => {
           element:<LoginForm/>
         },
         {
-          path: "/auth/signup",
-          element: <SingupForm />
+          path: "signup",
+          element: <SignupForm />,
+        },
+        {
+          path: "update-password",
+          element: <ForgotPassForm />,
         }
-      ]
+      ],
     },
     {
       path:"/course-portal",
@@ -85,10 +92,34 @@ const useRoutesElements = () => {
           path: "/course-detail",
           element: <CourseDetail />,
         },
+      ],
+    },
+    ,
+    {
+      path: "user",
+      element: <UserProfile />,
+    },
+    {
+      path: "transaction",
+      element: <Transaction />,
+    },
+    {
+      path: "/user",
+      element: <UserLayout />,
+      children: [
         {
           path: "/report",
-          element: <Report />,
+          element: <Report />
         },
+        {
+          index: true,
+          element: <UserProfile />,
+        },
+        {
+          path: "transaction",
+          element: <Transaction />,
+        }
+
       ],
     },
     {
@@ -122,6 +153,10 @@ const useRoutesElements = () => {
         {
           path: "students",
           element: <StudentBody />,
+        },
+        {
+          path: "report",
+          element: <Report />,
         },
       ],
     },

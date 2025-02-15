@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import { reportService } from "../../../services/reportService";
 
 
 export function Report() {
@@ -71,20 +73,38 @@ export function Report() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>#1001</td>
-                <td>John Doe</td>
-                <td>Web Development</td>
-                <td>Inappropriate content</td>
-                <td>
-                  <span className="badge bg-warning text-dark">Pending</span>
-                </td>
-                <td>2023-06-15</td>
-                <td>
-                  <button className="btn btn-outline-primary btn-sm me-2">✏</button>
-                  <button className="btn btn-outline-danger btn-sm">🗑</button>
-                </td>
-              </tr>
+              {reports.length > 0 ? (
+                reports.map((report) => (
+                  <tr key={report.reportId}>
+                    <td>{report.reportId}</td>
+                    <td>{report.reporterCustom.email}</td>
+                    <td>{report.reason}</td>
+                    <td>
+                      <span
+                        className={`badge ${report.reportStatus === "PENDING"
+                            ? "bg-warning text-dark"
+                            : report.reportStatus === "APPROVED"
+                              ? "bg-success"
+                              : "bg-danger"
+                          }`}
+                      >
+                        {report.reportStatus}
+                      </span>
+                    </td>
+                    <td>{new Date(report.createdAt).toLocaleDateString()}</td>
+                    <td>
+                      <button className="btn btn-outline-primary btn-sm me-2">✏</button>
+                      <button className="btn btn-outline-danger btn-sm">🗑</button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} className="text-center">
+                    No reports found.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
