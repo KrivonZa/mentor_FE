@@ -163,7 +163,7 @@ export default function Header() {
             </li>
             <li>
               <NavLink
-                to="/login"
+                to="/auth"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 Login

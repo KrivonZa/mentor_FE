@@ -2,6 +2,7 @@ import React, { createContext, Dispatch, SetStateAction, useState } from 'react'
 import CoursePortalLayout from '../../layouts/CoursePortalLayout';
 import { CoursePortalDetail } from '../../types/courseModel';
 import courseService from '../../services/courseService';
+import { Schedule } from '../../types/scheduleModel';
 
 
 interface CoursePortalProps {
@@ -12,6 +13,13 @@ interface CoursePortalProps {
   showCourseDetailModal: (courseID: number) => void
   courseDetailFormData: CourseDetailFormData;
   setCourseDetailFormData: Dispatch<SetStateAction<CourseDetailFormData>>;
+
+  //lesson
+  isLessonDetailModalOpen: boolean;
+  setIsLessonDetailModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  lessonDetailFormData: LessonDetailFormData;
+  setLessonDetailFormData: Dispatch<SetStateAction<LessonDetailFormData>>
+  showLessonDetailModal: (lessonID: number) => void
 }
 
 interface CourseDetailFormData {
@@ -22,6 +30,13 @@ interface CourseDetailFormData {
   freeTrial: boolean;
   totalStudent: number;
   level: string;
+}
+
+interface LessonDetailFormData {
+  description: string;
+  lessonStatus: string;
+  trialLesson: boolean;
+  schedule: Schedule[];
 }
 
 export const CoursePortalContext = createContext<CoursePortalProps | undefined>(undefined);
@@ -42,6 +57,15 @@ export const CoursePortalProvider = ({ children }) => {
     level: "",
   });
 
+  //* Lesson Detail Modal
+  const [isLessonDetailModalOpen, setIsLessonDetailModalOpen] = useState(false);
+  const [lessonDetailFormData, setLessonDetailFormData] = useState<LessonDetailFormData>({
+    description: "",
+    lessonStatus: "",
+    trialLesson: false,
+    schedule: [],
+  })
+
   const showCourseDetailModal = (courseID: number) => {
     setIsCourseDetailModalOpen(true);
     const courseDetail = listCoursePortal.find((course) => course.courseID === courseID);    
@@ -54,6 +78,17 @@ export const CoursePortalProvider = ({ children }) => {
       totalStudent: courseDetail?.totalStudent || 0,
       level: courseDetail?.level || "",
     })
+  };
+
+  const showLessonDetailModal = (lessonID: number) => {
+    setIsLessonDetailModalOpen(true);
+
+    // setLessonDetailFormData({
+    //   description: lessonDetail?.description || "",
+    //   lessonStatus: lessonDetail?.l || "",
+    //   trialLesson: lessonDetail?.trialLesson || false,
+    //   schedule: lessonDetail?.schedule || [],
+    // })
   };
 
   const fetchPortalDetail = async () => {
@@ -70,7 +105,11 @@ export const CoursePortalProvider = ({ children }) => {
       listCoursePortal,
       fetchPortalDetail,
       isCourseDetailModalOpen, setIsCourseDetailModalOpen, showCourseDetailModal,
-      courseDetailFormData, setCourseDetailFormData
+      courseDetailFormData, setCourseDetailFormData,
+
+      //Lesson
+      isLessonDetailModalOpen, setIsLessonDetailModalOpen, showLessonDetailModal,
+      lessonDetailFormData, setLessonDetailFormData
     }}
     >
       {children}

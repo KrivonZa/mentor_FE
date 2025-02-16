@@ -4,12 +4,13 @@ import courseService from '../../../services/courseService'
 import { CoursePortalDetail } from '../../../types/courseModel';
 import { CoursePortalContext } from '../../../modules/mainPage/CoursePortal';
 import CourseDetailModal from './CourseDetailModal';
+import LessonDetailModal from './LessonDetailModal';
 
 export const CoursePortalTable = () => {
     const context = useContext(CoursePortalContext);
     if (!context) throw new Error("SomeComponent must be used within a CoursePortalProvider");
     
-    const { listCoursePortal, fetchPortalDetail, showCourseDetailModal } = context;
+    const { listCoursePortal, fetchPortalDetail, showCourseDetailModal, showLessonDetailModal } = context;
 
     useEffect(() => {
         fetchPortalDetail();
@@ -146,6 +147,9 @@ export const CoursePortalTable = () => {
                                                                             <button className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors">
                                                                                 <span className="material-symbols-outlined">delete</span>
                                                                             </button>
+                                                                            <button onClick={() => showLessonDetailModal(lesson.lessonID) } className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors">
+                                                                                <span className="material-symbols-outlined">visibility</span>
+                                                                            </button>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -174,6 +178,7 @@ export const CoursePortalTable = () => {
                 </div>
             </div>
             <CourseDetailModal />
+            <LessonDetailModal />
         </div>
 
     )

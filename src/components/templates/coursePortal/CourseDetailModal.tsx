@@ -1,7 +1,9 @@
-import { Button, Form, Input, InputNumber, Modal, Select, Switch } from 'antd'
+import { Button, Form, Input, InputNumber, Modal, Switch } from 'antd'
 import React, { useContext, useEffect, useState } from 'react'
 import { CoursePortalContext } from '../../../modules/mainPage/CoursePortal';
 import { Option } from 'antd/es/mentions';
+import Select from 'react-select';
+
 
 export const CourseDetailModal = () => {
     const context = useContext(CoursePortalContext);
@@ -37,10 +39,18 @@ export const CourseDetailModal = () => {
         setCourseDetailFormData((prev) => ({ ...prev, freeTrial: checked }));
     };
 
-    useEffect(() => { 
-        console.log("courseDetailFormData: ", courseDetailFormData);
+    // useEffect(() => { 
+    //     console.log("courseDetailFormData: ", courseDetailFormData);
         
-    }, [courseDetailFormData])
+    // }, [courseDetailFormData])
+
+
+    //React Select
+    const levelOptions = [
+        { value: "BEGINNER", label: "Beginner" },
+        { value: "INTERMEDIATE", label: "Intermediate" },
+        { value: "ADVANCED", label: "Advanced" }
+    ];
 
     return (
         <>
@@ -113,6 +123,22 @@ export const CourseDetailModal = () => {
                         />
                     </Form.Item>
 
+                    {/* Course Level */}
+                    <Form.Item
+                        label="Level"
+                        name="level"
+                        rules={[{ required: true, message: "Please select level" }]}
+                    >
+                        <Select
+                            placeholder="Select level"
+                            value={{ value: "ADVANCED", label: "Intermediate"}}
+                            onChange={(selectedOption) => handleSelectChange(selectedOption?.value)}
+                            options={levelOptions}
+                            // styles={customStyles}
+                        />
+                    </Form.Item>
+
+
                     {/* Free Trial */}
                     <Form.Item label="Free Trial" name="freeTrial" valuePropName="checked">
                         <Switch
@@ -120,7 +146,7 @@ export const CourseDetailModal = () => {
                             onChange={handleSwitchChange}
                         />
                     </Form.Item>
-
+                    
                     {/* Total Students */}
                     <Form.Item
                         label="Total Students"
@@ -135,22 +161,7 @@ export const CourseDetailModal = () => {
                         />
                     </Form.Item>
 
-                    {/* Course Level */}
-                    <Form.Item
-                        label="Level"
-                        name="level"
-                        rules={[{ required: true, message: "Please select level" }]}
-                    >
-                        <Select
-                            placeholder="Select level"
-                            value={courseDetailFormData.level}
-                            onChange={handleSelectChange}
-                        >
-                            <Option value="BEGINNER">Beginner</Option>
-                            <Option value="INTERMEDIATE">Intermediate</Option>
-                            <Option value="ADVANCED">Advanced</Option>
-                        </Select>
-                    </Form.Item>
+                    
 
                     {/* Footer Buttons */}
                     <Form.Item className="text-right">

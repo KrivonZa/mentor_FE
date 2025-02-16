@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "../../assets/css/Signup.css";
-import { signUp } from "../../services/SignupService";
+import "../../../assets/css/Signup.css";
+import { signUp } from "../../../services/SignupService";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
     const [role, setRole] = useState("STUDENT");
@@ -14,6 +15,8 @@ const SignupForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
+
+    const navigate = useNavigate();
 
     const handleSignup = async (event) => {
         event.preventDefault();
@@ -35,14 +38,17 @@ const SignupForm = () => {
         try {
             const response = await signUp(userData);
             console.log("Signup successful:", response.data);
+
+            navigate('/auth')
+
         } catch (error) {
             console.error("Signup failed:", error);
         }
     };
 
     return (
-        <div id="signupForm" className="flex items-center justify-center min-h-screen">
-            <div className="w-[480px] bg-white rounded-xl p-8 shadow-lg">
+        <div id="signupForm" className="d-flex items-center justify-center min-h-screen" style={{height: '100vh'}}>
+            <div className="w-[480px] bg-white rounded-xl p-8 shadow-lg m-auto">
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-bold mb-2">Create Account</h1>
                     <p className="text-neutral-600">Join us today and start your journey</p>

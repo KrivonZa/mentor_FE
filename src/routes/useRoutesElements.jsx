@@ -16,7 +16,7 @@ import {
   UpdateMentorForm,
   UpdateStaffForm,
   LoginForm,
-  SingupForm
+  SingupForm,
 } from "../modules/mainPage";
 import { useEffect } from "react";
 import AuthLayout from "../layouts/LoginLayout";
@@ -36,8 +36,8 @@ const useRoutesElements = () => {
           element:<LoginForm/>
         },
         {
-          path: "/auth/register",
-          element: <RegisterForm />
+          path: "/auth/signup",
+          element: <SingupForm />
         }
       ]
     },
@@ -85,14 +85,14 @@ const useRoutesElements = () => {
           path: "/course-detail",
           element: <CourseDetail />,
         },
-        {
-          path: "/login",
-          element: <LoginForm />,
-        },
-        {
-          path: "/signup",
-          element: <SingupForm/>,
-        },
+        // {
+        //   path: "/login",
+        //   element: <LoginForm />,
+        // },
+        // {
+        //   path: "/signup",
+        //   element: <SingupForm/>,
+        // },
         {
           path: "admin",
           element: <AdminDashboard />,
