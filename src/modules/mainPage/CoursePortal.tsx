@@ -19,10 +19,12 @@ interface CoursePortalProps {
   setIsLessonDetailModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   lessonDetailFormData: LessonDetailFormData;
   setLessonDetailFormData: Dispatch<SetStateAction<LessonDetailFormData>>
-  showLessonDetailModal: (lessonID: number) => void
+  showLessonDetailModal: (lessonID: number) => void,
+  resetCourseDetailModal: () => void
 }
 
 interface CourseDetailFormData {
+  courseID: number
   courseName: string;
   description: string;
   price: number;
@@ -48,13 +50,14 @@ export const CoursePortalProvider = ({ children }) => {
   //* Course Detail Modal
   const [isCourseDetailModalOpen, setIsCourseDetailModalOpen] = useState(false);
   const [courseDetailFormData, setCourseDetailFormData] = useState<CourseDetailFormData>({
+    courseID: -1,
     courseName: "",
     description: "",
     price: 0,
     thumbnail: "",
     freeTrial: false,
     totalStudent: 0,
-    level: "",
+    level: "BEGINNER",
   });
 
   //* Lesson Detail Modal
@@ -68,17 +71,36 @@ export const CoursePortalProvider = ({ children }) => {
 
   const showCourseDetailModal = (courseID: number) => {
     setIsCourseDetailModalOpen(true);
-    const courseDetail = listCoursePortal.find((course) => course.courseID === courseID);    
-    setCourseDetailFormData({
-      courseName: courseDetail?.courseName || "",
-      description: courseDetail?.description || "",
-      price: courseDetail?.price || 0,
-      thumbnail: courseDetail?.thumbnail || "",
-      freeTrial: courseDetail?.freeTrial || false,
-      totalStudent: courseDetail?.totalStudent || 0,
-      level: courseDetail?.level || "",
-    })
+
+    if (courseID !== -1) {
+      const courseDetail = listCoursePortal.find((course) => course.courseID === courseID);
+      setCourseDetailFormData({
+        courseID: courseDetail?.courseID || -1,
+        courseName: courseDetail?.courseName || "",
+        description: courseDetail?.description || "",
+        price: courseDetail?.price || 0,
+        thumbnail: courseDetail?.thumbnail || "",
+        freeTrial: courseDetail?.freeTrial || false,
+        totalStudent: courseDetail?.totalStudent || 0,
+        level: courseDetail?.level || "BEGINNER",
+      })
+    }else {
+      resetCourseDetailModal();
+    }
   };
+
+  const resetCourseDetailModal = () => {
+    setCourseDetailFormData({
+      courseID: -1,
+      courseName: "",
+      description: "",
+      price: 0,
+      thumbnail: "",
+      freeTrial: false,
+      totalStudent: 0,
+      level: "BEGINNER",
+    })
+  }
 
   const showLessonDetailModal = (lessonID: number) => {
     setIsLessonDetailModalOpen(true);
@@ -105,7 +127,7 @@ export const CoursePortalProvider = ({ children }) => {
       listCoursePortal,
       fetchPortalDetail,
       isCourseDetailModalOpen, setIsCourseDetailModalOpen, showCourseDetailModal,
-      courseDetailFormData, setCourseDetailFormData,
+      courseDetailFormData, setCourseDetailFormData, resetCourseDetailModal,
 
       //Lesson
       isLessonDetailModalOpen, setIsLessonDetailModalOpen, showLessonDetailModal,

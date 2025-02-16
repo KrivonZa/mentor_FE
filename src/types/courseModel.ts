@@ -19,3 +19,16 @@ export interface CoursePortalDetail {
     lesson: Lesson[]
     transactions: any[]
 }
+
+export interface CreateCourseRequest {
+    thumbnail: any
+    course: {
+        skillIDs: number[]
+        courseName: string
+        description: string
+        price: number
+        freeTrial: boolean
+        totalStudent: number
+        level: string
+    }
+}

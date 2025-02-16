@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { CoursePortalContext } from '../../../modules/mainPage/CoursePortal';
 import { Form, Input, Modal, Button, Switch } from 'antd';
-import Select from 'react-select';
 
 const LessonDetailModal = () => {
     const context = useContext(CoursePortalContext);
@@ -76,13 +75,13 @@ const LessonDetailModal = () => {
                         name="level"
                         rules={[{ required: true, message: "Please select level" }]}
                     >
-                        <Select
+                        {/* <Select
                             placeholder="Select level"
                             value={lessonStatusOptions.find(option => option.value == lessonDetailFormData.lessonStatus)}
                             onChange={(selectedOption) => handleSelectChange(selectedOption?.value)}
                             options={lessonStatusOptions}
                         // styles={customStyles}
-                        />
+                        /> */}
                     </Form.Item>
 
 

@@ -14,7 +14,7 @@ import {
   Contact,
   CourseDetail,
 } from "../modules/mainPage";
-import { LoginForm, SignupForm, ForgotPassForm } from "../modules/authPage"
+import { LoginForm, ForgotPassForm } from "../modules/authPage"
 import {
   AddNewStaff,
   MentorBody,
@@ -26,7 +26,8 @@ import {
   Report
 } from "../modules/adminPage";
 import { UserProfile, Transaction } from "../modules/userPage";
-import CourseAdmin from "../components/templates/courseAdmin/CourseAdmin";
+import SignupForm from "../modules/authPage/SignupForm";
+import CoursePortal from "../modules/mainPage/CoursePortal";
 
 const useRoutesElements = () => {
   const element = useRoutes([
@@ -95,10 +96,10 @@ const useRoutesElements = () => {
       ],
     },
     ,
-    {
-      path: "user",
-      element: <UserProfile />,
-    },
+    // {
+    //   path: "user",
+    //   element: <UserProfile />,
+    // },
     {
       path: "transaction",
       element: <Transaction />,
@@ -108,7 +109,7 @@ const useRoutesElements = () => {
       element: <UserLayout />,
       children: [
         {
-          path: "/report",
+          path: "/user/report",
           element: <Report />
         },
         {
