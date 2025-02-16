@@ -13,6 +13,7 @@ import {
   Pricing,
   Contact,
   CourseDetail,
+  CoursePortal
 } from "../modules/mainPage";
 import { LoginForm, SignupForm, ForgotPassForm } from "../modules/authPage"
 import {
@@ -22,11 +23,9 @@ import {
   StudentBody,
   UpdateMentorForm,
   UpdateStaffForm,
-  UserBody,
-  Report
+  UserBody
 } from "../modules/adminPage";
 import { UserProfile, Transaction } from "../modules/userPage";
-import CourseAdmin from "../components/templates/courseAdmin/CourseAdmin";
 
 const useRoutesElements = () => {
   const element = useRoutes([
@@ -50,7 +49,7 @@ const useRoutesElements = () => {
     },
     {
       path: "/course-portal",
-      element: <CourseAdmin />,
+      element: <CoursePortal />
     },
     {
       path: "",
@@ -97,6 +96,48 @@ const useRoutesElements = () => {
         {
           index: true,
           element: <UserProfile />,
+        },
+        {
+          path: "transaction",
+          element: <Transaction />,
+        }
+
+      ],
+    },
+    {
+      path: "/admin",
+      element: <AdminLayout />,
+      children: [
+        {
+          index: true,
+          element: <UserBody />,
+        },
+        {
+          path: "staffs",
+          element: <StaffBody />,
+        },
+      ],
+    },
+    ,
+    // {
+    //   path: "user",
+    //   element: <UserProfile />,
+    // },
+    {
+      path: "transaction",
+      element: <Transaction />,
+    },
+    {
+      path: "/user",
+      element: <UserLayout />,
+      children: [
+        {
+          index: true,
+          element: <UserProfile />,
+        },
+        {
+          path: "report",
+          element: <Report />
         },
         {
           path: "transaction",
