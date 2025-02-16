@@ -6,3 +6,4 @@ export * from "./Events";
 export * from "./Pricing";
 export * from "./Contact";
 export * from "./CourseDetail";
+export * from "./CoursePortal"

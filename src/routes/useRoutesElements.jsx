@@ -13,12 +13,8 @@ import {
   Pricing,
   Contact,
   CourseDetail,
+  CoursePortal
 } from "../modules/mainPage";
-import { LoginForm, ForgotPassForm } from "../modules/authPage"
-import {
-  AddNewStaff,
-  MentorBody,
-  Report,
 import { LoginForm, SignupForm, ForgotPassForm } from "../modules/authPage"
 import {
   AddNewStaff,
@@ -27,11 +23,10 @@ import {
   StudentBody,
   UpdateMentorForm,
   UpdateStaffForm,
-  UserBody
+  UserBody,
+  Report
 } from "../modules/adminPage";
 import { UserProfile, Transaction } from "../modules/userPage";
-import SignupForm from "../modules/authPage/SignupForm";
-import CoursePortal from "../modules/mainPage/CoursePortal";
 
 const useRoutesElements = () => {
   const element = useRoutes([
@@ -54,7 +49,7 @@ const useRoutesElements = () => {
       ],
     },
     {
-      path:"/course-portal",
+      path: "/course-portal",
       element: <CoursePortal />
     },
     {
@@ -94,15 +89,6 @@ const useRoutesElements = () => {
           element: <Contact />,
         },
       ],
-    },
-    ,
-    {
-      path: "user",
-      element: <UserProfile />,
-    },
-    {
-      path: "transaction",
-      element: <Transaction />,
     },
     {
       path: "/user",

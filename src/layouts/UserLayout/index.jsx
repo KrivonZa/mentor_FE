@@ -1,19 +1,22 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { UserSidebar } from "../../components/User"
-import "/public/css/AdminDashboard.scss";
+import { UserSidebar } from "../../components/User";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 
 export const UserLayout = () => {
     return (
-        <div id="accountLayoutContainer">
-            <div id="webcrumbs">
-                <div className="min-h-screen bg-gray-100 flex">
+        <div>
+            <Header />
+            <div className="d-flex min-vh-100 bg-light">
+                <div className="d-flex" style={{ width: "250px" }}>
                     <UserSidebar />
-                    <div className="flex-1 flex flex-col">
-                        <Outlet />
-                    </div>
+                </div>
+                <div className="flex-grow-1 d-flex flex-column">
+                    <Outlet />
                 </div>
             </div>
+            <Footer />
         </div>
     );
 };
