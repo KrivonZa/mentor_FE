@@ -90,15 +90,6 @@ const useRoutesElements = () => {
         },
       ],
     },
-    ,
-    {
-      path: "user",
-      element: <UserProfile />,
-    },
-    {
-      path: "transaction",
-      element: <Transaction />,
-    },
     {
       path: "/user",
       element: <UserLayout />,

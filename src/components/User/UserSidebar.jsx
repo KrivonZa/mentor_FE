@@ -1,29 +1,64 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
 export function UserSidebar() {
+  const location = useLocation();
+
   return (
-    <>
-      <aside className="w-64 bg-white shadow-lg">
-        <div className="p-4 bg-[#5fd080]">
-          <h1 className="text-white text-xl font-bold text-center">User Panel</h1>
-        </div>
-        <nav className="p-4">
-          <ul className="space-y-2">
-            <Link to="">
-              <li className="p-2 hover:bg-gray-100 rounded-lg cursor-pointer transition-colors flex items-center">
-                <span className="material-symbols-outlined mr-2">man</span>
-                Profile
-              </li>
+    <aside className="position-fixed vh-100 overflow-auto bg-light p-3" style={{ width: "250px" }}>
+      <nav>
+        <ul className="list-unstyled position-relative">
+
+          <li className="position-relative">
+            <Link
+              to=""
+              className={`d-flex align-items-center ps-4 p-2 text-success text-decoration-none rounded fw-bold transition 
+                         ${location.pathname === "/user" && "bg-success text-white"}`}
+              style={{ transition: "all 0.3s ease-in-out", position: "relative" }}
+            >
+              <span
+                className={`chevron-icon position-absolute start-0 ms-2 material-symbols-outlined ${location.pathname === "/user" ? "show" : ""
+                  }`}
+              >
+                chevron_right
+              </span>
+              <span className="me-2 material-symbols-outlined">man</span>
+              Profile
             </Link>
-            <Link to="transaction">
-              <li className="p-2 hover:bg-gray-100 rounded-lg cursor-pointer transition-colors flex items-center">
-                <span className="material-symbols-outlined mr-2">history</span>
-                Transaction
-              </li>
+          </li>
+          <li className="position-relative">
+            <Link
+              to="transaction"
+              className={`d-flex align-items-center ps-4 p-2 text-success text-decoration-none rounded fw-bold transition 
+                         ${location.pathname === "/user/transaction" && "bg-success text-white"}`}
+              style={{ transition: "all 0.3s ease-in-out", position: "relative" }}
+            >
+              <span
+                className={`chevron-icon position-absolute start-0 ms-2 material-symbols-outlined ${location.pathname === "/user/transaction" ? "show" : ""
+                  }`}
+              >
+                chevron_right
+              </span>
+              <span className="me-2 material-symbols-outlined">history</span>
+              Transaction
             </Link>
-          </ul>
-        </nav>
-      </aside>
-    </>
+          </li>
+        </ul>
+      </nav>
+
+      <style>
+        {`
+          .chevron-icon {
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease-in-out;
+          }
+          .chevron-icon.show {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        `}
+      </style>
+    </aside>
   );
 }
