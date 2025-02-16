@@ -4,7 +4,7 @@ import "../../../public/css/Signup.scss";
 import { useNavigate } from "react-router-dom";
 import authenService from "../../services/authenService";
 
-const SignupForm = () => {
+export const SignupForm = () => {
   const [role, setRole] = useState("STUDENT");
   const [level, setLevel] = useState("");
   const [bio, setBio] = useState("");
@@ -146,4 +146,3 @@ const SignupForm = () => {
     </div>
   )
 }
-export default SignupForm;

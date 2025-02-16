@@ -9,7 +9,9 @@ export const UserLayout = () => {
         <div>
             <Header />
             <div className="d-flex min-vh-100 bg-light">
-                <UserSidebar />
+                <div className="d-flex" style={{ width: "250px" }}>
+                    <UserSidebar />
+                </div>
                 <div className="flex-grow-1 d-flex flex-column">
                     <Outlet />
                 </div>

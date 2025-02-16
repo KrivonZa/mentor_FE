@@ -23,7 +23,8 @@ import {
   StudentBody,
   UpdateMentorForm,
   UpdateStaffForm,
-  UserBody
+  UserBody,
+  Report
 } from "../modules/adminPage";
 import { UserProfile, Transaction } from "../modules/userPage";
 

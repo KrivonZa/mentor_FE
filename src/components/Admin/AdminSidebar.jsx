@@ -25,13 +25,13 @@ export function AdminSidebar() {
                   ${location.pathname === item.to && "bg-success text-white"}`}
                 style={{ transition: "all 0.3s ease-in-out", position: "relative" }}
               >
+                <span className="me-2 material-symbols-outlined">{item.icon}</span>
                 <span
-                  className={`chevron-icon position-absolute start-0 ms-2 material-symbols-outlined ${location.pathname === item.to ? "show" : ""
+                  className={`chevron-icon position-absolute end-0 ms-2 material-symbols-outlined ${location.pathname === item.to ? "show" : ""
                     }`}
                 >
                   chevron_right
                 </span>
-                <span className="me-2 material-symbols-outlined">{item.icon}</span>
                 {item.label}
               </Link>
             </li>
