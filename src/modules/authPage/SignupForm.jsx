@@ -40,7 +40,6 @@ const SignupForm = () => {
       console.log("Signup successful:", response.data);
 
       navigate('/auth')
-
     } catch (error) {
       console.error("Signup failed:", error);
     }

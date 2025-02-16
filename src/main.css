@@ -830,6 +830,12 @@ section,
   overflow: clip;
 }
 
+.Toastify {
+  padding: 0 !important; /* Loại bỏ padding của Toastify */
+  scroll-margin-top: unset !important; /* Vô hiệu hóa thuộc tính này cho Toastify */
+  overflow: visible !important; /* Đảm bảo nội dung Toast không bị ẩn */
+}
+
 @media (max-width: 1199px) {
   section,
   .section {

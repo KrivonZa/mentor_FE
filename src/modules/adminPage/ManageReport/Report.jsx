@@ -20,14 +20,14 @@ export function Report() {
     fetchReports();
   }, [currentPage]);
 
-    return (<div className="container mt-4">
+  return (
+    <div className="container mt-4">
       <div className="card p-4 shadow-sm">
         {/* Header */}
         <div className="d-flex justify-content-between align-items-center">
           <h4 className="fw-bold">Report Management</h4>
           <button className="btn btn-primary">+ New Report</button>
         </div>
-
         {/* Summary Cards */}
         <div className="row mt-3">
           <div className="col-md-4">
@@ -49,12 +49,10 @@ export function Report() {
             </div>
           </div>
         </div>
-
         {/* Search & Filter */}
         <div className="input-group mt-4">
           <input type="text" className="form-control" placeholder="Search reports..." />
           <button className="btn btn-outline-secondary">🔍</button>
-          <button className="btn btn-outline-secondary">⚙ Filter</button>
         </div>
 
         {/* Table */}
@@ -64,7 +62,6 @@ export function Report() {
               <tr>
                 <th>Report ID</th>
                 <th>Reporter</th>
-                <th>Course</th>
                 <th>Reason</th>
                 <th>Status</th>
                 <th>Date</th>
@@ -111,26 +108,22 @@ export function Report() {
         {/* Pagination */}
         <nav className="mt-3">
           <ul className="pagination justify-content-end">
-            <li className="page-item disabled">
-              <a className="page-link" href="#">Previous</a>
+            <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+              <button className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>Previous</button>
             </li>
-            <li className="page-item active">
-              <a className="page-link" href="#">1</a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">2</a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">3</a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">Next</a>
+            {[...Array(totalPages)].map((_, index) => (
+              <li key={index} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
+                <button className="page-link" onClick={() => setCurrentPage(index + 1)}>
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+            <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+              <button className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
             </li>
           </ul>
         </nav>
       </div>
-    </div>);
-
+    </div>
+  );
 }
-
-export default Report

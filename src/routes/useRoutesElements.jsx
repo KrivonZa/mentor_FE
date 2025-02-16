@@ -19,6 +19,10 @@ import {
   AddNewStaff,
   MentorBody,
   Report,
+import { LoginForm, SignupForm, ForgotPassForm } from "../modules/authPage"
+import {
+  AddNewStaff,
+  MentorBody,
   StaffBody,
   StudentBody,
   UpdateMentorForm,
@@ -32,12 +36,12 @@ import CoursePortal from "../modules/mainPage/CoursePortal";
 const useRoutesElements = () => {
   const element = useRoutes([
     {
-      path:"/auth",
+      path: "/auth",
       element: <AuthLayout />,
       children: [
         {
           index: true,
-          element:<LoginForm/>
+          element: <LoginForm />,
         },
         {
           path: "signup",
@@ -88,10 +92,44 @@ const useRoutesElements = () => {
         {
           path: "contact",
           element: <Contact />,
-        }, 
+        },
+      ],
+    },
+    ,
+    {
+      path: "user",
+      element: <UserProfile />,
+    },
+    {
+      path: "transaction",
+      element: <Transaction />,
+    },
+    {
+      path: "/user",
+      element: <UserLayout />,
+      children: [
         {
-          path: "/course-detail",
-          element: <CourseDetail />,
+          index: true,
+          element: <UserProfile />,
+        },
+        {
+          path: "transaction",
+          element: <Transaction />,
+        }
+
+      ],
+    },
+    {
+      path: "/admin",
+      element: <AdminLayout />,
+      children: [
+        {
+          index: true,
+          element: <UserBody />,
+        },
+        {
+          path: "staffs",
+          element: <StaffBody />,
         },
       ],
     },
