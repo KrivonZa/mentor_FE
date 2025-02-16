@@ -14,6 +14,11 @@ import {
   Contact,
   CourseDetail,
 } from "../modules/mainPage";
+import { LoginForm, ForgotPassForm } from "../modules/authPage"
+import {
+  AddNewStaff,
+  MentorBody,
+  Report,
 import { LoginForm, SignupForm, ForgotPassForm } from "../modules/authPage"
 import {
   AddNewStaff,
@@ -22,11 +27,11 @@ import {
   StudentBody,
   UpdateMentorForm,
   UpdateStaffForm,
-  UserBody,
-  Report
+  UserBody
 } from "../modules/adminPage";
 import { UserProfile, Transaction } from "../modules/userPage";
-import CourseAdmin from "../components/templates/courseAdmin/CourseAdmin";
+import SignupForm from "../modules/authPage/SignupForm";
+import CoursePortal from "../modules/mainPage/CoursePortal";
 
 const useRoutesElements = () => {
   const element = useRoutes([
@@ -49,8 +54,8 @@ const useRoutesElements = () => {
       ],
     },
     {
-      path: "/course-portal",
-      element: <CourseAdmin />,
+      path:"/course-portal",
+      element: <CoursePortal />
     },
     {
       path: "",
@@ -106,6 +111,48 @@ const useRoutesElements = () => {
         {
           index: true,
           element: <UserProfile />,
+        },
+        {
+          path: "transaction",
+          element: <Transaction />,
+        }
+
+      ],
+    },
+    {
+      path: "/admin",
+      element: <AdminLayout />,
+      children: [
+        {
+          index: true,
+          element: <UserBody />,
+        },
+        {
+          path: "staffs",
+          element: <StaffBody />,
+        },
+      ],
+    },
+    ,
+    // {
+    //   path: "user",
+    //   element: <UserProfile />,
+    // },
+    {
+      path: "transaction",
+      element: <Transaction />,
+    },
+    {
+      path: "/user",
+      element: <UserLayout />,
+      children: [
+        {
+          index: true,
+          element: <UserProfile />,
+        },
+        {
+          path: "report",
+          element: <Report />
         },
         {
           path: "transaction",

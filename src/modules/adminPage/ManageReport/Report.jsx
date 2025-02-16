@@ -28,6 +28,27 @@ export function Report() {
           <h4 className="fw-bold">Report Management</h4>
           <button className="btn btn-primary">+ New Report</button>
         </div>
+        {/* Summary Cards */}
+        <div className="row mt-3">
+          <div className="col-md-4">
+            <div className="p-3 bg-warning bg-opacity-25 rounded text-center">
+              <span className="fw-bold text-warning">😕 Pending Reports</span>
+              <h3 className="fw-bold">24</h3>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="p-3 bg-success bg-opacity-25 rounded text-center">
+              <span className="fw-bold text-success">✅ Approved Reports</span>
+              <h3 className="fw-bold">156</h3>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="p-3 bg-danger bg-opacity-25 rounded text-center">
+              <span className="fw-bold text-danger">❌ Rejected Reports</span>
+              <h3 className="fw-bold">45</h3>
+            </div>
+          </div>
+        </div>
         {/* Search & Filter */}
         <div className="input-group mt-4">
           <input type="text" className="form-control" placeholder="Search reports..." />

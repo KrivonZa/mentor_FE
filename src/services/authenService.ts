@@ -18,7 +18,7 @@ export const authenService = {
     },
     register: async (data: RegisterRequest) => {
         try{
-            const response = await authenApi.post("/register", data);
+            const response = await authenApi.post("/create-user", data);
             return response.data;
         } catch (error) {
             throw error.response?.data || "Login failed";
