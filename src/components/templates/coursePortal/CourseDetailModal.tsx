@@ -56,6 +56,7 @@ export const CourseDetailModal = () => {
         
     }, [courseDetailFormData])
 
+
     return (
         <>
             <Modal
