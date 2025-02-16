@@ -18,12 +18,12 @@ import { LoginForm, ForgotPassForm } from "../modules/authPage"
 import {
   AddNewStaff,
   MentorBody,
+  Report,
   StaffBody,
   StudentBody,
   UpdateMentorForm,
   UpdateStaffForm,
-  UserBody,
-  Report
+  UserBody
 } from "../modules/adminPage";
 import { UserProfile, Transaction } from "../modules/userPage";
 import SignupForm from "../modules/authPage/SignupForm";
@@ -109,12 +109,12 @@ const useRoutesElements = () => {
       element: <UserLayout />,
       children: [
         {
-          path: "/user/report",
-          element: <Report />
-        },
-        {
           index: true,
           element: <UserProfile />,
+        },
+        {
+          path: "report",
+          element: <Report />
         },
         {
           path: "transaction",

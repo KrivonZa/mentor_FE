@@ -20,7 +20,6 @@ export function Report() {
     fetchReports();
   }, [currentPage]);
 
-  function Report() {
     return (<div className="container mt-4">
       <div className="card p-4 shadow-sm">
         {/* Header */}
@@ -132,7 +131,6 @@ export function Report() {
       </div>
     </div>);
 
-  }
 }
 
 export default Report
