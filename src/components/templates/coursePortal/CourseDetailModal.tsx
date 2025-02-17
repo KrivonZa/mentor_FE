@@ -6,9 +6,10 @@ import './modal.scss';
 import { PlusOutlined } from '@ant-design/icons';
 import courseService from '../../../services/courseService';
 import Swal from 'sweetalert2';
-import { CreateCourseRequest } from '../../../types/courseModel';
+import { CourseDetailFormData, CreateCourseRequest, UpdateCourseRequest } from '../../../types/courseModel';
+import type { SelectProps } from 'antd';
+import { toast } from 'react-toastify';
 
-// import Select from 'react-select';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -24,34 +25,34 @@ export const CourseDetailModal = () => {
     const context = useContext(CoursePortalContext);
     if (!context) throw new Error("SomeComponent must be used within a CoursePortalProvider");
 
-    const { isCourseDetailModalOpen, setIsCourseDetailModalOpen, courseDetailFormData, setCourseDetailFormData, resetCourseDetailModal } = context;
+    const { isCourseDetailModalOpen, setIsCourseDetailModalOpen, courseDetailFormData, setCourseDetailFormData, resetCourseDetailModal, listSkill,
+        fileList, setFileList, fetchPortalDetail
+    } = context;
+
     //upload
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
-    const [fileList, setFileList] = useState<UploadFile[]>([]);
+    //skill
+    const [skillOptionList, setSkillOptionList] = useState<SelectProps['options']>([]);
+    //form
+    const [courseDetailForm] = Form.useForm<CourseDetailFormData>();
+
+    //* generate skill option
+    useEffect(() => {
+        const skillOptions: any = []
+        listSkill?.map((item) => {
+            skillOptions.push({
+                label: item.skillName,
+                value: item.skillID
+            })
+        })
+        setSkillOptionList(skillOptions)
+    }, [listSkill])
 
     //* handleFile Render 
     useEffect(() => {
-        if (courseDetailFormData.courseID != -1) {
-            setFileList([
-                {
-                    uid: '-1',
-                    name: courseDetailFormData.courseName,
-                    status: 'done',
-                    url: courseDetailFormData.thumbnail
-                }
-            ])
-        }
-        console.log("formData: ", courseDetailFormData);
-        
+        courseDetailForm.setFieldsValue(courseDetailFormData)
     }, [courseDetailFormData])
-
-
-    const handleUpdate = () => {
-        console.log("Submit ne");
-        // courseService.uploadThumbnail(fileList[0]);
-    }
-
 
     const handleClose = () => {
         setPreviewOpen(false);
@@ -71,10 +72,12 @@ export const CourseDetailModal = () => {
     };
 
     // Handle select dropdown
-    const handleSelectChange = (value) => {
-        console.log("value Select: ", value);
-        
+    const handleSelectLevelChange = (value) => {
         setCourseDetailFormData((prev) => ({ ...prev, level: value }));
+    };
+
+    const handleSelectMultiSkillChange = (value) => {
+        setCourseDetailFormData((prev) => ({ ...prev, skill: value }));
     };
 
     // Handle switch
@@ -82,7 +85,6 @@ export const CourseDetailModal = () => {
         setCourseDetailFormData((prev) => ({ ...prev, freeTrial: checked }));
     };
 
-    //React Select
     const levelOptions = [
         { value: "BEGINNER", label: "Beginner" },
         { value: "INTERMEDIATE", label: "Intermediate" },
@@ -99,28 +101,22 @@ export const CourseDetailModal = () => {
     };
 
     const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-        if(newFileList.length > 1){
+        if (newFileList.length > 1) {
             newFileList.shift()
         }
-        console.log("newFileList: ", newFileList);
-
         setFileList(newFileList);
     }
 
     const handleCreate = async () => {
         try {
-            if(fileList.length == 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Please upload thumbnail!',
-                })
+            if (fileList.length == 0) {
+                toast.error("Please upload thumbnail!");
             }
 
             const request: CreateCourseRequest = {
                 thumbnail: fileList[0],
                 course: {
-                    skillIDs: [],
+                    skillIDs: courseDetailFormData.skill,
                     courseName: courseDetailFormData.courseName,
                     description: courseDetailFormData.description,
                     price: courseDetailFormData.price,
@@ -128,18 +124,62 @@ export const CourseDetailModal = () => {
                     totalStudent: courseDetailFormData.totalStudent,
                     level: courseDetailFormData.level,
                 }
-                
+
             }
 
             const response = await courseService.createCourse(request);
-            console.log("Create course response:", response.data);
-            return response.data;
+            toast.success("Create course successfully!");
+            fetchPortalDetail();
+            console.log("response: ", response);
+
         } catch (error) {
             console.error("Error creating course:", error);
         }
     }
 
+    const handleUpdate = async () => {
+        try {
+            if (fileList.length == 0) {
+                toast.error("Please upload thumbnail!");
+            }
+            
+            console.log("courseID: ", courseDetailFormData.courseID);
+            console.log("fileList:", fileList[0]);
+            
+            let courseThumbnail:any = null
+            
+            //uuid = -1 => old, uuid != -1 => new
+            if (fileList[0].uid != '-1'){
+                courseThumbnail = fileList[0];
+            }
+            
+            const request: UpdateCourseRequest = {
+                thumbnail: courseThumbnail,
+                course: {
+                    courseID: courseDetailFormData.courseID,
+                    skillIDs: courseDetailFormData.skill,
+                    courseName: courseDetailFormData.courseName,
+                    description: courseDetailFormData.description,
+                    price: courseDetailFormData.price,
+                    freeTrial: courseDetailFormData.freeTrial,
+                    totalStudent: courseDetailFormData.totalStudent,
+                    level: courseDetailFormData.level,
+                }
 
+            }
+
+            console.log("req: ", request);
+            
+
+            const response = await courseService.updateCourse(request);
+            toast.success("Update course: "+courseDetailFormData.courseName + " successfully!");
+            fetchPortalDetail();
+
+        } catch (error) {
+            console.error("Error creating course:", error);
+        }
+        console.log("Submit ne");
+    }
 
     return (
         <Modal
@@ -151,6 +191,7 @@ export const CourseDetailModal = () => {
         >
             <Form
                 id='courseDetailForm'
+                form={courseDetailForm}
                 layout="vertical"
                 onFinish={handleClose}
                 initialValues={courseDetailFormData} // Set initial form values
@@ -202,11 +243,10 @@ export const CourseDetailModal = () => {
                 <Form.Item
                     label="Thumbnail URL"
                     name="thumbnail"
-                    rules={[{ required: true, message: "Please enter thumbnail URL" }]}
+                    rules={[{ required: false }]}
                 >
                     <Upload
                         name='thumbnail'
-                        // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
                         beforeUpload={() => false}
                         listType="picture-card"
                         fileList={fileList}
@@ -241,11 +281,9 @@ export const CourseDetailModal = () => {
                     rules={[{ required: true, message: "Please select level" }]}
                 >
                     <Select
-                        // value={levelOptions[1]}
                         className=""
                         placeholder="Select level"
-                        // defaultValue={levelOptions[1]}
-                        onChange={(selectedOption) => handleSelectChange(selectedOption)}
+                        onChange={(selectedOption) => handleSelectLevelChange(selectedOption)}
                         options={levelOptions}
                     />
                 </Form.Item>
@@ -274,18 +312,36 @@ export const CourseDetailModal = () => {
                 </Form.Item>
 
 
+                {/* Skills */}
+                <Form.Item
+                    label="Course Skills"
+                    name="skill"
+                // rules={[{}]}
+                >
+                    <Select
+                        mode="multiple"
+                        allowClear
+                        style={{ width: '100%' }}
+                        placeholder="Please select"
+                        onChange={handleSelectMultiSkillChange}
+                        options={skillOptionList}
+                    />
+                </Form.Item>
 
                 {/* Footer Buttons */}
                 <Form.Item className="text-right">
                     <Button onClick={handleClose} style={{ marginRight: 8 }}>
                         Cancel
                     </Button>
-                    <Button type="primary" htmlType="submit" onClick={handleUpdate}>
-                        Save
-                    </Button>
-                    <Button type="primary" htmlType="submit" onClick={handleCreate}>
-                        Create
-                    </Button>
+                    {courseDetailFormData.courseID == -1
+                        ? (<Button type="primary" htmlType="submit" onClick={handleCreate}>
+                            Create
+                        </Button>)
+                        : (<Button type="primary" style={{ background:'#5FCF80'}} htmlType="submit" onClick={handleUpdate}>
+                            Save
+                        </Button>)
+                    }
+
                 </Form.Item>
             </Form>
         </Modal>

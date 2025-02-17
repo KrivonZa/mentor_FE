@@ -9,3 +9,10 @@ export interface Lesson {
     createdAt: string
     updatedAt: string
 }
+
+export interface LessonDetailFormData {
+    description: string;
+    lessonStatus: string;
+    trialLesson: boolean;
+    schedule: Schedule[];
+}

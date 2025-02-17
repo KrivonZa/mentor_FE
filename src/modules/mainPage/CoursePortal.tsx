@@ -1,8 +1,12 @@
-import React, { createContext, Dispatch, SetStateAction, useState } from 'react'
+import React, { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react'
 import CoursePortalLayout from '../../layouts/CoursePortalLayout';
-import { CoursePortalDetail } from '../../types/courseModel';
+import { CourseDetailFormData, CoursePortalDetail } from '../../types/courseModel';
 import courseService from '../../services/courseService';
 import { Schedule } from '../../types/scheduleModel';
+import skillService from '../../services/skillService';
+import { Skill } from '../../types/skillModel';
+import { UploadFile } from 'antd';
+import { LessonDetailFormData } from '../../types/lessonModel';
 
 
 interface CoursePortalProps {
@@ -21,32 +25,21 @@ interface CoursePortalProps {
   setLessonDetailFormData: Dispatch<SetStateAction<LessonDetailFormData>>
   showLessonDetailModal: (lessonID: number) => void,
   resetCourseDetailModal: () => void
-}
 
-interface CourseDetailFormData {
-  courseID: number
-  courseName: string;
-  description: string;
-  price: number;
-  thumbnail: string;
-  freeTrial: boolean;
-  totalStudent: number;
-  level: string;
-}
+  //skill
+  listSkill: Skill[]
+  // file
+  fileList: UploadFile<any>[];
+  setFileList: React.Dispatch<React.SetStateAction<UploadFile<any>[]>>
 
-interface LessonDetailFormData {
-  description: string;
-  lessonStatus: string;
-  trialLesson: boolean;
-  schedule: Schedule[];
 }
 
 export const CoursePortalContext = createContext<CoursePortalProps | undefined>(undefined);
 
-
-
 export const CoursePortalProvider = ({ children }) => {
   const [listCoursePortal, setListCoursePortal] = useState<CoursePortalDetail[]>([]);
+  const [listSkill, setListSkill] = useState<Skill[]>([]);
+
   //* Course Detail Modal
   const [isCourseDetailModalOpen, setIsCourseDetailModalOpen] = useState(false);
   const [courseDetailFormData, setCourseDetailFormData] = useState<CourseDetailFormData>({
@@ -58,22 +51,16 @@ export const CoursePortalProvider = ({ children }) => {
     freeTrial: false,
     totalStudent: 0,
     level: "BEGINNER",
+    skill: []
   });
 
-  //* Lesson Detail Modal
-  const [isLessonDetailModalOpen, setIsLessonDetailModalOpen] = useState(false);
-  const [lessonDetailFormData, setLessonDetailFormData] = useState<LessonDetailFormData>({
-    description: "",
-    lessonStatus: "",
-    trialLesson: false,
-    schedule: [],
-  })
+  //* File list
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const showCourseDetailModal = (courseID: number) => {
     setIsCourseDetailModalOpen(true);
-
-    if (courseID !== -1) {
-      const courseDetail = listCoursePortal.find((course) => course.courseID === courseID);
+    if (courseID != -1) {
+      const courseDetail = listCoursePortal.find((course) => course.courseID == courseID);
       setCourseDetailFormData({
         courseID: courseDetail?.courseID || -1,
         courseName: courseDetail?.courseName || "",
@@ -83,9 +70,17 @@ export const CoursePortalProvider = ({ children }) => {
         freeTrial: courseDetail?.freeTrial || false,
         totalStudent: courseDetail?.totalStudent || 0,
         level: courseDetail?.level || "BEGINNER",
+        skill: courseDetail?.skills.map((item) => item.skill.skillID) || []
       })
-    }else {
-      resetCourseDetailModal();
+      //Set File with thumbnail
+      setFileList([
+        {
+          uid: '-1',
+          name: courseDetail?.courseName || "",
+          status: 'done',
+          url: courseDetail?.thumbnail || ""
+        }
+      ])
     }
   };
 
@@ -99,8 +94,20 @@ export const CoursePortalProvider = ({ children }) => {
       freeTrial: false,
       totalStudent: 0,
       level: "BEGINNER",
+      skill: []
     })
+    // also reset fileList
+    setFileList([]);
   }
+
+  //* Lesson Detail Modal
+  const [isLessonDetailModalOpen, setIsLessonDetailModalOpen] = useState(false);
+  const [lessonDetailFormData, setLessonDetailFormData] = useState<LessonDetailFormData>({
+    description: "",
+    lessonStatus: "",
+    trialLesson: false,
+    schedule: [],
+  })
 
   const showLessonDetailModal = (lessonID: number) => {
     setIsLessonDetailModalOpen(true);
@@ -122,6 +129,20 @@ export const CoursePortalProvider = ({ children }) => {
     }
   }
 
+  const fetchSkills = async () => {
+    try {
+      const skills = await skillService.getAllSkill();
+      setListSkill(skills);
+    } catch (error) {
+      console.error("Error fetching course details:", error);
+    }
+  }
+
+  //Fetch for re-use
+  useEffect(() => {
+    fetchSkills();
+  }, [])
+
   return (
     <CoursePortalContext.Provider value={{
       listCoursePortal,
@@ -131,7 +152,14 @@ export const CoursePortalProvider = ({ children }) => {
 
       //Lesson
       isLessonDetailModalOpen, setIsLessonDetailModalOpen, showLessonDetailModal,
-      lessonDetailFormData, setLessonDetailFormData
+      lessonDetailFormData, setLessonDetailFormData,
+
+      //Skill
+      listSkill,
+
+      //File
+      fileList,
+      setFileList
     }}
     >
       {children}
