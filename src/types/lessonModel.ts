@@ -1,4 +1,4 @@
-import { Schedule } from "./scheduleModel"
+import { Schedule, ScheduleCreateRequest } from "./scheduleModel"
 
 export interface Lesson {
     lessonID: number
@@ -15,4 +15,12 @@ export interface LessonDetailFormData {
     lessonStatus: string;
     trialLesson: boolean;
     schedule: Schedule[];
+}
+
+export interface CreateLessonRequest {
+    description: string,
+    lessonStatus: string,
+    trialLesson: boolean,
+    courseID: number,
+    schedule: ScheduleCreateRequest[]
 }
