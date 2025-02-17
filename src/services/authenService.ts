@@ -11,6 +11,7 @@ export const authenService = {
         try {
             const response = await authenApi.post("/login", data);
             console.log("response: ", response);
+            localStorage.setItem("ROLE",response.data.role);
             return response.data;
         } catch (error) {
             throw error.response?.data || "Login failed";

@@ -9,8 +9,59 @@ interface User {
     email: string;
     password?: string;
     role?: string;
-    status?:boolean;
+    status?: boolean;
 }
+
+export interface RelevantSkillsCustom {
+    skillName: string;
+    description: string;
+}
+
+export interface StudentDetailResponse {
+    studentID: number;
+    level: string;
+    fullName: string;
+    email: string;
+    role: Role;
+    avatar: string;
+    phoneNumber: string;
+    status: boolean;
+    balance: number;
+    relevantSkills: RelevantSkillsCustom[];
+}
+
+export interface MentorDetailResponse {
+    mentorID: number;
+    Bio: string;
+    CV: string;
+    introductionVideo: string;
+    mentorStatus: MentorStatus;
+    fullName: string;
+    email: string;
+    role: Role;
+    avatar: string;
+    phoneNumber: string;
+    status: boolean;
+    balance: number;
+    relevantSkills: RelevantSkillsCustom[];
+}
+
+export interface RelevantSkillsCustom {
+    skillName: string;
+    description: string;
+}
+
+export enum MentorStatus {
+    ACTIVE = "ACTIVE",
+    INACTIVE = "INACTIVE",
+    PENDING = "PENDING"
+}
+
+export enum Role {
+    MENTOR = "MENTOR",
+    STUDENT = "STUDENT"
+}
+
 
 const createUser = async (user: User): Promise<void> => {
     try {
@@ -39,6 +90,33 @@ const getUserByID = async (id: number): Promise<User> => {
     }
 };
 
+
+const getUserByToken = async (token: string): Promise<StudentDetailResponse | MentorDetailResponse> => {
+    try {
+        const role = localStorage.getItem("ROLE");
+
+        let endpoint = "";
+        if (role === "MENTOR") {
+            endpoint = `${API_BASE_URL}/mentor/get-detail`;
+        } else if (role === "STUDENT") {
+            endpoint = `${API_BASE_URL}/student/get-detail`;
+        } else {
+            throw new Error("Invalid role. Unable to fetch user data.");
+        }
+
+        const response = await axios.get<StudentDetailResponse | MentorDetailResponse>(endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching user by token:", error);
+        throw error;
+    }
+};
+
 const deleteUserByID = async (id: number): Promise<void> => {
     try {
         await axios.delete(`${API_BASE_URL}/user/delete-by-id/${id}`);
@@ -56,4 +134,4 @@ const updateUser = async (user: User, id: number): Promise<User> => {
     }
 };
 
-export { getAllUsers, getUserByID, deleteUserByID, updateUser, createUser };
+export { getAllUsers, getUserByID, deleteUserByID, updateUser, createUser, getUserByToken };
