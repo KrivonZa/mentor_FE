@@ -117,48 +117,6 @@ const useRoutesElements = () => {
           path: "staffs",
           element: <StaffBody />,
         },
-      ],
-    },
-    ,
-    // {
-    //   path: "user",
-    //   element: <UserProfile />,
-    // },
-    {
-      path: "transaction",
-      element: <Transaction />,
-    },
-    {
-      path: "/user",
-      element: <UserLayout />,
-      children: [
-        {
-          index: true,
-          element: <UserProfile />,
-        },
-        {
-          path: "report",
-          element: <Report />
-        },
-        {
-          path: "transaction",
-          element: <Transaction />,
-        }
-
-      ],
-    },
-    {
-      path: "/admin",
-      element: <AdminLayout />,
-      children: [
-        {
-          index: true,
-          element: <UserBody />,
-        },
-        {
-          path: "staffs",
-          element: <StaffBody />,
-        },
         {
           path: "staffs/add-new-staff",
           element: <AddNewStaff />,
