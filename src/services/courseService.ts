@@ -1,6 +1,5 @@
-import React from "react";
-import { apiInstance } from "../constants/apiInstance";
-import { CoursePortalDetail, CreateCourseRequest } from "../types/courseModel";
+import { apiInstance } from '../constants/apiInstance';
+import { CourseDetail, CoursePagination, CoursePortalDetail, CreateCourseRequest, UpdateCourseRequest } from '../types/courseModel';
 
 const courseApi = apiInstance({
   // baseURL: "http://empoweru.trangiangkhanh.site/..."
@@ -38,7 +37,6 @@ const courseService = {
   },
 
   uploadThumbnail: async (file: any) => {
-    console.log("file: ", file.originFileObj);
 
     const formData = new FormData();
     formData.append("file", file.originFileObj); // Ensure you append the actual file object
@@ -50,7 +48,6 @@ const courseService = {
       },
     });
 
-    console.log("upload: ", item.data);
 
     return item.data;
   },
@@ -74,115 +71,44 @@ const courseService = {
         },
       });
 
-      console.log("Create course response:", response.data);
+      // console.log("Create course response:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error creating course:", error);
     }
   },
-};
 
-// export default courseService
+  updateCourse: async (request: UpdateCourseRequest) => {
+    const formData = new FormData();
 
-const courseServiceJS = {
-  getAllCoursePagination: async (page) => {
-    const list = await courseApi.get(
-      `/get-all-courses?page${page}&name=${name}`
+    // Append the file (thumbnail)
+    if(request.thumbnail != null)
+      formData.append('thumbnail', request.thumbnail.originFileObj);
+    
+
+    // Append the JSON object as a Blob
+    formData.append(
+      'course',
+      new Blob([JSON.stringify(request.course)], { type: 'application/json' })
     );
-    return list.data.data;
-  },
 
-  getCourseDetail: async (id) => {
-    const list = await courseApi.get(`/get-detail/${id}`);
-    return list.data;
-  },
-};
+    try {
+      const response = await courseApi.put('/update-course', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-export default courseServiceJS;
+      console.log("skills: ", request.course.skillIDs);
 
-export interface CoursePagination {
-  totalElement: number;
-  totalPage: number;
-  currentPage: number;
-  message?: string;
-  data: CourseOverall[];
+      return response.data;
+      
+    } catch (error) {
+      console.error("Error creating course:", error);
+    }
+
+  }
+
 }
 
-export interface CourseOverall {
-  courseID: number;
-  courseName: string;
-  description: string;
-  price: number;
-  thumbnail: string;
-  freeTrial: boolean;
-  totalStudent: number;
-  remainSlot: number;
-  level: string;
-  numberOfLesson: number;
-  mentor: {
-    mentorID: number;
-    mentorName: string;
-    status: string;
-    avatar: string;
-    favoritedCount: number;
-  };
-  skills: {
-    createdAt: string;
-    skillDetail: {
-      skillID: number;
-      skillName: string;
-      description: string;
-      createdAt: string;
-      updatedAt: string;
-    };
-  }[];
-}
-
-export interface CourseDetail {
-  courseID: number;
-  mentor: {
-    mentorID: number;
-    introductionVideo: string;
-    status: string;
-    feedbacks: any[];
-    bio: string;
-    cv: string;
-    mentorInfo: {
-      fullname: string;
-      email: string;
-      role: string;
-      phoneNumber: string;
-      status: boolean;
-    };
-  };
-  courseName: string;
-  description: string;
-  price: number;
-  thumbnail: string;
-  freeTrial: boolean;
-  totalStudent: number;
-  level: string;
-  updatedAt: string;
-  courseAppointments: {
-    courseAppointmentID: number;
-    createdAt: string;
-    updatedAt: string;
-  }[];
-  lesson: {
-    schedule: {
-      scheduleID: number;
-      startTime: string;
-      endTime: string;
-      createdAt: string;
-      updatedAt: string;
-      booked: boolean;
-    };
-    description: string;
-    lessonStatus: string;
-    trialLesson: boolean;
-    createdAt: string;
-    updatedAt: string;
-    lessonID: number;
-  }[];
-  numberOfLesson: number;
-}
+export default courseService

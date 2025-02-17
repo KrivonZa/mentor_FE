@@ -94,7 +94,7 @@ export const CoursePortalTable = () => {
                                                     <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                                                         <span className="material-symbols-outlined">delete</span>
                                                     </button>
-                                                    <button onClick={() => showCourseDetailModal(course.courseID)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                                    <button onClick={() => showCourseDetailModal(course?.courseID)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                                                         <span className="material-symbols-outlined">visibility</span>
                                                     </button>
                                                 </div>
