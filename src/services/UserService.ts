@@ -117,6 +117,30 @@ const getUserByToken = async (token: string): Promise<StudentDetailResponse | Me
     }
 };
 
+const updateUserProfile = async (userProfileData: StudentDetailResponse | MentorDetailResponse) => {
+    try {
+        const token = localStorage.getItem("USER");
+        const role = localStorage.getItem("ROLE");
+        let endpoint = ""
+        if (role === "MENTOR") {
+            endpoint = `${API_BASE_URL}/mentor/update-mentor-by-token`;
+        } else if (role === "STUDENT") {
+            endpoint = `${API_BASE_URL}/student/update-student-by-token`;
+        }
+        const response = await axios.put(`${endpoint}`, userProfileData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error updating user:", error);
+        throw error;
+    }
+
+};
+
 const deleteUserByID = async (id: number): Promise<void> => {
     try {
         await axios.delete(`${API_BASE_URL}/user/delete-by-id/${id}`);
@@ -134,4 +158,4 @@ const updateUser = async (user: User, id: number): Promise<User> => {
     }
 };
 
-export { getAllUsers, getUserByID, deleteUserByID, updateUser, createUser, getUserByToken };
+export { getAllUsers, getUserByID, deleteUserByID, updateUser, createUser, getUserByToken, updateUserProfile };
