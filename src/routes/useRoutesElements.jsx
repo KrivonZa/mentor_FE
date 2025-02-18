@@ -26,7 +26,7 @@ import {
   UserBody,
   Report
 } from "../modules/adminPage";
-import { UserProfile, Transaction } from "../modules/userPage";
+import { UserProfile, Wallet } from "../modules/userPage";
 
 const useRoutesElements = () => {
   const element = useRoutes([
@@ -99,8 +99,8 @@ const useRoutesElements = () => {
           element: <UserProfile />,
         },
         {
-          path: "transaction",
-          element: <Transaction />,
+          path: "wallet",
+          element: <Wallet />,
         }
 
       ],
