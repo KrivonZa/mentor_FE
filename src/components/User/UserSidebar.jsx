@@ -10,7 +10,7 @@ export function UserSidebar() {
         <ul className="list-unstyled position-relative">
           {[
             { to: "/user", label: "Profile", icon: "man" },
-            { to: "/user/transaction", label: "Transaction", icon: "history" },
+            { to: "/user/wallet", label: "Wallet", icon: "wallet" },
           ].map((item) => (
             <li key={item.to} className="position-relative p-2">
               <Link

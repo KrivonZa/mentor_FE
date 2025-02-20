@@ -3,7 +3,6 @@ import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/LoginLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import UserLayout from "../layouts/UserLayout";
-import ViewProfile from "../layouts/UserLayout/ViewProfile";
 import {
   Homepage,
   About,
@@ -26,7 +25,7 @@ import {
   UserBody,
   Report
 } from "../modules/adminPage";
-import { UserProfile, Transaction } from "../modules/userPage";
+import { UserProfile, Wallet } from "../modules/userPage";
 
 const useRoutesElements = () => {
   const element = useRoutes([
@@ -99,57 +98,9 @@ const useRoutesElements = () => {
           element: <UserProfile />,
         },
         {
-          path:"view-profile",
-          element: <ViewProfile/>
-        }
-        ,
-        {
-          path: "transaction",
-          element: <Transaction />,
-        }
-
-      ],
-    },
-    {
-      path: "/admin",
-      element: <AdminLayout />,
-      children: [
-        {
-          index: true,
-          element: <UserBody />,
+          path: "wallet",
+          element: <Wallet />,
         },
-        {
-          path: "staffs",
-          element: <StaffBody />,
-        },
-      ],
-    },
-    ,
-    // {
-    //   path: "user",
-    //   element: <UserProfile />,
-    // },
-    {
-      path: "transaction",
-      element: <Transaction />,
-    },
-    {
-      path: "/user",
-      element: <UserLayout />,
-      children: [
-        {
-          index: true,
-          element: <UserProfile />,
-        },
-        {
-          path: "report",
-          element: <Report />
-        },
-        {
-          path: "transaction",
-          element: <Transaction />,
-        }
-
       ],
     },
     {

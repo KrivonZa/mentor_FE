@@ -3,7 +3,7 @@ import { LoginRequest, RegisterRequest } from "../types/authModel";
 
 const authenApi = apiInstance({
   // baseURL: "http://empoweru.trangiangkhanh.site/..."
-    baseURL: "http://localhost:9090/empoweru/sba/user"
+    baseURL: "http://empoweru.trangiangkhanh.site/empoweru/sba/user"
 });
 
 export const authenService = {
