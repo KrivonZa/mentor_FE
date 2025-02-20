@@ -3,7 +3,7 @@ import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/LoginLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import UserLayout from "../layouts/UserLayout";
-
+import ViewProfile from "../layouts/UserLayout/ViewProfile";
 import {
   Homepage,
   About,
@@ -98,6 +98,11 @@ const useRoutesElements = () => {
           index: true,
           element: <UserProfile />,
         },
+        {
+          path:"view-profile",
+          element: <ViewProfile/>
+        }
+        ,
         {
           path: "transaction",
           element: <Transaction />,
