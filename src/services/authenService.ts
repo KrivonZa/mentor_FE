@@ -1,4 +1,4 @@
-import { apiInstance } from "../constants/apiInstance";
+import { apiInstance } from "../constants";
 import { LoginRequest, RegisterRequest } from "../types/authModel";
 
 const authenApi = apiInstance({

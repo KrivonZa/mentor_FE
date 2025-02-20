@@ -1,7 +1,7 @@
-import { apiInstance } from "../constants/apiInstance";
+import { apiPrivateInstance } from "../constants";
 import { DepositRequest } from "../types/transactionModel";
 
-const transactionApi = apiInstance({
+const transactionApi = apiPrivateInstance({
   // baseURL: "http://empoweru.trangiangkhanh.site/..."
   baseURL: "http://empoweru.trangiangkhanh.site/empoweru/sba/payment",
 });

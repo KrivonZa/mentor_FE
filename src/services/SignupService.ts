@@ -14,7 +14,7 @@ interface SignupData {
   mentorStatus: "PENDING" | "APPROVED" | "REJECTED";
 }
 
-const API_BASE_URL = "http://localhost:9090/empoweru/sba/user/create-user";
+const API_BASE_URL = "http://empoweru.trangiangkhanh.site/empoweru/sba/user/create-user";
 
 const signUp = async (userData: SignupData): Promise<any> => {
   try {
