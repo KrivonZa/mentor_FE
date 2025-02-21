@@ -16,7 +16,7 @@ export function UserSidebar() {
   }
 
   return (
-    <aside className="position-fixed vh-100 overflow-auto bg-light p-3" style={{ width: "250px" }}>
+    <aside className="vh-100 overflow-auto bg-light p-3" style={{ width: "250px" }}>
       <nav>
         <ul className="list-unstyled position-relative">
           {menuItems.map((item) => (
