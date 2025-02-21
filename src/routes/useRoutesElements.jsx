@@ -27,7 +27,7 @@ import {
   Report
 } from "../modules/adminPage";
 import { UserProfile, Transaction } from "../modules/userPage";
-
+import UserViewSchedule from "../layouts/UserLayout/UserViewSchedule";
 const useRoutesElements = () => {
   const element = useRoutes([
     {
@@ -99,14 +99,18 @@ const useRoutesElements = () => {
           element: <UserProfile />,
         },
         {
-          path:"view-profile",
-          element: <ViewProfile/>
+          path: "view-profile",
+          element: <ViewProfile />
         }
         ,
         {
           path: "transaction",
           element: <Transaction />,
-        }
+        },
+        {
+          path: "view-schedule",
+          element: <UserViewSchedule />
+        },
 
       ],
     },
