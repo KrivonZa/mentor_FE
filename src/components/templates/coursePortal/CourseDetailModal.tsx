@@ -49,7 +49,6 @@ export const CourseDetailModal = () => {
         setSkillOptionList(skillOptions)
     }, [listSkill])
 
-    //* handleFile Render 
     useEffect(() => {
         courseDetailForm.setFieldsValue(courseDetailFormData)
     }, [courseDetailFormData])
@@ -124,7 +123,6 @@ export const CourseDetailModal = () => {
                     totalStudent: courseDetailFormData.totalStudent,
                     level: courseDetailFormData.level,
                 }
-
             }
 
             const response = await courseService.createCourse(request);

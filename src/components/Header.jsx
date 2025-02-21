@@ -27,8 +27,6 @@ export default function Header() {
     setUser(null);
     setTimeout(() => navigate("/"), 0);
   };
-
-
   return (
     <header id="header" className="header d-flex align-items-center sticky-top">
       <div className="container-fluid container-xl position-relative d-flex align-items-center">
@@ -95,7 +93,6 @@ export default function Header() {
                 Contact
               </NavLink>
             </li>
-
             {token ? (
               <li className="dropdown">
                 <NavLink

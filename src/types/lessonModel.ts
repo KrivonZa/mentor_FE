@@ -11,10 +11,12 @@ export interface Lesson {
 }
 
 export interface LessonDetailFormData {
+    lessonID: number;
+    courseID: number;
     description: string;
     lessonStatus: string;
     trialLesson: boolean;
-    schedule: Schedule[];
+    schedule: ScheduleCreateRequest[];
 }
 
 export interface CreateLessonRequest {

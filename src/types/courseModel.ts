@@ -14,6 +14,8 @@ export interface CoursePortalDetail {
     freeTrial: boolean
     totalStudent: number
     level: string
+    status: string
+    verifyStatus: string
     createdAt: string
     updatedAt: string
     lesson: Lesson[]
@@ -56,6 +58,8 @@ export interface CourseDetail {
     freeTrial: boolean
     totalStudent: number
     level: string
+    status: string
+    verifyStatus: string
     updatedAt: string
     courseAppointments: {
         courseAppointmentID: number
@@ -99,6 +103,8 @@ interface CourseOverall {
     totalStudent: number,
     remainSlot: number,
     level: string,
+    status: string
+    verifyStatus: string
     numberOfLesson: number,
     mentor: {
         mentorID: number,

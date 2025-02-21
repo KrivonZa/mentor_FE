@@ -2,11 +2,11 @@ import React, { createContext, Dispatch, SetStateAction, useEffect, useState } f
 import CoursePortalLayout from '../../layouts/CoursePortalLayout';
 import { CourseDetailFormData, CoursePortalDetail } from '../../types/courseModel';
 import courseService from '../../services/courseService';
-import { Schedule } from '../../types/scheduleModel';
+import { Schedule, ScheduleUpdateRequest, SingleScheduleCreateRequest } from '../../types/scheduleModel';
 import skillService from '../../services/skillService';
 import { Skill } from '../../types/skillModel';
 import { UploadFile } from 'antd';
-import { LessonDetailFormData } from '../../types/lessonModel';
+import { Lesson, LessonDetailFormData } from '../../types/lessonModel';
 
 
 interface CoursePortalProps {
@@ -17,14 +17,21 @@ interface CoursePortalProps {
   showCourseDetailModal: (courseID: number) => void
   courseDetailFormData: CourseDetailFormData;
   setCourseDetailFormData: Dispatch<SetStateAction<CourseDetailFormData>>;
-
+  resetCourseDetailModal: () => void
   //lesson
   isLessonDetailModalOpen: boolean;
   setIsLessonDetailModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   lessonDetailFormData: LessonDetailFormData;
   setLessonDetailFormData: Dispatch<SetStateAction<LessonDetailFormData>>
-  showLessonDetailModal: (lessonID: number) => void,
-  resetCourseDetailModal: () => void
+  showLessonDetailModal: (lessonID: number, courseID: number, lessonDetail?: Lesson,) => void;
+  resetLessonDetailModal: () => void;
+
+  //schedule
+  isScheduleModalOpen: boolean;
+  setIsScheduleModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  handleOpenScheduleModal: (lessonID: number) => void
+  scheduleFormData: SingleScheduleCreateRequest
+  setScheduleFormData: React.Dispatch<React.SetStateAction<SingleScheduleCreateRequest>>
 
   //skill
   listSkill: Skill[]
@@ -103,22 +110,48 @@ export const CoursePortalProvider = ({ children }) => {
   //* Lesson Detail Modal
   const [isLessonDetailModalOpen, setIsLessonDetailModalOpen] = useState(false);
   const [lessonDetailFormData, setLessonDetailFormData] = useState<LessonDetailFormData>({
+    lessonID: -1,
+    courseID: -1,
     description: "",
     lessonStatus: "",
     trialLesson: false,
     schedule: [],
   })
 
-  const showLessonDetailModal = (lessonID: number) => {
+  const showLessonDetailModal = (lessonID: number, courseID: number, lessonDetail?: Lesson,) => {
     setIsLessonDetailModalOpen(true);
+    if (lessonID != -1 && lessonDetail) {
+      setLessonDetailFormData({
+        lessonID: lessonDetail?.lessonID || -1,
+        courseID: courseID || -1,
+        description: lessonDetail?.description || "",
+        lessonStatus: lessonDetail?.lessonStatus || "",
+        trialLesson: lessonDetail?.trialLesson || false,
+        schedule: lessonDetail?.schedule || [],
+      })
+    } else{
+      setLessonDetailFormData({
+        lessonID: -1,
+        courseID: courseID || -1,
+        description: "",
+        lessonStatus: "",
+        trialLesson: false,
+        schedule: [],
+      })
+    }
 
-    // setLessonDetailFormData({
-    //   description: lessonDetail?.description || "",
-    //   lessonStatus: lessonDetail?.l || "",
-    //   trialLesson: lessonDetail?.trialLesson || false,
-    //   schedule: lessonDetail?.schedule || [],
-    // })
   };
+
+  const resetLessonDetailModal = () => {
+    setLessonDetailFormData({
+      lessonID: -1,
+      courseID: -1,
+      description: "",
+      lessonStatus: "",
+      trialLesson: false,
+      schedule: [],
+    })
+  }
 
   const fetchPortalDetail = async () => {
     try {
@@ -138,6 +171,26 @@ export const CoursePortalProvider = ({ children }) => {
     }
   }
 
+  //* Schedule Plan Modal
+  const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
+  const [scheduleFormData, setScheduleFormData] = useState<SingleScheduleCreateRequest>({
+          lessonID: -1,
+          startTime: null,
+          endTime: null,
+          googleMeetUrl: null
+      })
+
+  const handleOpenScheduleModal = (lessonID: number) => {
+    setScheduleFormData({
+      lessonID: lessonID,
+      startTime: null,
+      endTime: null,
+      googleMeetUrl: null
+    })
+    setIsScheduleModalOpen(true);
+  }
+
+
   //Fetch for re-use
   useEffect(() => {
     fetchSkills();
@@ -152,8 +205,14 @@ export const CoursePortalProvider = ({ children }) => {
 
       //Lesson
       isLessonDetailModalOpen, setIsLessonDetailModalOpen, showLessonDetailModal,
+      resetLessonDetailModal,
       lessonDetailFormData, setLessonDetailFormData,
 
+      //Schedule
+      isScheduleModalOpen, setIsScheduleModalOpen,
+      handleOpenScheduleModal,
+      scheduleFormData, setScheduleFormData,
+      
       //Skill
       listSkill,
 
