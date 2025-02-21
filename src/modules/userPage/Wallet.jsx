@@ -57,7 +57,7 @@ export function Wallet() {
     };
 
     return (
-        <div className="container mt-5 text-center">
+        <div className="container mt-5 text-center" data-aos="fade-up" data-aos-delay="100">
             <h2 className="mb-4">Your Wallet</h2>
             <div className="card p-4 shadow-lg">
                 <h4>Balance:</h4>

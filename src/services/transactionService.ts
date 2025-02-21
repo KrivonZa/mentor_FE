@@ -1,10 +1,7 @@
-import { apiPrivateInstance } from "../constants";
+import { apiPrivateInstance, API_BASE_URL } from "../constants";
 import { DepositRequest } from "../types/transactionModel";
 
-const transactionApi = apiPrivateInstance({
-  // baseURL: "http://empoweru.trangiangkhanh.site/..."
-  baseURL: "http://empoweru.trangiangkhanh.site/empoweru/sba/payment",
-});
+const transactionApi = apiPrivateInstance({ baseURL: `${API_BASE_URL}/payment` });
 
 export const transactionService = {
   deposit: async (data: DepositRequest) => {

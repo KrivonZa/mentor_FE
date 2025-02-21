@@ -1,10 +1,7 @@
-import { apiInstance } from "../constants";
+import { apiInstance, API_BASE_URL } from "../constants";
 import { LoginRequest, RegisterRequest } from "../types/authModel";
 
-const authenApi = apiInstance({
-  // baseURL: "http://empoweru.trangiangkhanh.site/..."
-    baseURL: "http://localhost:9090/empoweru/sba/user"
-});
+const authenApi = apiInstance({ baseURL: `${API_BASE_URL}/user` });
 
 export const authenService = {
     login: async (data: LoginRequest) => {

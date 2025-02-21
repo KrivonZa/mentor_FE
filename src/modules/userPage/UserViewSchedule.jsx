@@ -1,9 +1,8 @@
 import React from "react";
-// import "../../../public/css/UserViewSchedule.scss"
-import { Header, Footer } from "antd/es/layout/layout";
+import "../../../public/css/UserViewSchedule.scss"
 export const UserViewSchedule = () => {
     return (
-        <div id="webcrumbs">
+        <div id="webcrumbs" className="d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
             <div className="w-[1000px] bg-white rounded-xl shadow-lg p-6 mt-5 ms-5">
                 <div className="flex items-center justify-between mb-6">
                     <h1 className="text-2xl font-bold">Schedule Overview</h1>

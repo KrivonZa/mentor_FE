@@ -1,9 +1,7 @@
-import { apiInstance } from "../constants/apiInstance";
+import { apiInstance, API_BASE_URL } from "../constants";
 import { Skill } from "../types/skillModel";
 
-const skillApi = apiInstance({
-  baseURL: "http://localhost:9090/empoweru/sba/skill"
-});
+const skillApi = apiInstance({ baseURL: `${API_BASE_URL}/skill` });
 
 const skillService = {
   getAllSkill: async (): Promise<Skill[]> => {

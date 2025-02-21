@@ -1,21 +1,11 @@
 import { toast } from 'react-toastify';
-import { apiInstance, apiPrivateInstance } from '../constants';
+import { apiInstance, apiPrivateInstance, API_BASE_URL } from '../constants';
 import { ApiResponse } from '../types/apiModel';
 import { CourseDetail, CoursePagination, CoursePortalDetail, CreateCourseRequest, UpdateCourseRequest } from '../types/courseModel';
 
-const courseApi = apiInstance({
-  // baseURL: "http://empoweru.trangiangkhanh.site/..."
-  // baseURL: "http://empoweru.trangiangkhanh.site/empoweru/sba/course",
-  baseURL: "http://localhost:9090/empoweru/sba/course"
-});
-
-const coursePrivateApi = apiPrivateInstance({
-  baseURL: "http://localhost:9090/empoweru/sba/course"
-})
-
-const thumbnailApi = apiPrivateInstance({
-  baseURL: "http://localhost:9090/empoweru/sba/file",
-});
+const courseApi = apiInstance({ baseURL: `${API_BASE_URL}/course` });
+const coursePrivateApi = apiPrivateInstance({ baseURL: `${API_BASE_URL}/course` });
+const thumbnailApi = apiPrivateInstance({ baseURL: `${API_BASE_URL}/file` });
 
 const courseService = {
   getAllCoursePagination: async (page: number, name: string): Promise<CoursePagination> => {

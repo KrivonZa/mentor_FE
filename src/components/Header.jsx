@@ -97,8 +97,9 @@ export default function Header() {
               <li className="dropdown">
                 <NavLink
                   className="d-flex align-items-center"
+                  to="/user"
                 >
-                  <span className="me-3">{user?.fullName}</span>
+                  <span className="me-3 font-bold">{user?.fullName}</span>
                   <img
                     loading="lazy"
                     src={user?.avatar}
@@ -184,13 +185,13 @@ export default function Header() {
                       My Schedule
                     </NavLink>
                   </li>
-                  {role === "STUDENT" && (
+                  {role === "MENTOR" && (
                     <li>
                       <NavLink
-                        to="/user/weekly-schedule"
+                        to="/user/course-portal"
                         className={({ isActive }) => (isActive ? "active" : "")}
                       >
-                        Weekly Schedule
+                        My Course
                       </NavLink>
                     </li>
                   )}

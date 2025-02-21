@@ -48,7 +48,7 @@ export const UserProfile = () => {
 
     return (
         <div id="webcrumbs">
-            <div className="min-h-screen w-full bg-gray-50 p-4 sm:p-6 lg:p-8">
+            <div className="min-h-screen w-full bg-gray-50 p-4 sm:p-6 lg:p-8" data-aos="fade-up" data-aos-delay="100">
                 <div className="w-full max-w-7xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
                     <div className="flex flex-col lg:flex-row min-h-[calc(100vh-4rem)]">
                         <div className="w-full lg:w-1/3 bg-[#5fd080] p-4 sm:p-6 lg:p-8">
