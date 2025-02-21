@@ -1,7 +1,9 @@
+import { toast } from 'react-toastify';
 import { apiInstance } from '../constants/apiInstance';
+import { ApiResponse } from '../types/apiModel';
 import { CourseDetail, CoursePagination, CoursePortalDetail, CreateCourseRequest, UpdateCourseRequest } from '../types/courseModel';
 
-const categoryApi = apiInstance({
+const courseApi = apiInstance({
   // baseURL: "http://empoweru.trangiangkhanh.site/..."
   baseURL: "http://localhost:9090/empoweru/sba/course"
 });
@@ -12,8 +14,8 @@ const thumbnailApi = apiInstance({
 
 const courseService = {
   getAllCoursePagination: async (page: number, name: string): Promise<CoursePagination> => {
-    const list = await categoryApi.get(`/get-all-courses?page${page}&name=${name}`)
-    return list.data;
+    const list = await courseApi.get(`/get-all-courses?page${page}&name=${name}`)
+    return list.data.data;
   },
 
   getCourseDetail: async (id: number): Promise<CourseDetail> => {
@@ -71,9 +73,9 @@ const courseService = {
     const formData = new FormData();
 
     // Append the file (thumbnail)
-    if(request.thumbnail != null)
+    if (request.thumbnail != null)
       formData.append('thumbnail', request.thumbnail.originFileObj);
-    
+
 
     // Append the JSON object as a Blob
     formData.append(
@@ -91,32 +93,36 @@ const courseService = {
       console.log("skills: ", request.course.skillIDs);
 
       return response.data;
-      
+
     } catch (error) {
       console.error("Error creating course:", error);
     }
 
-  }
-
-}
-
-// export default courseService
-
-
-
-const courseServiceJS = {
-  getAllCoursePagination: async (page) => {
-    const list = await categoryApi.get(`/get-all-courses?page${page}&name=${name}`)
-    return list.data.data;
   },
 
-  getCourseDetail: async (id) => {
-    const list = await categoryApi.get(`/get-detail/${id}`)
-    return list.data;
+  deleteCourse: async (courseID: number): Promise<ApiResponse<CourseDetail> | null> => {
+    try {
+      const response = await courseApi.delete(`/delete-course/${courseID}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting course:", error);
+      toast.error(error.response.data.message);
+      return null;
+    }
+  },
+
+  publishCourse: async (courseID: number, status: string): Promise<ApiResponse<CourseDetail> | null> => {
+    try {
+      const response = await courseApi.patch(`/update-status/${courseID}?status=${status}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting course:", error);
+      toast.error(error.response.data.message);
+      return null;
+    }
   }
+
 }
-
-export default courseServiceJS
-
+export default courseService
 
 

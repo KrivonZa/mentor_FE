@@ -20,6 +20,7 @@ export function LoginForm() {
     try {
       const data = await authenService.login(loginData);
       localStorage.setItem("USER", data.token);
+      localStorage.setItem("ROLE", data.role);
       navigate("/");
     } catch (err) {
       // alert("Invalid credentials")

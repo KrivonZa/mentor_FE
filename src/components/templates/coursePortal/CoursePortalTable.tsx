@@ -7,12 +7,41 @@ import CourseDetailModal from './CourseDetailModal';
 import LessonDetailModal from './LessonDetailModal';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
+import lessonService from '../../../services/lessonService';
+import { Empty } from 'antd';
 
 export const CoursePortalTable = () => {
     const context = useContext(CoursePortalContext);
     if (!context) throw new Error("SomeComponent must be used within a CoursePortalProvider");
 
-    const { listCoursePortal, fetchPortalDetail, showCourseDetailModal, showLessonDetailModal } = context;
+    const { listCoursePortal, fetchPortalDetail, showCourseDetailModal, showLessonDetailModal,
+        resetLessonDetailModal, handleOpenScheduleModal } = context;
+
+
+    const handleDeleteLesson = async (lessonID: number) => {
+        try {
+            const response = await lessonService.deleteLesson(lessonID);
+            await fetchPortalDetail();
+            toast.success(response.message);
+        } catch (error) {
+            console.error(error);
+            toast.error("Delete lesson failed");
+        }
+    }
+
+    const handleDeleteCourse = async (courseID: number) => {
+        try {
+            const response = await courseService.deleteCourse(courseID);
+            if (response) {
+                await fetchPortalDetail();
+                console.log("res: ", response);
+                toast.success(response.message);
+                return
+            }
+        } catch (error) {
+        }
+    }
+
 
     useEffect(() => {
         fetchPortalDetail();
@@ -21,7 +50,7 @@ export const CoursePortalTable = () => {
     return (
         <div id='course-portal'>
             <div id="webcrumbs">
-                <div className="bg-white rounded-lg shadow-lg p-8">
+                <div className="p-8">
                     <div className="flex justify-between items-center mb-8">
                         <h1 className="text-2xl font-bold">Course Management</h1>
                         <button
@@ -47,6 +76,12 @@ export const CoursePortalTable = () => {
                                     <th className="px-6 py-4 text-left text-sm font-semibold">Level</th>
                                     <th className="px-6 py-4 text-left text-sm font-semibold">
                                         Students
+                                    </th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold">
+                                        Status
+                                    </th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold">
+                                        Verify Status
                                     </th>
                                     <th className="px-6 py-4 text-left text-sm font-semibold">
                                         Actions
@@ -87,22 +122,107 @@ export const CoursePortalTable = () => {
                                             </td>
                                             <td className="px-6 py-4">{course.totalStudent}</td>
                                             <td className="px-6 py-4">
-                                                <div className="flex gap-2">
-                                                    <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                                                        <span className="material-symbols-outlined">edit</span>
-                                                    </button>
-                                                    <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                                                        <span className="material-symbols-outlined">delete</span>
-                                                    </button>
-                                                    <button onClick={() => showCourseDetailModal(course?.courseID)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                                                        <span className="material-symbols-outlined">visibility</span>
-                                                    </button>
+                                                {(() => {
+                                                    switch (course.status) {
+                                                        case 'ON':
+                                                            return <span className="px-3 py-1 rounded-full text-sm" style={{ background: "#CCFFCC", color: "#00CC66" }}>Active</span>;
+                                                        default:
+                                                            return <span className="px-3 py-1 rounded-full text-sm" style={{ background: "#e6f373", color: "red" }}>InActive</span>;
+                                                    }
+                                                })()}
+                                            </td>
+                                            <td className="px-6 py-4 text-center">
+                                                {(() => {
+                                                    switch (course.verifyStatus) {
+                                                        // BAN,
+                                                        // REJECT,
+                                                        // PENDING,
+                                                        // APPROVE
+                                                        case 'APPROVE':
+                                                            return <span className="px-3 py-1 rounded-full text-sm fw-bolder d-flex align-items-center" style={{ color: "#00CC66" }}>Approved</span>;
+                                                        case 'PENDING':
+                                                            return <span className="px-3 py-1 rounded-full text-sm fw-bolder d-flex align-items-center" style={{ color: "#f3b25c" }}>Pending</span>;
+                                                        case 'REJECT':
+                                                            return <span className="px-3 py-1 rounded-full text-sm fw-bolder d-flex align-items-center" style={{ color: "purple" }}>Not Approved</span>;
+                                                        //BAN
+                                                        default:
+                                                            return <span className="px-3 py-1 rounded-full text-sm fw-bolder d-flex align-items-center" style={{ color: "red" }}>Ban</span>;
+                                                    }
+                                                })()}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-2 flex-column">
+                                                    <div className='d-flex'>
+                                                        <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                                            onClick={async () => {
+                                                                const result = await Swal.fire({
+                                                                    title: "Delete " + `"${course?.courseName}"` + "?",
+                                                                    text: "You won't be able to revert this!",
+                                                                    icon: "warning",
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: "#3085d6",
+                                                                    cancelButtonColor: "#d33",
+                                                                    confirmButtonText: "Yes, delete it!",
+                                                                });
+
+                                                                if (result.isConfirmed) {
+                                                                    handleDeleteCourse(course?.courseID);
+                                                                }
+                                                            }}
+                                                        >
+                                                            <span className="material-symbols-outlined">delete</span>
+                                                        </button>
+                                                        <button onClick={() => showCourseDetailModal(course?.courseID)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                                            <span className="material-symbols-outlined">edit</span>
+                                                        </button>
+                                                    </div>
+                                                    <div className='d-flex'>
+                                                        <button onClick={async () => {
+                                                            const currentStatus = course.status
+                                                            let title = 'Publish this course?'
+                                                            let text = 'After this course got approved, everyone will able to view this!'
+                                                            let message = 'Publish successfully'
+                                                            let confirmText = 'Yes, publish it!'
+                                                            let reqStatus = 'ON'
+                                                            if (currentStatus == 'ON') {
+                                                                title = 'Suppress this course?'
+                                                                text = 'everyone will not able to view this!'
+                                                                message = 'Suppress successfully'
+                                                                confirmText = 'Yes, suppress it!'
+                                                                reqStatus = 'OFF'
+                                                            }
+                                                            const result = await Swal.fire({
+                                                                title: title,
+                                                                text: text,
+                                                                icon: "info",
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: "#3085d6",
+                                                                cancelButtonColor: "#d33",
+                                                                confirmButtonText: confirmText,
+                                                            });
+
+                                                            if (result.isConfirmed) {
+                                                                await courseService.publishCourse(course.courseID, reqStatus)
+                                                                await fetchPortalDetail()
+                                                                toast.success(message)
+                                                                // await handleDeleteLesson(lesson.lessonID); // Wait for deletion
+                                                            }
+                                                        }}
+                                                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                                            <span className="material-symbols-outlined">visibility</span>
+                                                        </button>
+                                                        <button onClick={() => {
+                                                            toast.warning("This feature is not available yet.")
+                                                        }} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                                            <span className="material-symbols-outlined">publish</span>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
                                         {/* Sub Table Row  */}
                                         <tr className="bg-gray-50">
-                                            <td colSpan={6} className="px-6 py-4">
+                                            <td colSpan={8} className="px-6 py-4">
                                                 <details>
                                                     <summary className="cursor-pointer hover:text-[#5FCF80] transition-colors">
                                                         <span>View Lesson</span>
@@ -110,7 +230,7 @@ export const CoursePortalTable = () => {
                                                     <div className="mt-4 space-y-4">
                                                         <div className='d-flex justify-between'>
                                                             <div></div>
-                                                            <button className="bg-[#5FCF80] hover:bg-[#4ab569] text-white px-4 py-2 rounded-lg flex items-center gap-2 transform hover:scale-105 transition-all duration-300">
+                                                            <button onClick={() => showLessonDetailModal(-1, course.courseID, undefined)} className="bg-[#5FCF80] hover:bg-[#4ab569] text-white px-4 py-2 rounded-lg flex items-center gap-2 transform hover:scale-105 transition-all duration-300">
                                                                 <span className="material-symbols-outlined">add</span> Add
                                                                 Lesson
                                                             </button>
@@ -118,30 +238,31 @@ export const CoursePortalTable = () => {
                                                         <table className="w-full">
                                                             <thead className="bg-gray-100">
                                                                 <tr>
-                                                                    <th className="px-4 py-3 text-left text-sm font-semibold">
+                                                                    <th className="px-4 py-3 text-left text-sm font-semibold text-center">
                                                                         Lesson ID
                                                                     </th>
-                                                                    <th className="px-4 py-3 text-left text-sm font-semibold">
+                                                                    <th className="px-4 py-3 text-left text-sm font-semibold text-center">
                                                                         Description
                                                                     </th>
-                                                                    <th className="px-4 py-3 text-left text-sm font-semibold">
+                                                                    <th className="px-4 py-3 text-left text-sm font-semibold text-center">
                                                                         Status
                                                                     </th>
-                                                                    <th className="px-4 py-3 text-left text-sm font-semibold">
+                                                                    <th className="px-4 py-3 text-left text-sm font-semibold text-center">
                                                                         Trial
                                                                     </th>
-                                                                    <th className="px-4 py-3 text-left text-sm font-semibold">
+                                                                    <th className="px-4 py-3 text-left text-sm font-semibold text-center">
                                                                         Created At
                                                                     </th>
-                                                                    <th className="px-4 py-3 text-left text-sm font-semibold">
-                                                                        Schedules
+                                                                    <th className="px-4 py-3 text-left text-sm font-semibold text-center">
+                                                                        Schedules Count
                                                                     </th>
-                                                                    <th className="px-4 py-3 text-left text-sm font-semibold">
+                                                                    <th className="px-4 py-3 text-left text-sm font-semibold text-center">
                                                                         Actions
                                                                     </th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody className="divide-y divide-gray-200">
+                                                                {course.lesson.length == 0 && <tr><Empty className='w-100' image={Empty.PRESENTED_IMAGE_SIMPLE} /></tr>}
                                                                 {course.lesson?.map((lesson, index) => (
                                                                     <tr key={lesson.lessonID} className="hover:bg-gray-100 transition-colors">
                                                                         <td className="px-4 py-3 text-sm">#{lesson.lessonID}</td>
@@ -157,18 +278,37 @@ export const CoursePortalTable = () => {
                                                                                 : <span className="material-symbols-outlined text-danger">cancel</span>
                                                                             }
                                                                         </td>
-                                                                        <td className="px-4 py-3 text-sm">{lesson.createdAt}</td>
-                                                                        <td className="px-4 py-3 text-sm">{lesson.createdAt}</td>
+                                                                        <td className="px-4 py-3 text-sm text-center">{lesson.createdAt}</td>
+                                                                        <td className="px-4 py-3 text-sm text-center">{lesson.schedule.length}</td>
                                                                         <td className="px-4 py-3">
                                                                             <div className="flex gap-2">
-                                                                                <button className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors">
-                                                                                    <span className="material-symbols-outlined">edit</span>
-                                                                                </button>
-                                                                                <button className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors">
+                                                                                <button onClick={async () => {
+                                                                                    const result = await Swal.fire({
+                                                                                        title: "Are you sure?",
+                                                                                        text: "You won't be able to revert this!",
+                                                                                        icon: "warning",
+                                                                                        showCancelButton: true,
+                                                                                        confirmButtonColor: "#3085d6",
+                                                                                        cancelButtonColor: "#d33",
+                                                                                        confirmButtonText: "Yes, delete it!",
+                                                                                    });
+
+                                                                                    if (result.isConfirmed) {
+                                                                                        await handleDeleteLesson(lesson.lessonID); // Wait for deletion
+                                                                                    }
+                                                                                }}
+                                                                                    className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors">
                                                                                     <span className="material-symbols-outlined">delete</span>
                                                                                 </button>
-                                                                                <button onClick={() => showLessonDetailModal(lesson.lessonID)} className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors">
-                                                                                    <span className="material-symbols-outlined">visibility</span>
+                                                                                <button onClick={() => showLessonDetailModal(lesson.lessonID, course.courseID, lesson)} className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors">
+                                                                                    <span className="material-symbols-outlined">edit</span>
+                                                                                </button>
+                                                                                <button onClick={() => {
+                                                                                    handleOpenScheduleModal(lesson.lessonID);
+                                                                                }} className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors">
+                                                                                    <span className="material-symbols-outlined">
+                                                                                        schedule
+                                                                                    </span>
                                                                                 </button>
                                                                             </div>
                                                                         </td>

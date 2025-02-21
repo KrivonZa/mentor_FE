@@ -21,6 +21,16 @@ export function UserSidebar() {
                 Transaction
               </li>
             </Link>
+            {
+              localStorage.getItem("ROLE") == "MENTOR" && (
+                <Link to="course-portal">
+                  <li className="p-2 hover:bg-gray-100 rounded-lg cursor-pointer transition-colors flex items-center">
+                    <span class="material-symbols-outlined mr-2">schedule</span>
+                    Manage Courses
+                  </li>
+                </Link>
+              )
+            }
           </ul>
         </nav>
       </aside>

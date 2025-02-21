@@ -1,6 +1,10 @@
-import { NavLink } from "react-router-dom";
+import { Avatar, Image } from "antd";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Header() {
+
+  const navigate = useNavigate();
+
   return (
     <header id="header" className="header d-flex align-items-center sticky-top">
       <div className="container-fluid container-xl position-relative d-flex align-items-center">
@@ -166,21 +170,40 @@ export default function Header() {
               </NavLink>
             </li>
             <li>
-              <NavLink
-                to="/auth"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Login
-              </NavLink>
+              {localStorage.getItem("USER")
+                ? (
+                  <NavLink
+                    onClick={() => localStorage.clear()}
+                    to="/auth"
+                    className='text-danger'
+                  >
+                    Logout
+                  </NavLink>
+                )
+                : (<NavLink
+                  to="/auth"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Login
+                </NavLink>)
+              }
+
             </li>
           </ul>
           <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
-
-        <a className="btn-getstarted" href="/courses">
+        {localStorage.getItem("USER")
+          ? (
+            <div className="mx-2">
+              <Avatar onClick={() => { navigate('/user') }} size={40} src="https://mygkhanhs3.s3.ap-southeast-2.amazonaws.com/1739883167784-bob.smith%40example.com-test-img.png" ></Avatar>
+            </div>
+          )
+          : null
+        }
+        {/* <a className="btn-getstarted" href="/courses">
           Get Started
-        </a>
+        </a> */}
       </div>
-    </header>
+    </header >
   );
 }

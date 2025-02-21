@@ -19,10 +19,6 @@ import {
   AddNewStaff,
   MentorBody,
   Report,
-import { LoginForm, SignupForm, ForgotPassForm } from "../modules/authPage"
-import {
-  AddNewStaff,
-  MentorBody,
   StaffBody,
   StudentBody,
   UpdateMentorForm,
@@ -157,6 +153,10 @@ const useRoutesElements = () => {
         {
           path: "transaction",
           element: <Transaction />,
+        },
+        {
+          path: "course-portal",
+          element: <CoursePortal />
         }
 
       ],
