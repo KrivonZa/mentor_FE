@@ -22,7 +22,7 @@ export function LoginForm() {
       localStorage.setItem("USER", data.token);
       const role = localStorage.getItem("ROLE");
       if (role === "STAFF") {
-        console.log("oke")
+        localStorage.setItem("ID", data.id);
         navigate("/admin");
       } else {
         navigate("/");

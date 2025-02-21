@@ -8,7 +8,6 @@ export const UserProfile = () => {
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
-    console.log(user)
 
     useEffect(() => {
         const fetchUser = async () => {
