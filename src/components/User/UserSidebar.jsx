@@ -3,15 +3,23 @@ import { Link, useLocation } from "react-router-dom";
 
 export function UserSidebar() {
   const location = useLocation();
+  const role = localStorage.getItem("ROLE");
+
+  const menuItems = [
+    { to: "/user", label: "Profile", icon: "man" },
+    { to: "/user/wallet", label: "Wallet", icon: "wallet" },
+    { to: "/user/schedule", label: "Schedule", icon: "calendar_month" }
+  ];
+
+  if (role === "STUDENT") {
+    menuItems.push({ to: "/user/weekly-schedule", label: "Weekly Schedule", icon: "calendar_month" });
+  }
 
   return (
     <aside className="position-fixed vh-100 overflow-auto bg-light p-3" style={{ width: "250px" }}>
       <nav>
         <ul className="list-unstyled position-relative">
-          {[
-            { to: "/user", label: "Profile", icon: "man" },
-            { to: "/user/wallet", label: "Wallet", icon: "wallet" },
-          ].map((item) => (
+          {menuItems.map((item) => (
             <li key={item.to} className="position-relative p-2">
               <Link
                 to={item.to}
@@ -32,7 +40,6 @@ export function UserSidebar() {
           ))}
         </ul>
       </nav>
-
       <style>
         {`
           .chevron-icon {

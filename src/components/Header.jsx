@@ -1,10 +1,12 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react"
 import { getUserByToken } from "../services/UserService";
 
 export default function Header() {
   const [user, setUser] = useState(null);
   const token = localStorage.getItem("USER")
+  const role = localStorage.getItem("ROLE")
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -21,10 +23,11 @@ export default function Header() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("USER");
-    localStorage.removeItem("ROLE");
+    ["USER", "ROLE"].forEach(key => localStorage.removeItem(key));
     setUser(null);
+    setTimeout(() => navigate("/"), 0);
   };
+
 
   return (
     <header id="header" className="header d-flex align-items-center sticky-top">
@@ -178,15 +181,24 @@ export default function Header() {
                   </li>
                   <li>
                     <NavLink
-                      to="#"
+                      to="/user/schedule"
                       className={({ isActive }) => (isActive ? "active" : "")}
                     >
-                      Dropdown 3
+                      My Schedule
                     </NavLink>
                   </li>
+                  {role === "STUDENT" & (
+                    <li>
+                      <NavLink
+                        to="/user/weekly-schedule"
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                      >
+                        Weekly Schedule
+                      </NavLink>
+                    </li>
+                  )}
                   <li>
                     <NavLink
-                      to="#"
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={handleLogout}
                     >
