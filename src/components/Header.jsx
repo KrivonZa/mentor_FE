@@ -27,10 +27,8 @@ export default function Header() {
     setUser(null);
     setTimeout(() => navigate("/"), 0);
   };
-
-
   return (
-    <header id="header" className="header d-flex align-items-center sticky-top">
+    <header id="header" className="header d-flex align-items-center sticky-top" style={{zIndex: '10'}}>
       <div className="container-fluid container-xl position-relative d-flex align-items-center">
         <a href="/" className="logo d-flex align-items-center me-auto">
           {/* <img src="/img/logo.png" alt="" /> */}
@@ -95,7 +93,6 @@ export default function Header() {
                 Contact
               </NavLink>
             </li>
-
             {token ? (
               <li className="dropdown">
                 <NavLink
@@ -187,7 +184,7 @@ export default function Header() {
                       My Schedule
                     </NavLink>
                   </li>
-                  {role === "STUDENT" & (
+                  {role === "STUDENT" && (
                     <li>
                       <NavLink
                         to="/user/weekly-schedule"

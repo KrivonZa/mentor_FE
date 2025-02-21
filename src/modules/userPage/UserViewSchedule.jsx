@@ -1,5 +1,5 @@
 import React from "react";
-import "../../../public/css/UserViewSchedule.scss"
+// import "../../../public/css/UserViewSchedule.scss"
 import { Header, Footer } from "antd/es/layout/layout";
 export const UserViewSchedule = () => {
     return (
