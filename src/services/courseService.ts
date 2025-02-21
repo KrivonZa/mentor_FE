@@ -5,11 +5,12 @@ import { CourseDetail, CoursePagination, CoursePortalDetail, CreateCourseRequest
 
 const courseApi = apiInstance({
   // baseURL: "http://empoweru.trangiangkhanh.site/..."
-  baseURL: "http://empoweru.trangiangkhanh.site/empoweru/sba/course",
+  // baseURL: "http://empoweru.trangiangkhanh.site/empoweru/sba/course",
+  baseURL: "http://localhost:9090/empoweru/sba/course"
 });
 
 const thumbnailApi = apiInstance({
-  baseURL: "http://empoweru.trangiangkhanh.site/empoweru/sba/file",
+  baseURL: "http://localhost:9090/empoweru/sba/file",
 });
 
 const courseService = {

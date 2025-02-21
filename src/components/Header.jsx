@@ -184,7 +184,7 @@ export default function Header() {
                       My Schedule
                     </NavLink>
                   </li>
-                  {role === "STUDENT" & (
+                  {role === "STUDENT" && (
                     <li>
                       <NavLink
                         to="/user/weekly-schedule"

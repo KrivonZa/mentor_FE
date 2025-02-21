@@ -3,7 +3,7 @@ import { apiInstance } from '../constants/apiInstance';
 
 // API Instance
 const reportApi = apiInstance({
-  baseURL: "http://empoweru.trangiangkhanh.site/empoweru/sba/Report"
+  baseURL: "http://localhost:9090/empoweru/sba/Report"
 });
 
 // Service Object
