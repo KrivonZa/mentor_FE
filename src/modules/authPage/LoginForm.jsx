@@ -24,6 +24,7 @@ export function LoginForm() {
       if (role === "STAFF") {
         localStorage.setItem("ID", data.id);
         navigate("/admin");
+        window.location.reload();
       } else {
         navigate("/");
         window.location.reload();
