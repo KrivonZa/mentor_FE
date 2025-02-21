@@ -74,7 +74,7 @@ export interface CourseDetail {
             createdAt: string
             updatedAt: string
             booked: boolean
-        }
+        }[]
         description: string
         lessonStatus: string
         trialLesson: boolean
