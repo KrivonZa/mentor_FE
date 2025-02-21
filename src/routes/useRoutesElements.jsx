@@ -25,7 +25,7 @@ import {
   UserBody,
   Report
 } from "../modules/adminPage";
-import { UserProfile, Wallet, UserViewSchedule, CourseDetailSchedule } from "../modules/userPage";
+import { UserProfile, Wallet, UserViewSchedule } from "../modules/userPage";
 import { NotFound, ServerError } from "../modules/errorPage"
 
 const role = localStorage.getItem("ROLE")
@@ -114,33 +114,33 @@ const useRoutesElements = () => {
           ],
         },] : []),
 
-    //routes dành riêng cho STUDENT
-    ...(role === "STUDENT" ?
-      [
-        {
-          path: "/user",
-          element: <UserLayout />,
-          children: [
-            {
-              path: "weekly-schedule",
-              element: <CourseDetailSchedule />,
-            },
-          ],
-        },] : []),
-
-    // //routes dành riêng cho MENTOR
-    // ...(role === "MENTOR" ?
+    // //routes dành riêng cho STUDENT
+    // ...(role === "STUDENT" ?
     //   [
     //     {
     //       path: "/user",
     //       element: <UserLayout />,
     //       children: [
     //         {
-    //           path: "schedule",
-    //           element: <UserViewSchedule />,
+    //           path: "weekly-schedule",
+    //           element: <CourseDetailSchedule />,
     //         },
     //       ],
     //     },] : []),
+
+    // //routes dành riêng cho MENTOR
+    ...(role === "MENTOR" ?
+      [
+        {
+          path: "/user",
+          element: <UserLayout />,
+          children: [
+            {
+              path: "course-portal",
+              element: <CoursePortal />
+            }
+          ],
+        },] : []),
 
     //routes dành cho Admin
     ...(role === "STAFF" ? [

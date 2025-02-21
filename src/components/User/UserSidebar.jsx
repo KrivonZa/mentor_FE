@@ -11,8 +11,12 @@ export function UserSidebar() {
     { to: "/user/schedule", label: "Schedule", icon: "calendar_month" }
   ];
 
-  if (role === "STUDENT") {
-    menuItems.push({ to: "/user/weekly-schedule", label: "Weekly Schedule", icon: "event" });
+  // if (role === "STUDENT") {
+  //   menuItems.push({ to: "/user/weekly-schedule", label: "Weekly Schedule", icon: "event" });
+  // }
+
+  if (role === "MENTOR") {
+    menuItems.push({ to: "/user/course-portal", label: "Manage Courses", icon: "list_alt" });
   }
 
   return (

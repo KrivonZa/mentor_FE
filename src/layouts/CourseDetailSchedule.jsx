@@ -1,5 +1,5 @@
 import React from 'react'
-import "../../../public/css/CourseDetailSchedule.scss";
+import "../../public/css/CourseDetailSchedule.scss";
 export const CourseDetailSchedule = () => {
     return (
         <div id="tabs" className="tabs p-5">

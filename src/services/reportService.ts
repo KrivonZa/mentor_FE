@@ -1,10 +1,8 @@
 import React from 'react';
-import { apiInstance } from '../constants/apiInstance';
+import { apiInstance, API_BASE_URL } from '../constants';
 
 // API Instance
-const reportApi = apiInstance({
-  baseURL: "http://empoweru.trangiangkhanh.site/empoweru/sba/Report"
-});
+const reportApi = apiInstance({ baseURL: `${API_BASE_URL}/Report` });
 
 // Service Object
 export const reportService = {

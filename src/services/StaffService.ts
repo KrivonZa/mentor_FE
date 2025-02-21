@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const API_BASE_URL = "http://empoweru.trangiangkhanh.site/empoweru/sba";
+import { API_BASE_URL } from "../constants"
 
 // Define a staff interface
 interface Staff {
