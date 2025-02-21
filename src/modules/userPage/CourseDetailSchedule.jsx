@@ -1,11 +1,11 @@
 import React from 'react'
-import "../../../../public/css/CourseDetailSchedule.scss";
+import "../../../public/css/CourseDetailSchedule.scss";
 export const CourseDetailSchedule = () => {
     return (
-        <section id="tabs" className="tabs section">
+        <section id="tabs" className="tabs section p-5">
             <div className="container" data-aos="fade-up" data-aos-delay="100">
                 <div className="col-lg-12 mb-5">
-                    <div id="webcrumbs">
+                    <div id="webcrumbs" className='d-flex justify-content-center align-items-center'>
                         <div className="w-[1024px] bg-white rounded-xl shadow-lg p-6">
                             <div className="flex items-center justify-between mb-6">
                                 <h1 className="text-2xl font-bold">Weekly Schedule</h1>
@@ -180,5 +180,3 @@ export const CourseDetailSchedule = () => {
         </section>
     )
 }
-
-export default CourseDetailSchedule

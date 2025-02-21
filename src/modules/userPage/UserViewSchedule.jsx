@@ -62,4 +62,3 @@ export const UserViewSchedule = () => {
         </div>
     )
 }
-export default UserViewSchedule;

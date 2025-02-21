@@ -1,9 +1,8 @@
-import { useRoutes, useLocation } from "react-router-dom";
+import { useRoutes, useLocation, Navigate } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/LoginLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import UserLayout from "../layouts/UserLayout";
-import ViewProfile from "../layouts/UserLayout/ViewProfile";
 import {
   Homepage,
   About,
@@ -26,8 +25,10 @@ import {
   UserBody,
   Report
 } from "../modules/adminPage";
-import { UserProfile, Transaction } from "../modules/userPage";
-import UserViewSchedule from "../layouts/UserLayout/UserViewSchedule";
+import { UserProfile, Wallet, UserViewSchedule, CourseDetailSchedule } from "../modules/userPage";
+import { NotFound, ServerError } from "../modules/errorPage"
+
+const role = localStorage.getItem("ROLE")
 const useRoutesElements = () => {
   const element = useRoutes([
     {
@@ -90,109 +91,113 @@ const useRoutesElements = () => {
         },
       ],
     },
-    {
-      path: "/user",
-      element: <UserLayout />,
-      children: [
-        {
-          index: true,
-          element: <UserProfile />,
-        },
-        {
-          path: "view-profile",
-          element: <ViewProfile />
-        }
-        ,
-        {
-          path: "transaction",
-          element: <Transaction />,
-        },
-        {
-          path: "view-schedule",
-          element: <UserViewSchedule />
-        },
 
-      ],
-    },
+    //routes dành cho Student và MENTOR
+    ...(role === "STUDENT" || role === "MENTOR" ?
+      [
+        {
+          path: "/user",
+          element: <UserLayout />,
+          children: [
+            {
+              index: true,
+              element: <UserProfile />,
+            },
+            {
+              path: "wallet",
+              element: <Wallet />,
+            },
+            {
+              path: "schedule",
+              element: <UserViewSchedule />,
+            },
+          ],
+        },] : []),
+
+    //routes dành riêng cho STUDENT
+    ...(role === "STUDENT" ?
+      [
+        {
+          path: "/user",
+          element: <UserLayout />,
+          children: [
+            {
+              path: "weekly-schedule",
+              element: <CourseDetailSchedule />,
+            },
+          ],
+        },] : []),
+
+    // //routes dành riêng cho MENTOR
+    // ...(role === "MENTOR" ?
+    //   [
+    //     {
+    //       path: "/user",
+    //       element: <UserLayout />,
+    //       children: [
+    //         {
+    //           path: "schedule",
+    //           element: <UserViewSchedule />,
+    //         },
+    //       ],
+    //     },] : []),
+
+    //routes dành cho Admin
+    ...(role === "STAFF" ? [
+      {
+        path: "/admin",
+        element: <AdminLayout />,
+        children: [
+          {
+            index: true,
+            element: <UserBody />,
+          },
+          {
+            path: "staffs",
+            element: <StaffBody />,
+          },
+          {
+            path: "staffs/add-new-staff",
+            element: <AddNewStaff />,
+          },
+          {
+            path: "mentors",
+            element: <MentorBody />,
+          },
+          {
+            path: "mentors/update-mentor",
+            element: <UpdateMentorForm />,
+          },
+          {
+            path: "staffs/update-staff",
+            element: <UpdateStaffForm />,
+          },
+          {
+            path: "students",
+            element: <StudentBody />,
+          },
+          {
+            path: "report",
+            element: <Report />,
+          },
+        ],
+      },
+    ] : []),
     {
       path: "/admin",
-      element: <AdminLayout />,
-      children: [
-        {
-          index: true,
-          element: <UserBody />,
-        },
-        {
-          path: "staffs",
-          element: <StaffBody />,
-        },
-      ],
-    },
-    ,
-    // {
-    //   path: "user",
-    //   element: <UserProfile />,
-    // },
-    {
-      path: "transaction",
-      element: <Transaction />,
+      element: <Navigate to="*" replace />,
     },
     {
       path: "/user",
-      element: <UserLayout />,
-      children: [
-        {
-          index: true,
-          element: <UserProfile />,
-        },
-        {
-          path: "report",
-          element: <Report />
-        },
-        {
-          path: "transaction",
-          element: <Transaction />,
-        }
-
-      ],
+      element: <Navigate to="/auth" replace />,
     },
     {
-      path: "/admin",
-      element: <AdminLayout />,
-      children: [
-        {
-          index: true,
-          element: <UserBody />,
-        },
-        {
-          path: "staffs",
-          element: <StaffBody />,
-        },
-        {
-          path: "staffs/add-new-staff",
-          element: <AddNewStaff />,
-        },
-        {
-          path: "mentors",
-          element: <MentorBody />,
-        },
-        {
-          path: "mentors/update-mentor",
-          element: <UpdateMentorForm />,
-        },
-        {
-          path: "staffs/update-staff",
-          element: <UpdateStaffForm />,
-        },
-        {
-          path: "students",
-          element: <StudentBody />,
-        },
-        {
-          path: "report",
-          element: <Report />,
-        },
-      ],
+      path: "*",
+      element: <NotFound />,
+    },
+    {
+      path: "/500",
+      element: <ServerError />,
     },
   ]);
   return element;

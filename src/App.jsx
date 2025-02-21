@@ -2,6 +2,7 @@ import useRoutesElements from "./routes/useRoutesElements";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { ConfigProvider } from "antd";
+import { AuthVerify } from "./thirdParty"
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -19,6 +20,7 @@ function App() {
     <ConfigProvider theme={{}}>
       <ScrollToTop />
       {routesElements}
+      <AuthVerify />
     </ConfigProvider>
   );
 }

@@ -20,7 +20,14 @@ export function LoginForm() {
     try {
       const data = await authenService.login(loginData);
       localStorage.setItem("USER", data.token);
-      navigate("/");
+      const role = localStorage.getItem("ROLE");
+      if (role === "STAFF") {
+        localStorage.setItem("ID", data.id);
+        navigate("/admin");
+      } else {
+        navigate("/");
+        window.location.reload();
+      }
     } catch (err) {
       // alert("Invalid credentials")
       toast.error("Invalid Username or Password");
