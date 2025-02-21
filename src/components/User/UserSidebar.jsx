@@ -12,18 +12,18 @@ export function UserSidebar() {
   ];
 
   if (role === "STUDENT") {
-    menuItems.push({ to: "/user/weekly-schedule", label: "Weekly Schedule", icon: "calendar_month" });
+    menuItems.push({ to: "/user/weekly-schedule", label: "Weekly Schedule", icon: "event" });
   }
 
   return (
-    <aside className="vh-100 overflow-auto bg-light p-3" style={{ width: "250px" }}>
+    <aside className="overflow-auto p-3" style={{ width: "250px" }}>
       <nav>
         <ul className="list-unstyled position-relative">
           {menuItems.map((item) => (
             <li key={item.to} className="position-relative p-2">
               <Link
                 to={item.to}
-                className={`d-flex align-items-center ps-4 p-2 text-success text-decoration-none rounded fw-bold transition 
+                className={`d-flex align-items-center pe-4 p-2 text-success text-decoration-none rounded fw-bold transition 
                   ${location.pathname === item.to ? "bg-success text-white" : ""}`}
                 style={{ transition: "all 0.3s ease-in-out", position: "relative" }}
               >

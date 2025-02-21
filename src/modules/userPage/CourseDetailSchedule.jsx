@@ -2,7 +2,7 @@ import React from 'react'
 import "../../../public/css/CourseDetailSchedule.scss";
 export const CourseDetailSchedule = () => {
     return (
-        <section id="tabs" className="tabs section p-5">
+        <div id="tabs" className="tabs p-5">
             <div className="container" data-aos="fade-up" data-aos-delay="100">
                 <div className="col-lg-12 mb-5">
                     <div id="webcrumbs" className='d-flex justify-content-center align-items-center'>
@@ -177,6 +177,6 @@ export const CourseDetailSchedule = () => {
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     )
 }
