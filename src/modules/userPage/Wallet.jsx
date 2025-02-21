@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import transactionService from "../../services/transactionService";
 import { getUserByToken } from "../../services/UserService";
+import "./styles.css"
 
 export function Wallet() {
     const [balance, setBalance] = useState(0);
@@ -16,7 +17,7 @@ export function Wallet() {
 
             try {
                 const userData = await getUserByToken(token);
-                setBalance(userData.data.balance)
+                setBalance(userData.data.balance);
             } catch (err) {
                 console.error("Error fetching user:", err);
             }
@@ -42,14 +43,11 @@ export function Wallet() {
                 if (response?.payUrl) {
                     window.open(response.payUrl, "_blank");
                 }
-
-                if (response?.payUrl) {
-                    window.open(response.payUrl, "_blank");
-                }
             } catch (error) {
                 console.error("Lỗi khi nạp tiền:", error);
             }
         } else if (action === "withdraw" && value <= balance) {
+            // Xử lý rút tiền
         }
 
         setAmount("");
@@ -57,30 +55,23 @@ export function Wallet() {
     };
 
     return (
-        <div className="container mt-5 text-center" data-aos="fade-up" data-aos-delay="100">
-            <h2 className="mb-4">Your Wallet</h2>
-            <div className="card p-4 shadow-lg">
-                <h4>Balance:</h4>
-                <h2 className="text-primary">{balance.toLocaleString()}đ</h2>
-                <div className="mt-4 d-flex justify-content-center gap-3">
-                    <button className="btn btn-success px-4" onClick={() => handleShow("deposit")}>Deposit</button>
-                    <button className="btn btn-danger px-4" onClick={() => handleShow("withdraw")}>Withdraw</button>
+        <div className="container d-flex justify-content-center pt-5">
+            <div className="card rounded-5 shadow-lg p-4 text-center" style={{ width: "30%" }}>
+                <h2 className="mb-4 text-primary fw-bold">Your Wallet</h2>
+                <div className="bg-light p-3 rounded-4 mb-4">
+                    <h5 className="text-muted">Balance</h5>
+                    <h2 className="text-success fw-bold">{balance.toLocaleString()}đ</h2>
                 </div>
+                <button className="btn btn-success w-100 mb-2" onClick={() => handleShow("deposit")}>Deposit</button>
+                <button className="btn btn-danger w-100" onClick={() => handleShow("withdraw")}>Withdraw</button>
             </div>
-            <div className="mt-4">
-                <h5>Transaction History</h5>
-                <ul className="list-group text-start">
-                    <li className="list-group-item">Nạp: $500 - 01/02/2024</li>
-                    <li className="list-group-item">Rút: $200 - 03/02/2024</li>
-                    <li className="list-group-item">Nạp: $100 - 05/02/2024</li>
-                </ul>
-            </div>
+
             {show && (
-                <div className="modal d-block" tabIndex="-1">
-                    <div className="modal-dialog">
-                        <div className="modal-content">
+                <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content rounded-4 shadow-lg">
                             <div className="modal-header">
-                                <h5 className="modal-title text-uppercase">{action === "deposit" ? "Nạp Tiền" : "Rút Tiền"}</h5>
+                                <h5 className="modal-title fw-bold">{action === "deposit" ? "Nạp Tiền" : "Rút Tiền"}</h5>
                                 <button type="button" className="btn-close" onClick={handleClose}></button>
                             </div>
                             <div className="modal-body">
@@ -91,13 +82,14 @@ export function Wallet() {
                                         className="form-control"
                                         value={amount}
                                         onChange={(e) => setAmount(e.target.value)}
-                                        placeholder="Input your amount"
+                                        placeholder="Enter amount"
+                                        style={{ appearance: "textfield", MozAppearance: "textfield" }}
                                     />
                                 </div>
                                 {action === "deposit" && (
                                     <div className="mb-3">
-                                        <label className="form-label fw-bold">Choose your payment method</label>
-                                        <div className="d-flex gap-3">
+                                        <label className="form-label fw-bold">Payment Method</label>
+                                        <div className="d-flex flex-column gap-2">
                                             {["MOMO", "VNPAY", "NAPAS"].map((method) => (
                                                 <div key={method} className="form-check">
                                                     <input
