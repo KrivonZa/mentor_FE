@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { apiInstance } from '../constants/apiInstance';
+import { apiInstance, apiPrivateInstance } from '../constants';
 import { ApiResponse } from '../types/apiModel';
 import { CourseDetail, CoursePagination, CoursePortalDetail, CreateCourseRequest, UpdateCourseRequest } from '../types/courseModel';
 
@@ -9,7 +9,11 @@ const courseApi = apiInstance({
   baseURL: "http://localhost:9090/empoweru/sba/course"
 });
 
-const thumbnailApi = apiInstance({
+const coursePrivateApi = apiPrivateInstance({
+  baseURL: "http://localhost:9090/empoweru/sba/course"
+})
+
+const thumbnailApi = apiPrivateInstance({
   baseURL: "http://localhost:9090/empoweru/sba/file",
 });
 
@@ -28,7 +32,7 @@ const courseService = {
     mentorID: number,
     page: number
   ): Promise<CoursePortalDetail[]> => {
-    const list = await courseApi.get(
+    const list = await coursePrivateApi.get(
       `/get-all-course-by-mentor/${mentorID}?page=${page}&size=5`
     );
     return list.data.data;
@@ -63,7 +67,7 @@ const courseService = {
     );
 
     try {
-      const response = await courseApi.post("/create-course", formData, {
+      const response = await coursePrivateApi.post("/create-course", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -91,36 +95,7 @@ const courseService = {
     );
 
     try {
-      const response = await courseApi.put('/update-course', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      // console.log("Create course response:", response.data);
-      return response.data;
-
-    } catch (error) {
-      console.error("Error creating course:", error);
-    }
-  },
-
-  updateCourse: async (request: UpdateCourseRequest) => {
-    const formData = new FormData();
-
-    // Append the file (thumbnail)
-    if (request.thumbnail != null)
-      formData.append('thumbnail', request.thumbnail.originFileObj);
-
-
-    // Append the JSON object as a Blob
-    formData.append(
-      'course',
-      new Blob([JSON.stringify(request.course)], { type: 'application/json' })
-    );
-
-    try {
-      const response = await courseApi.put('/update-course', formData, {
+      const response = await coursePrivateApi.put('/update-course', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -138,7 +113,7 @@ const courseService = {
 
   deleteCourse: async (courseID: number): Promise<ApiResponse<CourseDetail> | null> => {
     try {
-      const response = await courseApi.delete(`/delete-course/${courseID}`);
+      const response = await coursePrivateApi.delete(`/delete-course/${courseID}`);
       return response.data;
     } catch (error) {
       console.error("Error deleting course:", error);
@@ -149,7 +124,7 @@ const courseService = {
 
   publishCourse: async (courseID: number, status: string): Promise<ApiResponse<CourseDetail> | null> => {
     try {
-      const response = await courseApi.patch(`/update-status/${courseID}?status=${status}`);
+      const response = await coursePrivateApi.patch(`/update-status/${courseID}?status=${status}`);
       return response.data;
     } catch (error) {
       console.error("Error deleting course:", error);

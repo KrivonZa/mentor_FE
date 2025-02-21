@@ -129,18 +129,22 @@ const useRoutesElements = () => {
         },] : []),
 
     // //routes dành riêng cho MENTOR
-    // ...(role === "MENTOR" ?
-    //   [
-    //     {
-    //       path: "/user",
-    //       element: <UserLayout />,
-    //       children: [
-    //         {
-    //           path: "schedule",
-    //           element: <UserViewSchedule />,
-    //         },
-    //       ],
-    //     },] : []),
+    ...(role === "MENTOR" ?
+      [
+        {
+          path: "/user",
+          element: <UserLayout />,
+          children: [
+            // {
+            //   path: "schedule",
+            //   element: <UserViewSchedule />,
+            // },
+            {
+              path: "course-portal",
+              element: <CoursePortal />
+            }
+          ],
+        },] : []),
 
     //routes dành cho Admin
     ...(role === "STAFF" ? [

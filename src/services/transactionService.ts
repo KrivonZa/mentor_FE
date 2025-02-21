@@ -3,7 +3,7 @@ import { DepositRequest } from "../types/transactionModel";
 
 const transactionApi = apiPrivateInstance({
   // baseURL: "http://empoweru.trangiangkhanh.site/..."
-  baseURL: "http://localhost:9090/empoweru/sba/payment",
+  baseURL: "http://empoweru.trangiangkhanh.site/empoweru/sba/payment",
 });
 
 export const transactionService = {

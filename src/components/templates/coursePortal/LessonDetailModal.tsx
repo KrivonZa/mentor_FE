@@ -98,7 +98,6 @@ const LessonDetailModal = () => {
                 setIsLessonDetailModalOpen(false);
             }
         } else {
-            toast.warning("Update Lesson")
             try {
                 const response = await lessonService.updateLesson(lessonDetailFormData)
 

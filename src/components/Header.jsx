@@ -28,7 +28,7 @@ export default function Header() {
     setTimeout(() => navigate("/"), 0);
   };
   return (
-    <header id="header" className="header d-flex align-items-center sticky-top">
+    <header id="header" className="header d-flex align-items-center sticky-top" style={{zIndex: '10'}}>
       <div className="container-fluid container-xl position-relative d-flex align-items-center">
         <a href="/" className="logo d-flex align-items-center me-auto">
           {/* <img src="/img/logo.png" alt="" /> */}

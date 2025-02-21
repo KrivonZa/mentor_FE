@@ -1,8 +1,8 @@
-import { apiInstance } from "../constants/apiInstance";
+import { apiInstance, apiPrivateInstance } from '../constants';
 import { ApiResponse } from "../types/apiModel";
 import { Schedule, ScheduleUpdateRequest, SingleScheduleCreateRequest } from "../types/scheduleModel";
 
-const scheduleApi = apiInstance({
+const scheduleApi = apiPrivateInstance({
   baseURL: "http://localhost:9090/empoweru/sba/schedule"
 });
 
