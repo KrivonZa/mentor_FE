@@ -57,10 +57,10 @@ export function Wallet() {
     return (
         <div className="container d-flex justify-content-center pt-5">
             <div className="card rounded-5 shadow-lg p-4 text-center" style={{ width: "30%" }}>
-                <h2 className="mb-4 text-primary fw-bold">Your Wallet</h2>
+                <h2 className="mb-4 text-primary fw-bold h2">Your Wallet</h2>
                 <div className="bg-light p-3 rounded-4 mb-4">
-                    <h5 className="text-muted">Balance</h5>
-                    <h2 className="text-success fw-bold">{balance.toLocaleString()}đ</h2>
+                    <h5 className="h3">Balance</h5>
+                    <h2 className="text-success fw-bold h1">{balance.toLocaleString()}đ</h2>
                 </div>
                 <button className="btn btn-success w-100 mb-2" onClick={() => handleShow("deposit")}>Deposit</button>
                 <button className="btn btn-danger w-100" onClick={() => handleShow("withdraw")}>Withdraw</button>
