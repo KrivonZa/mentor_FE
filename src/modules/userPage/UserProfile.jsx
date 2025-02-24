@@ -1,29 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { getUserByToken } from "../../services/UserService";
 import { updateUserProfile } from "../../services/UserService";
 import '../../../public/css/ViewProfile.scss';
+import { useUser } from "../../global/userContext";
 
 export const UserProfile = () => {
-    const [user, setUser] = useState(null);
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
+    const { user } = useUser();
 
     useEffect(() => {
-        const fetchUser = async () => {
-            const token = localStorage.getItem("USER");
-            if (!token) return;
-
-            try {
-                const userData = await getUserByToken(token);
-                setUser(userData.data);
-                setFormData(userData.data);
-            } catch (err) {
-                console.error("Error fetching user:", err);
-            }
-        };
-        fetchUser();
-    }, []);
+        setFormData(user);
+    }, [user]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
