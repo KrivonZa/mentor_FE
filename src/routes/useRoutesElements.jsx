@@ -13,7 +13,8 @@ import {
   Pricing,
   Contact,
   CourseDetail,
-  CoursePortal
+  CoursePortal,
+  Checkout
 } from "../modules/mainPage";
 import { LoginForm, SignupForm, ForgotPassForm } from "../modules/authPage"
 import {
@@ -40,6 +41,7 @@ const titleMap = {
   "/events": "Events",
   "/pricing": "Pricing",
   "/contact": "Contact",
+  "/checkout": "Checkout",
   "/auth": "Log in",
   "/auth/signup": "Sign up",
   "/auth/update-password": "Forget Password",
@@ -113,6 +115,10 @@ const useRoutesElements = () => {
         {
           path: "contact",
           element: <Contact />,
+        },
+        {
+          path: "checkout/:courseID",
+          element: <Checkout />,
         },
       ],
     },
