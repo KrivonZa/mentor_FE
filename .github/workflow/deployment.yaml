@@ -37,4 +37,4 @@ jobs:
             docker stop sba_frontend || true
             docker rm sba_frontend || true
             docker image prune -f
-            docker run -d --name sba_frontend -p 9090:9090 ${{ secrets.DOCKER_HUB_GKHANH_USERNAME }}/sba_frontend:$COMMIT_HASH
+            docker run -d --name sba_frontend -p 9080:80 ${{ secrets.DOCKER_HUB_GKHANH_USERNAME }}/sba_frontend:$COMMIT_HASH
