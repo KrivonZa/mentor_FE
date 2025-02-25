@@ -1,15 +1,28 @@
-import { toast } from 'react-toastify';
-import { apiInstance, apiPrivateInstance, API_BASE_URL } from '../constants';
-import { ApiResponse } from '../types/apiModel';
-import { CourseDetail, CoursePagination, CoursePortalDetail, CreateCourseRequest, UpdateCourseRequest } from '../types/courseModel';
+import { toast } from "react-toastify";
+import { apiInstance, apiPrivateInstance, API_BASE_URL } from "../constants";
+import { ApiResponse } from "../types/apiModel";
+import {
+  CourseDetail,
+  CoursePagination,
+  CoursePortalDetail,
+  CreateCourseRequest,
+  UpdateCourseRequest,
+} from "../types/courseModel";
 
 const courseApi = apiInstance({ baseURL: `${API_BASE_URL}/course` });
-const coursePrivateApi = apiPrivateInstance({ baseURL: `${API_BASE_URL}/course` });
+const coursePrivateApi = apiPrivateInstance({
+  baseURL: `${API_BASE_URL}/course`,
+});
 const thumbnailApi = apiPrivateInstance({ baseURL: `${API_BASE_URL}/file` });
 
 const courseService = {
-  getAllCoursePagination: async (page: number, name: string): Promise<CoursePagination> => {
-    const list = await courseApi.get(`/get-all-courses?page${page}&name=${name}`)
+  getAllCoursePagination: async (
+    page: number,
+    name: string
+  ): Promise<CoursePagination> => {
+    const list = await courseApi.get(
+      `/get-all-courses?page${page}&name=${name}`
+    );
     return list.data.data;
   },
 
@@ -29,7 +42,6 @@ const courseService = {
   },
 
   uploadThumbnail: async (file: any) => {
-
     const formData = new FormData();
     formData.append("file", file.originFileObj); // Ensure you append the actual file object
 
@@ -39,7 +51,6 @@ const courseService = {
         "Content-Type": "multipart/form-data",
       },
     });
-
 
     return item.data;
   },
@@ -75,35 +86,36 @@ const courseService = {
 
     // Append the file (thumbnail)
     if (request.thumbnail != null)
-      formData.append('thumbnail', request.thumbnail.originFileObj);
-
+      formData.append("thumbnail", request.thumbnail.originFileObj);
 
     // Append the JSON object as a Blob
     formData.append(
-      'course',
-      new Blob([JSON.stringify(request.course)], { type: 'application/json' })
+      "course",
+      new Blob([JSON.stringify(request.course)], { type: "application/json" })
     );
 
     try {
-      const response = await coursePrivateApi.put('/update-course', formData, {
+      const response = await coursePrivateApi.put("/update-course", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
 
       console.log("skills: ", request.course.skillIDs);
 
       return response.data;
-
     } catch (error) {
       console.error("Error creating course:", error);
     }
-
   },
 
-  deleteCourse: async (courseID: number): Promise<ApiResponse<CourseDetail> | null> => {
+  deleteCourse: async (
+    courseID: number
+  ): Promise<ApiResponse<CourseDetail> | null> => {
     try {
-      const response = await coursePrivateApi.delete(`/delete-course/${courseID}`);
+      const response = await coursePrivateApi.delete(
+        `/delete-course/${courseID}`
+      );
       return response.data;
     } catch (error) {
       console.error("Error deleting course:", error);
@@ -112,16 +124,33 @@ const courseService = {
     }
   },
 
-  publishCourse: async (courseID: number, status: string): Promise<ApiResponse<CourseDetail> | null> => {
+  publishCourse: async (
+    courseID: number,
+    status: string
+  ): Promise<ApiResponse<CourseDetail> | null> => {
     try {
-      const response = await coursePrivateApi.patch(`/update-status/${courseID}?status=${status}`);
+      const response = await coursePrivateApi.patch(
+        `/update-status/${courseID}?status=${status}`
+      );
       return response.data;
     } catch (error) {
       console.error("Error deleting course:", error);
       toast.error(error.response.data.message);
       return null;
     }
-  }
+  },
 
-}
-export default courseService
+  getBookedCourse: async (page: number) => {
+    try {
+      const response = await coursePrivateApi.get(
+        `/booked-course?page=${page}&size=10`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting course:", error);
+      toast.error(error.response.data.message);
+      return null;
+    }
+  },
+};
+export default courseService;

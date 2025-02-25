@@ -25,7 +25,6 @@ export const Checkout = () => {
     if (!courseDetail) {
         return <div className="text-center py-5">Loading...</div>;
     }
-
     const handlePayment = async () => {
         const course = {
             courseId: courseID,
@@ -46,11 +45,28 @@ export const Checkout = () => {
                 return;
             }
         }
-        const response = await transactionService.coursePayment(course);
-        if (response?.transaction?.paymentResponse?.payUrl) {
-            window.open(response?.transaction?.paymentResponse?.payUrl, "_blank");
+        try {
+            const response = await transactionService.coursePayment(course);
+            if (response?.transaction?.paymentResponse?.payUrl) {
+                window.open(response.transaction.paymentResponse.payUrl, "_blank");
+            }
+            await Swal.fire({
+                title: "Payment Successful",
+                text: "Your payment has been processed successfully!",
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "OK",
+            });
+        } catch (error) {
+            await Swal.fire({
+                title: "Course Already Purchased",
+                text: "You have already purchased this course.",
+                icon: "info",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "OK",
+            });
         }
-    }
+    };
 
     return (
         <div className="container py-5">
