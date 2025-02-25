@@ -39,8 +39,6 @@ const LessonDetailModal = () => {
 
     useEffect(() => {
         lessonDetailForm.setFieldsValue(lessonDetailFormData)
-        console.log("lessonForm: ", lessonDetailFormData);
-        
     }, [lessonDetailFormData])
 
 
@@ -207,7 +205,7 @@ const LessonDetailModal = () => {
                                     <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                                 ) : (
                                     fields.map(({ key, name, ...restField }) => (
-                                        <React.Fragment key={name}>
+                                        <div key={name} style={{ width: "100%", display: "flex", flexDirection: "column", marginBottom: 8, padding: 10, border: "1px dashed #ccc" }}>
                                             <Space key={key} align="baseline">
                                                 {/* Start Time */}
                                                 <Form.Item
@@ -433,8 +431,7 @@ const LessonDetailModal = () => {
                                                 />
                                             </Form.Item>
 
-                                            <hr />
-                                        </React.Fragment>
+                                        </div>
                                     ))
                                 )}
                                 {
