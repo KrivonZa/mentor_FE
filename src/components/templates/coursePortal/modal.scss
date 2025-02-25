@@ -1,35 +1,21 @@
-// #courseDetailForm {
+.courseDetailModal {
+    .ant-modal {
+        top: 10vh;
+        border-radius: 10px;
+    }
 
-//     //! Config antd 
-//     .ant-select-arrow {
-//         display: none !important;
-//     }
+    .ant-modal-content {
+        padding: 20px 24px !important;
+        padding-right: 10px !important;
+    }
 
-//     .ant-select-selection-wrap {
-//         display: inline;
-//     }
+    ::-webkit-scrollbar {
+        width: 3px;
+        background-color: #F5F5F5;
+    }
 
-//     .ant-form-item-control-input-content>.ant-select {
-//         position: absolute;
-//         top: -20px;
-//     }
-
-//     .ant-upload-list-item-error {
-//         position: absolute;
-//         top: 0;
-//     }
-
-//     .ant-upload-list-item-done {
-//         position: absolute;
-//         top: 0;
-//         height: 100px;
-//         width: 100px;
-//     }
-
-//     .ant-upload-list-item-undefined {
-//         position: absolute;
-//         top: 0;
-//         height: 100px;
-//         width: 100px;
-//     }
-// }
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: #4AB569;
+    }
+}

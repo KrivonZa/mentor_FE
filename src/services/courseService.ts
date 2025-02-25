@@ -67,6 +67,7 @@ const courseService = {
       return response.data;
     } catch (error) {
       console.error("Error creating course:", error);
+      toast.error(error.response.data.message)
     }
   },
 
