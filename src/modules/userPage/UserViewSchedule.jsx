@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../../../public/css/UserViewSchedule.scss"
+
 export const UserViewSchedule = () => {
+    const navigate = useNavigate();
     return (
         <div id="webcrumbs" className="d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
             <div className="w-[1000px] bg-white rounded-xl shadow-lg p-6 mt-5 ms-5">
@@ -30,7 +33,7 @@ export const UserViewSchedule = () => {
                         </thead>
                         <tbody className="divide-y divide-gray-200">
                             {[1, 2, 3].map((row) => (
-                                <tr className="hover:bg-gray-50 transition-colors duration-200">
+                                <tr className="hover:bg-gray-50 transition-colors duration-200" onClick={() => navigate(`${1}`)}>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center space-x-3">
                                             <span className="material-symbols-outlined text-[#5fd080]">school</span>

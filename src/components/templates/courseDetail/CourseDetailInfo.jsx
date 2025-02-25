@@ -36,7 +36,7 @@ export const CourseDetailInfo = () => {
 
                                 <div className="course-info d-flex justify-content-between align-items-center">
                                     <h5>Course Fee</h5>
-                                    <p>${courseDetail.price}</p>
+                                    <p>{courseDetail?.price?.toLocaleString()}đ</p>
                                 </div>
 
                                 <div className="course-info d-flex justify-content-between align-items-center">
@@ -54,8 +54,7 @@ export const CourseDetailInfo = () => {
                                     onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.05)"}
                                     onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
                                     onClick={() => navigate(`/checkout/${courseDetail.courseID}`)}>
-                                    <h5 className='text-white'>Buy Now - {courseDetail.price}</h5>
-                                    <span className="material-symbols-outlined text-white">shopping_cart</span>
+                                    <h5 className='text-white'>Buy Now - {courseDetail?.price?.toLocaleString()}đ</h5>
                                 </button>
                             </div>
                         </div>

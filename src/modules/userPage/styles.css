@@ -7,3 +7,15 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.fc-v-event {
+  background-color: #5fd080 !important;
+  border: 1px solid #4caf50 !important;
+}
+
+.fc-timegrid-slot {
+  height: 100px !important; /* Approximately 200% of default ~50px */
+}
+.fc-timegrid-slot-label {
+  vertical-align: middle;
+}

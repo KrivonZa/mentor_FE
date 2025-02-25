@@ -27,7 +27,7 @@ import {
   UserBody,
   Report
 } from "../modules/adminPage";
-import { UserProfile, Wallet, UserViewSchedule } from "../modules/userPage";
+import { UserProfile, Wallet, UserViewSchedule, ViewDetailSchedule, TransactionHistory } from "../modules/userPage";
 import { NotFound, ServerError } from "../modules/errorPage"
 
 const role = localStorage.getItem("ROLE")
@@ -48,6 +48,7 @@ const titleMap = {
   "/user": "My Profile",
   "/user/wallet": "My Wallet",
   "/user/schedule": "My Schedule",
+  "/user/schedule/:id": "Detail Schedule",
   "/user/course-portal": "Manage Courses",
   "/admin": "Users Dashboard",
   "/admin/mentors": "Mentors Dashboard",
@@ -141,6 +142,14 @@ const useRoutesElements = () => {
             {
               path: "schedule",
               element: <UserViewSchedule />,
+            },
+            {
+              path: "schedule/:courseID",
+              element: <ViewDetailSchedule />,
+            },
+            {
+              path: "transaction-history",
+              element: <TransactionHistory />,
             },
           ],
         },] : []),

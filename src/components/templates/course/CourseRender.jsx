@@ -48,7 +48,7 @@ export const CourseRender = () => {
                                                                 <span className="category" key={skill.skillDetail.skillID}>{skill.skillDetail.skillName}</span>
                                                             )}
                                                         </div>
-                                                        <div className="price">${course.price}</div>
+                                                        <div className="price">{course?.price?.toLocaleString()}đ</div>
                                                     </div>
 
                                                     {/* nav to courseDetail */}

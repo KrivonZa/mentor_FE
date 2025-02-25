@@ -34,7 +34,7 @@ export function Wallet() {
                     window.open(response.payUrl, "_blank");
                 }
             } catch (error) {
-                console.error("Lỗi khi nạp tiền:", error);
+                console.error("Error when Deposit:", error);
             }
         } else if (action === "withdraw" && value <= balance) {
             // Xử lý rút tiền
@@ -61,7 +61,7 @@ export function Wallet() {
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content rounded-4 shadow-lg">
                             <div className="modal-header">
-                                <h5 className="modal-title fw-bold">{action === "deposit" ? "Nạp Tiền" : "Rút Tiền"}</h5>
+                                <h5 className="modal-title fw-bold">{action === "deposit" ? "Deposit" : "Drawback"}</h5>
                                 <button type="button" className="btn-close" onClick={handleClose}></button>
                             </div>
                             <div className="modal-body">
