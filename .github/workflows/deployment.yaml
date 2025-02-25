@@ -1,0 +1,40 @@
+on:
+  workflow_dispatch
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Dockerhub login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_GKHANH_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_GKHANH_PAT }}
+
+      - name: Extract Git commit hash
+        run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build and push image
+        run: |
+          docker build -t ${{ secrets.DOCKER_HUB_GKHANH_USERNAME }}/sba_frontend:$COMMIT_HASH .
+          docker push ${{ secrets.DOCKER_HUB_GKHANH_USERNAME }}/sba_frontend:$COMMIT_HASH
+
+      - name: VPS deploy
+        uses: appleboy/ssh-action@v1.2.0
+        env:
+          COMMIT_HASH: ${{ env.COMMIT_HASH }}
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          envs: COMMIT_HASH
+          script: |
+            docker pull ${{ secrets.DOCKER_HUB_GKHANH_USERNAME }}/sba_frontend:$COMMIT_HASH
+            docker stop sba_frontend || true
+            docker rm sba_frontend || true
+            docker image prune -f
+            docker run -d --name sba_frontend -p 9080:80 ${{ secrets.DOCKER_HUB_GKHANH_USERNAME }}/sba_frontend:$COMMIT_HASH

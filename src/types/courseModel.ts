@@ -1,4 +1,4 @@
-import { Lesson } from "./lessonModel"
+import { Lesson, LessonDetailFormData } from "./lessonModel"
 import { Skill } from "./skillModel"
 
 export interface CoursePortalDetail {
@@ -32,7 +32,16 @@ export interface CourseDetailFormData {
     totalStudent: number;
     level: string;
     skill: number[];
+    lesson: LessonDetailFormData[]
 }
+
+export interface CourseDetailFormDataError extends Omit<CourseDetailFormData, 'skill' | 'price' | 'totalStudent' | 'lesson'> {
+    // @Override
+    skill: string
+    price: string
+    totalStudent: string
+  }
+
 
 export interface CourseDetail {
     courseID: number
@@ -137,6 +146,7 @@ export interface CreateCourseRequest {
         freeTrial: boolean
         totalStudent: number
         level: string
+        lesson: LessonDetailFormData[]
     }
 }
 
