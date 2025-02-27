@@ -1,4 +1,5 @@
 import { useRoutes, useLocation, Navigate } from "react-router-dom";
+import useTitle from "./useTitle";
 import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/LoginLayout";
 import AdminLayout from "../layouts/AdminLayout";
@@ -12,7 +13,8 @@ import {
   Pricing,
   Contact,
   CourseDetail,
-  CoursePortal
+  CoursePortal,
+  Checkout
 } from "../modules/mainPage";
 import { LoginForm, SignupForm, ForgotPassForm } from "../modules/authPage"
 import {
@@ -25,11 +27,41 @@ import {
   UserBody,
   Report
 } from "../modules/adminPage";
-import { UserProfile, Wallet, UserViewSchedule } from "../modules/userPage";
+import { UserProfile, Wallet, UserViewSchedule, ViewDetailSchedule, TransactionHistory } from "../modules/userPage";
 import { NotFound, ServerError } from "../modules/errorPage"
 
 const role = localStorage.getItem("ROLE")
+
+const titleMap = {
+  "/": "Homepage",
+  "/about": "About",
+  "/courses": "Courses",
+  "/courses/:courseID": "Course Detail",
+  "/trainers": "Trainers",
+  "/events": "Events",
+  "/pricing": "Pricing",
+  "/contact": "Contact",
+  "/checkout": "Checkout",
+  "/auth": "Log in",
+  "/auth/signup": "Sign up",
+  "/auth/update-password": "Forget Password",
+  "/user": "My Profile",
+  "/user/wallet": "My Wallet",
+  "/user/schedule": "My Schedule",
+  "/user/schedule/:id": "Detail Schedule",
+  "/user/course-portal": "Manage Courses",
+  "/admin": "Users Dashboard",
+  "/admin/mentors": "Mentors Dashboard",
+  "/admin/students": "Students Dashboard",
+  "/admin/staffs": "Staffs Dashboard",
+  "/admin/report": "Reports Dashboard",
+  "*": "Not Found",
+  "/500": "Server Error",
+};
+
 const useRoutesElements = () => {
+  useTitle(titleMap)
+
   const element = useRoutes([
     {
       path: "/auth",
@@ -48,10 +80,6 @@ const useRoutesElements = () => {
           element: <ForgotPassForm />,
         }
       ],
-    },
-    {
-      path: "/course-portal",
-      element: <CoursePortal />
     },
     {
       path: "",
@@ -89,6 +117,10 @@ const useRoutesElements = () => {
           path: "contact",
           element: <Contact />,
         },
+        {
+          path: "checkout/:courseID",
+          element: <Checkout />,
+        },
       ],
     },
 
@@ -110,6 +142,14 @@ const useRoutesElements = () => {
             {
               path: "schedule",
               element: <UserViewSchedule />,
+            },
+            {
+              path: "schedule/:courseID",
+              element: <ViewDetailSchedule />,
+            },
+            {
+              path: "transaction-history",
+              element: <TransactionHistory />,
             },
           ],
         },] : []),

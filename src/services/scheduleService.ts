@@ -16,8 +16,12 @@ const scheduleService =  {
     updateMeetUrl: async (schedule: ScheduleUpdateRequest): Promise<ApiResponse<Schedule>> => {
         const response = await scheduleApi.patch("/update-google-meet-url", schedule)
         return response.data;
-    }
+    },
     
+    getByUser: async (courseID: number): Promise<ApiResponse<Schedule>> => {
+        const response = await scheduleApi.get(`/get-by-user?courseID=${courseID}`)
+        return response.data;
+    }
 }
 
 export default scheduleService

@@ -1,9 +1,11 @@
 import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom';
 import CourseDetailInfoSkeleton from './skeleton/CourseDetailInfoSkeleton'
 import { CourseDetailContext } from '../../../modules/mainPage/CourseDetail';
 
 export const CourseDetailInfo = () => {
     const { courseDetail, isLoading } = useContext(CourseDetailContext);
+    const navigate = useNavigate();
 
     return (
         <>
@@ -34,7 +36,7 @@ export const CourseDetailInfo = () => {
 
                                 <div className="course-info d-flex justify-content-between align-items-center">
                                     <h5>Course Fee</h5>
-                                    <p>${courseDetail.price}</p>
+                                    <p>{courseDetail?.price?.toLocaleString()}đ</p>
                                 </div>
 
                                 <div className="course-info d-flex justify-content-between align-items-center">
@@ -46,6 +48,14 @@ export const CourseDetailInfo = () => {
                                     <h5>Level</h5>
                                     <p>{courseDetail.level}</p>
                                 </div>
+
+                                <button className="w-100 course-info btn btn-lg fw-semibold d-flex justify-content-between align-items-center gap-2 px-4 rounded shadow-sm"
+                                    style={{ backgroundColor: "#5fd080", border: "none", transition: "transform 0.2s ease-in-out" }}
+                                    onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+                                    onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
+                                    onClick={() => navigate(`/checkout/${courseDetail.courseID}`)}>
+                                    <h5 className='text-white'>Buy Now - {courseDetail?.price?.toLocaleString()}đ</h5>
+                                </button>
                             </div>
                         </div>
                     </div>

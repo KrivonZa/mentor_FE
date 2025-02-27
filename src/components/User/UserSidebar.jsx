@@ -8,16 +8,19 @@ export function UserSidebar() {
   const menuItems = [
     { to: "/user", label: "Profile", icon: "man" },
     { to: "/user/wallet", label: "Wallet", icon: "wallet" },
-    { to: "/user/schedule", label: "Schedule", icon: "calendar_month" }
+    { to: "/user/schedule", label: "Schedule", icon: "calendar_month" },
+    { to: "/user/transaction-history", label: "Transaction History", icon: "history" }
   ];
-
-  // if (role === "STUDENT") {
-  //   menuItems.push({ to: "/user/weekly-schedule", label: "Weekly Schedule", icon: "event" });
-  // }
 
   if (role === "MENTOR") {
     menuItems.push({ to: "/user/course-portal", label: "Manage Courses", icon: "list_alt" });
   }
+
+  const isActive = (itemTo) => {
+    if (location.pathname === itemTo) return true;
+    if (itemTo !== "/user" && location.pathname.startsWith(itemTo)) return true;
+    return false;
+  };
 
   return (
     <aside className="overflow-auto p-3" style={{ width: "250px" }}>
@@ -28,13 +31,13 @@ export function UserSidebar() {
               <Link
                 to={item.to}
                 className={`d-flex align-items-center pe-4 p-2 text-success text-decoration-none rounded fw-bold transition 
-                  ${location.pathname === item.to ? "bg-success text-white" : ""}`}
+                  ${isActive(item.to) ? "bg-success text-white" : ""}`}
                 style={{ transition: "all 0.3s ease-in-out", position: "relative" }}
               >
                 <span className="me-2 material-symbols-outlined">{item.icon}</span>
                 <span
                   className={`chevron-icon position-absolute end-0 ms-2 material-symbols-outlined 
-                    ${location.pathname === item.to ? "show" : ""}`}
+                    ${isActive(item.to) ? "show" : ""}`}
                 >
                   chevron_right
                 </span>

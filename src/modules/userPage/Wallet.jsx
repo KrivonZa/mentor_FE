@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import transactionService from "../../services/transactionService";
-import { getUserByToken } from "../../services/UserService";
 import "./styles.css"
+import { useUser } from "../../global/userContext";
 
 export function Wallet() {
     const [balance, setBalance] = useState(0);
@@ -9,21 +9,11 @@ export function Wallet() {
     const [show, setShow] = useState(false);
     const [action, setAction] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("MOMO");
+    const { user } = useUser();
 
     useEffect(() => {
-        const fetchUser = async () => {
-            const token = localStorage.getItem("USER");
-            if (!token) return;
-
-            try {
-                const userData = await getUserByToken(token);
-                setBalance(userData.data.balance);
-            } catch (err) {
-                console.error("Error fetching user:", err);
-            }
-        };
-        fetchUser();
-    }, []);
+        setBalance(user?.balance);
+    }, [user]);
 
     const handleClose = () => setShow(false);
     const handleShow = (type) => {
@@ -44,7 +34,7 @@ export function Wallet() {
                     window.open(response.payUrl, "_blank");
                 }
             } catch (error) {
-                console.error("Lỗi khi nạp tiền:", error);
+                console.error("Error when Deposit:", error);
             }
         } else if (action === "withdraw" && value <= balance) {
             // Xử lý rút tiền
@@ -57,10 +47,10 @@ export function Wallet() {
     return (
         <div className="container d-flex justify-content-center pt-5">
             <div className="card rounded-5 shadow-lg p-4 text-center" style={{ width: "30%" }}>
-                <h2 className="mb-4 text-primary fw-bold">Your Wallet</h2>
+                <h2 className="mb-4 text-primary fw-bold h2">Your Wallet</h2>
                 <div className="bg-light p-3 rounded-4 mb-4">
-                    <h5 className="text-muted">Balance</h5>
-                    <h2 className="text-success fw-bold">{balance.toLocaleString()}đ</h2>
+                    <h5 className="h3">Balance</h5>
+                    <h2 className="text-success fw-bold h1">{balance?.toLocaleString()}đ</h2>
                 </div>
                 <button className="btn btn-success w-100 mb-2" onClick={() => handleShow("deposit")}>Deposit</button>
                 <button className="btn btn-danger w-100" onClick={() => handleShow("withdraw")}>Withdraw</button>
@@ -71,7 +61,7 @@ export function Wallet() {
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content rounded-4 shadow-lg">
                             <div className="modal-header">
-                                <h5 className="modal-title fw-bold">{action === "deposit" ? "Nạp Tiền" : "Rút Tiền"}</h5>
+                                <h5 className="modal-title fw-bold">{action === "deposit" ? "Deposit" : "Drawback"}</h5>
                                 <button type="button" className="btn-close" onClick={handleClose}></button>
                             </div>
                             <div className="modal-body">
