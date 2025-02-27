@@ -5,10 +5,13 @@ import { useUser } from "../../global/userContext";
 
 export function Wallet() {
     const [balance, setBalance] = useState(0);
-    const [amount, setAmount] = useState("");
+    const [amount, setAmount] = useState(0);
     const [show, setShow] = useState(false);
     const [action, setAction] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("MOMO");
+    const [bankName, setBankName] = useState("");
+    const [accountNumber, setAccountNumber] = useState("");
+    const [accountHolderName, setAccountHolderName] = useState("");
     const { user } = useUser();
 
     useEffect(() => {
@@ -36,8 +39,17 @@ export function Wallet() {
             } catch (error) {
                 console.error("Error when Deposit:", error);
             }
-        } else if (action === "withdraw" && value <= balance) {
-            // Xử lý rút tiền
+        } else if (action === "withdraw") {
+            try {
+                const withdrawData = { amount: value, accountNumber, bankName, accountHolderName };
+                const response = await transactionService.withdraw(withdrawData);
+                if (response) {
+                    console.log(response)
+                    alert("Success")
+                }
+            } catch (error) {
+                console.error("Error when Withdraw:", error);
+            }
         }
 
         setAmount("");
@@ -80,7 +92,7 @@ export function Wallet() {
                                     <div className="mb-3">
                                         <label className="form-label fw-bold">Payment Method</label>
                                         <div className="d-flex flex-column gap-2">
-                                            {["MOMO", "VNPAY", "NAPAS"].map((method) => (
+                                            {["MOMO"].map((method) => (
                                                 <div key={method} className="form-check">
                                                     <input
                                                         className="form-check-input"
@@ -93,6 +105,40 @@ export function Wallet() {
                                                     <label className="form-check-label">{method}</label>
                                                 </div>
                                             ))}
+                                        </div>
+                                    </div>
+                                )}
+                                {action === "withdraw" && (
+                                    <div>
+                                        <div className="mb-3">
+                                            <label className="form-label fw-bold">Account Number</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={accountNumber}
+                                                onChange={(e) => setAccountNumber(e.target.value)}
+                                                placeholder="Enter account number"
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label fw-bold">Bank Name</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={bankName}
+                                                onChange={(e) => setBankName(e.target.value)}
+                                                placeholder="Enter bank name"
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label fw-bold">Account Holder Name</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={accountHolderName}
+                                                onChange={(e) => setAccountHolderName(e.target.value)}
+                                                placeholder="Enter account holder name"
+                                            />
                                         </div>
                                     </div>
                                 )}

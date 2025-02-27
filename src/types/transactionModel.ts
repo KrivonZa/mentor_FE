@@ -3,6 +3,13 @@ export interface DepositRequest {
   paymentMethod: string;
 }
 
+export interface WithdrawRequest {
+  accountNumber: string;
+  amount: number;
+  bankName: string;
+  accountHolderName: string;
+}
+
 export interface coursePayment {
   courseId: number;
   paymentMethod: string;
