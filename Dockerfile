@@ -16,8 +16,6 @@ FROM nginx:1.27-alpine
 
 COPY --from=node-20-builder /app/dist /usr/share/nginx/html
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-
 # Expose port 80
 EXPOSE 80
 
