@@ -45,7 +45,9 @@ export const CourseFormTab = () => {
 
     useEffect(() => {
         courseDetailForm.setFieldsValue(courseDetailFormData)
-        console.log("courseData: ", courseDetailFormData);
+        console.log("courseDetailFormData: ", courseDetailFormData);
+        console.log("courseDetailFormDataHehe: ", skillOptionList);
+        
 
     }, [courseDetailFormData])
 
@@ -245,6 +247,7 @@ export const CourseFormTab = () => {
                     style={{ width: '100%' }}
                     placeholder="Please select"
                     onChange={handleSelectMultiSkillChange}
+                    value={courseDetailFormData.skill}
                     options={skillOptionList}
                 />
                 <span className='text-danger'>{courseDetailError?.skill}</span>

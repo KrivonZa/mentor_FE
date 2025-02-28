@@ -100,9 +100,9 @@ export const CoursePortalTable = () => {
                   <th className="px-6 py-4 text-left text-sm font-semibold">
                     Course Name
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                  {/* <th className="px-6 py-4 text-left text-sm font-semibold">
                     Mentor
-                  </th>
+                  </th> */}
                   <th className="px-6 py-4 text-left text-sm font-semibold">
                     Price
                   </th>
@@ -144,7 +144,7 @@ export const CoursePortalTable = () => {
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4">Bob Smith</td>
+                      {/* <td className="px-6 py-4">Bob Smith</td> */}
                       <td className="px-6 py-4">{course.price} VND</td>
                       <td className="px-6 py-4">
                         {(() => {

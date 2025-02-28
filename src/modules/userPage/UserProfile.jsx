@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { updateUserProfile } from "../../services/UserService";
 import '../../../public/css/ViewProfile.scss';
 import { useUser } from "../../global/userContext";
+import { toast } from "react-toastify";
+import { toastLoadingFailAction, toastLoadingSuccessAction } from "../../utils/functions";
 
 export const UserProfile = () => {
     const [formData, setFormData] = useState({});
@@ -23,11 +25,14 @@ export const UserProfile = () => {
         setLoading(true);
         setMessage("");
 
+        const loadingId = toast.loading("Uploading profile...");
         try {
             await updateUserProfile(formData);
             setMessage("Profile updated successfully!");
-            alert(message);
+            toastLoadingSuccessAction(loadingId, "Profile updated successfully!");
         } catch (error) {
+            toastLoadingFailAction(loadingId, "Error updating profile. Please try again.");
+
             setMessage("Error updating profile. Please try again.");
         } finally {
             setLoading(false);

@@ -64,6 +64,7 @@ export const CourseDetailModal = () => {
             await fetchPortalDetail();
             toastLoadingSuccessAction(loadingId, "Update course: " + courseDetailFormData.courseName + " successfully!");
 
+            handleCloseCourseModal();
 
         } catch (error) {
             console.error("Error creating course:", error);
