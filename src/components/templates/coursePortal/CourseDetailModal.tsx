@@ -14,6 +14,7 @@ import buddhistEra from 'dayjs/plugin/buddhistEra';
 import CourseFormTab from './modalTabs/CourseFormTab';
 import LessonFormTab from './modalTabs/LessonFormTab';
 import CourseModalTab from './modalTabs';
+import { toastLoadingSuccessAction } from '../../../utils/functions';
 dayjs.extend(buddhistEra);
 
 export const CourseDetailModal = () => {
@@ -25,11 +26,11 @@ export const CourseDetailModal = () => {
     } = context;
 
 
-
     const handleUpdate = async () => {
         try {
             if (fileList.length == 0) {
                 toast.error("Please upload thumbnail!");
+                return
             }
 
             console.log("courseID: ", courseDetailFormData.courseID);
@@ -57,9 +58,12 @@ export const CourseDetailModal = () => {
 
             }
 
+            const loadingId = toast.loading("Update course...");
+
             const response = await courseService.updateCourse(request);
-            toast.success("Update course: " + courseDetailFormData.courseName + " successfully!");
-            fetchPortalDetail();
+            await fetchPortalDetail();
+            toastLoadingSuccessAction(loadingId, "Update course: " + courseDetailFormData.courseName + " successfully!");
+
 
         } catch (error) {
             console.error("Error creating course:", error);

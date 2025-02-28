@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { ScheduleCreateRequest } from '../../../types/scheduleModel';
 import scheduleService from '../../../services/scheduleService';
 import { toast } from 'react-toastify';
+import { toastLoadingSuccessAction } from '../../../utils/functions';
 
 export const SchedulePlanModal = () => {
     const context = useContext(CoursePortalContext);
@@ -24,15 +25,16 @@ export const SchedulePlanModal = () => {
             toast.error("Please fill the time!")
             return;
         }
+        const loadingId = toast.loading("Creating schedule...");
         try {
             const response = await scheduleService.addSchedule(scheduleFormData)
             if (response) {
                 await fetchPortalDetail();
-                toast.success("Create schedule success!")
+                toastLoadingSuccessAction(loadingId, "Create schedule success!");
                 setIsScheduleModalOpen(false);
             }
         } catch (error) {
-            toast.error("Failed when create schedule")
+            toastLoadingSuccessAction(loadingId, "Failed when create schedule");
             setIsScheduleModalOpen(false);
         }
     };

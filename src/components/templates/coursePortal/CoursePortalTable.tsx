@@ -9,6 +9,9 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import lessonService from "../../../services/lessonService";
 import { Empty } from "antd";
+import Search from "antd/es/input/Search";
+import { Spin } from 'antd';
+import { toastLoadingSuccessAction } from '../../../utils/functions.ts'
 
 export const CoursePortalTable = () => {
   const context = useContext(CoursePortalContext);
@@ -22,16 +25,20 @@ export const CoursePortalTable = () => {
     showLessonDetailModal,
     resetLessonDetailModal,
     handleOpenScheduleModal,
+    setCourseNameQuery, courseNameQuery, loading, setCoursePortalPage, coursePortalPage,
+    setLoading
   } = context;
 
   const handleDeleteLesson = async (lessonID: number) => {
     try {
+      const loadingId = toast.loading("Deleting course...");
       const response = await lessonService.deleteLesson(lessonID);
       await fetchPortalDetail();
-      toast.success(response.message);
+      toastLoadingSuccessAction(loadingId, "Delete course success");
+      // toast.success(response.message);
     } catch (error) {
       console.error(error);
-      toast.error("Delete lesson failed");
+      // toast.error("Delete lesson failed");
     }
   };
 
@@ -39,17 +46,24 @@ export const CoursePortalTable = () => {
     try {
       const response = await courseService.deleteCourse(courseID);
       if (response) {
+        const loadingId = toast.loading("Deleting course...");
         await fetchPortalDetail();
         console.log("res: ", response);
-        toast.success(response.message);
+        toastLoadingSuccessAction(loadingId, "Deleting course: " + response.data.courseName + " successfully!");
         return;
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
-    fetchPortalDetail();
-  }, []);
+    const fetchData = async () => {
+      setLoading(true);
+      await fetchPortalDetail();
+      setLoading(false);
+    };
+
+    fetchData();
+  }, [courseNameQuery, coursePortalPage]);
 
   return (
     <div id="course-portal">
@@ -57,6 +71,18 @@ export const CoursePortalTable = () => {
         <div className="p-8">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-2xl font-bold">Course Management</h1>
+          </div>
+          <div className="flex justify-between items-center mb-3 pe-4">
+            <Search
+              placeholder="input search text"
+              allowClear
+              enterButton="Search"
+              size="large"
+              onSearch={(e) => {
+                setCourseNameQuery(e);
+              }}
+              className="w-50 border-black"
+            />
             <button
               onClick={() => {
                 showCourseDetailModal(-1);
@@ -98,7 +124,7 @@ export const CoursePortalTable = () => {
                 </tr>
               </thead>
               <tbody className="divide-y">
-                {listCoursePortal?.map((course, index) => (
+                {!loading && listCoursePortal?.content?.map((course, index) => (
                   <React.Fragment key={course.courseID}>
                     <tr className="hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4">
@@ -306,13 +332,14 @@ export const CoursePortalTable = () => {
                                 });
 
                                 if (result.isConfirmed) {
+                                  const loadingId = toast.loading("Update course...");
+
                                   await courseService.publishCourse(
                                     course.courseID,
                                     reqStatus
                                   );
                                   await fetchPortalDetail();
-                                  toast.success(message);
-                                  // await handleDeleteLesson(lesson.lessonID); // Wait for deletion
+                                  toastLoadingSuccessAction(loadingId, message);
                                 }
                               }}
                               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -503,19 +530,36 @@ export const CoursePortalTable = () => {
                 ))}
               </tbody>
             </table>
+            {loading &&
+              <div className="w-100">
+                <Spin tip="Loading" size="small">
+                  <div style={{
+                    padding: 50,
+                    background: 'rgba(0, 0, 0, 0.05)',
+                    borderRadius: 4,
+                  }} ></div>
+                </Spin>
+              </div>
+            }
           </div>
           <div className="flex justify-between items-center mt-4">
-            <p className="text-sm text-gray-500">Showing 1 to 1 of 1 entries</p>
+            <p className="text-sm text-gray-500">Showing {coursePortalPage} of {listCoursePortal?.totalPages} entries</p>
             <div className="flex gap-2">
               <button
                 className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
-                disabled
+                disabled={coursePortalPage === 1}
+                onClick={() => {
+                  setCoursePortalPage(coursePortalPage - 1)
+                }}
               >
                 Previous
               </button>
               <button
                 className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
-                disabled
+                disabled={coursePortalPage === listCoursePortal?.totalPages}
+                onClick={() => {
+                  setCoursePortalPage(coursePortalPage + 1)
+                }}
               >
                 Next
               </button>

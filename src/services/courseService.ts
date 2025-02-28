@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { apiInstance, apiPrivateInstance, API_BASE_URL } from "../constants";
-import { ApiResponse } from "../types/apiModel";
+import { ApiResponse, Pagable } from "../types/apiModel";
 import {
   CourseDetail,
   CoursePagination,
@@ -19,11 +19,11 @@ const courseService = {
   getAllCoursePagination: async (
     page: number,
     name: string
-  ): Promise<CoursePagination> => {
+  ): Promise<ApiResponse<Pagable<CourseDetail>>> => {
     const list = await courseApi.get(
       `/get-all-courses?page${page}&name=${name}`
     );
-    return list.data.data;
+    return list.data;
   },
 
   getCourseDetail: async (id: number): Promise<CourseDetail> => {
@@ -32,13 +32,13 @@ const courseService = {
   },
 
   getCoursePortalDetail: async (
-    mentorID: number,
+    courseName: string,
     page: number
-  ): Promise<CoursePortalDetail[]> => {
+  ): Promise<ApiResponse<Pagable<CoursePortalDetail>>> => {
     const list = await coursePrivateApi.get(
-      `/get-all-course-by-mentor/${mentorID}?page=${page}&size=5`
+      `/get-all-course-for-mentor?courseName=${courseName}&page=${page}&size=5`
     );
-    return list.data.data;
+    return list.data;
   },
 
   uploadThumbnail: async (file: any) => {
@@ -136,7 +136,7 @@ const courseService = {
       return response.data;
     } catch (error) {
       console.error("Error deleting course:", error);
-      toast.error(error.response.data.message);
+      // toast.error(error.response.data.message);
       return null;
     }
   },

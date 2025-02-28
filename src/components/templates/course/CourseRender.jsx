@@ -2,11 +2,18 @@ import React, { useContext, useEffect } from 'react'
 import SkeletonCourse from '../../ui/SkeletonCourse';
 import { CourseContext } from '../../../modules/mainPage/Courses';
 import { Link } from 'react-router-dom';
+import Search from 'antd/es/input/Search';
 
 export const CourseRender = () => {
 
-    const { courseList, isLoading } = useContext(CourseContext);
+    const { courseList, isLoading, currentPage, setCurrentPage, setSearchFilter } = useContext(CourseContext);
 
+    const handlePageChange = (page) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
+    setCurrentPage
     useEffect(() => {
         console.log("courseL: ", courseList);
     }, [courseList])
@@ -15,13 +22,27 @@ export const CourseRender = () => {
         <section id="courses" className="courses section">
             <div className="container">
                 <div className="row">
+                    <div className='mb-3'>
+                        <Search
+                            placeholder="input search text"
+                            allowClear
+                            enterButton="Search"
+                            size="large"
+                            onSearch={(e) => {
+                                setSearchFilter(e);
+                                console.log("e:::",e)
+                            }}
+                            className="w-50 border-black"
+                        />
+                    </div>
+
                     {isLoading
                         ? <>
                             <SkeletonCourse />
                             <SkeletonCourse />
                             <SkeletonCourse />
                         </>
-                        : courseList?.map(course => {
+                        : courseList.content?.map(course => {
                             if (course.status == "ON" && course.verifyStatus == "APPROVE") {
                                 return (
                                     <div
@@ -86,6 +107,48 @@ export const CourseRender = () => {
                             }
                         }
                         )}
+
+                    <div>
+                        <nav aria-label="Page navigation example">
+                            <ul className="pagination justify-content-center">
+                                <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                                    <button
+                                        className="page-link"
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        disabled={currentPage === 1}
+                                    >
+                                        Previous
+                                    </button>
+                                </li>
+
+                                {Array.from({ length: courseList?.totalPages }, (_, index) => (
+                                    <li
+                                        key={index + 1}
+                                        className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+                                    >
+                                        <button
+                                            className="page-link"
+                                            onClick={() => handlePageChange(index + 1)}
+                                        >
+                                            {index + 1}
+                                        </button>
+                                    </li>
+                                ))}
+
+                                <li className={`page-item ${currentPage === courseList?.totalPages ? "disabled" : ""}`}>
+                                    <button
+                                        className="page-link"
+                                        onClick={() => handlePageChange(currentPage + 1)} course
+                                        disabled={currentPage === courseList?.totalPages}
+                                    >
+                                        Next
+                                    </button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+
                 </div>
             </div>
         </section>

@@ -8,6 +8,7 @@ import courseService from '../../../../services/courseService';
 import { LessonDetailFormData } from '../../../../types/lessonModel';
 import { ScheduleCreateRequest } from '../../../../types/scheduleModel';
 import dayjs from 'dayjs';
+import { toastLoadingFailAction, toastLoadingSuccessAction } from '../../../../utils/functions';
 
 export const LessonFormTab = () => {
 
@@ -89,6 +90,8 @@ export const LessonFormTab = () => {
     }
 
     const handleCreate = async () => {
+        const loadingId = toast.loading("Update course...");
+
         try {
             const errCount = validateLessonDetailTabs()
             if (errCount > 0) return
@@ -108,11 +111,13 @@ export const LessonFormTab = () => {
             }
 
             const response = await courseService.createCourse(request);
-            if (response.data) toast.success("Create course successfully!");
+            if (response.data) toastLoadingSuccessAction(loadingId, "Create course successfully!");
+        
             await fetchPortalDetail();
             handleCloseCourseModal();
 
         } catch (error) {
+            toastLoadingFailAction(loadingId, "Failed when create course");
             console.error("Error creating courseeeeeeee:", error);
         }
     }

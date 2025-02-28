@@ -8,10 +8,11 @@ import { Skill } from '../../types/skillModel';
 import { UploadFile } from 'antd';
 import { Lesson, LessonDetailFormData } from '../../types/lessonModel';
 import { toast } from 'react-toastify';
+import { Pagable } from '../../types/apiModel';
 
 
 interface CoursePortalProps {
-  listCoursePortal: CoursePortalDetail[],
+  listCoursePortal: Pagable<CoursePortalDetail> | undefined,
   fetchPortalDetail: () => void,
   isCourseDetailModalOpen: boolean,
   setIsCourseDetailModalOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -21,6 +22,8 @@ interface CoursePortalProps {
   resetCourseDetailModal: () => void;
   courseDetailError: CourseDetailFormDataError;
   resetCourseErrorMessage: () => void;
+  courseNameQuery: string;
+  setCourseNameQuery: React.Dispatch<React.SetStateAction<string>>;
 
   //lesson
   isLessonDetailModalOpen: boolean;
@@ -31,7 +34,7 @@ interface CoursePortalProps {
   resetLessonDetailModal: () => void;
   lessonErrorMessage: LessonDetailFormData[];
   setLessonErrorMessage: React.Dispatch<React.SetStateAction<LessonDetailFormData[]>>
-  resetLessonErrorMessage: () => void
+  resetLessonErrorMessage: () => void;
 
   //schedule
   isScheduleModalOpen: boolean;
@@ -55,13 +58,19 @@ interface CoursePortalProps {
   setActiveKey: React.Dispatch<React.SetStateAction<string>>;
   navigateTab: (no: string) => void
 
-  handleCloseCourseModal: () => void
+  handleCloseCourseModal: () => void;
+
+  loading: boolean; 
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  coursePortalPage: number;
+  setCoursePortalPage: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const CoursePortalContext = createContext<CoursePortalProps | undefined>(undefined);
 
 export const CoursePortalProvider = ({ children }) => {
-  const [listCoursePortal, setListCoursePortal] = useState<CoursePortalDetail[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [listCoursePortal, setListCoursePortal] = useState<Pagable<CoursePortalDetail> | undefined>();
   const [listSkill, setListSkill] = useState<Skill[]>([]);
 
   //* Course Detail Modal
@@ -78,7 +87,8 @@ export const CoursePortalProvider = ({ children }) => {
     skill: [],
     lesson: []
   });
-
+  const [courseNameQuery, setCourseNameQuery] = useState<string>("");
+  const [coursePortalPage, setCoursePortalPage] = useState<number>(1);
 
   const [courseDetailError, setCourseDetailError] = useState<CourseDetailFormDataError>({
     courseID: -1,
@@ -101,7 +111,7 @@ export const CoursePortalProvider = ({ children }) => {
   const showCourseDetailModal = (courseID: number) => {
     setIsCourseDetailModalOpen(true);
     if (courseID != -1) {
-      const courseDetail = listCoursePortal.find((course) => course.courseID == courseID);
+      const courseDetail = listCoursePortal?.content.find((course) => course.courseID == courseID);
       setCourseDetailFormData({
         courseID: courseDetail?.courseID || -1,
         courseName: courseDetail?.courseName || "",
@@ -193,8 +203,9 @@ export const CoursePortalProvider = ({ children }) => {
 
   const fetchPortalDetail = async () => {
     try {
-      const listCourse = await courseService.getCoursePortalDetail(2, 1);
-      setListCoursePortal(listCourse);
+      const listCourse = await courseService.getCoursePortalDetail(courseNameQuery, coursePortalPage);
+      console.log("listCourse: ", listCourse.data);
+      setListCoursePortal(listCourse.data);
     } catch (error) {
       console.error("Error fetching course details:", error);
     }
@@ -340,6 +351,7 @@ export const CoursePortalProvider = ({ children }) => {
       fetchPortalDetail,
       isCourseDetailModalOpen, setIsCourseDetailModalOpen, showCourseDetailModal,
       courseDetailFormData, setCourseDetailFormData, resetCourseDetailModal, courseDetailError, resetCourseErrorMessage,
+      setCourseNameQuery, courseNameQuery, coursePortalPage, setCoursePortalPage,
 
       //Lesson
       isLessonDetailModalOpen, setIsLessonDetailModalOpen, showLessonDetailModal,
@@ -367,7 +379,9 @@ export const CoursePortalProvider = ({ children }) => {
       activeKey, setActiveKey,
       navigateTab,
 
-      handleCloseCourseModal
+      handleCloseCourseModal,
+
+      loading, setLoading
     }}
     >
       {children}

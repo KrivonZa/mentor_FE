@@ -192,8 +192,8 @@ export const ViewDetailSchedule = () => {
                 initialView="timeGridWeek"
                 initialDate={selectedWeekStart}
                 events={events}
-                slotMinTime="07:00:00"
-                slotMaxTime="23:00:00"
+                slotMinTime="00:00:00"
+                slotMaxTime="24:00:00"
                 height="auto"
                 headerToolbar={false}
                 eventContent={eventContent}

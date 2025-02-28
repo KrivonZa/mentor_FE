@@ -144,7 +144,7 @@ export const CourseFormTab = () => {
 
             {/* Price */}
             <Form.Item
-                label="Price ($)"
+                label="Price (VND)"
                 name="price"
                 rules={[{ required: true, message: "Please enter price" }]}
             >

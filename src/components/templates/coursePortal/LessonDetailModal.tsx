@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 // import moment from 'moment';
 import Swal from 'sweetalert2';
 import scheduleService from '../../../services/scheduleService';
+import { toastLoadingFailAction, toastLoadingSuccessAction } from '../../../utils/functions';
 dayjs.extend(buddhistEra);
 
 
@@ -82,30 +83,35 @@ const LessonDetailModal = () => {
     const handleSubmitForm = async () => {
         // lessonID = -1 ---> Create |  else ----> Update
         if (lessonDetailFormData.lessonID == -1) {
+            const loadingId = toast.loading("Creating course...");
             try {
+
                 const response = await lessonService.createLesson(lessonDetailFormData)
 
                 if (response) {
-                    toast.success("Create lesson " + lessonDetailFormData.description + " success!")
                     await fetchPortalDetail();
+                    toastLoadingSuccessAction(loadingId, "Create lesson " + lessonDetailFormData.description + " success!");
                     setIsLessonDetailModalOpen(false);
                 }
 
             } catch (error) {
-                toast.error("Failed when create lesson")
+                toastLoadingFailAction(loadingId, "Failed when create lesson");
                 setIsLessonDetailModalOpen(false);
             }
         } else {
+            const loadingId = toast.loading("Update lesson...");
+
             try {
                 const response = await lessonService.updateLesson(lessonDetailFormData)
 
                 if (response) {
-                    toast.success("Update lesson " + lessonDetailFormData.description + " success!")
                     await fetchPortalDetail();
+                    toastLoadingSuccessAction(loadingId, "Update lesson " + lessonDetailFormData.description + " success!");
                     setIsLessonDetailModalOpen(false);
+
                 }
             } catch (error) {
-                toast.error("Failed when update lesson")
+                toastLoadingFailAction(loadingId, "Failed when update lesson");
                 setIsLessonDetailModalOpen(false);
             }
         }
@@ -124,11 +130,11 @@ const LessonDetailModal = () => {
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!",
         });
-
+        const loadingId = toast.loading("Delete schedule...");
         if (result.isConfirmed) {
             await scheduleService.deleteSchedule(scheduleID); // Wait for deletion
             await fetchPortalDetail()
-            toast.success("Delete Schedule Success")
+            toastLoadingSuccessAction(loadingId, "Delete Schedule Success");
             setIsLessonDetailModalOpen(false)
         }
     }
@@ -413,7 +419,7 @@ const LessonDetailModal = () => {
                                                     onChange={(e) => {
                                                         const currentSchedule = lessonDetailFormData?.schedule[name] || null;
                                                         console.log("dsadsahdbasd: ", currentSchedule);
-                                                        
+
                                                         if (currentSchedule != null) {
                                                             currentSchedule.googleMeetUrl = e.target.value
                                                             // console.log("hehe: ", e.target.value);
