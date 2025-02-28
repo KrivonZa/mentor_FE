@@ -33,8 +33,17 @@ export const TransactionHistory = () => {
     }, [page, filters]);
 
     const handleFilterChange = (e) => {
-        setFilters({ ...filters, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+
+        setFilters({
+            ...filters,
+            [name]: name === "from" ? (value ? `${value}T00:00:00` : "")
+                : name === "to" ? (value ? `${value}T23:59:59` : "")
+                    : value
+        });
     };
+
+
 
     const handleResetFilters = () => {
         setFilters({
@@ -60,7 +69,7 @@ export const TransactionHistory = () => {
                                 type="date"
                                 name="from"
                                 className="form-control"
-                                value={filters.from}
+                                value={filters.from ? filters.from.split("T")[0] : ""}
                                 onChange={handleFilterChange}
                             />
                         </div>
@@ -69,7 +78,7 @@ export const TransactionHistory = () => {
                                 type="date"
                                 name="to"
                                 className="form-control"
-                                value={filters.to}
+                                value={filters.to ? filters.to.split("T")[0] : ""}
                                 onChange={handleFilterChange}
                             />
                         </div>
@@ -112,12 +121,12 @@ export const TransactionHistory = () => {
                         </div>
                         <div className="col-md-2">
                             <div className="btn-group w-100">
-                                <button
+                                {/* <button
                                     className="btn btn-success"
                                     onClick={fetchHistory}
                                 >
                                     Filter
-                                </button>
+                                </button> */}
                                 <button
                                     className="btn btn-secondary"
                                     onClick={handleResetFilters}

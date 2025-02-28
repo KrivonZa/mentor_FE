@@ -1,6 +1,7 @@
 import { apiPrivateInstance, API_BASE_URL } from "../constants";
 import {
   DepositRequest,
+  WithdrawRequest,
   coursePayment,
   transactionHistory,
 } from "../types/transactionModel";
@@ -13,6 +14,15 @@ export const transactionService = {
   deposit: async (data: DepositRequest) => {
     try {
       const response = await transactionApi.post("/deposit", data);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data;
+    }
+  },
+  withdraw: async (data: WithdrawRequest) => {
+    try {
+      const response = await transactionApi.post("/withdraw", data);
+      console.log(response);
       return response.data;
     } catch (error) {
       throw error.response?.data;
