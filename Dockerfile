@@ -1,23 +1,23 @@
-# Stage 1: Build the React app
+# Stage 1: Build React với Vite
 FROM node:20 AS node-20-builder
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
-RUN npm ci
+RUN npm install --frozen-lockfile
 
 COPY . .
 
 RUN npm run build
 
-# Stage 2: Serve the built app using Nginx
+# Stage 2: Chạy Nginx để serve static files
 FROM nginx:1.27-alpine
 
 COPY --from=node-20-builder /app/dist /usr/share/nginx/html
 
-# Expose port 80
-EXPOSE 80
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Start Nginx
+EXPOSE 3000
+
 CMD ["nginx", "-g", "daemon off;"]
