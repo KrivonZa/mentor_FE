@@ -29,8 +29,7 @@ export const authenService = {
     loginGoogle: async (data: LoginRequest) => {
         // http://localhost:9090/oauth2/authorization/google
         try {
-            const response = await oauth2Api.get("");
-            return response.data;
+            window.location.href = "http://localhost:9090/oauth2/authorization/google";
         } catch (error) {
             throw error.response?.data || "Login failed";
         }

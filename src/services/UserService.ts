@@ -167,6 +167,7 @@ const updateUser = async (user: User, id: number): Promise<User> => {
   }
 };
 
+
 export {
   getAllUsers,
   getUserByID,
