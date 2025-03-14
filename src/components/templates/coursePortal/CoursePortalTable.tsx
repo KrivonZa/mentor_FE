@@ -12,6 +12,7 @@ import { Empty } from "antd";
 import Search from "antd/es/input/Search";
 import { Spin } from 'antd';
 import { toastLoadingSuccessAction } from '../../../utils/functions.ts'
+import courseApprovalService from "../../../services/courseApprovalService.ts";
 
 export const CoursePortalTable = () => {
   const context = useContext(CoursePortalContext);
@@ -100,17 +101,8 @@ export const CoursePortalTable = () => {
                   <th className="px-6 py-4 text-left text-sm font-semibold">
                     Course Name
                   </th>
-                  {/* <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Mentor
-                  </th> */}
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Price
-                  </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">
                     Level
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Students
                   </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">
                     Status
@@ -145,7 +137,6 @@ export const CoursePortalTable = () => {
                         </div>
                       </td>
                       {/* <td className="px-6 py-4">Bob Smith</td> */}
-                      <td className="px-6 py-4">{course.price} VND</td>
                       <td className="px-6 py-4">
                         {(() => {
                           switch (course.level) {
@@ -189,7 +180,6 @@ export const CoursePortalTable = () => {
                         })()}
                         {/* <span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800">{course.level}</span> */}
                       </td>
-                      <td className="px-6 py-4">{course.totalStudent}</td>
                       <td className="px-6 py-4">
                         {(() => {
                           switch (course.status) {
@@ -349,10 +339,22 @@ export const CoursePortalTable = () => {
                               </span>
                             </button>
                             <button
-                              onClick={() => {
-                                toast.warning(
-                                  "This feature is not available yet."
-                                );
+                              onClick={async () => {
+                                if (course.verifyStatus == 'APPROVE') {
+                                  toast.info("This course already approved!");
+                                  return;
+                                }
+                                if (course.verifyStatus == 'PENDING') {
+                                  toast.info("This course will be review by our staff soon!");
+                                  return;
+                                }
+                                // toast.warning(
+                                //   "This feature is not available yet."
+                                // );
+                                // courseService.
+                                await courseApprovalService.createCourseApprovalRequest(course.courseID);
+                                await fetchPortalDetail();
+                                toast.success("Request approve course successfully!");
                               }}
                               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                             >
@@ -400,16 +402,10 @@ export const CoursePortalTable = () => {
                                     Description
                                   </th>
                                   <th className="px-4 py-3 text-left text-sm font-semibold text-center">
-                                    Status
-                                  </th>
-                                  <th className="px-4 py-3 text-left text-sm font-semibold text-center">
                                     Trial
                                   </th>
                                   <th className="px-4 py-3 text-left text-sm font-semibold text-center">
                                     Created At
-                                  </th>
-                                  <th className="px-4 py-3 text-left text-sm font-semibold text-center">
-                                    Schedules Count
                                   </th>
                                   <th className="px-4 py-3 text-left text-sm font-semibold text-center">
                                     Actions
@@ -417,7 +413,7 @@ export const CoursePortalTable = () => {
                                 </tr>
                               </thead>
                               <tbody className="divide-y divide-gray-200">
-                                {course.lesson.length == 0 && (
+                                {course?.lesson?.length == 0 && (
                                   <tr>
                                     <td
                                       colSpan={7}
@@ -435,19 +431,14 @@ export const CoursePortalTable = () => {
                                     key={lesson.lessonID}
                                     className="hover:bg-gray-100 transition-colors"
                                   >
-                                    <td className="px-4 py-3 text-sm">
+                                    <td className="px-4 py-3 text-sm text-center">
                                       #{lesson.lessonID}
                                     </td>
-                                    <td className="px-4 py-3 text-sm">
+                                    <td className="px-4 py-3 text-sm text-center">
                                       {lesson.description}
                                     </td>
-                                    <td className="px-4 py-3">
-                                      <span className="px-3 py-1 rounded-full text-sm bg-yellow-100 text-yellow-800">
-                                        {lesson.lessonStatus}
-                                      </span>
-                                    </td>
-                                    <td className="px-4 py-3">
-                                      {lesson.lessonStatus ? (
+                                    <td className="px-4 py-3 text-center">
+                                      {lesson.trialLesson ? (
                                         <span className="material-symbols-outlined text-green-500">
                                           check_circle
                                         </span>
@@ -460,11 +451,8 @@ export const CoursePortalTable = () => {
                                     <td className="px-4 py-3 text-sm text-center">
                                       {lesson.createdAt}
                                     </td>
-                                    <td className="px-4 py-3 text-sm text-center">
-                                      {lesson.schedule.length}
-                                    </td>
                                     <td className="px-4 py-3">
-                                      <div className="flex gap-2">
+                                      <div className="flex gap-2 justify-content-center">
                                         <button
                                           onClick={async () => {
                                             const result = await Swal.fire({
@@ -502,18 +490,6 @@ export const CoursePortalTable = () => {
                                         >
                                           <span className="material-symbols-outlined">
                                             edit
-                                          </span>
-                                        </button>
-                                        <button
-                                          onClick={() => {
-                                            handleOpenScheduleModal(
-                                              lesson.lessonID
-                                            );
-                                          }}
-                                          className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors"
-                                        >
-                                          <span className="material-symbols-outlined">
-                                            schedule
                                           </span>
                                         </button>
                                       </div>

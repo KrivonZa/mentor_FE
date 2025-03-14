@@ -13,11 +13,6 @@ export const SchedulePlanModal = () => {
 
     const { isScheduleModalOpen, handleOpenScheduleModal, setIsScheduleModalOpen, scheduleFormData, setScheduleFormData, fetchPortalDetail } = context
 
-    useEffect(() => {
-        console.log("scheduleFormData: ", scheduleFormData);
-
-    }, [scheduleFormData])
-
     const handleSubmitForm = async () => {
         if (scheduleFormData.lessonID == -1
             || scheduleFormData.startTime == null

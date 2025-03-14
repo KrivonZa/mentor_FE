@@ -64,6 +64,7 @@ interface CoursePortalProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   coursePortalPage: number;
   setCoursePortalPage: React.Dispatch<React.SetStateAction<number>>
+  valdateCourseDetailTabs: () => number
 }
 
 export const CoursePortalContext = createContext<CoursePortalProps | undefined>(undefined);
@@ -112,6 +113,8 @@ export const CoursePortalProvider = ({ children }) => {
     setIsCourseDetailModalOpen(true);
     if (courseID != -1) {
       const courseDetail = listCoursePortal?.content.find((course) => course.courseID == courseID);
+      console.log("courseDebug: ", courseDetail);
+      
       setCourseDetailFormData({
         courseID: courseDetail?.courseID || -1,
         courseName: courseDetail?.courseName || "",
@@ -121,7 +124,7 @@ export const CoursePortalProvider = ({ children }) => {
         freeTrial: courseDetail?.freeTrial || false,
         totalStudent: courseDetail?.totalStudent || 0,
         level: courseDetail?.level || "BEGINNER",
-        skill: courseDetail?.skills.map((item) => item.skill.skillID) || [],
+        skill: courseDetail?.skills.map((item) => item.skillDetail.skillID) || [],
         lesson: []
       })
       //Set File with thumbnail
@@ -167,8 +170,10 @@ export const CoursePortalProvider = ({ children }) => {
 
 
   const showLessonDetailModal = (lessonID: number, courseID: number, lessonDetail?: Lesson,) => {
+    console.log("debug: ", lessonID, courseID, lessonDetail);
     setIsLessonDetailModalOpen(true);
     if (lessonID != -1 && lessonDetail) {
+      
       setLessonDetailFormData({
         lessonID: lessonDetail?.lessonID || -1,
         courseID: courseID || -1,
@@ -204,7 +209,6 @@ export const CoursePortalProvider = ({ children }) => {
   const fetchPortalDetail = async () => {
     try {
       const listCourse = await courseService.getCoursePortalDetail(courseNameQuery, coursePortalPage);
-      console.log("listCourse: ", listCourse.data);
       setListCoursePortal(listCourse.data);
     } catch (error) {
       console.error("Error fetching course details:", error);
@@ -264,12 +268,12 @@ export const CoursePortalProvider = ({ children }) => {
     }
 
     // Validate price
-    if (courseDetailFormData.price == 0) {
-      newCourseDetailError.price = "Course Price must be greater than 0";
-      errCount++;
-    } else {
-      newCourseDetailError.price = "";
-    }
+    // if (courseDetailFormData.price == 0) {
+    //   newCourseDetailError.price = "Course Price must be greater than 0";
+    //   errCount++;
+    // } else {
+    //   newCourseDetailError.price = "";
+    // }
 
     // Validate thumbnail
     if (fileList.length == 0) {
@@ -288,12 +292,12 @@ export const CoursePortalProvider = ({ children }) => {
     }
 
     // Validate total student
-    if (courseDetailFormData.totalStudent == 0) {
-      newCourseDetailError.totalStudent = "Total Student must be greater than 0";
-      errCount++;
-    } else {
-      newCourseDetailError.totalStudent = "";
-    }
+    // if (courseDetailFormData.totalStudent == 0) {
+    //   newCourseDetailError.totalStudent = "Total Student must be greater than 0";
+    //   errCount++;
+    // } else {
+    //   newCourseDetailError.totalStudent = "";
+    // }
 
     // Update state to trigger re-render
     setCourseDetailError(newCourseDetailError);
@@ -381,7 +385,9 @@ export const CoursePortalProvider = ({ children }) => {
 
       handleCloseCourseModal,
 
-      loading, setLoading
+      loading, setLoading,
+
+      valdateCourseDetailTabs
     }}
     >
       {children}

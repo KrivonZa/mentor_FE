@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import CourseDetailLayout from "../../layouts/CourseDetailLayout";
 import { useLocation, useParams } from "react-router-dom";
 import courseService from "../../services/courseService";
+import classService from "../../services/classService";
 
 export const CourseDetailContext = createContext({});
 
@@ -17,13 +18,13 @@ export const CourseDetailProvider = ({ children }) => {
 
   const fetchCourseDetail = async () => {
     setIsLoading(true);
-    const paginationItem = await courseService.getCourseDetail(courseID)
-    setCourseDetail(paginationItem.data);
+    const classDetail = await classService.getClassDetail(courseID); //this is classID
+    setCourseDetail(classDetail.data);
     setIsLoading(false);
   }
 
   useEffect(() => {
-    fetchCourseDetail();
+    fetchCourseDetail();    
   }, [])
 
   return (

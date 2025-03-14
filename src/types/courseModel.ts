@@ -4,7 +4,7 @@ import { Skill } from "./skillModel"
 export interface CoursePortalDetail {
     courseID: number
     skills: {
-        skill: Skill
+        skillDetail: Skill
         createdAt: string
     }[]
     thumbnail: string
