@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { updateUserProfile } from "../../services/UserService";
 import '../../../public/css/ViewProfile.scss';
-import { useUser } from "../../global/userContext";
 import { toast } from "react-toastify";
 import { toastLoadingFailAction, toastLoadingSuccessAction } from "../../utils/functions";
+import { AppContext } from "../../App";
 
 export const UserProfile = () => {
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
-    const { user } = useUser();
+    const { user } = useContext(AppContext);
 
     useEffect(() => {
         setFormData(user);

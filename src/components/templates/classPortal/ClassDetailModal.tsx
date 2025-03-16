@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputNumber, Modal, Select, TimePicker } from 'antd';
+import { Button, DatePicker, Form, Input, InputNumber, Modal, Select, TimePicker } from 'antd';
 import React, { useContext, useEffect } from 'react';
 import { ClassPortalContext } from '../../../modules/mainPage/ClassPortal';
 import { useForm } from 'antd/es/form/Form';
@@ -6,13 +6,13 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs'; // Use dayjs
 
 const dayOptions = [
-    { value: 1, label: "Sunday" },
-    { value: 2, label: "Monday" },
-    { value: 3, label: "Tuesday" },
-    { value: 4, label: "Wednesday" },
-    { value: 5, label: "Thursday" },
-    { value: 6, label: "Friday" },
-    { value: 7, label: "Saturday" },
+    { value: 1, label: "Monday" },
+    { value: 2, label: "Tuesday" },
+    { value: 3, label: "Wednesday" },
+    { value: 4, label: "Thursday" },
+    { value: 5, label: "Friday" },
+    { value: 6, label: "Saturday" },
+    { value: 7, label: "Sunday" },
 ];
 
 export const ClassDetailModal = () => {
@@ -110,6 +110,20 @@ export const ClassDetailModal = () => {
                 </Form.Item>
 
                 <Form.Item
+                    label="Total Session"
+                    name="totalSession"
+                    rules={[{ required: true, message: "Please enter number of session" }]}
+                >
+                    <InputNumber
+                        min={0}
+                        style={{ width: "100%" }}
+                        value={classModalFormData.totalSession}
+                        onChange={(value) => handleNumberChange("totalSession", value)}
+                    />
+                    <span className="text-danger">{classFormDataError?.totalSession}</span>
+                </Form.Item>
+
+                <Form.Item
                     label="Price (VND)"
                     name="price"
                     rules={[{ required: true, message: "Please enter price" }]}
@@ -121,6 +135,20 @@ export const ClassDetailModal = () => {
                         onChange={(value) => handleNumberChange("price", value)}
                     />
                     <span className="text-danger">{classFormDataError?.price}</span>
+                </Form.Item>
+
+                <Form.Item
+                    label="Expected Start Day"
+                    name="expectedStartDate"
+                    rules={[{ required: true, message: "Please enter price" }]}
+                >
+                    <DatePicker
+                        style={{ width: "100%" }}
+                        value={classModalFormData.expectedStartDate ? dayjs(classModalFormData.expectedStartDate) : null}
+                        onChange={(date, dateString) => handleNumberChange("expectedStartDate", dateString)}
+                        format="YYYY-MM-DD"
+                    />
+                    <span className="text-danger">{classFormDataError?.expectedStartDate}</span>
                 </Form.Item>
 
                 <Form.Item label="Course" name="courseID">

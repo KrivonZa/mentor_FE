@@ -15,12 +15,34 @@ interface ClassFormDataProps {
   totalStudent: number
   price: number
   courseID?: number
-  classSchedules: {
+  expectedStartDate?: string
+  totalSession: number
+  classSchedules: ClassSchedules[] | any
+}
+
+interface ClassSchedules {
+  classScheduleID: number;
+  dayOfWeek: number;
+  startTime: string;
+  endTime: string;
+}
+
+interface Session {
+  sessionID: number
+  selectedClassSchedule: {
     classScheduleID: number
-    dayOfWeek: number
     startTime: string
     endTime: string
-  }[] | any
+    dayOfWeek: number
+  }
+  sessionDate: string
+  googleMeetUrl: string
+}
+
+interface CellInfo {
+  expectedStartDate: string
+  classSchedules: ClassSchedules[],
+  createdSessions: Session[]
 }
 
 interface ClassPortalProps {
@@ -38,7 +60,14 @@ interface ClassPortalProps {
   handleCreateClass: () => Promise<void>,
   handleUpdateClass: () => Promise<void>,
   handleDeleteClass: (classID: number) => Promise<void>
-  fetchClassPortal: () => Promise<void>
+  fetchClassPortal: () => Promise<void>,
+  isClassSessionModalOpen: boolean, setClassSessionModalOpen,
+  handleCancelSessionModal, handleOkSessionModal,
+  showSessionModal: (item: ClassPortalOverallResposne) => void
+  classSchedules: ClassSchedules[],
+  setClassSchedules: React.Dispatch<React.SetStateAction<ClassSchedules[]>>,
+  cellInfoData: CellInfo
+  setCellInfoData: React.Dispatch<React.SetStateAction<CellInfo>>
 }
 
 export const ClassPortalContext = createContext<ClassPortalProps | undefined>(undefined);
@@ -53,11 +82,41 @@ export const ClassPortalProvider = ({ children }) => {
     priceStart: 0,
     priceEnd: 0
   });
-  const [classPagination, setClassPagination] = useState<Pagable<ClassPortalOverallResposne>| any>({});
+  const [classPagination, setClassPagination] = useState<Pagable<ClassPortalOverallResposne> | any>({});
 
 
   //classModal
   const [isClassModalOpen, setClassModalOpen] = useState(false)
+
+  //classSessionModal
+  const [isClassSessionModalOpen, setClassSessionModalOpen] = useState(false)
+  const [classSchedules, setClassSchedules] = useState<ClassSchedules[]>([]);
+  const [cellInfoData, setCellInfoData] = useState<CellInfo>({
+    expectedStartDate: '',
+    classSchedules: [],
+    createdSessions: []
+  })
+  // Modal control functions
+  const showSessionModal = async (item: ClassPortalOverallResposne) => {
+    await fetchClassSessions(item.classID)
+
+    setCellInfoData((prev) => ({
+      ...prev,
+      expectedStartDate: item.expectedStartDate,
+      classSchedules: item.classSchedules,
+    }));
+
+    setClassSessionModalOpen(true);
+  };
+
+  const handleOkSessionModal = () => {
+    setClassSessionModalOpen(false);
+  };
+
+  const handleCancelSessionModal = () => {
+    setClassSessionModalOpen(false);
+  };
+
   //ForApisubmit?
   const [classModalFormData, setClassModalFormData] = useState<ClassFormDataProps>({
     classID: -1,
@@ -65,13 +124,17 @@ export const ClassPortalProvider = ({ children }) => {
     totalStudent: 0,
     price: 0,
     courseID: undefined,
+    expectedStartDate: undefined,
+    totalSession: 0,
     classSchedules: []
   })
   const [classFormDataError, setClassFormDataError] = useState({
     classDescription: '',
     totalStudent: '',
     price: '',
-    courseID: ''
+    courseID: '',
+    expectedStartDate: '',
+    totalSession: ''
   })
 
   const [courseOptionList, setCourseOptionList] = useState<SelectProps['options']>([]);
@@ -82,7 +145,9 @@ export const ClassPortalProvider = ({ children }) => {
       classDescription: '',
       totalStudent: 0,
       price: 0,
+      totalSession: 0,
       courseID: undefined,
+      expectedStartDate: undefined,
       classSchedules: []
     })
   }
@@ -119,6 +184,8 @@ export const ClassPortalProvider = ({ children }) => {
         totalStudent: classDetail.totalStudent,
         price: classDetail.price,
         courseID: classDetail.courseDetail.courseID,
+        expectedStartDate: classDetail.expectedStartDate,
+        totalSession: classDetail.totalSession,
         classSchedules: classDetail.classSchedules.map((schedule) => ({
           ...schedule,
           startTime: schedule?.startTime ? dayjs(schedule?.startTime, 'HH:mm:ss') : dayjs('00:00:00', 'HH:mm:ss'),
@@ -150,10 +217,25 @@ export const ClassPortalProvider = ({ children }) => {
 
     if (classModalFormData.price < 10000) {
       newCourseDetailError.price = "Price must be above 10000VND";
+      errCount++;
     }
 
     if (!classModalFormData.courseID) {
       newCourseDetailError.courseID = "Please select a course";
+      errCount++;
+    }
+
+    if (!classModalFormData.expectedStartDate) {
+      newCourseDetailError.expectedStartDate = "Please select a valid date";
+      errCount++;
+    } else if (dayjs(classModalFormData.expectedStartDate).isBefore(dayjs(), "day")) {
+      newCourseDetailError.expectedStartDate = "Date must not be in the past";
+      errCount++;
+    }
+
+    if (classModalFormData.totalSession <= 0) {
+      newCourseDetailError.totalSession = "Class must have at least 1 session"
+      errCount++;
     }
 
     setClassFormDataError(newCourseDetailError);
@@ -166,7 +248,9 @@ export const ClassPortalProvider = ({ children }) => {
       classDescription: '',
       totalStudent: '',
       price: '',
-      courseID: ''
+      courseID: '',
+      totalSession: '',
+      expectedStartDate: ''
     })
   }
 
@@ -179,6 +263,8 @@ export const ClassPortalProvider = ({ children }) => {
       totalStudent: classModalFormData.totalStudent,
       price: classModalFormData.price,
       courseID: classModalFormData.courseID || -1,
+      expectedStartDate: classModalFormData.expectedStartDate || '',
+      totalSession: classModalFormData.totalSession,
       classSchedules: classModalFormData.classSchedules || []
     }
 
@@ -187,6 +273,7 @@ export const ClassPortalProvider = ({ children }) => {
       if (response) {
         toast.success(response.message);
         fetchClassPortal()
+        closeClassModel()
       }
     } catch (error) {
       console.log("error: ", error);
@@ -202,6 +289,8 @@ export const ClassPortalProvider = ({ children }) => {
       classID: classModalFormData.classID,
       classDescription: classModalFormData.classDescription,
       totalStudent: classModalFormData.totalStudent,
+      expectedStartDate: classModalFormData.expectedStartDate || '',
+      totalSession: classModalFormData.totalSession,
       price: classModalFormData.price,
     }
 
@@ -229,6 +318,19 @@ export const ClassPortalProvider = ({ children }) => {
     }
   }
 
+  const fetchClassSessions = async (classID: number) => {
+    try {
+      const response = await classService.getClassSessionForPortal(classID)
+      if (response) {
+        setCellInfoData((prev) => ({
+          ...prev,
+          createdSessions: response.data
+        }));
+      }
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  }
   useEffect(() => {
     fetchClassPortal()
   }, [classPaginationParam])
@@ -250,7 +352,11 @@ export const ClassPortalProvider = ({ children }) => {
       classFormDataError,
       handleUpdateClass,
       handleDeleteClass,
-      fetchClassPortal
+      fetchClassPortal,
+      isClassSessionModalOpen, setClassSessionModalOpen,
+      handleCancelSessionModal, handleOkSessionModal, showSessionModal,
+      classSchedules, setClassSchedules,
+      cellInfoData, setCellInfoData
     }}>
       {children}
     </ClassPortalContext.Provider>

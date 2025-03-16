@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Search from "antd/es/input/Search";
-import { Select, SelectProps } from 'antd';
+import { Select, SelectProps, Spin } from 'antd';
 import courseApprovalService from '../../../services/courseApprovalService';
 
 // {
@@ -163,6 +163,17 @@ export const CourseRequestPortalTable = () => {
                                 }
                             </tbody>
                         </table>
+                        {loading &&
+                            <div className="w-100">
+                                <Spin tip="Loading" size="small">
+                                    <div style={{
+                                        padding: 50,
+                                        background: 'rgba(0, 0, 0, 0.05)',
+                                        borderRadius: 4,
+                                    }} ></div>
+                                </Spin>
+                            </div>
+                        }
                     </div>
                     <div className="flex justify-between items-center mt-4">
                         <p className="text-sm text-gray-500">Showing {pageStat.currentPage} of {pageStat.totalPage} entries</p>

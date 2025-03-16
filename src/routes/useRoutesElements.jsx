@@ -33,6 +33,8 @@ import ClassPortal from "../modules/mainPage/ClassPortal";
 import CourseRequestPortal from "../modules/mainPage/CourseRequestPortal";
 import MentorRequestForm from "../components/User/MentorRequestForm";
 import MentorApprovalRequest from "../modules/adminPage/Mentor/MentorApprovalRequest";
+import CourseManagement from "../modules/adminPage/CourseManagement/CourseManagement";
+
 const role = localStorage.getItem("ROLE")
 
 const titleMap = {
@@ -351,6 +353,10 @@ const useRoutesElements = () => {
             path: "report",
             element: <Report />,
           },
+          {
+            path: "approve-course",
+            element: <CourseManagement />
+          }
         ],
       },
     ] : []),

@@ -80,6 +80,14 @@ const classService = {
         } catch (error) {
             throw error;
         }
+    },
+    getClassSessionForPortal: async(id: number): Promise<ApiResponse<any>> => {
+        try {
+            const response = await classPrivateApi.get(`/get-all-session/${id}`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
 };
 

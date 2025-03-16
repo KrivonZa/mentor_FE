@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { toastLoadingSuccessAction } from '../../../utils/functions';
 import Swal from 'sweetalert2';
 import classService from '../../../services/classService';
+import { Calendar } from 'antd';
 
 export const ClassPortalTable = () => {
     const context = useContext(ClassPortalContext);
@@ -19,7 +20,9 @@ export const ClassPortalTable = () => {
         classPagination, closeClassModel,
         showClassModal,
         handleDeleteClass,
-        fetchClassPortal
+        fetchClassPortal,
+        showSessionModal,
+        setClassSchedules
     } = context;
 
     return (
@@ -114,7 +117,7 @@ export const ClassPortalTable = () => {
                                                         : (
                                                             <div>
                                                                 {item.classSchedules.map((schedule, index) => {
-                                                                    const dayMap = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                                                                    const dayMap = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
                                                                     return <div key={index}>{dayMap[schedule.dayOfWeek - 1]}{' '}{schedule.startTime}-{schedule.endTime}</div>;
                                                                 })}
                                                             </div>
@@ -136,7 +139,7 @@ export const ClassPortalTable = () => {
                                                                 onClick={async () => {
                                                                     const result = await Swal.fire({
                                                                         title:
-                                                                            "Delete class: " + `"${item.classID}"` + "?",
+                                                                            "Delete class of: " + `"${item.courseDetail.courseName}"` + "?",
                                                                         text: "You won't be able to revert this!",
                                                                         icon: "warning",
                                                                         showCancelButton: true,
@@ -164,7 +167,8 @@ export const ClassPortalTable = () => {
                                                                     edit
                                                                 </span>
                                                             </button>
-
+                                                        </div>
+                                                        <div className="d-flex">
                                                             <button
                                                                 onClick={async () => {
                                                                     const currentStatus = item?.visibleStatus || false;
@@ -207,6 +211,17 @@ export const ClassPortalTable = () => {
                                                                     visibility
                                                                 </span>
                                                             </button>
+                                                            <button
+                                                                onClick={async () => {
+                                                                    setClassSchedules(item.classSchedules);
+                                                                    showSessionModal(item);
+                                                                }}
+                                                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                                            >
+                                                                <span className="material-symbols-outlined">
+                                                                    visibility
+                                                                </span>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -214,7 +229,6 @@ export const ClassPortalTable = () => {
                                         </React.Fragment>
                                     )
                                     )
-
                                 }
                             </tbody>
                         </table>
@@ -229,7 +243,7 @@ export const ClassPortalTable = () => {
                                     const newPage = classPaginationParam?.page - 1
                                     setClassPaginationParam((prev) => ({
                                         ...prev,
-                                        currentPage: newPage
+                                        page: newPage
                                     }))
                                 }}
                             >
@@ -242,7 +256,7 @@ export const ClassPortalTable = () => {
                                     const newPage = classPaginationParam?.page + 1
                                     setClassPaginationParam((prev) => ({
                                         ...prev,
-                                        currentPage: newPage
+                                        page: newPage
                                     }))
                                 }}
                             >

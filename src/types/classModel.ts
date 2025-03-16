@@ -38,6 +38,8 @@ export interface ClassPortalOverallResposne {
     registeredStudent: number
     price: number
     visibleStatus: boolean
+    expectedStartDate: string
+    totalSession: number
     classSchedules: {
         classScheduleID: number
         dayOfWeek: number
@@ -61,6 +63,8 @@ export interface ClassCreateRequest {
     totalStudent: number
     price: number
     courseID: number
+    expectedStartDate: string
+    totalSession: number
     classSchedules?: ClassScheduleCreateRequest[]
 }
 
@@ -69,6 +73,8 @@ export interface ClassUpdateRequest {
     classDescription: string
     totalStudent: number
     price: number
+    expectedStartDate: string
+    totalSession: number
 }
 
 export interface CourseDetailResponse {
