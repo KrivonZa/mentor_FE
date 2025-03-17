@@ -45,7 +45,7 @@ export function AdminSidebar() {
           {[
             { to: "/admin", label: "Users", icon: "man" },
             { to: "/admin/mentors", label: "Mentors", icon: "computer" },
-            { to: "/admin/students", label: "Students", icon: "edit" },
+            { to: "/admin/mentor-approval", label: "Mentor Request", icon: "computer" },
             { to: "/admin/staffs", label: "Staffs", icon: "engineering" },
             { to: "/admin/report", label: "Reports", icon: "flag" },
           ].map((item) => (
