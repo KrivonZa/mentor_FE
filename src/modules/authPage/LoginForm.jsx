@@ -20,7 +20,15 @@ export function LoginForm() {
     try {
       const data = await authenService.login(loginData);
       localStorage.setItem("USER", data.token);
-      navigate("/");
+      const role = localStorage.getItem("ROLE");
+      if (role === "STAFF") {
+        localStorage.setItem("ID", data.id);
+        navigate("/admin");
+        window.location.reload();
+      } else {
+        navigate("/");
+        window.location.reload();
+      }
     } catch (err) {
       // alert("Invalid credentials")
       toast.error("Invalid Username or Password");
@@ -32,7 +40,7 @@ export function LoginForm() {
   return (
     <div id="loginContainer">
       <div id="webcrumbs">
-        <div className="min-h-screen w-full flex items-center justify-center bg-neutral-50 pt-12">
+        <div className="min-h-screen w-full flex items-center justify-center bg-neutral-50">
           <div className="w-[400px] bg-white rounded-xl shadow-2xl p-8 transform hover:scale-105 transition-all duration-300">
             <header className="mb-8">
               <h1 className="text-3xl font-bold text-[#5fd080] mb-2">
@@ -81,6 +89,18 @@ export function LoginForm() {
               >
                 Sign In
               </button>
+              <p className="text-[#5fd080] text-center">Or</p>
+              <button
+                className="flex items-center justify-center w-full py-3 border border-gray-300 rounded-lg text-sm font-medium text-[#5fd080] hover:bg-gray-100 transition duration-200 hover:-translate-y-0.5"
+                type="button"
+                onClick={async() => {
+                  await authenService.loginGoogle()
+                }}
+              >
+                <i className="fa-brands fa-google me-2 text-[#5fd080]" style={{ fontSize: "26px" }} />
+                Login with Google
+              </button>
+
             </form>
             <p className="mt-6 text-center text-sm text-neutral-600">
               Don't have an account?

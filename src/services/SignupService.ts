@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../constants"
+
 interface SignupData {
   fullname: string;
   email: string;
@@ -14,11 +16,9 @@ interface SignupData {
   mentorStatus: "PENDING" | "APPROVED" | "REJECTED";
 }
 
-const API_BASE_URL = "http://localhost:9090/empoweru/sba/user/create-user";
-
 const signUp = async (userData: SignupData): Promise<any> => {
   try {
-    const response = await axios.post(`${API_BASE_URL}`, userData);
+    const response = await axios.post(`${API_BASE_URL}/user/create-user`, userData);
     return response.data;
   } catch (error) {
     throw error;

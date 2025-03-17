@@ -17,6 +17,14 @@ export const UserLayout = () => {
                 </div>
             </div>
             <Footer />
+            <a
+                href="#"
+                id="scroll-top"
+                className="scroll-top d-flex align-items-center justify-content-center"
+                style={{ display: 'none' }}
+            >
+                <i className="bi bi-arrow-up-short"></i>
+            </a>
         </div>
     );
 };

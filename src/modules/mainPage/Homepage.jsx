@@ -1,12 +1,30 @@
 import { useEffect } from "react";
 import PureCounter from "@srexi/purecounterjs";
-
+import axios from "axios";
 export function Homepage() {
   useEffect(() => {
     document.title = "Homepage";
     new PureCounter();
-  }, []);
 
+    const fetchJwtWithUuid = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const uuid = urlParams.get("uuid");
+
+      if (uuid) {
+        try {
+          const response = await axios.get(`http://localhost:9090/empoweru/sba/user/google-principal?uuid=${uuid}`);
+          const token = response.data.data.token;
+          localStorage.setItem("ROLE", response.data.data.role);
+          localStorage.setItem("USER", token);
+          window.history.replaceState({}, document.title, window.location.pathname);
+        } catch (error) {
+          console.error("Error exchanging UUID for JWT:", error);
+        }
+      }
+    };
+
+    fetchJwtWithUuid();
+  }, []);
   return (
     <main className="main">
       <section id="hero" className="hero section dark-background">

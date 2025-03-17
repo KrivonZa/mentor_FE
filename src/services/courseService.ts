@@ -1,45 +1,56 @@
-import React from 'react'
-import { apiInstance } from '../constants/apiInstance';
-import { CoursePortalDetail, CreateCourseRequest } from '../types/courseModel';
+import { toast } from "react-toastify";
+import { apiInstance, apiPrivateInstance, API_BASE_URL } from "../constants";
+import { ApiResponse, Pagable } from "../types/apiModel";
+import {
+  CourseDetail,
+  CoursePagination,
+  CoursePortalDetail,
+  CreateCourseRequest,
+  UpdateCourseRequest,
+} from "../types/courseModel";
 
-const categoryApi = apiInstance({
-  // baseURL: "http://empoweru.trangiangkhanh.site/..."
-  baseURL: "http://localhost:9090/empoweru/sba/course"
+const courseApi = apiInstance({ baseURL: `${API_BASE_URL}/course` });
+const coursePrivateApi = apiPrivateInstance({
+  baseURL: `${API_BASE_URL}/course`,
 });
-
-const thumbnailApi = apiInstance({
-  baseURL: "http://localhost:9090/empoweru/sba/file"
-})
+const thumbnailApi = apiPrivateInstance({ baseURL: `${API_BASE_URL}/file` });
 
 const courseService = {
-  getAllCoursePagination: async (page: number, name: string): Promise<CoursePagination> => {
-    const list = await categoryApi.get(`/get-all-courses?page${page}&name=${name}`)
+  getAllCoursePagination: async (
+    page: number,
+    name: string
+  ): Promise<ApiResponse<Pagable<CourseDetail>>> => {
+    const list = await courseApi.get(
+      `/get-all-courses?page${page}&name=${name}`
+    );
     return list.data;
   },
 
   getCourseDetail: async (id: number): Promise<CourseDetail> => {
-    const list = await courseApi.get(`/get-detail/${id}`)
+    const list = await courseApi.get(`/get-detail/${id}`);
     return list.data;
   },
 
-  getCoursePortalDetail: async (mentorID: number, page: number): Promise<CoursePortalDetail[]> => {
-    const list = await courseApi.get(`/get-all-course-by-mentor/${mentorID}?page=${page}&size=5`)
-    return list.data.data;
+  getCoursePortalDetail: async (
+    courseName: string,
+    page: number
+  ): Promise<ApiResponse<Pagable<CoursePortalDetail>>> => {
+    const list = await coursePrivateApi.get(
+      `/get-all-course-for-mentor?courseName=${courseName}&page=${page}&size=5`
+    );
+    return list.data;
   },
 
   uploadThumbnail: async (file: any) => {
-    console.log("file: ", file.originFileObj);
-
     const formData = new FormData();
-    formData.append('file', file.originFileObj); // Ensure you append the actual file object
+    formData.append("file", file.originFileObj); // Ensure you append the actual file object
 
-    const item = await thumbnailApi.post('/upload', formData, { // Send formData directly
+    const item = await thumbnailApi.post("/upload", formData, {
+      // Send formData directly
       headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+        "Content-Type": "multipart/form-data",
+      },
     });
-
-    console.log("upload: ", item.data);
 
     return item.data;
   },
@@ -48,131 +59,99 @@ const courseService = {
     const formData = new FormData();
 
     // Append the file (thumbnail)
-    formData.append('thumbnail', request.thumbnail.originFileObj);
+    formData.append("thumbnail", request.thumbnail.originFileObj);
 
     // Append the JSON object as a Blob
     formData.append(
-      'course',
-      new Blob([JSON.stringify(request.course)], { type: 'application/json' })
+      "course",
+      new Blob([JSON.stringify(request.course)], { type: "application/json" })
     );
 
     try {
-      const response = await courseApi.post('/create-course', formData, {
+      const response = await coursePrivateApi.post("/create-course", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
 
-      console.log("Create course response:", response.data);
+      // console.log("Create course response:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error creating course:", error);
+      toast.error(error.response.data.message)
+    }
+  },
+
+  updateCourse: async (request: UpdateCourseRequest) => {
+    const formData = new FormData();
+
+    // Append the file (thumbnail)
+    if (request.thumbnail != null)
+      formData.append("thumbnail", request.thumbnail.originFileObj);
+
+    // Append the JSON object as a Blob
+    formData.append(
+      "course",
+      new Blob([JSON.stringify(request.course)], { type: "application/json" })
+    );
+
+    try {
+      const response = await coursePrivateApi.put("/update-course", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("skills: ", request.course.skillIDs);
+
       return response.data;
     } catch (error) {
       console.error("Error creating course:", error);
     }
-  }
-}
-
-// export default courseService
-
-
-
-const courseServiceJS = {
-  getAllCoursePagination: async (page) => {
-    const list = await categoryApi.get(`/get-all-courses?page${page}&name=${name}`)
-    return list.data.data;
   },
 
-  getCourseDetail: async (id) => {
-    const list = await categoryApi.get(`/get-detail/${id}`)
-    return list.data;
-  }
-}
-
-export default courseServiceJS
-
-
-export interface CoursePagination {
-  totalElement: number,
-  totalPage: number,
-  currentPage: number,
-  message?: string,
-  data: CourseOverall[]
-}
-
-export interface CourseOverall {
-  courseID: number,
-  courseName: string,
-  description: string,
-  price: number,
-  thumbnail: string,
-  freeTrial: boolean,
-  totalStudent: number,
-  remainSlot: number,
-  level: string,
-  numberOfLesson: number,
-  mentor: {
-    mentorID: number,
-    mentorName: string,
-    status: string,
-    avatar: string,
-    favoritedCount: number
-  }
-  skills: {
-    createdAt: string,
-    skillDetail: {
-      skillID: number,
-      skillName: string,
-      description: string,
-      createdAt: string,
-      updatedAt: string
+  deleteCourse: async (
+    courseID: number
+  ): Promise<ApiResponse<CourseDetail> | null> => {
+    try {
+      const response = await coursePrivateApi.delete(
+        `/delete-course/${courseID}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting course:", error);
+      toast.error(error.response.data.message);
+      return null;
     }
-  }[]
-}
+  },
 
-export interface CourseDetail {
-  courseID: number
-  mentor: {
-    mentorID: number
-    introductionVideo: string
+  publishCourse: async (
+    courseID: number,
     status: string
-    feedbacks: any[]
-    bio: string
-    cv: string
-    mentorInfo: {
-      fullname: string
-      email: string
-      role: string
-      phoneNumber: string
-      status: boolean
+  ): Promise<ApiResponse<CourseDetail> | null> => {
+    try {
+      const response = await coursePrivateApi.patch(
+        `/update-status/${courseID}?status=${status}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting course:", error);
+      // toast.error(error.response.data.message);
+      return null;
     }
-  }
-  courseName: string
-  description: string
-  price: number
-  thumbnail: string
-  freeTrial: boolean
-  totalStudent: number
-  level: string
-  updatedAt: string
-  courseAppointments: {
-    courseAppointmentID: number
-    createdAt: string
-    updatedAt: string
-  }[]
-  lesson: {
-    schedule: {
-      scheduleID: number
-      startTime: string
-      endTime: string
-      createdAt: string
-      updatedAt: string
-      booked: boolean
+  },
+
+  getBookedCourse: async (page: number) => {
+    try {
+      const response = await coursePrivateApi.get(
+        `/booked-course?page=${page}&size=10`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting course:", error);
+      toast.error(error.response.data.message);
+      return null;
     }
-    description: string
-    lessonStatus: string
-    trialLesson: boolean
-    createdAt: string
-    updatedAt: string
-    lessonID: number
-  }[]
-  numberOfLesson: number
-}
+  },
+};
+export default courseService;

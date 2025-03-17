@@ -1,9 +1,9 @@
-import { useRoutes, useLocation } from "react-router-dom";
+import { useRoutes, useLocation, Navigate } from "react-router-dom";
+import useTitle from "./useTitle";
 import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/LoginLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import UserLayout from "../layouts/UserLayout";
-
 import {
   Homepage,
   About,
@@ -13,7 +13,8 @@ import {
   Pricing,
   Contact,
   CourseDetail,
-  CoursePortal
+  CoursePortal,
+  Checkout
 } from "../modules/mainPage";
 import { LoginForm, SignupForm, ForgotPassForm } from "../modules/authPage"
 import {
@@ -60,6 +61,8 @@ const titleMap = {
 };
 
 const useRoutesElements = () => {
+  useTitle(titleMap)
+
   const element = useRoutes([
     {
       path: "/auth",
@@ -78,10 +81,6 @@ const useRoutesElements = () => {
           element: <ForgotPassForm />,
         }
       ],
-    },
-    {
-      path: "/course-portal",
-      element: <CoursePortal />
     },
     {
       path: "",
@@ -238,95 +237,126 @@ const useRoutesElements = () => {
       element: <UserLayout />,
       children: [
         {
-          index: true,
-          element: <UserProfile />,
+          path: "checkout/:courseID",
+          element: <Checkout />,
         },
-        {
-          path: "transaction",
-          element: <Transaction />,
-        }
-
       ],
     },
+
+    //routes dành cho Student và MENTOR
+    ...(role === "STUDENT" || role === "MENTOR" ?
+      [
+        {
+          path: "/user",
+          element: <UserLayout />,
+          children: [
+            {
+              index: true,
+              element: <UserProfile />,
+            },
+            {
+              path: "wallet",
+              element: <Wallet />,
+            },
+            {
+              path: "schedule",
+              element: <UserViewSchedule />,
+            },
+            {
+              path: "schedule/:courseID",
+              element: <ViewDetailSchedule />,
+            },
+            {
+              path: "transaction-history",
+              element: <TransactionHistory />,
+            },
+          ],
+        },] : []),
+
+    // //routes dành riêng cho STUDENT
+    // ...(role === "STUDENT" ?
+    //   [
+    //     {
+    //       path: "/user",
+    //       element: <UserLayout />,
+    //       children: [
+    //         {
+    //           path: "weekly-schedule",
+    //           element: <CourseDetailSchedule />,
+    //         },
+    //       ],
+    //     },] : []),
+
+    // //routes dành riêng cho MENTOR
+    ...(role === "MENTOR" ?
+      [
+        {
+          path: "/user",
+          element: <UserLayout />,
+          children: [
+            {
+              path: "course-portal",
+              element: <CoursePortal />
+            }
+          ],
+        },] : []),
+
+    //routes dành cho Admin
+    ...(role === "STAFF" ? [
+      {
+        path: "/admin",
+        element: <AdminLayout />,
+        children: [
+          {
+            index: true,
+            element: <UserBody />,
+          },
+          {
+            path: "staffs",
+            element: <StaffBody />,
+          },
+          {
+            path: "staffs/add-new-staff",
+            element: <AddNewStaff />,
+          },
+          {
+            path: "mentors",
+            element: <MentorBody />,
+          },
+          {
+            path: "mentors/update-mentor",
+            element: <UpdateMentorForm />,
+          },
+          {
+            path: "staffs/update-staff",
+            element: <UpdateStaffForm />,
+          },
+          {
+            path: "students",
+            element: <StudentBody />,
+          },
+          {
+            path: "report",
+            element: <Report />,
+          },
+        ],
+      },
+    ] : []),
     {
       path: "/admin",
-      element: <AdminLayout />,
-      children: [
-        {
-          index: true,
-          element: <UserBody />,
-        },
-        {
-          path: "staffs",
-          element: <StaffBody />,
-        },
-      ],
-    },
-    ,
-    // {
-    //   path: "user",
-    //   element: <UserProfile />,
-    // },
-    {
-      path: "transaction",
-      element: <Transaction />,
+      element: <Navigate to="*" replace />,
     },
     {
       path: "/user",
-      element: <UserLayout />,
-      children: [
-        {
-          index: true,
-          element: <UserProfile />,
-        },
-        {
-          path: "report",
-          element: <Report />
-        },
-        {
-          path: "transaction",
-          element: <Transaction />,
-        }
-
-      ],
+      element: <Navigate to="/auth" replace />,
     },
     {
-      path: "/admin",
-      element: <AdminLayout />,
-      children: [
-        {
-          index: true,
-          element: <UserBody />,
-        },
-        {
-          path: "staffs",
-          element: <StaffBody />,
-        },
-        {
-          path: "staffs/add-new-staff",
-          element: <AddNewStaff />,
-        },
-        {
-          path: "mentors",
-          element: <MentorBody />,
-        },
-        {
-          path: "mentors/update-mentor",
-          element: <UpdateMentorForm />,
-        },
-        {
-          path: "staffs/update-staff",
-          element: <UpdateStaffForm />,
-        },
-        {
-          path: "students",
-          element: <StudentBody />,
-        },
-        {
-          path: "report",
-          element: <Report />,
-        },
-      ],
+      path: "*",
+      element: <NotFound />,
+    },
+    {
+      path: "/500",
+      element: <ServerError />,
     },
   ]);
   return element;

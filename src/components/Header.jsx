@@ -1,8 +1,35 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react"
+import { getUserByToken } from "../services/UserService";
+import { useUser } from "../global/userContext";
 
 export default function Header() {
+  const token = localStorage.getItem("USER")
+  const role = localStorage.getItem("ROLE")
+  const navigate = useNavigate();
+  const { setUser, user } = useUser();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (!token) return;
+
+      try {
+        const userData = await getUserByToken(token);
+        setUser(userData.data);
+      } catch (err) {
+        console.error("Error fetching user:", err);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const handleLogout = () => {
+    ["USER", "ROLE"].forEach(key => localStorage.removeItem(key));
+    setUser(null);
+    setTimeout(() => navigate("/"), 0);
+  };
   return (
-    <header id="header" className="header d-flex align-items-center sticky-top">
+    <header id="header" className="header d-flex align-items-center sticky-top" style={{ zIndex: '10' }}>
       <div className="container-fluid container-xl position-relative d-flex align-items-center">
         <a href="/" className="logo d-flex align-items-center me-auto">
           {/* <img src="/img/logo.png" alt="" /> */}
@@ -59,104 +86,6 @@ export default function Header() {
                 Pricing
               </NavLink>
             </li>
-            <li className="dropdown">
-              <NavLink
-                to="#"
-                className={({ isActive }) =>
-                  isActive ? "active toggle-dropdown" : "toggle-dropdown"
-                }
-              >
-                <span>Dropdown</span>
-                <i className="bi bi-chevron-down"></i>
-              </NavLink>
-              <ul>
-                <li>
-                  <NavLink
-                    to="#"
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                  >
-                    Dropdown 1
-                  </NavLink>
-                </li>
-                <li className="dropdown">
-                  <NavLink
-                    to="#"
-                    className={({ isActive }) =>
-                      isActive ? "active toggle-dropdown" : "toggle-dropdown"
-                    }
-                  >
-                    <span>Deep Dropdown</span>
-                    <i className="bi bi-chevron-down"></i>
-                  </NavLink>
-                  <ul>
-                    <li>
-                      <NavLink
-                        to="#"
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                      >
-                        Deep Dropdown 1
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to="#"
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                      >
-                        Deep Dropdown 2
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to="#"
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                      >
-                        Deep Dropdown 3
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to="#"
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                      >
-                        Deep Dropdown 4
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to="#"
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                      >
-                        Deep Dropdown 5
-                      </NavLink>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <NavLink
-                    to="#"
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                  >
-                    Dropdown 2
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="#"
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                  >
-                    Dropdown 3
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="#"
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                  >
-                    Dropdown 4
-                  </NavLink>
-                </li>
-              </ul>
-            </li>
             <li>
               <NavLink
                 to="/contact"
@@ -165,21 +94,131 @@ export default function Header() {
                 Contact
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/auth"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Login
-              </NavLink>
-            </li>
+            {token ? (
+              <li className="dropdown">
+                <NavLink
+                  className="d-flex align-items-center"
+                  to="/user"
+                >
+                  <span className="me-3 font-bold">{user?.fullName}</span>
+                  <img
+                    loading="lazy"
+                    src={user?.avatar}
+                    className="rounded-circle object-fit-cover"
+                    style={{ width: '40px', height: '40px' }}
+                  />
+                </NavLink>
+                <ul>
+                  <li>
+                    <NavLink
+                      to="/user"
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                      My Profile
+                    </NavLink>
+                  </li>
+                  {/* <li className="dropdown">
+                    <NavLink
+                      to="#"
+                      className={({ isActive }) =>
+                        isActive ? "active toggle-dropdown" : "toggle-dropdown"
+                      }
+                    >
+                      <span>Deep Dropdown</span>
+                      <i className="bi bi-chevron-down"></i>
+                    </NavLink>
+                    <ul>
+                      <li>
+                        <NavLink
+                          to="#"
+                          className={({ isActive }) => (isActive ? "active" : "")}
+                        >
+                          Deep Dropdown 1
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="#"
+                          className={({ isActive }) => (isActive ? "active" : "")}
+                        >
+                          Deep Dropdown 2
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="#"
+                          className={({ isActive }) => (isActive ? "active" : "")}
+                        >
+                          Deep Dropdown 3
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="#"
+                          className={({ isActive }) => (isActive ? "active" : "")}
+                        >
+                          Deep Dropdown 4
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="#"
+                          className={({ isActive }) => (isActive ? "active" : "")}
+                        >
+                          Deep Dropdown 5
+                        </NavLink>
+                      </li>
+                    </ul>
+                  </li> */}
+                  <li>
+                    <NavLink
+                      to="/user/wallet"
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                      My Wallet
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/user/schedule"
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                      My Schedule
+                    </NavLink>
+                  </li>
+                  {role === "MENTOR" && (
+                    <li>
+                      <NavLink
+                        to="/user/course-portal"
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                      >
+                        My Course
+                      </NavLink>
+                    </li>
+                  )}
+                  <li>
+                    <NavLink
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
+            ) : (
+              <li>
+                <NavLink
+                  to="/auth"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Login
+                </NavLink>
+              </li>
+            )}
           </ul>
           <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
-
-        <a className="btn-getstarted" href="/courses">
-          Get Started
-        </a>
       </div>
     </header>
   );

@@ -84,6 +84,16 @@ export const SignupForm = () => {
             >
               Sign Up
             </button>
+            <button
+                className="flex items-center justify-center w-full py-3 border border-gray-300 rounded-lg text-sm font-medium text-[#5fd080] hover:bg-gray-100 transition duration-200 hover:-translate-y-0.5"
+                type="button"
+                onClick={async() => {
+                  await authenService.loginGoogle()
+                }}
+              >
+                <i className="fa-brands fa-google me-2 text-[#5fd080]" style={{ fontSize: "26px" }} />
+                Login with Google
+              </button>
           </form>
         </div>
       </div>

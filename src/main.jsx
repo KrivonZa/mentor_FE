@@ -12,12 +12,15 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { UserProvider } from "./global/userContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
-      <ToastContainer />
+      <UserProvider>
+        <App />
+        <ToastContainer />
+      </UserProvider>
     </BrowserRouter>
   </StrictMode>
 );
