@@ -68,7 +68,7 @@ export const ClassPortalTable = () => {
                                         Course Name
                                     </th>
                                     <th className="px-6 py-4 text-left text-sm font-semibold">
-                                        Total student
+                                        Class Stats
                                     </th>
                                     <th className="px-6 py-4 text-left text-sm font-semibold">
                                         Price
@@ -87,49 +87,86 @@ export const ClassPortalTable = () => {
                             <tbody className="divide-y">
                                 {
                                     !loading &&
-                                    classPagination?.content?.map(item =>
-                                    (
+                                    classPagination?.content?.map(item => (
                                         <React.Fragment key={item.classID}>
                                             <tr className="hover:bg-gray-50 transition-colors">
                                                 <td className="px-6 py-4">{item.classDescription}</td>
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-3">
                                                         <img
-                                                            src={
-                                                                item.courseDetail.thumbnail || "https://placehold.co/100x70"
-                                                            }
+                                                            src={item.courseDetail.thumbnail || "https://placehold.co/100x70"}
                                                             alt="thumbnail"
                                                             className="rounded-lg w-[100px] h-[70px] object-cover"
                                                         />
                                                         <div>
                                                             <p className="font-medium">{item.courseDetail.courseName}</p>
-                                                            {/* <p className="text-sm text-gray-500">
-                                                                
-                                                            </p> */}
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4">{item.totalStudent}</td>
+                                                <td className="px-6 py-4">
+                                                    <div className="d-flex align-content-center">
+                                                        <span className="material-symbols-outlined">
+                                                            person
+                                                        </span>{': '}
+                                                        {item.totalStudent}
+                                                    </div>
+                                                    <div className='d-flex align-content-center'>
+                                                        <span className="material-symbols-outlined">
+                                                            timer
+                                                        </span>{': '}
+                                                        {item.totalSession}
+                                                    </div>
+                                                    <div className='d-flex align-content-center'>
+                                                        <span className="material-symbols-outlined">
+                                                            personal_places
+                                                        </span>{': '}
+                                                        {item.expectedStartDate}
+                                                    </div>
+                                                </td>
+                                                {/* <td className="px-6 py-4 text-center">{item.totalSession}</td> */}
                                                 <td className="px-6 py-4">{item.price}</td>
-                                                <td className="px-6 py-4">{
-                                                    (item.classSchedules == null || item.classSchedules.length == 0)
-                                                        ? (<div>No constraint</div>)
-                                                        : (
-                                                            <div>
-                                                                {item.classSchedules.map((schedule, index) => {
-                                                                    const dayMap = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-                                                                    return <div key={index}>{dayMap[schedule.dayOfWeek - 1]}{' '}{schedule.startTime}-{schedule.endTime}</div>;
-                                                                })}
-                                                            </div>
-                                                        )
-                                                }</td>
+                                                <td className="px-6 py-4">
+                                                    {/* Moving schedules to dropdown, keeping this cell for consistency */}
+                                                    <button
+                                                        className="btn btn-outline-primary btn-sm text-decoration-underline"
+                                                        data-bs-toggle="dropdown"
+                                                        aria-expanded="false"
+                                                        style={{ color: "#198754" }}
+                                                    >
+                                                        View Schedules
+                                                    </button>
+                                                    <div className="dropdown-menu p-2">
+                                                        <div className="d-flex justify-content-between flex-wrap gap-2">
+                                                            {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, index) => {
+                                                                const dayOfWeek = index + 1; // 1-7 (Monday-Sunday)
+                                                                const schedule = item.classSchedules.find(s => s.dayOfWeek === dayOfWeek);
+                                                                return (
+                                                                    <div
+                                                                        key={day}
+                                                                        className={`p-2 text-center rounded flex-grow-1 ${schedule ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-muted'
+                                                                            }`}
+                                                                        style={{ minWidth: '100px' }}
+                                                                    >
+                                                                        <div className="fw-medium">{day}</div>
+                                                                        {schedule ? (
+                                                                            <div className="d-flex align-items-center justify-content-center gap-1">
+                                                                                <span>{schedule.startTime.slice(0, 5)}-{schedule.endTime.slice(0, 5)}</span>
+                                                                                <span className="material-symbols-outlined fs-6">check</span>
+                                                                            </div>
+                                                                        ) : (
+                                                                            <div>-</div>
+                                                                        )}
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                </td>
                                                 <td className="px-6 py-4">
                                                     <span className={`badge rounded-pill text-white px-3 py-2 
-                                                        ${!item.visibleStatus ? 'bg-warning' :
-                                                            item.visibleStatus ? 'bg-success' : null}`}>
+                            ${!item.visibleStatus ? 'bg-warning' : item.visibleStatus ? 'bg-success' : null}`}>
                                                         {item.visibleStatus ? 'Visible' : 'Hidden'}
                                                     </span>
-
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-2 flex-column">
@@ -138,8 +175,7 @@ export const ClassPortalTable = () => {
                                                                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                                                                 onClick={async () => {
                                                                     const result = await Swal.fire({
-                                                                        title:
-                                                                            "Delete class of: " + `"${item.courseDetail.courseName}"` + "?",
+                                                                        title: "Delete class of: " + `"${item.courseDetail.courseName}"` + "?",
                                                                         text: "You won't be able to revert this!",
                                                                         icon: "warning",
                                                                         showCancelButton: true,
@@ -149,23 +185,17 @@ export const ClassPortalTable = () => {
                                                                     });
 
                                                                     if (result.isConfirmed) {
-                                                                        handleDeleteClass(item.classID)
+                                                                        handleDeleteClass(item.classID);
                                                                     }
                                                                 }}
                                                             >
-                                                                <span className="material-symbols-outlined">
-                                                                    delete
-                                                                </span>
+                                                                <span className="material-symbols-outlined">delete</span>
                                                             </button>
                                                             <button
-                                                                onClick={() =>
-                                                                    showClassModal(item)
-                                                                }
+                                                                onClick={() => showClassModal(item)}
                                                                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                                                             >
-                                                                <span className="material-symbols-outlined">
-                                                                    edit
-                                                                </span>
+                                                                <span className="material-symbols-outlined">edit</span>
                                                             </button>
                                                         </div>
                                                         <div className="d-flex">
@@ -173,8 +203,7 @@ export const ClassPortalTable = () => {
                                                                 onClick={async () => {
                                                                     const currentStatus = item?.visibleStatus || false;
                                                                     let title = "Publish this class?";
-                                                                    let text =
-                                                                        "After this class got approved, everyone will able to view this!";
+                                                                    let text = "After this class got approved, everyone will able to view this!";
                                                                     let message = "Publish successfully";
                                                                     let confirmText = "Yes, publish it!";
                                                                     let reqStatus = true;
@@ -197,19 +226,14 @@ export const ClassPortalTable = () => {
 
                                                                     if (result.isConfirmed) {
                                                                         const loadingId = toast.loading("Update course...");
-                                                                        await classService.setClassVisibility(
-                                                                            item.classID,
-                                                                            reqStatus
-                                                                        )
+                                                                        await classService.setClassVisibility(item.classID, reqStatus);
                                                                         await fetchClassPortal();
                                                                         toastLoadingSuccessAction(loadingId, message);
                                                                     }
                                                                 }}
                                                                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                                                             >
-                                                                <span className="material-symbols-outlined">
-                                                                    visibility
-                                                                </span>
+                                                                <span className="material-symbols-outlined">visibility</span>
                                                             </button>
                                                             <button
                                                                 onClick={async () => {
@@ -218,17 +242,14 @@ export const ClassPortalTable = () => {
                                                                 }}
                                                                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                                                             >
-                                                                <span className="material-symbols-outlined">
-                                                                    visibility
-                                                                </span>
+                                                                <span className="material-symbols-outlined">edit_calendar</span>
                                                             </button>
                                                         </div>
                                                     </div>
                                                 </td>
                                             </tr>
                                         </React.Fragment>
-                                    )
-                                    )
+                                    ))
                                 }
                             </tbody>
                         </table>

@@ -2,6 +2,7 @@ import React, { Modal, Calendar, Button, Input } from 'antd';
 import { useContext, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { ClassPortalContext } from '../../../modules/mainPage/ClassPortal';
+import './index.scss'
 
 export const ClassSessionModal = () => {
     const context = useContext(ClassPortalContext);
@@ -10,13 +11,8 @@ export const ClassSessionModal = () => {
 
     const { isClassSessionModalOpen, setClassSessionModalOpen,
         handleCancelSessionModal, handleOkSessionModal, showSessionModal,
-        cellInfoData
+        cellInfoData, handleOpenCreateSessionModal
     } = context;
-
-    useEffect(() => {
-        console.log("cellInfoData: ", cellInfoData);
-    }, [cellInfoData])
-
 
     const [isCreateSessionOpen, setCreateSessionOpen] = useState(false);
     const [createSessionReq, setCreateSessionReq] = useState({
@@ -27,22 +23,16 @@ export const ClassSessionModal = () => {
 
     const cellRender = (current: dayjs.Dayjs) => {
         const dayOfWeek = current.day(); // 0 (Sunday) to 6 (Saturday)
-        // Convert to match your system's 1-7 format (Monday=1, Sunday=7)
         const adjustedDayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
 
-        // Check if this day matches any schedule
-        const hasSchedule = cellInfoData?.classSchedules.find(schedule =>
-            schedule.dayOfWeek === adjustedDayOfWeek
-        );
-
-        // Find the schedule for this day (if it exists)
         const schedule = cellInfoData?.classSchedules.find(schedule =>
             schedule.dayOfWeek === adjustedDayOfWeek
         );
 
         const isToday = current.isSame(dayjs(), 'day');
-        const isBeforeOpenCereAndToday = current.isBefore(cellInfoData.expectedStartDate, 'day') || current.isBefore(dayjs(), 'day');
-        const isSessionToday = cellInfoData.createdSessions.find(session =>
+        const isBeforeStartDate = current.isBefore(cellInfoData.expectedStartDate, 'day');
+        const isBeforeToday = current.isBefore(dayjs(), 'day');
+        const isSessionCreated = cellInfoData.createdSessions.find(session =>
             session.sessionDate === current.format('YYYY-MM-DD')
         );
 
@@ -52,11 +42,11 @@ export const ClassSessionModal = () => {
             margin: 0,
             padding: 0,
             backgroundColor: (() => {
-                if (isSessionToday && !isToday) return '#ecd3ad'; // Orange for session today
-                if (!isBeforeOpenCereAndToday && !isToday && hasSchedule) return 'rgb(228, 233, 226, 0.5)';
+                if (isSessionCreated) return 'rgb(236, 211, 173, 0.3)'; // Orange
+                if (schedule && !isBeforeStartDate && !isBeforeToday) return 'rgb(228, 233, 226, 0.3)'; // Green future
                 return 'transparent';
             })(),
-            color: hasSchedule ? '#2d633d' : 'inherit',
+            color: schedule ? '#2d633d' : 'inherit',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -65,45 +55,72 @@ export const ClassSessionModal = () => {
             left: 0,
             right: 0,
             bottom: 0,
-
         };
 
         return (
             <div style={cellStyle}>
                 <div className='d-flex flex-column text-center'>
-                    {isSessionToday ? (
+                    {schedule && isSessionCreated ? (
                         <div style={{ fontSize: '12px', marginTop: '2px' }}>
-                            <Button onClick={() => {
-                                window.open(isSessionToday.googleMeetUrl, "_blank");
-                            }}>
-                                Join meet
-                            </Button>
-                        </div>
-                    ) : hasSchedule && schedule && !isBeforeOpenCereAndToday && (
-                        <div style={{ fontSize: '12px', marginTop: '2px' }}>
-                            <button className="material-symbols-outlined"
+                            <button
                                 onClick={() => {
-                                    console.log("hello1: ", hasSchedule.classScheduleID);
-                                    console.log("hello2: ", current.format('YYYY-MM-DD'));
-
+                                    window.open(isSessionCreated.googleMeetUrl, "_blank");
+                                }}
+                                style={{
+                                    backgroundColor: "#5FCF80",
+                                    color: "white",
+                                    padding: "12px 24px",
+                                    borderRadius: "8px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "8px",
+                                    transition: "transform 0.3s, background-color 0.3s",
+                                    transform: "scale(1)",
+                                    cursor: "pointer"
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.backgroundColor = "#4ab569";
+                                    e.currentTarget.style.transform = "scale(1.05)";
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.backgroundColor = "#5FCF80";
+                                    e.currentTarget.style.transform = "scale(1)";
+                                }}
+                            >
+                                <span className="material-symbols-outlined">add</span>
+                                Join
+                            </button>
+                            <div style={{ fontSize: '12px', marginTop: '2px' }}>
+                                {`${schedule.startTime.slice(0, 5)} - ${schedule.endTime.slice(0, 5)}`}
+                            </div>
+                        </div>
+                    ) : schedule && !isBeforeStartDate && !isBeforeToday && (
+                        <div style={{ fontSize: '12px', marginTop: '2px' }}>
+                            <button
+                                className="material-symbols-outlined"
+                                onClick={() => {                                    
+                                    const req = {
+                                        selectedScheduleID: cellInfoData.classSchedules.find(item => item.classScheduleID === schedule.classScheduleID),
+                                        googleMeetUrl: '',
+                                        sessionDate: current.format('YYYY-MM-DD'),
+                                        classID: cellInfoData.classID
+                                    };
+                                    handleOpenCreateSessionModal(req);
                                 }}
                             >
                                 add_circle
                             </button>
-                        </div>
-                    )}
-                    {hasSchedule && schedule && !isBeforeOpenCereAndToday && (
-                        <div style={{ fontSize: '12px', marginTop: '2px' }}>
-                            {`${schedule.startTime.slice(0, 5)} - ${schedule.endTime.slice(0, 5)}`}
+                            <div style={{ fontSize: '12px', marginTop: '2px' }}>
+                                {`${schedule.startTime.slice(0, 5)} - ${schedule.endTime.slice(0, 5)}`}
+                            </div>
                         </div>
                     )}
                 </div>
-            </div >
+            </div>
         );
     };
 
     return (
-
         <Modal
             maskClosable={false}
             title="Class Session Calendar"
@@ -111,6 +128,7 @@ export const ClassSessionModal = () => {
             onOk={handleOkSessionModal}
             onCancel={handleCancelSessionModal}
             width={1000}
+            centered
         >
             <div style={{ position: 'relative' }}>
                 <Calendar
@@ -121,8 +139,6 @@ export const ClassSessionModal = () => {
                 />
             </div>
         </Modal>
-
-
     );
 };
 

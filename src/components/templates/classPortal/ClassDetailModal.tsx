@@ -1,9 +1,11 @@
 import { Button, DatePicker, Form, Input, InputNumber, Modal, Select, TimePicker } from 'antd';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ClassPortalContext } from '../../../modules/mainPage/ClassPortal';
 import { useForm } from 'antd/es/form/Form';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs'; // Use dayjs
+import { toast } from 'react-toastify';
+import { toastLoadingFailAction, toastLoadingSuccessAction } from '../../../utils/functions';
 
 const dayOptions = [
     { value: 1, label: "Monday" },
@@ -27,10 +29,12 @@ export const ClassDetailModal = () => {
         courseOptionList,
         handleCreateClass,
         classFormDataError,
-        handleUpdateClass
+        handleUpdateClass,
+        loading
     } = context;
 
     const [classDetailForm] = useForm();
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -187,7 +191,7 @@ export const ClassDetailModal = () => {
                                                         classSchedules: prev.classSchedules.map((schedule, index) =>
                                                             index === name
                                                                 ? { ...schedule, dayOfWeek: value }
-                                                                : schedule // Keep other schedules unchanged
+                                                                : schedule
                                                         ),
                                                     }));
                                                 }}
@@ -199,7 +203,18 @@ export const ClassDetailModal = () => {
                                         <Form.Item
                                             {...restField}
                                             name={[name, "startTime"]}
-                                            rules={[{ required: true, message: "Enter start time" }]}
+                                            rules={[
+                                                { required: true, message: "Enter start time" },
+                                                ({ getFieldValue }) => ({
+                                                    validator(_, value) {
+                                                        const endTime = getFieldValue(['classSchedules', name, 'endTime']);
+                                                        if (!value || !endTime || dayjs(value).isBefore(dayjs(endTime))) {
+                                                            return Promise.resolve();
+                                                        }
+                                                        return Promise.reject(new Error('Start time must be before end time'));
+                                                    },
+                                                }),
+                                            ]}
                                         >
                                             <TimePicker
                                                 disabled={classModalFormData.classID !== -1}
@@ -211,12 +226,9 @@ export const ClassDetailModal = () => {
                                                         ...prev,
                                                         classSchedules: prev.classSchedules.map((schedule, index) =>
                                                             index === name
-                                                                ? {
-                                                                    ...schedule,
-                                                                    startTime: dayjs(timeString + '', 'HH:mm:ss')
-                                                                }
+                                                                ? { ...schedule, startTime: dayjs(timeString + '', 'HH:mm:ss') }
                                                                 : schedule
-                                                        )
+                                                        ),
                                                     }));
                                                 }}
                                             />
@@ -225,7 +237,18 @@ export const ClassDetailModal = () => {
                                         <Form.Item
                                             {...restField}
                                             name={[name, "endTime"]}
-                                            rules={[{ required: true, message: "Enter end time" }]}
+                                            rules={[
+                                                { required: true, message: "Enter end time" },
+                                                ({ getFieldValue }) => ({
+                                                    validator(_, value) {
+                                                        const startTime = getFieldValue(['classSchedules', name, 'startTime']);
+                                                        if (!value || !startTime || dayjs(startTime).isBefore(dayjs(value))) {
+                                                            return Promise.resolve();
+                                                        }
+                                                        return Promise.reject(new Error('End time must be after start time'));
+                                                    },
+                                                }),
+                                            ]}
                                         >
                                             <TimePicker
                                                 disabled={classModalFormData.classID !== -1}
@@ -237,12 +260,9 @@ export const ClassDetailModal = () => {
                                                         ...prev,
                                                         classSchedules: prev.classSchedules.map((schedule, index) =>
                                                             index === name
-                                                                ? {
-                                                                    ...schedule,
-                                                                    endTime: dayjs(timeString + '', 'HH:mm:ss')
-                                                                }
+                                                                ? { ...schedule, endTime: dayjs(timeString + '', 'HH:mm:ss') }
                                                                 : schedule
-                                                        )
+                                                        ),
                                                     }));
                                                 }}
                                             />
@@ -254,12 +274,11 @@ export const ClassDetailModal = () => {
                                             danger
                                             onClick={() => {
                                                 const newClassSchedules = classModalFormData.classSchedules.filter((_, index) => index !== name);
-
                                                 setClassModalFormData((prev) => ({
                                                     ...prev,
                                                     classSchedules: newClassSchedules
                                                 }));
-                                                remove(name)
+                                                remove(name);
                                             }}
                                             icon={<MinusCircleOutlined />}
                                         />
@@ -283,7 +302,7 @@ export const ClassDetailModal = () => {
                                                 additionClassSchedules
                                             ]
                                         }));
-                                        add()
+                                        add();
                                     }}
                                     icon={<PlusOutlined />}
                                 >
@@ -292,6 +311,7 @@ export const ClassDetailModal = () => {
                             </>
                         )}
                     </Form.List>
+                    <div className="text-danger">{classFormDataError?.classSchedules}</div>
                 </Form.Item>
             </Form>
 
@@ -318,10 +338,9 @@ export const ClassDetailModal = () => {
                     <Button
                         type="primary"
                         style={{ background: '#5FCF80' }}
+                        loading={loading}
                         onClick={async () => {
                             try {
-                                // const values = await classDetailForm.validateFields();
-                                // console.log("Form values:", values);
                                 handleCreateClass();
                             } catch (error) {
                                 console.error("Validation failed:", error);

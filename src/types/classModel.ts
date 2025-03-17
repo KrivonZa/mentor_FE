@@ -98,3 +98,9 @@ export interface CourseDetailResponse {
         avatar: string
     }
 }
+
+export interface CreateSessionRequest {
+    selectedScheduleID: number,
+    sessionDate: string,
+    googleMeetUrl: string
+}

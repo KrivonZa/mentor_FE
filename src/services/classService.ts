@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { API_BASE_URL, apiInstance, apiPrivateInstance } from "../constants";
 import { ApiResponse, Pagable } from "../types/apiModel";
-import { ClassCreateRequest, ClassOverallQueryParam, ClassOverallResponse, ClassPortalOverallResposne, ClassUpdateRequest, CourseDetailResponse } from "../types/classModel";
+import { ClassCreateRequest, ClassOverallQueryParam, ClassOverallResponse, ClassPortalOverallResposne, ClassUpdateRequest, CourseDetailResponse, CreateSessionRequest } from "../types/classModel";
 import dayjs from "dayjs";
 
 const classApi = apiInstance({ baseURL: `${API_BASE_URL}/class` });
@@ -81,9 +81,17 @@ const classService = {
             throw error;
         }
     },
-    getClassSessionForPortal: async(id: number): Promise<ApiResponse<any>> => {
+    getClassSessionForPortal: async (id: number): Promise<ApiResponse<any>> => {
         try {
             const response = await classPrivateApi.get(`/get-all-session/${id}`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    createSession: async (request: CreateSessionRequest) => {
+        try {
+            const response = await classPrivateApi.post(`/create-session`, request);
             return response.data;
         } catch (error) {
             throw error;

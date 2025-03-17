@@ -2,6 +2,7 @@ import React from 'react'
 import ClassPortalTable from '../../components/templates/classPortal/ClassPortalTable'
 import ClassDetailModal from '../../components/templates/classPortal/ClassDetailModal'
 import ClassSessionModal from '../../components/templates/classPortal/ClassSessionModal'
+import CreateSessionModal from '../../components/templates/classPortal/CreateSessionModal'
 
 export const ClassPortalLayout = () => {
   return (
@@ -9,6 +10,7 @@ export const ClassPortalLayout = () => {
       <ClassPortalTable />
       <ClassSessionModal/>
       <ClassDetailModal />
+      <CreateSessionModal />
     </div>
   )
 }

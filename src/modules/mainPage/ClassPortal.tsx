@@ -8,6 +8,7 @@ import { DefaultOptionType } from 'antd/es/select';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs'; // Use dayjs
 import { Pagable } from '../../types/apiModel';
+import { toastLoadingFailAction, toastLoadingSuccessAction } from '../../utils/functions';
 
 interface ClassFormDataProps {
   classID: number
@@ -37,12 +38,14 @@ interface Session {
   }
   sessionDate: string
   googleMeetUrl: string
+  classID: string
 }
 
 interface CellInfo {
   expectedStartDate: string
   classSchedules: ClassSchedules[],
   createdSessions: Session[]
+  classID: number
 }
 
 interface ClassPortalProps {
@@ -68,6 +71,11 @@ interface ClassPortalProps {
   setClassSchedules: React.Dispatch<React.SetStateAction<ClassSchedules[]>>,
   cellInfoData: CellInfo
   setCellInfoData: React.Dispatch<React.SetStateAction<CellInfo>>
+  isCreateSessionModal, setCreateSessionModal
+  handleOpenCreateSessionModal: (item: any) => void
+  handleCloseCreateSessionModal: () => void
+  createSessionModalData, setCreateSessionModalData,
+  fetchClassSessions: (classID: number) => Promise<void>
 }
 
 export const ClassPortalContext = createContext<ClassPortalProps | undefined>(undefined);
@@ -84,7 +92,6 @@ export const ClassPortalProvider = ({ children }) => {
   });
   const [classPagination, setClassPagination] = useState<Pagable<ClassPortalOverallResposne> | any>({});
 
-
   //classModal
   const [isClassModalOpen, setClassModalOpen] = useState(false)
 
@@ -94,14 +101,31 @@ export const ClassPortalProvider = ({ children }) => {
   const [cellInfoData, setCellInfoData] = useState<CellInfo>({
     expectedStartDate: '',
     classSchedules: [],
-    createdSessions: []
+    createdSessions: [],
+    classID: -1
   })
+
+  //createSessionModal
+  const [isCreateSessionModal, setCreateSessionModal] = useState(false)
+  const [createSessionModalData, setCreateSessionModalData] = useState<any>({})
+  const handleOpenCreateSessionModal = (item: any) => {
+    setCreateSessionModalData({
+      ...item
+    })
+    setCreateSessionModal(true)
+  }
+
+  const handleCloseCreateSessionModal = () => {
+    setCreateSessionModal(false)
+  }
+
   // Modal control functions
   const showSessionModal = async (item: ClassPortalOverallResposne) => {
     await fetchClassSessions(item.classID)
 
     setCellInfoData((prev) => ({
       ...prev,
+      classID: item.classID,
       expectedStartDate: item.expectedStartDate,
       classSchedules: item.classSchedules,
     }));
@@ -134,7 +158,8 @@ export const ClassPortalProvider = ({ children }) => {
     price: '',
     courseID: '',
     expectedStartDate: '',
-    totalSession: ''
+    totalSession: '',
+    classSchedules: ''
   })
 
   const [courseOptionList, setCourseOptionList] = useState<SelectProps['options']>([]);
@@ -238,6 +263,11 @@ export const ClassPortalProvider = ({ children }) => {
       errCount++;
     }
 
+    if (classModalFormData.classSchedules.length <= 0) {
+      newCourseDetailError.classSchedules = "Class must have at least 1 session"
+      errCount++;
+    }
+
     setClassFormDataError(newCourseDetailError);
 
     return errCount;
@@ -249,8 +279,10 @@ export const ClassPortalProvider = ({ children }) => {
       totalStudent: '',
       price: '',
       courseID: '',
+
       totalSession: '',
-      expectedStartDate: ''
+      expectedStartDate: '',
+      classSchedules: ''
     })
   }
 
@@ -268,17 +300,22 @@ export const ClassPortalProvider = ({ children }) => {
       classSchedules: classModalFormData.classSchedules || []
     }
 
+    setLoading(true);
+    const loadingId = toast.loading("Creating class...");
     try {
       const response = await classService.createClass(classCreateReq)
       if (response) {
         toast.success(response.message);
+        toastLoadingSuccessAction(loadingId, "Create Session Success!");
         fetchClassPortal()
         closeClassModel()
+        setLoading(false);
       }
     } catch (error) {
       console.log("error: ", error);
+      toastLoadingFailAction(loadingId, error.response.data.message);
+      setLoading(false);
     }
-
   }
 
   const handleUpdateClass = async () => {
@@ -324,6 +361,7 @@ export const ClassPortalProvider = ({ children }) => {
       if (response) {
         setCellInfoData((prev) => ({
           ...prev,
+          classID: classID,
           createdSessions: response.data
         }));
       }
@@ -356,7 +394,11 @@ export const ClassPortalProvider = ({ children }) => {
       isClassSessionModalOpen, setClassSessionModalOpen,
       handleCancelSessionModal, handleOkSessionModal, showSessionModal,
       classSchedules, setClassSchedules,
-      cellInfoData, setCellInfoData
+      cellInfoData, setCellInfoData,
+      isCreateSessionModal, setCreateSessionModal,
+      handleOpenCreateSessionModal,
+      handleCloseCreateSessionModal,
+      createSessionModalData, setCreateSessionModalData, fetchClassSessions
     }}>
       {children}
     </ClassPortalContext.Provider>
