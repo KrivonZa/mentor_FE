@@ -4,6 +4,7 @@ import {
   getAllUsers,
   getUserByID,
   deleteUserByID,
+  getUserByEmail
 } from "../../../services/UserService";
 
 export function UserBody() {
@@ -43,7 +44,7 @@ export function UserBody() {
     setLoading(true);
     setError(null);
     try {
-      const response = await getUserByID(searchTerm);
+      const response = await getUserByEmail(searchTerm);
       const user = response.data;
       setAllUsers(user ? [user] : []);
     } catch (err) {
@@ -99,7 +100,7 @@ export function UserBody() {
           </Link>
           <div>
             <form onSubmit={handleSearchByID}>
-              <label htmlFor="search">Search user by ID: </label>
+              <label htmlFor="search">Search user by email: </label>
               <input
                 type="text"
                 id="search"
@@ -121,9 +122,6 @@ export function UserBody() {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-sm font-semibold">
-                  Account ID
-                </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
                   Name
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">
@@ -144,7 +142,6 @@ export function UserBody() {
               {allUsers.length > 0 ? (
                 allUsers.map((user) => (
                   <tr key={user.userID} className="hover:bg-gray-50">
-                    <td className="px-6 py-4">{user.userID}</td>
                     <td className="px-6 py-4">{user.fullname}</td>
                     <td className="px-6 py-4">{user.email}</td>
                     <td className="px-6 py-4">{user.role}</td>

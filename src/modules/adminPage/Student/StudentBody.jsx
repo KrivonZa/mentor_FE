@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  getAllStudents,
-  getStudentByID,
-  deleteStudentByID,
-} from "../../../services/StudentService";
+  getAllUsers,
+  getUserByID,
+  deleteUserByID,
+} from "../../../services/UserService";
 
 export function StudentBody() {
   const [allStudents, setAllStudents] = useState([]);
@@ -22,7 +22,7 @@ export function StudentBody() {
     setLoading(true);
     setError(null);
     try {
-      const response = await getAllStudents();
+      const response = await getAllUsers();
       setAllStudents(response.data || []);
       console.log("Response: ", response.data);
     } catch (err) {
@@ -43,7 +43,7 @@ export function StudentBody() {
     setLoading(true);
     setError(null);
     try {
-      const response = await getStudentByID(searchTerm);
+      const response = await getUserByID(searchTerm);
       const student = response.data;
       setAllStudents(student ? [student] : []);
     } catch (err) {
@@ -57,7 +57,7 @@ export function StudentBody() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await deleteStudentByID(id);
+      const response = await deleteUserByID(id);
       console.log("Response: ", response.data);
       alert(response.data.message);
     } catch (err) {

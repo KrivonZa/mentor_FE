@@ -9,7 +9,16 @@ interface Mentor {
   cv: string;
   introductionVideo?: string;
   mentorStatus?: string;
-  user?:object
+  user?: object
+}
+
+
+interface MentorApprovalRequestDTO {
+  mentorApprovalRequestID: number;
+  assigneeID: number;
+  Bio: string;
+  CV: string;
+  introductionVideo: string;
 }
 
 const createMentor = async (mentor: Mentor): Promise<void> => {
@@ -85,6 +94,67 @@ const getDisableMentors = async (): Promise<Mentor> => {
   }
 };
 
+
+const getAllMentorRequest = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/mentor-approval/get-all-request`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+const getMentorRequestByID = async (id: number) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/mentor-approval/get-request-by-id`, {
+      params: { id },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+const deleteMentorRequestById = async (id: number) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/mentor-approval/delete-request-by-id`, {
+      params: { id },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+const updateMentorRequest = async (id: number, status: string) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/mentor-approval/update-approval-status`, null, {
+      params: { id, status },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+const createMentorRequest = async (mentorApprovalRequest: MentorApprovalRequestDTO) => {
+  try {
+    const token = localStorage.getItem("USER");
+    const response = await axios.post(
+      `${API_BASE_URL}/mentor-approval/create-approval`,
+      mentorApprovalRequest,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export {
   getAllMentors,
   getMentorByID,
@@ -92,5 +162,10 @@ export {
   updateMentor,
   createMentor,
   getDisableMentors,
-  getActiveMentors
+  getActiveMentors,
+  getAllMentorRequest,
+  getMentorRequestByID,
+  createMentorRequest,
+  deleteMentorRequestById,
+  updateMentorRequest
 };
