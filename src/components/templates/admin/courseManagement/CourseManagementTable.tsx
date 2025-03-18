@@ -8,7 +8,10 @@ export const CourseManagementTable = () => {
     if (!context)
         throw new Error("SomeComponent must be used within a CoursePortalProvider");
 
-    const { currentPage, fetchCourseApproval, setCurrentPage, loading, courseApprovalRes } = context
+    const { currentPage, fetchCourseApproval, setCurrentPage, loading, courseApprovalRes,
+        handleOpenCourseViewDetailModal
+
+     } = context
 
 
     function handleSearchByID(event: FormEvent<HTMLFormElement>): void {
@@ -23,15 +26,15 @@ export const CourseManagementTable = () => {
         <main className="flex-1 p-6">
             <div className="bg-white rounded-lg shadow-md p-6">
                 <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold">Pending Courses: </h2>
+                    <h2 className="text-2xl font-bold">Pending Requests: </h2>
                     <Link to="/add-new-user">
                         <button className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors">
-                            Add new user
+                            View history
                         </button>
                     </Link>
                     <div>
                         <form onSubmit={handleSearchByID}>
-                            <label htmlFor="search">Search user by ID: </label>
+                            <label htmlFor="search">Search course name: </label>
                             <input
                                 type="text"
                                 id="search"
@@ -64,13 +67,16 @@ export const CourseManagementTable = () => {
                                 <th className="px-6 py-4 text-left text-sm font-semibold">
                                     Created At
                                 </th>
-                                <th className="px-6 py-4 text-left text-sm font-semibold">
+                                {/* <th className="px-6 py-4 text-left text-sm font-semibold">
                                     AssigneeNote
+                                </th> */}
+                                <th className="px-6 py-4 text-left text-sm font-semibold">
+                                    Actions
                                 </th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                            {!loading && courseApprovalRes?.content?.map(
+                            {!loading && courseApprovalRes?.data?.content?.map(
                                 request => (
                                     <tr key={request?.courseApprovalRequestID} className="hover:bg-gray-50 transition-colors">
                                         <td className="px-6 py-4">
@@ -79,19 +85,51 @@ export const CourseManagementTable = () => {
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
                                                 <img
-                                                    src={
-                                                        request?.courseDetail.thumbnail || "https://placehold.co/100x70"
-                                                    }
+                                                    src={request?.courseDetail?.thumbnail || "https://placehold.co/100x70"}
                                                     alt="thumbnail"
-                                                    className="rounded-lg w-[100px] h-[70px] object-cover"
+                                                    className="rounded" // Bootstrap class for rounded corners
+                                                    style={{
+                                                        width: "200px",
+                                                        height: "100px",
+                                                        objectFit: "cover",
+                                                        borderRadius: "8px", // Matches Tailwind's rounded-lg
+                                                    }}
                                                 />
                                                 <div>
-                                                    <p className="font-medium">{request?.courseDetail.courseName}</p>
+                                                    <p className="font-medium">{request?.courseDetail?.courseName}</p>
                                                     <p className="text-sm text-gray-500">
-                                                        {request?.courseDetail.description}
+                                                        {request?.courseDetail?.description}
                                                     </p>
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <span
+                                                className="px-3 py-1 rounded-full text-sm fw-bolder d-flex align-items-center"
+                                                style={{ color: "#f3b25c" }}
+                                            >
+                                                {request?.status}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {request?.createdAt}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <button
+                                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                            >
+                                                <span className="material-symbols-outlined">list_alt_check</span>
+                                            </button>
+                                            <button
+                                                onClick={async () => {
+                                                    handleOpenCourseViewDetailModal(request)
+                                                }}
+                                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                            >
+                                                <span className="material-symbols-outlined">
+                                                    visibility
+                                                </span>
+                                            </button>
                                         </td>
                                     </tr>
                                 )

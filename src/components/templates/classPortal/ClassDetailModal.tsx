@@ -51,7 +51,6 @@ export const ClassDetailModal = () => {
 
     useEffect(() => {
         classDetailForm?.setFieldsValue(classModalFormData);
-        console.log("classModalFormData: ", classModalFormData);
 
     }, [classModalFormData, classDetailForm]);
 

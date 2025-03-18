@@ -53,36 +53,44 @@ export const LessonFormTab = () => {
         let newLessonErrorMessage: LessonDetailFormData[] = [...lessonErrorMessage];
 
         lessonDetailFormDataList.forEach((lesson, index) => {
-            if (lesson.description.trim() === "") {
+            if (lesson.description.trim() == "") {
                 newLessonErrorMessage[index].description = "Lesson Description is required";
                 errCount++;
             } else {
                 newLessonErrorMessage[index].description = "";
             }
-            if (lesson.lessonStatus.trim() === "") {
+            if (lesson.lessonStatus.trim() == "") {
                 newLessonErrorMessage[index].lessonStatus = "Lesson Status is required";
                 errCount++;
             } else {
                 newLessonErrorMessage[index].lessonStatus = "";
             }
+            
 
-            if (lesson.schedule.length > 0) {
-                lesson.schedule.forEach((schedule, scheduleIndex) => {
-                    if (!schedule.startTime) {
-                        newLessonErrorMessage[index].schedule[scheduleIndex].startTime = "Start Time is required";
-                        errCount++;
-                    } else {
-                        newLessonErrorMessage[index].schedule[scheduleIndex].startTime = null;
-                    }
-                    if (!schedule.endTime) {
-                        newLessonErrorMessage[index].schedule[scheduleIndex].endTime = "End Time is required";
-                        errCount++;
-                    } else {
-                        newLessonErrorMessage[index].schedule[scheduleIndex].endTime = null;
-                    }
-                });
-            }
+            // if (lesson.schedule.length > 0) {
+            //     lesson.schedule.forEach((schedule, scheduleIndex) => {
+            //         if (!schedule.startTime) {
+            //             newLessonErrorMessage[index].schedule[scheduleIndex].startTime = "Start Time is required";
+            //             errCount++;
+            //         } else {
+            //             newLessonErrorMessage[index].schedule[scheduleIndex].startTime = null;
+            //         }
+            //         if (!schedule.endTime) {
+            //             newLessonErrorMessage[index].schedule[scheduleIndex].endTime = "End Time is required";
+            //             errCount++;
+            //         } else {
+            //             newLessonErrorMessage[index].schedule[scheduleIndex].endTime = null;
+            //         }
+            //     });
+            // }
         });
+
+        if (lessonDetailFormDataList.length == 0) {
+            errCount++;
+        }
+
+        console.log("error: ", errCount);
+        
 
         setLessonErrorMessage([...newLessonErrorMessage]);
 
@@ -90,11 +98,15 @@ export const LessonFormTab = () => {
     }
 
     const handleCreate = async () => {
-        const loadingId = toast.loading("Update course...");
-
+        const loadingId = toast.loading("Creating Lesson...");
+        console.log("CreateLesson");
+        
         try {
             const errCount = validateLessonDetailTabs()
-            if (errCount > 0) return
+            if (errCount > 0){
+                toastLoadingFailAction(loadingId, "Please fill in all required fields.");
+                return
+            } 
 
             const request: CreateCourseRequest = {
                 thumbnail: fileList[0],
@@ -111,13 +123,13 @@ export const LessonFormTab = () => {
             }
 
             const response = await courseService.createCourse(request);
-            if (response.data) toastLoadingSuccessAction(loadingId, "Create course successfully!");
+            if (response.data) toastLoadingSuccessAction(loadingId, "Create lesson successfully!");
         
             await fetchPortalDetail();
             handleCloseCourseModal();
 
         } catch (error) {
-            toastLoadingFailAction(loadingId, "Failed when create course");
+            toastLoadingFailAction(loadingId, "Failed when create lesson");
             console.error("Error creating courseeeeeeee:", error);
         }
     }

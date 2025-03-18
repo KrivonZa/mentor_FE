@@ -32,6 +32,14 @@ const courseApprovalService = {
         } catch (error) {
             throw error;
         }
+    },
+    verifyCourse: async (req: any) => {
+        try {
+            const response = await coursePrivateApi.post(`/verify-course`, req);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
 
 }

@@ -18,10 +18,6 @@ export const CourseRender = () => {
         }
     };
 
-    useEffect(() => {
-        console.log("courseL: ", courseList);
-    }, [courseList])
-
     return (
         <section id="courses" className="courses section">
             <div className="container">

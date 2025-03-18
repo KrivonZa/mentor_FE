@@ -62,20 +62,11 @@ const LessonDetailModal = () => {
         setLessonDetailFormData((prev) => ({ ...prev, lessonStatus: value }));
     };
 
-    // IN_COMMING,
-    //     IN_PROGRESS,
-    //     CANCELLED,
     const lessonStatusOptions = [
         { value: "IN_COMMING", label: "In Comming" },
         { value: "IN_PROGRESS", label: "In Progress" },
         { value: "CANCELLED", label: "Cancelled" }
     ];
-
-
-    // DATEPICKER 
-    const onChange: DatePickerProps['onChange'] = (_, dateStr) => {
-        console.log('onChange:', dateStr);
-    };
 
     //Submit
     //*Create-Lesson
@@ -139,6 +130,13 @@ const LessonDetailModal = () => {
         }
     }
 
+    //validate
+    const noOnlyWhitespace = (_, value) => {
+        if (value && value.trim() === '') {
+            return Promise.reject(new Error('Description cannot contain only spaces'));
+        }
+        return Promise.resolve();
+    };
 
     return (
         <ConfigProvider
@@ -160,7 +158,7 @@ const LessonDetailModal = () => {
                 maskClosable={false}
             >
                 <Form
-                    id='lessonDetailForm'
+                    id="lessonDetailForm"
                     form={lessonDetailForm}
                     layout="vertical"
                     onFinish={handleSubmitForm}
@@ -170,7 +168,10 @@ const LessonDetailModal = () => {
                     <Form.Item
                         label="Lesson Description"
                         name="description"
-                        rules={[{ required: true, message: "Please enter lesson description" }]}
+                        rules={[
+                            { required: true, message: "Please enter lesson description" },
+                            { validator: noOnlyWhitespace }
+                        ]}
                     >
                         <Input.TextArea
                             placeholder="Enter Lesson Description"
@@ -180,34 +181,37 @@ const LessonDetailModal = () => {
                         />
                     </Form.Item>
 
-
                     {/* Is Trial Lesson */}
-                    <Form.Item label="Trial Lesson" name="trialLesson" valuePropName="checked">
+                    <Form.Item
+                        label="Trial Lesson"
+                        name="trialLesson"
+                        valuePropName="checked"
+                    >
                         <Switch
                             checked={lessonDetailFormData.trialLesson}
                             onChange={handleSwitchChange}
                         />
                     </Form.Item>
 
-
                     {/* Footer Buttons */}
                     <Form.Item className="text-right">
                         <Button onClick={handleCancel} style={{ marginRight: 8 }}>
                             Cancel
                         </Button>
-                        {(lessonDetailFormData.lessonID == -1)
-                            ? (<Button className='btn btn-success' type="primary" htmlType="submit"
-                            // onClick={createLesson}
+                        {lessonDetailFormData.lessonID === -1 ? (
+                            <Button
+                                className="btn btn-success"
+                                type="primary"
+                                htmlType="submit"
                             >
                                 Create
-                            </Button>)
-                            : (<Button type="primary" htmlType="submit">
+                            </Button>
+                        ) : (
+                            <Button type="primary" htmlType="submit">
                                 Save
-                            </Button>)
-                        }
+                            </Button>
+                        )}
                     </Form.Item>
-
-
                 </Form>
             </Modal>
         </ConfigProvider>

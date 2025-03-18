@@ -8,11 +8,6 @@ import { Empty } from 'antd';
 export const CourseDetailSchedule = () => {
     const { courseDetail, isLoading } = useContext(CourseDetailContext);
 
-    useEffect(() => {
-        console.log('adasd: ', courseDetail);
-        
-    }, [courseDetail])
-
     return (
         <section id="tabs" className="tabs section">
             <div className="container" data-aos="fade-up" data-aos-delay={100}>

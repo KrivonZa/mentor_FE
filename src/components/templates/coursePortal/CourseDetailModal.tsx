@@ -69,11 +69,11 @@ export const CourseDetailModal = () => {
         } catch (error) {
             console.error("Error creating course:", error);
         }
-        console.log("Submit ne");
     }
 
     return (
         <Modal
+            maskClosable={false}
             wrapClassName='courseDetailModal'
             title="Course Details"
             open={isCourseDetailModalOpen}

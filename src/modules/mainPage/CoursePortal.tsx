@@ -113,7 +113,6 @@ export const CoursePortalProvider = ({ children }) => {
     setIsCourseDetailModalOpen(true);
     if (courseID != -1) {
       const courseDetail = listCoursePortal?.content.find((course) => course.courseID == courseID);
-      console.log("courseDebug: ", courseDetail);
       
       setCourseDetailFormData({
         courseID: courseDetail?.courseID || -1,
@@ -170,7 +169,6 @@ export const CoursePortalProvider = ({ children }) => {
 
 
   const showLessonDetailModal = (lessonID: number, courseID: number, lessonDetail?: Lesson,) => {
-    console.log("debug: ", lessonID, courseID, lessonDetail);
     setIsLessonDetailModalOpen(true);
     if (lessonID != -1 && lessonDetail) {
       
@@ -342,6 +340,7 @@ export const CoursePortalProvider = ({ children }) => {
     resetCourseDetailModal();
     resetCourseErrorMessage();
     resetLessonErrorMessage();
+    setActiveKey("1")
   }
 
   //Fetch for re-use

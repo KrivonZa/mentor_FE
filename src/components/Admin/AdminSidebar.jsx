@@ -30,8 +30,6 @@ export function AdminSidebar() {
     navigate("/");
   };
 
-  console.log(user)
-
   return (
     <aside className="d-flex flex-column w-64 bg-white shadow-lg" style={{ width: "250px", height: "100vh" }}>
       <div className="p-3 bg-success text-white text-center fw-bold">
