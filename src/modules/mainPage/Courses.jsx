@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import CourseLayout from "../../layouts/CourseLayout";
 import courseService from "../../services/courseService";
+import classService from "../../services/classService";
 
 export const CourseContext = createContext({});
 
@@ -8,24 +9,30 @@ export const CourseProvider = ({ children }) => {
   const [courseList, setCourseList] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchFilter, setSearchFilter] = useState("");
+  const [classFilter, setClassFilter] = useState({
+    page: 1,
+    name: '',
+    perPage: 6,
+    priceStart: 0,
+    priceEnd: 0
+  })
 
-  const itemsPerPage = 10;
-  const totalPages = Math.ceil(courseList.length / itemsPerPage);
-
-  const fetchCoursePagi = async (page, filter) => {
+  const fetchCoursePagi = async () => {
     setIsLoading(true);
-    const response = await courseService.getAllCoursePagination(page, filter);
+    const response = await classService.getClassPagination(classFilter);
     setCourseList(response.data);
     setIsLoading(false);
   };
 
   useEffect(() => {
-    fetchCoursePagi(currentPage, searchFilter);
-  }, [currentPage, searchFilter]);
+    fetchCoursePagi();
+  }, [classFilter]);
 
   return (
-    <CourseContext.Provider value={{ courseList, isLoading, currentPage, setCurrentPage, setSearchFilter }}>
+    <CourseContext.Provider value={{
+      courseList, isLoading,
+      classFilter, setClassFilter
+    }}>
       {children}
     </CourseContext.Provider>
   );

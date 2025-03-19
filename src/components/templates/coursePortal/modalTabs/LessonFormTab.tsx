@@ -53,36 +53,44 @@ export const LessonFormTab = () => {
         let newLessonErrorMessage: LessonDetailFormData[] = [...lessonErrorMessage];
 
         lessonDetailFormDataList.forEach((lesson, index) => {
-            if (lesson.description.trim() === "") {
+            if (lesson.description.trim() == "") {
                 newLessonErrorMessage[index].description = "Lesson Description is required";
                 errCount++;
             } else {
                 newLessonErrorMessage[index].description = "";
             }
-            if (lesson.lessonStatus.trim() === "") {
+            if (lesson.lessonStatus.trim() == "") {
                 newLessonErrorMessage[index].lessonStatus = "Lesson Status is required";
                 errCount++;
             } else {
                 newLessonErrorMessage[index].lessonStatus = "";
             }
+            
 
-            if (lesson.schedule.length > 0) {
-                lesson.schedule.forEach((schedule, scheduleIndex) => {
-                    if (!schedule.startTime) {
-                        newLessonErrorMessage[index].schedule[scheduleIndex].startTime = "Start Time is required";
-                        errCount++;
-                    } else {
-                        newLessonErrorMessage[index].schedule[scheduleIndex].startTime = null;
-                    }
-                    if (!schedule.endTime) {
-                        newLessonErrorMessage[index].schedule[scheduleIndex].endTime = "End Time is required";
-                        errCount++;
-                    } else {
-                        newLessonErrorMessage[index].schedule[scheduleIndex].endTime = null;
-                    }
-                });
-            }
+            // if (lesson.schedule.length > 0) {
+            //     lesson.schedule.forEach((schedule, scheduleIndex) => {
+            //         if (!schedule.startTime) {
+            //             newLessonErrorMessage[index].schedule[scheduleIndex].startTime = "Start Time is required";
+            //             errCount++;
+            //         } else {
+            //             newLessonErrorMessage[index].schedule[scheduleIndex].startTime = null;
+            //         }
+            //         if (!schedule.endTime) {
+            //             newLessonErrorMessage[index].schedule[scheduleIndex].endTime = "End Time is required";
+            //             errCount++;
+            //         } else {
+            //             newLessonErrorMessage[index].schedule[scheduleIndex].endTime = null;
+            //         }
+            //     });
+            // }
         });
+
+        if (lessonDetailFormDataList.length == 0) {
+            errCount++;
+        }
+
+        console.log("error: ", errCount);
+        
 
         setLessonErrorMessage([...newLessonErrorMessage]);
 
@@ -90,11 +98,15 @@ export const LessonFormTab = () => {
     }
 
     const handleCreate = async () => {
-        const loadingId = toast.loading("Update course...");
-
+        const loadingId = toast.loading("Creating Lesson...");
+        console.log("CreateLesson");
+        
         try {
             const errCount = validateLessonDetailTabs()
-            if (errCount > 0) return
+            if (errCount > 0){
+                toastLoadingFailAction(loadingId, "Please fill in all required fields.");
+                return
+            } 
 
             const request: CreateCourseRequest = {
                 thumbnail: fileList[0],
@@ -111,13 +123,13 @@ export const LessonFormTab = () => {
             }
 
             const response = await courseService.createCourse(request);
-            if (response.data) toastLoadingSuccessAction(loadingId, "Create course successfully!");
+            if (response.data) toastLoadingSuccessAction(loadingId, "Create lesson successfully!");
         
             await fetchPortalDetail();
             handleCloseCourseModal();
 
         } catch (error) {
-            toastLoadingFailAction(loadingId, "Failed when create course");
+            toastLoadingFailAction(loadingId, "Failed when create lesson");
             console.error("Error creating courseeeeeeee:", error);
         }
     }
@@ -200,310 +212,8 @@ export const LessonFormTab = () => {
                                         />
                                     </Form.Item>
 
-                                    {/* Lesson Schedule */}
-                                    <Form.List name={[name, "schedule"]}>
-                                        {(scheduleFields, { add: addSchedule, remove: removeSchedule }) => (
-                                            <>
-                                                {scheduleFields.length === 0 ? (
-                                                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                                                ) : (
-                                                    scheduleFields.map(({ key: scheduleKey, name: scheduleName, ...scheduleRestField }) => (
-                                                        <div key={scheduleKey} style={{ width: "100%", display: "flex", flexDirection: "column", marginBottom: 8, padding: 10, border: "1px dashed #ccc" }}>
-                                                            <Space align="baseline" style={{ display: "flex", flexDirection: "row", marginBottom: 8 }}>
-                                                                {/* Start Time */}
-                                                                <Form.Item
-                                                                    {...scheduleRestField}
-                                                                    name={[scheduleName, "startTime"]}
-                                                                    rules={[{ required: true, message: "Start time is required" }]}
-                                                                >
-                                                                    <DatePicker
-                                                                        showTime
-                                                                        format="YYYY-MM-DD HH:mm:ss"
-                                                                        onChange={(date, dateString) => {
-                                                                            const startTimeValue: any = dateString;
-
-                                                                            setLessonDetailFormDataList((prev) =>
-                                                                                prev.map((lesson, lessonIndex) =>
-                                                                                    lessonIndex === name
-                                                                                        ? {
-                                                                                            ...lesson,
-                                                                                            schedule: lesson.schedule.map((schedule, scheduleIndex) =>
-                                                                                                scheduleIndex === scheduleName
-                                                                                                    ? { ...schedule, startTime: startTimeValue }
-                                                                                                    : schedule
-                                                                                            ),
-                                                                                        }
-                                                                                        : lesson
-                                                                                )
-                                                                            );
-                                                                        }}
-                                                                        disabledDate={(current) => {
-                                                                            const now = dayjs();
-                                                                            const endTime = lessonDetailFormDataList[name]?.schedule[scheduleName]?.endTime
-                                                                                ? dayjs(lessonDetailFormDataList[name].schedule[scheduleName].endTime)
-                                                                                : null;
-
-                                                                            // Disable past dates
-                                                                            if (current.isBefore(now, "day")) {
-                                                                                return true;
-                                                                            }
-
-                                                                            // Disable dates after endTime if endTime exists
-                                                                            if (endTime && current.isAfter(endTime, "day")) {
-                                                                                return true;
-                                                                            }
-
-                                                                            return false;
-                                                                        }}
-                                                                        disabledTime={(current) => {
-                                                                            if (!current) return {};
-
-                                                                            const now = dayjs();
-                                                                            const endTime = lessonDetailFormDataList[name]?.schedule[scheduleName]?.endTime
-                                                                                ? dayjs(lessonDetailFormDataList[name].schedule[scheduleName].endTime)
-                                                                                : null;
-
-                                                                            return {
-                                                                                disabledHours: () => {
-                                                                                    const hours: number[] = [];
-
-                                                                                    // Disable past hours if the selected date is today
-                                                                                    if (current.isSame(now, "day")) {
-                                                                                        for (let i = 0; i < now.hour(); i++) {
-                                                                                            hours.push(i);
-                                                                                        }
-                                                                                    }
-
-                                                                                    // Disable hours after endTime if endTime exists and is on the same day
-                                                                                    if (endTime && current.isSame(endTime, "day")) {
-                                                                                        for (let i = endTime.hour() + 1; i < 24; i++) {
-                                                                                            hours.push(i);
-                                                                                        }
-                                                                                    }
-
-                                                                                    return hours;
-                                                                                },
-                                                                                disabledMinutes: (selectedHour) => {
-                                                                                    const minutes: number[] = [];
-
-                                                                                    // Disable past minutes if the selected date and hour is the current hour
-                                                                                    if (current.isSame(now, "day") && selectedHour === now.hour()) {
-                                                                                        for (let i = 0; i < now.minute(); i++) {
-                                                                                            minutes.push(i);
-                                                                                        }
-                                                                                    }
-
-                                                                                    // Disable minutes after endTime if selected hour matches endTime's hour
-                                                                                    if (
-                                                                                        endTime &&
-                                                                                        current.isSame(endTime, "day") &&
-                                                                                        selectedHour === endTime.hour()
-                                                                                    ) {
-                                                                                        for (let i = endTime.minute(); i < 60; i++) {
-                                                                                            minutes.push(i);
-                                                                                        }
-                                                                                    }
-
-                                                                                    return minutes;
-                                                                                },
-                                                                            };
-                                                                        }}
-                                                                    />
-                                                                    <span className='text-danger'>{lessonErrorMessage[name]?.schedule[scheduleName].startTime}</span>
-                                                                </Form.Item>
-
-                                                                <span>-</span>
-
-                                                                {/* End Time */}
-                                                                <Form.Item
-                                                                    {...scheduleRestField}
-                                                                    name={[scheduleName, "endTime"]}
-                                                                    rules={[{ required: true, message: "End time is required" }]}
-                                                                >
-                                                                    <DatePicker
-                                                                        showTime
-                                                                        format="YYYY-MM-DD HH:mm:ss"
-                                                                        onChange={(date, dateString) => {
-                                                                            const endTimeValue: any = dateString;
-
-                                                                            setLessonDetailFormDataList((prev) =>
-                                                                                prev.map((lesson, lessonIndex) =>
-                                                                                    lessonIndex === name
-                                                                                        ? {
-                                                                                            ...lesson,
-                                                                                            schedule: lesson.schedule.map((schedule, scheduleIndex) =>
-                                                                                                scheduleIndex === scheduleName
-                                                                                                    ? { ...schedule, endTime: endTimeValue }
-                                                                                                    : schedule
-                                                                                            ),
-                                                                                        }
-                                                                                        : lesson
-                                                                                )
-                                                                            );
-                                                                        }}
-                                                                        disabledDate={(current) => {
-                                                                            const now = dayjs();
-                                                                            const startTime = lessonDetailFormDataList[name]?.schedule[scheduleName]?.startTime
-                                                                                ? dayjs(lessonDetailFormDataList[name]?.schedule[scheduleName]?.startTime)
-                                                                                : null;
-
-                                                                            // Disable before startTime if exists
-                                                                            if (startTime && current.isBefore(startTime, "day")) {
-                                                                                return true;
-                                                                            }
-
-                                                                            // Disable past dates
-                                                                            if (current.isBefore(now, "day")) {
-                                                                                return true;
-                                                                            }
-
-                                                                            return false;
-
-                                                                        }}
-                                                                        disabledTime={(current) => {
-                                                                            if (!current) return {};
-
-                                                                            const startTime = dayjs(lessonDetailFormDataList[name]?.schedule[scheduleName]?.startTime);
-
-                                                                            // If the selected date is the same as startTime's date, disable past hours and minutes
-                                                                            if (current.isSame(startTime, "day")) {
-                                                                                return {
-                                                                                    disabledHours: () =>
-                                                                                        Array.from({ length: startTime.hour() }, (_, i) => i), // Disable hours before startTime
-                                                                                    disabledMinutes: (selectedHour) =>
-                                                                                        selectedHour === startTime.hour()
-                                                                                            ? Array.from({ length: startTime.minute() }, (_, i) => i) // Disable minutes before startTime
-                                                                                            : [],
-                                                                                    disabledSeconds: (selectedHour, selectedMinute) =>
-                                                                                        selectedHour === startTime.hour() && selectedMinute === startTime.minute()
-                                                                                            ? Array.from({ length: startTime.second() }, (_, i) => i) // Disable seconds before startTime
-                                                                                            : []
-                                                                                };
-                                                                            }
-                                                                            return {};
-                                                                        }}
-                                                                    />
-                                                                    <span className='text-danger'>{lessonErrorMessage[name]?.schedule[scheduleName].endTime}</span>
-                                                                </Form.Item>
-
-                                                                {/* Remove Schedule Button */}
-                                                                <Button danger
-                                                                    onClick={() => {
-                                                                        removeSchedule(scheduleName); // Removes the form field from Ant Design Form.List
-
-                                                                        setLessonDetailFormDataList((prev) =>
-                                                                            prev.map((lesson, index) =>
-                                                                                index === name
-                                                                                    ? {
-                                                                                        ...lesson,
-                                                                                        schedule: lesson.schedule.filter(
-                                                                                            (_, scheduleIndex) => scheduleIndex !== scheduleName
-                                                                                        ),
-                                                                                    }
-                                                                                    : lesson
-                                                                            )
-                                                                        );
-
-                                                                        //Error
-                                                                        setLessonErrorMessage((prev) =>
-                                                                            prev.map((lesson, index) =>
-                                                                                index === name
-                                                                                    ? {
-                                                                                        ...lesson,
-                                                                                        schedule: lesson.schedule.filter(
-                                                                                            (_, scheduleIndex) => scheduleIndex !== scheduleName
-                                                                                        ),
-                                                                                    }
-                                                                                    : lesson
-                                                                            )
-                                                                        );
-
-
-                                                                    }}
-                                                                >
-                                                                    <MinusOutlined />
-                                                                </Button>
-                                                            </Space>
-                                                            <Form.Item {...scheduleRestField} name={[scheduleName, "googleMeetUrl"]}>
-                                                                <Input
-                                                                    placeholder="Enter Google Meet URL"
-                                                                    value={lessonDetailFormDataList[name]?.schedule[scheduleName]?.googleMeetUrl || ""}
-                                                                    onChange={(e) => {
-                                                                        const newValue = e.target.value;
-
-                                                                        setLessonDetailFormDataList((prev) =>
-                                                                            prev.map((lesson, lessonIndex) =>
-                                                                                lessonIndex === name
-                                                                                    ? {
-                                                                                        ...lesson,
-                                                                                        schedule: lesson.schedule.map((schedule, scheduleIndex) =>
-                                                                                            scheduleIndex === scheduleName
-                                                                                                ? { ...schedule, googleMeetUrl: newValue }
-                                                                                                : schedule
-                                                                                        ),
-                                                                                    }
-                                                                                    : lesson
-                                                                            )
-                                                                        );
-                                                                    }}
-                                                                />
-                                                            </Form.Item>
-                                                        </div>
-
-                                                    ))
-                                                )}
-
-                                                {/* Add Schedule Button */}
-                                                <Button className='w-75 m-auto mb-3' type="dashed"
-                                                    onClick={() => {
-                                                        addSchedule(); // Adds a new form field in Ant Design Form.List
-
-                                                        const newSchedule = {
-                                                            scheduleID: -1,
-                                                            startTime: null,
-                                                            endTime: null,
-                                                            googleMeetUrl: null,
-                                                        }
-
-                                                        setLessonDetailFormDataList((prev) =>
-                                                            prev.map((lesson, index) =>
-                                                                index === name
-                                                                    ? {
-                                                                        ...lesson,
-                                                                        schedule: [
-                                                                            ...lesson.schedule,
-                                                                            newSchedule
-                                                                        ],
-                                                                    }
-                                                                    : lesson
-                                                            )
-                                                        );
-
-                                                        //Error Validate
-                                                        setLessonErrorMessage((prev) =>
-                                                            prev.map((lesson, index) =>
-                                                                index === name
-                                                                    ? {
-                                                                        ...lesson,
-                                                                        schedule: [
-                                                                            ...lesson.schedule,
-                                                                            newSchedule
-                                                                        ],
-                                                                    }
-                                                                    : lesson
-                                                            )
-                                                        );
-
-                                                    }}
-                                                    block>
-                                                    <PlusOutlined /> Add Schedule
-                                                </Button>
-                                            </>
-                                        )}
-                                    </Form.List>
-
                                     {/* Remove Lesson Button */}
-                                    < Button style={{ width: '90%' }} className='m-auto mt-2' type="dashed" danger onClick={() => {
+                                    <Button style={{ width: '90%' }} className='m-auto mt-2' type="dashed" danger onClick={() => {
                                         remove(name)
                                         setLessonDetailFormDataList((prev) => ([...prev.slice(0, name), ...prev.slice(name + 1)]));
                                         setLessonErrorMessage((prev) => ([...prev.slice(0, name), ...prev.slice(name + 1)]));

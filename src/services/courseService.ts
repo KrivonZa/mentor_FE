@@ -153,5 +153,16 @@ const courseService = {
       return null;
     }
   },
+
+  getMentorCourseOptionForPortal: async () => {
+    try {
+      const response = await coursePrivateApi.get(`/get-course-option-for-portal`);
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting course:", error);
+      toast.error(error.response.data.message);
+      return null;
+    }
+  },
 };
 export default courseService;

@@ -30,8 +30,6 @@ export function AdminSidebar() {
     navigate("/");
   };
 
-  console.log(user)
-
   return (
     <aside className="d-flex flex-column w-64 bg-white shadow-lg" style={{ width: "250px", height: "100vh" }}>
       <div className="p-3 bg-success text-white text-center fw-bold">
@@ -48,6 +46,7 @@ export function AdminSidebar() {
             { to: "/admin/mentor-approval", label: "Mentor Request", icon: "computer" },
             { to: "/admin/staffs", label: "Staffs", icon: "engineering" },
             { to: "/admin/report", label: "Reports", icon: "flag" },
+            { to: "/admin/approve-course", label: "Approve Course", icon: "thumbs_up_down" }
           ].map((item) => (
             <li key={item.to} className="position-relative p-2">
               <Link

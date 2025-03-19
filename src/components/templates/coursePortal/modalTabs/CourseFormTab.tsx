@@ -44,11 +44,7 @@ export const CourseFormTab = () => {
     }, [listSkill])
 
     useEffect(() => {
-        courseDetailForm.setFieldsValue(courseDetailFormData)
-        console.log("courseDetailFormData: ", courseDetailFormData);
-        console.log("courseDetailFormDataHehe: ", skillOptionList);
-        
-
+        courseDetailForm.setFieldsValue(courseDetailFormData)   
     }, [courseDetailFormData])
 
     const handleClose = () => {
@@ -145,7 +141,7 @@ export const CourseFormTab = () => {
             </Form.Item>
 
             {/* Price */}
-            <Form.Item
+            {/* <Form.Item
                 label="Price (VND)"
                 name="price"
                 rules={[{ required: true, message: "Please enter price" }]}
@@ -156,8 +152,8 @@ export const CourseFormTab = () => {
                     value={courseDetailFormData.price}
                     onChange={(value) => handleNumberChange("price", value)}
                 />
-                <span className='text-danger'>{courseDetailError?.price}</span>
-            </Form.Item>
+                <span className='text-danger'>NO LONGER</span>
+            </Form.Item> */}
 
             {/* Thumbnail URL */}
             <Form.Item
@@ -209,31 +205,6 @@ export const CourseFormTab = () => {
                     value={courseDetailFormData.level}
                 />
             </Form.Item>
-
-
-            {/* Free Trial */}
-            <Form.Item label="Free Trial" name="freeTrial" valuePropName="checked">
-                <Switch
-                    checked={courseDetailFormData.freeTrial}
-                    onChange={handleSwitchChange}
-                />
-            </Form.Item>
-
-            {/* Total Students */}
-            <Form.Item
-                label="Total Students"
-                name="totalStudent"
-                rules={[{ required: true, message: "Please enter number of students" }]}
-            >
-                <InputNumber
-                    min={0}
-                    style={{ width: "100%" }}
-                    value={courseDetailFormData.totalStudent}
-                    onChange={(value) => handleNumberChange("totalStudent", value)}
-                />
-                <span className='text-danger'>{courseDetailError?.totalStudent}</span>
-            </Form.Item>
-
 
             {/* Skills */}
             <Form.Item

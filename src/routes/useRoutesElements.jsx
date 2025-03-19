@@ -29,8 +29,12 @@ import {
 } from "../modules/adminPage";
 import { UserProfile, Wallet, UserViewSchedule, ViewDetailSchedule, TransactionHistory } from "../modules/userPage";
 import { NotFound, ServerError } from "../modules/errorPage"
+import ClassPortal from "../modules/mainPage/ClassPortal";
+import CourseRequestPortal from "../modules/mainPage/CourseRequestPortal";
 import MentorRequestForm from "../components/User/MentorRequestForm";
 import MentorApprovalRequest from "../modules/adminPage/Mentor/MentorApprovalRequest";
+import CourseManagement from "../modules/adminPage/CourseManagement/CourseManagement";
+
 const role = localStorage.getItem("ROLE")
 
 const titleMap = {
@@ -51,6 +55,8 @@ const titleMap = {
   "/user/schedule": "My Schedule",
   "/user/schedule/:id": "Detail Schedule",
   "/user/course-portal": "Manage Courses",
+  "/user/class-portal": "Manage Classes",
+  "/user/course-request": "Manage Course Requests",
   "/admin": "Users Dashboard",
   "/admin/mentors": "Mentors Dashboard",
   "/admin/students": "Students Dashboard",
@@ -297,6 +303,14 @@ const useRoutesElements = () => {
             {
               path: "course-portal",
               element: <CoursePortal />
+            },
+            {
+              path: "class-portal",
+              element: <ClassPortal />
+            },
+            {
+              path: "course-request",
+              element: <CourseRequestPortal />
             }
           ],
         },] : []),
@@ -339,6 +353,10 @@ const useRoutesElements = () => {
             path: "report",
             element: <Report />,
           },
+          {
+            path: "approve-course",
+            element: <CourseManagement />
+          }
         ],
       },
     ] : []),

@@ -1,13 +1,13 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { getUserByToken } from "../services/UserService";
-import { useUser } from "../global/userContext";
+import { AppContext } from "../App";
 
 export default function Header() {
   const token = localStorage.getItem("USER")
   const role = localStorage.getItem("ROLE")
   const navigate = useNavigate();
-  const { setUser, user } = useUser();
+  const { setUser, user } = useContext(AppContext);
 
   useEffect(() => {
     const fetchUser = async () => {

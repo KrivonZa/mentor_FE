@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import transactionService from "../../services/transactionService";
-import { useUser } from "../../global/userContext";
 import "./styles.css"
+import { AppContext } from "../../App";
 
 export function Wallet() {
     const [balance, setBalance] = useState(0);
@@ -12,7 +12,7 @@ export function Wallet() {
     const [bankName, setBankName] = useState("");
     const [accountNumber, setAccountNumber] = useState("");
     const [accountHolderName, setAccountHolderName] = useState("");
-    const { user } = useUser();
+    const { user } = useContext(AppContext);
 
     useEffect(() => {
         setBalance(user?.balance || 0);

@@ -11,7 +11,8 @@ import lessonService from "../../../services/lessonService";
 import { Empty } from "antd";
 import Search from "antd/es/input/Search";
 import { Spin } from 'antd';
-import { toastLoadingSuccessAction } from '../../../utils/functions.ts'
+import { toastLoadingFailAction, toastLoadingSuccessAction } from '../../../utils/functions.ts'
+import courseApprovalService from "../../../services/courseApprovalService.ts";
 
 export const CoursePortalTable = () => {
   const context = useContext(CoursePortalContext);
@@ -30,15 +31,16 @@ export const CoursePortalTable = () => {
   } = context;
 
   const handleDeleteLesson = async (lessonID: number) => {
+    const loadingId = toast.loading("Deleting lesson...");
     try {
-      const loadingId = toast.loading("Deleting course...");
       const response = await lessonService.deleteLesson(lessonID);
       await fetchPortalDetail();
-      toastLoadingSuccessAction(loadingId, "Delete course success");
+      toastLoadingSuccessAction(loadingId, "Delete lesson success");
       // toast.success(response.message);
     } catch (error) {
       console.error(error);
       // toast.error("Delete lesson failed");
+      toastLoadingFailAction(loadingId, "Delete lesson success");
     }
   };
 
@@ -48,7 +50,6 @@ export const CoursePortalTable = () => {
       if (response) {
         const loadingId = toast.loading("Deleting course...");
         await fetchPortalDetail();
-        console.log("res: ", response);
         toastLoadingSuccessAction(loadingId, "Deleting course: " + response.data.courseName + " successfully!");
         return;
       }
@@ -100,20 +101,8 @@ export const CoursePortalTable = () => {
                   <th className="px-6 py-4 text-left text-sm font-semibold">
                     Course Name
                   </th>
-                  {/* <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Mentor
-                  </th> */}
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Price
-                  </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">
                     Level
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Students
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Status
                   </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">
                     Verify Status
@@ -145,7 +134,6 @@ export const CoursePortalTable = () => {
                         </div>
                       </td>
                       {/* <td className="px-6 py-4">Bob Smith</td> */}
-                      <td className="px-6 py-4">{course.price} VND</td>
                       <td className="px-6 py-4">
                         {(() => {
                           switch (course.level) {
@@ -188,37 +176,6 @@ export const CoursePortalTable = () => {
                           }
                         })()}
                         {/* <span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800">{course.level}</span> */}
-                      </td>
-                      <td className="px-6 py-4">{course.totalStudent}</td>
-                      <td className="px-6 py-4">
-                        {(() => {
-                          switch (course.status) {
-                            case "ON":
-                              return (
-                                <span
-                                  className="px-3 py-1 rounded-full text-sm"
-                                  style={{
-                                    background: "#CCFFCC",
-                                    color: "#00CC66",
-                                  }}
-                                >
-                                  Active
-                                </span>
-                              );
-                            default:
-                              return (
-                                <span
-                                  className="px-3 py-1 rounded-full text-sm"
-                                  style={{
-                                    background: "#e6f373",
-                                    color: "red",
-                                  }}
-                                >
-                                  InActive
-                                </span>
-                              );
-                          }
-                        })()}
                       </td>
                       <td className="px-6 py-4 text-center">
                         {(() => {
@@ -270,57 +227,91 @@ export const CoursePortalTable = () => {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2 flex-column">
                           <div className="d-flex">
-                            <button
-                              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                              onClick={async () => {
-                                const result = await Swal.fire({
-                                  title:
-                                    "Delete " + `"${course?.courseName}"` + "?",
-                                  text: "You won't be able to revert this!",
-                                  icon: "warning",
-                                  showCancelButton: true,
-                                  confirmButtonColor: "#3085d6",
-                                  cancelButtonColor: "#d33",
-                                  confirmButtonText: "Yes, delete it!",
-                                });
+                            {
+                              (course.verifyStatus == 'PENDING')
+                                ?
+                                (<button
+                                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                  onClick={async () => {
+                                    toast.info("This course is going to view by our staff, cannot delete!")
+                                  }}
+                                >
+                                  <span className="material-symbols-outlined">
+                                    auto_delete
+                                  </span>
+                                </button>)
+                                : (
+                                  <button
+                                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                    onClick={async () => {
+                                      const result = await Swal.fire({
+                                        title:
+                                          "Delete " + `"${course?.courseName}"` + "?",
+                                        text: "You won't be able to revert this!",
+                                        icon: "warning",
+                                        showCancelButton: true,
+                                        confirmButtonColor: "#3085d6",
+                                        cancelButtonColor: "#d33",
+                                        confirmButtonText: "Yes, delete it!",
+                                      });
 
-                                if (result.isConfirmed) {
-                                  handleDeleteCourse(course?.courseID);
+                                      if (result.isConfirmed) {
+                                        handleDeleteCourse(course?.courseID);
+                                      }
+                                    }}
+                                  >
+                                    <span className="material-symbols-outlined">
+                                      delete
+                                    </span>
+                                  </button>
+                                )
+                            }
+                            {course.verifyStatus == "REJECT"
+                              ? <button
+                                onClick={() =>
+                                  showCourseDetailModal(course?.courseID)
                                 }
-                              }}
-                            >
-                              <span className="material-symbols-outlined">
-                                delete
-                              </span>
-                            </button>
-                            <button
-                              onClick={() =>
-                                showCourseDetailModal(course?.courseID)
-                              }
-                              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                            >
-                              <span className="material-symbols-outlined">
-                                edit
-                              </span>
-                            </button>
+                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                              >
+                                <span className="material-symbols-outlined">
+                                  edit
+                                </span>
+                              </button>
+                              : <button
+                                onClick={() => { toast.info("You only allow to edit when course NOT APPROVE by Staff") }}
+                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                              >
+                                <span className="material-symbols-outlined">
+                                  edit_off
+                                </span>
+                              </button>
+                            }
+
                           </div>
                           <div className="d-flex">
                             <button
                               onClick={async () => {
-                                const currentStatus = course.status;
-                                let title = "Publish this course?";
-                                let text =
-                                  "After this course got approved, everyone will able to view this!";
-                                let message = "Publish successfully";
-                                let confirmText = "Yes, publish it!";
-                                let reqStatus = "ON";
-                                if (currentStatus == "ON") {
-                                  title = "Suppress this course?";
-                                  text = "everyone will not able to view this!";
-                                  message = "Suppress successfully";
-                                  confirmText = "Yes, suppress it!";
-                                  reqStatus = "OFF";
+
+                                const currentStatus = course.verifyStatus;
+                                if (currentStatus == 'APPROVE') {
+                                  toast.info("This course already approved!");
+                                  return;
                                 }
+                                if (currentStatus == 'PENDING') {
+                                  toast.info("This course will be review by our staff soon!");
+                                  return;
+                                }
+                                if (currentStatus == 'BAN') {
+                                  toast.info("This course is no longer available")
+                                }
+
+
+                                let title = "Request staff to verify this course?";
+                                let text =
+                                  "You will no longer able to edit this course";
+                                let message = "Request Sent";
+                                let confirmText = "Yes, do it!";
+
                                 const result = await Swal.fire({
                                   title: title,
                                   text: text,
@@ -332,27 +323,16 @@ export const CoursePortalTable = () => {
                                 });
 
                                 if (result.isConfirmed) {
-                                  const loadingId = toast.loading("Update course...");
+                                  const loadingId = toast.loading("Sending your request...");
+                                  try {
+                                    await courseApprovalService.createCourseApprovalRequest(course.courseID);
+                                    toastLoadingSuccessAction(loadingId, "Your request will be review by our staff soon")
+                                    await fetchPortalDetail();
+                                  } catch (error) {
+                                    toastLoadingFailAction(loadingId, "There's a problem with your request, please try again soon")
+                                  }
 
-                                  await courseService.publishCourse(
-                                    course.courseID,
-                                    reqStatus
-                                  );
-                                  await fetchPortalDetail();
-                                  toastLoadingSuccessAction(loadingId, message);
                                 }
-                              }}
-                              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                            >
-                              <span className="material-symbols-outlined">
-                                visibility
-                              </span>
-                            </button>
-                            <button
-                              onClick={() => {
-                                toast.warning(
-                                  "This feature is not available yet."
-                                );
                               }}
                               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                             >
@@ -400,16 +380,10 @@ export const CoursePortalTable = () => {
                                     Description
                                   </th>
                                   <th className="px-4 py-3 text-left text-sm font-semibold text-center">
-                                    Status
-                                  </th>
-                                  <th className="px-4 py-3 text-left text-sm font-semibold text-center">
                                     Trial
                                   </th>
                                   <th className="px-4 py-3 text-left text-sm font-semibold text-center">
                                     Created At
-                                  </th>
-                                  <th className="px-4 py-3 text-left text-sm font-semibold text-center">
-                                    Schedules Count
                                   </th>
                                   <th className="px-4 py-3 text-left text-sm font-semibold text-center">
                                     Actions
@@ -417,7 +391,7 @@ export const CoursePortalTable = () => {
                                 </tr>
                               </thead>
                               <tbody className="divide-y divide-gray-200">
-                                {course.lesson.length == 0 && (
+                                {course?.lesson?.length == 0 && (
                                   <tr>
                                     <td
                                       colSpan={7}
@@ -435,19 +409,14 @@ export const CoursePortalTable = () => {
                                     key={lesson.lessonID}
                                     className="hover:bg-gray-100 transition-colors"
                                   >
-                                    <td className="px-4 py-3 text-sm">
+                                    <td className="px-4 py-3 text-sm text-center">
                                       #{lesson.lessonID}
                                     </td>
-                                    <td className="px-4 py-3 text-sm">
+                                    <td className="px-4 py-3 text-sm text-center">
                                       {lesson.description}
                                     </td>
-                                    <td className="px-4 py-3">
-                                      <span className="px-3 py-1 rounded-full text-sm bg-yellow-100 text-yellow-800">
-                                        {lesson.lessonStatus}
-                                      </span>
-                                    </td>
-                                    <td className="px-4 py-3">
-                                      {lesson.lessonStatus ? (
+                                    <td className="px-4 py-3 text-center">
+                                      {lesson.trialLesson ? (
                                         <span className="material-symbols-outlined text-green-500">
                                           check_circle
                                         </span>
@@ -460,62 +429,51 @@ export const CoursePortalTable = () => {
                                     <td className="px-4 py-3 text-sm text-center">
                                       {lesson.createdAt}
                                     </td>
-                                    <td className="px-4 py-3 text-sm text-center">
-                                      {lesson.schedule.length}
-                                    </td>
                                     <td className="px-4 py-3">
-                                      <div className="flex gap-2">
-                                        <button
-                                          onClick={async () => {
-                                            const result = await Swal.fire({
-                                              title: "Are you sure?",
-                                              text: "You won't be able to revert this!",
-                                              icon: "warning",
-                                              showCancelButton: true,
-                                              confirmButtonColor: "#3085d6",
-                                              cancelButtonColor: "#d33",
-                                              confirmButtonText:
-                                                "Yes, delete it!",
-                                            });
+                                      <div className="flex gap-2 justify-content-center">
+                                        {course.verifyStatus != 'REJECT'
+                                          ? (<></>)
+                                          : (<>
+                                            <button
+                                              onClick={async () => {
+                                                const result = await Swal.fire({
+                                                  title: "Are you sure?",
+                                                  text: "You won't be able to revert this!",
+                                                  icon: "warning",
+                                                  showCancelButton: true,
+                                                  confirmButtonColor: "#3085d6",
+                                                  cancelButtonColor: "#d33",
+                                                  confirmButtonText:
+                                                    "Yes, delete it!",
+                                                });
 
-                                            if (result.isConfirmed) {
-                                              await handleDeleteLesson(
-                                                lesson.lessonID
-                                              ); // Wait for deletion
-                                            }
-                                          }}
-                                          className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors"
-                                        >
-                                          <span className="material-symbols-outlined">
-                                            delete
-                                          </span>
-                                        </button>
-                                        <button
-                                          onClick={() =>
-                                            showLessonDetailModal(
-                                              lesson.lessonID,
-                                              course.courseID,
-                                              lesson
-                                            )
-                                          }
-                                          className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors"
-                                        >
-                                          <span className="material-symbols-outlined">
-                                            edit
-                                          </span>
-                                        </button>
-                                        <button
-                                          onClick={() => {
-                                            handleOpenScheduleModal(
-                                              lesson.lessonID
-                                            );
-                                          }}
-                                          className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors"
-                                        >
-                                          <span className="material-symbols-outlined">
-                                            schedule
-                                          </span>
-                                        </button>
+                                                if (result.isConfirmed) {
+                                                  await handleDeleteLesson(
+                                                    lesson.lessonID
+                                                  ); // Wait for deletion
+                                                }
+                                              }}
+                                              className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors"
+                                            >
+                                              <span className="material-symbols-outlined">
+                                                delete
+                                              </span>
+                                            </button>
+                                            <button
+                                              onClick={() =>
+                                                showLessonDetailModal(
+                                                  lesson.lessonID,
+                                                  course.courseID,
+                                                  lesson
+                                                )
+                                              }
+                                              className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors"
+                                            >
+                                              <span className="material-symbols-outlined">
+                                                edit
+                                              </span>
+                                            </button></>)
+                                        }
                                       </div>
                                     </td>
                                   </tr>

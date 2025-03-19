@@ -6,17 +6,17 @@ import Search from 'antd/es/input/Search';
 
 export const CourseRender = () => {
 
-    const { courseList, isLoading, currentPage, setCurrentPage, setSearchFilter } = useContext(CourseContext);
+    const { courseList, isLoading, classFilter, setClassFilter } = useContext(CourseContext);
 
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) {
-            setCurrentPage(page);
+            // setclassFilter.page(page);
+            setClassFilter({
+                ...classFilter,
+                page: page
+            })
         }
     };
-    setCurrentPage
-    useEffect(() => {
-        console.log("courseL: ", courseList);
-    }, [courseList])
 
     return (
         <section id="courses" className="courses section">
@@ -29,8 +29,10 @@ export const CourseRender = () => {
                             enterButton="Search"
                             size="large"
                             onSearch={(e) => {
-                                setSearchFilter(e);
-                                console.log("e:::",e)
+                                setClassFilter({
+                                    ...classFilter,
+                                    name: e
+                                })
                             }}
                             className="w-50 border-black"
                         />
@@ -42,8 +44,8 @@ export const CourseRender = () => {
                             <SkeletonCourse />
                             <SkeletonCourse />
                         </>
-                        : courseList.content?.map(course => {
-                            if (course.status == "ON" && course.verifyStatus == "APPROVE") {
+                        : courseList?.content?.map(course => {
+                            if (true) {
                                 return (
                                     <div
                                         key={course?.courseID || 0}
@@ -54,9 +56,9 @@ export const CourseRender = () => {
                                     >
                                         <div className="course-item w-100">
                                             <img
-                                                src={course.thumbnail}
+                                                src={course.courseDetail.thumbnail}
                                                 className="img-fluid"
-                                                alt={course.courseName}
+                                                alt={course.courseDetail.courseName}
                                                 style={{ height: '200px', objectFit: 'cover', width: '100%' }}
                                             />
                                             <div className="course-content d-flex flex-column justify-content-between"
@@ -65,8 +67,8 @@ export const CourseRender = () => {
                                                 <div>
                                                     <div className="d-flex justify-content-between align-items-center mb-3">
                                                         <div className='d-flex w-75' style={{ gap: 5, overflowX: scroll }}>
-                                                            {course.skills.map(skill =>
-                                                                <span className="category" key={skill.skillDetail.skillID}>{skill.skillDetail.skillName}</span>
+                                                            {course.courseDetail.skills.map(skill =>
+                                                                <span className="category" key={skill.skillID}>{skill.skillName}</span>
                                                             )}
                                                         </div>
                                                         <div className="price">{course?.price?.toLocaleString()}đ</div>
@@ -75,29 +77,29 @@ export const CourseRender = () => {
                                                     {/* nav to courseDetail */}
                                                     <h3>
                                                         <Link
-                                                            to={`/courses/${course?.courseID}`}
-                                                            state={{ courseName: course.courseName }}
-                                                        >{course?.courseName}</Link>
+                                                            to={`/courses/${course?.classID}`}
+                                                            state={{ courseName: course.courseDetail.courseName }}
+                                                        >{course?.courseDetail.courseName}</Link>
                                                     </h3>
                                                     <p className="description">
-                                                        {course?.description}
+                                                        {course?.classDescription}
                                                     </p>
                                                 </div>
                                                 <div className="trainer d-flex justify-content-between align-items-center">
                                                     <div className="trainer-profile d-flex align-items-center">
                                                         <img
-                                                            src={course.mentor.avatar}
+                                                            src={course.mentorInfo.avatar}
                                                             className="img-fluid"
-                                                            alt={course.mentor.mentorName}
+                                                            alt={course.mentorInfo.mentorName}
                                                         />
                                                         <a href="" className="trainer-link">
-                                                            {course.mentor.mentorName}
+                                                            {course.mentorInfo.mentorName}
                                                         </a>
                                                     </div>
                                                     <div className="trainer-rank d-flex align-items-center">
-                                                        <i className="bi bi-person user-icon"></i>&nbsp;{course.remainSlot}
+                                                        <i className="bi bi-person user-icon"></i>&nbsp;{course.totalStudent - course.registeredStudent}
                                                         &nbsp;&nbsp;
-                                                        <i className="bi bi-heart heart-icon"></i>&nbsp;{course.mentor.favoritedCount}
+                                                        <i className="bi bi-heart heart-icon"></i>&nbsp;0
                                                     </div>
                                                 </div>
                                             </div>
@@ -111,11 +113,11 @@ export const CourseRender = () => {
                     <div>
                         <nav aria-label="Page navigation example">
                             <ul className="pagination justify-content-center">
-                                <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                                <li className={`page-item ${classFilter.page === 1 ? "disabled" : ""}`}>
                                     <button
                                         className="page-link"
-                                        onClick={() => handlePageChange(currentPage - 1)}
-                                        disabled={currentPage === 1}
+                                        onClick={() => handlePageChange(classFilter.page - 1)}
+                                        disabled={classFilter.page === 1}
                                     >
                                         Previous
                                     </button>
@@ -124,7 +126,7 @@ export const CourseRender = () => {
                                 {Array.from({ length: courseList?.totalPages }, (_, index) => (
                                     <li
                                         key={index + 1}
-                                        className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+                                        className={`page-item ${classFilter.page === index + 1 ? "active" : ""}`}
                                     >
                                         <button
                                             className="page-link"
@@ -135,11 +137,11 @@ export const CourseRender = () => {
                                     </li>
                                 ))}
 
-                                <li className={`page-item ${currentPage === courseList?.totalPages ? "disabled" : ""}`}>
+                                <li className={`page-item ${classFilter.page === courseList?.totalPages ? "disabled" : ""}`}>
                                     <button
                                         className="page-link"
-                                        onClick={() => handlePageChange(currentPage + 1)} course
-                                        disabled={currentPage === courseList?.totalPages}
+                                        onClick={() => handlePageChange(classFilter.page + 1)} course
+                                        disabled={classFilter.page === courseList?.totalPages}
                                     >
                                         Next
                                     </button>

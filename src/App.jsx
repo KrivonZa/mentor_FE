@@ -1,6 +1,6 @@
 import useRoutesElements from "./routes/useRoutesElements";
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 import { ConfigProvider } from "antd";
 import { AuthVerify } from "./thirdParty"
 
@@ -14,13 +14,27 @@ const ScrollToTop = () => {
   return null;
 };
 
+export const AppContext = createContext(undefined);
+
+export const AppProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  return (
+    <AppContext.Provider value={{ user, setUser }}>
+      {children}
+    </AppContext.Provider>
+  );
+}
+
+
 function App() {
   const routesElements = useRoutesElements();
   return (
     <ConfigProvider theme={{}}>
-      <ScrollToTop />
-      {routesElements}
-      <AuthVerify />
+      <AppProvider>
+        <ScrollToTop />
+        {routesElements}
+        <AuthVerify />
+      </AppProvider>
     </ConfigProvider>
   );
 }
