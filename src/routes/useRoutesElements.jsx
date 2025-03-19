@@ -26,6 +26,7 @@ import {
   UpdateStaffForm,
   UserBody,
   Report,
+  WithdrawRequests
 } from "../modules/adminPage";
 import { UserProfile, Wallet, UserViewSchedule, ViewDetailSchedule, TransactionHistory } from "../modules/userPage";
 import { NotFound, ServerError } from "../modules/errorPage"
@@ -353,6 +354,10 @@ const useRoutesElements = () => {
           {
             path: "students",
             element: <StudentBody />,
+          },
+          {
+            path: "withdraw-requests",
+            element: <WithdrawRequests />,
           },
           {
             path: "report",
