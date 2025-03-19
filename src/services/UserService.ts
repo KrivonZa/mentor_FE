@@ -171,7 +171,7 @@ const updateUser = async (user: User, id: number): Promise<User> => {
   try {
     const response = await axios.put<User>(
       `${API_BASE_URL}/user/update-user/${id}`,
-      userhttps://github.com/KrivonZa/mentor_FE/pull/24/conflict?name=src%252Fservices%252FUserService.ts&ancestor_oid=5d44e56811c2850d7219f25d7c0da722939364ca&base_oid=7ea3919db074cb0ad44465e4f34a023877c9a270&head_oid=874b42c369374986671ef54e1314ee8ed26934a2
+      user
     );
     return response.data;
   } catch (error) {
