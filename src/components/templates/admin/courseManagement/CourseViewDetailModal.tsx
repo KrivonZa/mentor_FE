@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { CourseManagementContext } from '../../../../modules/adminPage/CourseManagement/CourseManagement';
 import { toast } from 'react-toastify';
 import courseApprovalService from '../../../../services/courseApprovalService';
+import Swal from "sweetalert2";
 
 const { Title, Text } = Typography;
 
@@ -68,12 +69,12 @@ const CourseViewDetailModal = () => {
         } else {
             error.assigneeNote = ''
         }
-        if (approveData.courseStatus == 'PENDING') {
-            error.courseStatus = 'Please select other status'
-            errorCount++;
-        } else {
-            error.courseStatus = ''
-        }
+        // if (approveData.courseStatus == 'PENDING') {
+        //     error.courseStatus = 'Please select other status'
+        //     errorCount++;
+        // } else {
+        //     error.courseStatus = ''
+        // }
 
         setApproveDataError({
             ...error
@@ -85,15 +86,44 @@ const CourseViewDetailModal = () => {
     const handleResolveRequest = async (approvalStatus: any) => {
         // Here you would typically make an API call to update the data
         if (checkError() > 0) {
-            toast.error("Please check these field again!")
+            toast.error("Please add a note and try again!")
             return
+        }
+
+        let verifyStatus = 'PENDING'
+        let requestStatus = 'PENDING'
+
+        if (approvalStatus == 'REJECTED'){
+            verifyStatus = 'REJECT'
+            requestStatus = approvalStatus
+        } else if (approvalStatus == 'APPROVED'){
+            verifyStatus = 'APPROVE'
+            requestStatus = approvalStatus
+        } else if (approvalStatus == 'BAN'){
+            const result = await Swal.fire({
+                title: "Are you sure to BAN this course?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText:
+                    "Yes, I agree!",
+            });
+
+            if (result.isConfirmed) {
+                verifyStatus = 'BAN'
+                requestStatus = 'REJECTED'
+            } else {
+                return
+            }
+            
         }
 
         const approveReq = {
             courseID: courseDetailFormData?.courseDetail?.courseID,
             courseApprovalRequestID: courseDetailFormData?.courseApprovalRequestID,
-            verifyStatus: approveData?.courseStatus,
-            approvalStatus: approvalStatus,
+            verifyStatus: verifyStatus,
+            approvalStatus: requestStatus,
             assigneeNote: approveData?.assigneeNote
         }
 
@@ -105,7 +135,6 @@ const CourseViewDetailModal = () => {
         } catch (error) {
             toast.error("Resolve request failed!")
         }
-        console.log('Saving staff data:', approveData);
         setIsEditing(false);
         // You might want to update the context here if needed
     };
@@ -155,7 +184,10 @@ const CourseViewDetailModal = () => {
                     </div>
 
                     <div className='d-flex' style={{ gap: '10px' }}>
-                        <Button size='large' type="primary" className='bg-danger' onClick={()=>handleResolveRequest("REJECTED")}>
+                        <Button size='large' type="primary" className='bg-danger' onClick={() => handleResolveRequest("BAN")}>
+                            Ban
+                        </Button>
+                        <Button size='large' type="primary" className='bg-warning' onClick={()=>handleResolveRequest("REJECTED")}>
                             Reject
                         </Button>
                         <Button size='large' type="primary" className='bg-success' onClick={()=>handleResolveRequest("APPROVED")}>
@@ -211,7 +243,7 @@ const CourseViewDetailModal = () => {
                 <Descriptions bordered column={1}>
                     <Descriptions.Item label="Request ID">{courseDetailFormData?.courseApprovalRequestID}</Descriptions.Item>
                     <Descriptions.Item label="Status">
-                        {isEditing ? (
+                        {/* {isEditing ? (
                             <>
                                 <Select
                                     value={approveData.courseStatus}
@@ -228,7 +260,8 @@ const CourseViewDetailModal = () => {
 
                         ) : (
                             renderStatusBadge(approveData.courseStatus)
-                        )}
+                        )} */}
+                        {renderStatusBadge(approveData.courseStatus)}
                     </Descriptions.Item>
                     <Descriptions.Item label="Assignee ID">{courseDetailFormData?.assigneeID || 'Not assigned'}</Descriptions.Item>
                     <Descriptions.Item label="Assignee Note">

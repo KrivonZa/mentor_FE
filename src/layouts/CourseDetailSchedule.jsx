@@ -3,17 +3,19 @@ import "../../public/css/CourseDetailSchedule.scss";
 import { CourseDetailContext } from '../modules/mainPage/CourseDetail';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { Empty } from 'antd';
+import { Empty, Image } from 'antd';
 
 export const CourseDetailSchedule = () => {
     const { courseDetail, isLoading } = useContext(CourseDetailContext);
 
     return (
-        <section id="tabs" className="tabs section">
+        <section id="tabs" className="section tabsLesson">
             <div className="container" data-aos="fade-up" data-aos-delay={100}>
                 <div className="row">
-                    <div className="col-lg-3">
-                        <ul className="nav nav-tabs flex-column">
+                    {/* Left column - Lessons (1/3 width) */}
+                    <div className="col-lg-4">
+                        <h3>Course Lessons</h3>
+                        <ul className="flex-column nav nav-tabs">
                             {courseDetail?.courseInfo?.lessons?.map((item, index) => (
                                 <li key={item.lessonID} className="nav-item">
                                     <a
@@ -27,35 +29,49 @@ export const CourseDetailSchedule = () => {
                             ))}
                         </ul>
                     </div>
-                    <div className="col-lg-9 mt-4 mt-lg-0">
-                        <div className="tab-content">
-                            {courseDetail?.courseInfo?.lesson?.map((item, index) => (
-                                <div
-                                    key={item.lessonID}
-                                    className={`tab-pane fade ${index === 0 ? "show active" : ""}`}
-                                    style={{gap:20}}
-                                    id={`tab-${item.lessonID}`}
-                                >
 
-                                    {item.schedule.length === 0 && (
-                                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                                    )}
-                                    {item.schedule.map((schedule) => {
-                                        const startDate = new Date(schedule.startTime);
-                                        const endDate = new Date(schedule.endTime);
-
-                                        const formattedStartTime = `${startDate.getHours()}:${String(startDate.getMinutes()).padStart(2, "0")} ${startDate.getDate()}/${startDate.getMonth() + 1}/${startDate.getFullYear()}`;
-                                        const formattedEndTime = `${endDate.getHours()}:${String(endDate.getMinutes()).padStart(2, "0")} ${endDate.getDate()}/${endDate.getMonth() + 1}/${endDate.getFullYear()}`;
-
-                                        return (
-                                            <p key={schedule.scheduleID} className="badge bg-success px-3 py-2 rounded-pill fs-5 me-2">
-                                                {formattedStartTime} - {formattedEndTime}
-                                            </p>
-                                        );
-                                    })}
-                                </div>
-                            ))}
+                    {/* Right column - Mentor Bio (2/3 width) */}
+                    <div className="col-lg-8 mt-4 mt-lg-0">
+                        <div className="d-flex align-items-center mb-4 mentor">
+                            <img
+                                src={courseDetail?.mentorInfo?.avatar}
+                                alt={`${courseDetail?.mentorInfo?.mentorName}'s avatar`}
+                                className="mentor-avatar"
+                            />
+                            <div className="mentor-greeting">
+                                <div>Hi, I'm{' '}</div>
+                                <h3 className="d-inline">{courseDetail?.mentorInfo?.mentorName}</h3>
+                            </div>
                         </div>
+
+                        <div className="mentor-bio">
+                            <h3>Mentor Biography</h3>
+                            <p className="bio-text">
+                                <span className="quote-mark">“</span>
+                                {courseDetail?.mentorInfo?.bio}
+                                <span className="quote-mark">”</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {/* Class Schedule Chart */}
+                <div className="mt-4 schedule-chart">
+                    <h3>Class Schedule</h3>
+                    <div className="schedule-timeline">
+                        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => {
+                            const dayNum = index + 1;
+                            const schedule = courseDetail?.classSchedules?.find(
+                                (sched) => sched.dayOfWeek === dayNum
+                            );
+                            return (
+                                <div key={day} className="schedule-day">
+                                    <div className="day-label">{day}</div>
+                                    <div className={`time-slot ${schedule ? 'active' : ''}`}>
+                                        {schedule ? `${schedule.startTime.slice(0, 5)} - ${schedule.endTime.slice(0, 5)}` : '—'}
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>

@@ -44,42 +44,42 @@ export const ClassPortalTable = () => {
                                     name: e
                                 })
                             }}
-                            className="w-50 border-black"
+                            className="border-black w-50"
                         />
                         <button
                             onClick={() => {
                                 // showCourseDetailModal(-1);                                
                                 showClassModal(null)
                             }}
-                            className="bg-[#5FCF80] hover:bg-[#4ab569] transform hover:scale-105 transition-all duration-300 text-white px-6 py-3 rounded-lg flex items-center gap-2"
+                            className="flex bg-[#5FCF80] rounded-lg text-white duration-300 gap-2 hover:bg-[#4ab569] hover:scale-105 items-center px-6 py-3 transform transition-all"
                         >
                             <span className="material-symbols-outlined">add</span>
                             Add New Class
                         </button>
                     </div>
-                    <div className="bg-white rounded-lg border">
+                    <div className="bg-white border rounded-lg">
                         <table className="w-full">
                             <thead className="bg-gray-50">
                                 <tr>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold">
+                                    <th className="text-left text-sm font-semibold px-6 py-4">
                                         Class Description
                                     </th>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold">
+                                    <th className="text-left text-sm font-semibold px-6 py-4">
                                         Course Name
                                     </th>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold">
+                                    <th className="text-left text-sm font-semibold px-6 py-4">
                                         Class Stats
                                     </th>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold">
+                                    <th className="text-left text-sm font-semibold px-6 py-4">
                                         Price
                                     </th>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold">
+                                    <th className="text-left text-sm font-semibold px-6 py-4">
                                         Schedule
                                     </th>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold">
+                                    <th className="text-left text-sm font-semibold px-6 py-4">
                                         Visible Status
                                     </th>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold">
+                                    <th className="text-left text-sm font-semibold px-6 py-4">
                                         Actions
                                     </th>
                                 </tr>
@@ -92,11 +92,11 @@ export const ClassPortalTable = () => {
                                             <tr className="hover:bg-gray-50 transition-colors">
                                                 <td className="px-6 py-4">{item.classDescription}</td>
                                                 <td className="px-6 py-4">
-                                                    <div className="flex items-center gap-3">
+                                                    <div className="flex gap-3 items-center">
                                                         <img
                                                             src={item.courseDetail.thumbnail || "https://placehold.co/100x70"}
                                                             alt="thumbnail"
-                                                            className="rounded-lg w-[100px] h-[70px] object-cover"
+                                                            className="h-[70px] rounded-lg w-[100px] object-cover"
                                                         />
                                                         <div>
                                                             <p className="font-medium">{item.courseDetail.courseName}</p>
@@ -123,7 +123,7 @@ export const ClassPortalTable = () => {
                                                         {item.expectedStartDate}
                                                     </div>
                                                 </td>
-                                                {/* <td className="px-6 py-4 text-center">{item.totalSession}</td> */}
+                                                {/* <td className="text-center px-6 py-4">{item.totalSession}</td> */}
                                                 <td className="px-6 py-4">{item.price}</td>
                                                 <td className="px-6 py-4">
                                                     {/* Moving schedules to dropdown, keeping this cell for consistency */}
@@ -136,7 +136,7 @@ export const ClassPortalTable = () => {
                                                         View Schedules
                                                     </button>
                                                     <div className="dropdown-menu p-2">
-                                                        <div className="d-flex justify-content-between flex-wrap gap-2">
+                                                        <div className="d-flex flex-wrap justify-content-between gap-2">
                                                             {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, index) => {
                                                                 const dayOfWeek = index + 1; // 1-7 (Monday-Sunday)
                                                                 const schedule = item.classSchedules.find(s => s.dayOfWeek === dayOfWeek);
@@ -151,7 +151,7 @@ export const ClassPortalTable = () => {
                                                                         {schedule ? (
                                                                             <div className="d-flex align-items-center justify-content-center gap-1">
                                                                                 <span>{schedule.startTime.slice(0, 5)}-{schedule.endTime.slice(0, 5)}</span>
-                                                                                <span className="material-symbols-outlined fs-6">check</span>
+                                                                                <span className="fs-6 material-symbols-outlined">check</span>
                                                                             </div>
                                                                         ) : (
                                                                             <div>-</div>
@@ -169,10 +169,10 @@ export const ClassPortalTable = () => {
                                                     </span>
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    <div className="flex items-center gap-2 flex-column">
+                                                    <div className="flex flex-column gap-2 items-center">
                                                         <div className="d-flex">
                                                             <button
-                                                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                                                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
                                                                 onClick={async () => {
                                                                     const result = await Swal.fire({
                                                                         title: "Delete class of: " + `"${item.courseDetail.courseName}"` + "?",
@@ -193,7 +193,7 @@ export const ClassPortalTable = () => {
                                                             </button>
                                                             <button
                                                                 onClick={() => showClassModal(item)}
-                                                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                                                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
                                                             >
                                                                 <span className="material-symbols-outlined">edit</span>
                                                             </button>
@@ -231,7 +231,7 @@ export const ClassPortalTable = () => {
                                                                         toastLoadingSuccessAction(loadingId, message);
                                                                     }
                                                                 }}
-                                                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                                                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
                                                             >
                                                                 <span className="material-symbols-outlined">visibility</span>
                                                             </button>
@@ -240,7 +240,7 @@ export const ClassPortalTable = () => {
                                                                     setClassSchedules(item.classSchedules);
                                                                     showSessionModal(item);
                                                                 }}
-                                                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                                                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
                                                             >
                                                                 <span className="material-symbols-outlined">edit_calendar</span>
                                                             </button>
@@ -255,10 +255,10 @@ export const ClassPortalTable = () => {
                         </table>
                     </div>
                     <div className="flex justify-between items-center mt-4">
-                        <p className="text-sm text-gray-500">Showing {classPaginationParam?.page} of {classPagination?.totalPages} entries</p>
+                        <p className="text-gray-500 text-sm">Showing {classPaginationParam?.page} of {classPagination?.totalPages} entries</p>
                         <div className="flex gap-2">
                             <button
-                                className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+                                className="border rounded-lg disabled:opacity-50 hover:bg-gray-50 px-4 py-2 transition-colors"
                                 disabled={classPaginationParam?.page <= 1}
                                 onClick={() => {
                                     const newPage = classPaginationParam?.page - 1
@@ -271,7 +271,7 @@ export const ClassPortalTable = () => {
                                 Previous
                             </button>
                             <button
-                                className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+                                className="border rounded-lg disabled:opacity-50 hover:bg-gray-50 px-4 py-2 transition-colors"
                                 disabled={classPaginationParam?.page == classPagination?.totalPages}
                                 onClick={() => {
                                     const newPage = classPaginationParam?.page + 1
