@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
-import "../../../public/css/Signup.scss";
-import { useNavigate } from "react-router-dom";
-import authenService from "../../services/authenService";
+import { Link } from "react-router-dom"; // Import useLocation
 import Swal from "sweetalert2";
+import authenService from "../../services/authenService";
+import "../../../public/css/Signup.scss";
 
 export const SignupForm = () => {
   const [role, setRole] = useState("USER");
@@ -11,9 +10,6 @@ export const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-
-  const navigate = useNavigate();
-
   const handleSignup = async (event) => {
     event.preventDefault();
 
@@ -50,7 +46,7 @@ export const SignupForm = () => {
 
   return (
     <div id="signupContainer">
-      <div id="signupForm" className="d-flex items-center justify-center min-h-screen" style={{ height: '100vh' }}>
+      <div id="signupForm" className="d-flex items-center justify-center min-h-screen" style={{ height: "100vh" }}>
         <div className="w-[480px] bg-white rounded-xl p-8 shadow-lg m-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-2">Create Account</h1>
@@ -101,15 +97,18 @@ export const SignupForm = () => {
               className="flex items-center justify-center w-full py-3 border border-gray-300 rounded-lg text-sm font-medium text-[#5fd080] hover:bg-gray-100 transition duration-200 hover:-translate-y-0.5"
               type="button"
               onClick={async () => {
-                await authenService.loginGoogle()
+                await authenService.loginGoogle();
               }}
             >
               <i className="fa-brands fa-google me-2 text-[#5fd080]" style={{ fontSize: "26px" }} />
               Login with Google
             </button>
           </form>
+          <Link to={"/auth"} className="ml-1 text-[#5fd080] hover:text-[#4db068] transition-colors duration-200">
+            Login
+          </Link>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
