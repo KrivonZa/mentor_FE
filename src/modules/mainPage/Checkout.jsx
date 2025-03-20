@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import courseService from "../../services/courseService";
 import transactionService from "../../services/transactionService";
 import Swal from "sweetalert2";
+import classService from "../../services/classService";
 
 export const Checkout = () => {
     const [courseDetail, setCourseDetail] = useState(null);
@@ -10,16 +11,16 @@ export const Checkout = () => {
     const { courseID } = useParams();
 
     useEffect(() => {
-        const fetchCourseDetail = async () => {
+        const fetchClassDetail = async () => {
             try {
-                const response = await courseService.getCourseDetail(courseID);
+                const response = await classService.getClassDetail(courseID);
                 setCourseDetail(response.data);
             } catch (error) {
                 console.error("Error fetching course details:", error);
             }
         };
 
-        fetchCourseDetail();
+        fetchClassDetail();
     }, [courseID]);
 
     if (!courseDetail) {
@@ -27,7 +28,7 @@ export const Checkout = () => {
     }
     const handlePayment = async () => {
         const course = {
-            courseId: courseID,
+            classId: courseID,
             paymentMethod: paymentMethod,
         };
         if (paymentMethod === "USER_BALANCE") {
@@ -46,7 +47,7 @@ export const Checkout = () => {
             }
         }
         try {
-            const response = await transactionService.coursePayment(course);
+            const response = await transactionService.classPayment(course);
             if (response?.transaction?.paymentResponse?.payUrl) {
                 window.open(response.transaction.paymentResponse.payUrl, "_blank");
             }
@@ -58,9 +59,10 @@ export const Checkout = () => {
                 confirmButtonText: "OK",
             });
         } catch (error) {
+            console.log("error: ", error);
             await Swal.fire({
-                title: "Course Already Purchased",
-                text: "You have already purchased this course.",
+                title: "Course Purchased Failed",
+                text: error.message,
                 icon: "info",
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: "OK",
@@ -70,55 +72,55 @@ export const Checkout = () => {
 
     return (
         <div className="container py-5">
-            <h1 className="fw-bold text-center mb-4" style={{ color: "#5fd080", fontSize: "52px" }}>
+            <h1 className="text-center fw-bold mb-4" style={{ color: "#5fd080", fontSize: "52px" }}>
                 Confirm Payment
             </h1>
 
-            <div className="row g-4">
+            <div className="g-4 row">
                 {/* Left column: Course information */}
                 <div className="col-md-6">
-                    <div className="card shadow border-0">
-                        <div className="d-flex justify-content-center align-content-center">
+                    <div className="card border-0 shadow">
+                        <div className="d-flex align-content-center justify-content-center">
                             <img
-                                src={courseDetail.thumbnail}
-                                alt={courseDetail.courseName}
+                                src={courseDetail?.courseInfo?.thumbnail}
+                                alt={courseDetail?.courseInfo?.courseName}
                                 className="card-img-top"
                                 style={{ borderRadius: "10px 10px 0 0", width: "300px", height: "300px" }}
                             />
                         </div>
                         <div className="card-body mt-4">
-                            <h4 className="fw-bold">{courseDetail.courseName}</h4>
-                            <p className="text-muted">Instructor: {courseDetail.mentor?.mentorInfo?.fullname}</p>
+                            <h4 className="fw-bold">{courseDetail?.courseInfo?.courseName}</h4>
+                            <p className="text-muted">Instructor: {courseDetail?.mentorInfo?.mentorName}</p>
                         </div>
                     </div>
                 </div>
 
                 {/* Right column: Payment information */}
                 <div className="col-md-6">
-                    <div className="p-4 border rounded shadow bg-white">
+                    <div className="bg-white border p-4 rounded shadow">
                         <h5 className="fw-bold mb-4" style={{ fontSize: "24px" }}>Payment Information</h5>
                         <hr />
-                        <div className="mt-2 mb-2">
+                        <div className="mb-2 mt-2">
                             <div className="d-flex justify-content-between">
                                 <span>Total Price:</span>
-                                <span className="fw-bold text-success">{courseDetail.price.toLocaleString()}đ</span>
+                                <span className="text-success fw-bold">{courseDetail?.price?.toLocaleString()}đ</span>
                             </div>
                         </div>
                         <hr />
                         <div className="d-flex justify-content-between pt-2">
                             <span className="fw-bold">Amount Payable:</span>
-                            <span className="fw-bold text-primary">{courseDetail.price.toLocaleString()}đ</span>
+                            <span className="text-primary fw-bold">{courseDetail?.price?.toLocaleString()}đ</span>
                         </div>
 
                         {/* Select payment method */}
                         <h6 className="mt-4">Select Payment Method:</h6>
                         <div className="d-flex gap-2 mt-2">
-                            <button className="btn btn-light border flex-fill d-flex align-items-center justify-content-center" onClick={() => setPaymentMethod("MOMO")} style={{ backgroundColor: paymentMethod === "MOMO" && "#cfcfcf" }}>
+                            <button className="d-flex flex-fill btn btn-light align-items-center border justify-content-center" onClick={() => setPaymentMethod("MOMO")} style={{ backgroundColor: paymentMethod === "MOMO" && "#cfcfcf" }}>
                                 <img src="../../../public/img/MOMO.png" alt="MoMo" width="64" className="me-2" />
                             </button>
 
                             <button
-                                className="btn btn-light border flex-fill d-flex align-items-center justify-content-center"
+                                className="d-flex flex-fill btn btn-light align-items-center border justify-content-center"
                                 onClick={() => setPaymentMethod("USER_BALANCE")}
                                 style={{ backgroundColor: paymentMethod === "USER_BALANCE" && "#cfcfcf" }}
                             >
@@ -128,7 +130,7 @@ export const Checkout = () => {
                         </div>
                         {/* Payment button */}
                         <button
-                            className="btn w-100 mt-4 text-white fw-semibold py-2 d-flex justify-content-center align-content-center"
+                            className="d-flex btn align-content-center justify-content-center text-white w-100 fw-semibold mt-4 py-2"
                             style={{
                                 backgroundColor: "#5fd080",
                                 border: "none",

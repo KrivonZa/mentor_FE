@@ -49,6 +49,17 @@ export const transactionService = {
       throw error.response?.data;
     }
   },
+  classPayment: async ({classId, paymentMethod}) => {
+    try {
+      const response = await transactionApi.post(
+        `/class/register`,
+        { classId, paymentMethod }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response?.data;
+    }
+  }
 };
 
 export default transactionService;

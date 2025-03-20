@@ -18,6 +18,7 @@ export const CourseRender = () => {
         }
     };
 
+
     return (
         <section id="courses" className="courses section">
             <div className="container">
@@ -34,7 +35,7 @@ export const CourseRender = () => {
                                     name: e
                                 })
                             }}
-                            className="w-50 border-black"
+                            className="border-black w-50"
                         />
                     </div>
 
@@ -45,27 +46,30 @@ export const CourseRender = () => {
                             <SkeletonCourse />
                         </>
                         : courseList?.content?.map(course => {
+                            const expectedDate = course?.expectedStartDate ? new Date(course.expectedStartDate) : null;
+                            const today = new Date();
+                            const isToday = expectedDate?.toDateString() === today.toDateString();
                             if (true) {
                                 return (
                                     <div
                                         key={course?.courseID || 0}
-                                        className="col-lg-4 col-md-6 d-flex align-items-stretch "
+                                        className="col-lg-4 col-md-6 d-flex align-items-stretch"
                                         data-aos="zoom-in"
                                         data-aos-delay="100"
                                         style={{ height: '495px' }}
                                     >
-                                        <div className="course-item w-100">
+                                        <div className="w-100 course-item">
                                             <img
                                                 src={course.courseDetail.thumbnail}
                                                 className="img-fluid"
                                                 alt={course.courseDetail.courseName}
                                                 style={{ height: '200px', objectFit: 'cover', width: '100%' }}
                                             />
-                                            <div className="course-content d-flex flex-column justify-content-between"
+                                            <div className="d-flex flex-column justify-content-between course-content"
                                                 style={{ height: '295px' }}
                                             >
                                                 <div>
-                                                    <div className="d-flex justify-content-between align-items-center mb-3">
+                                                    <div className="d-flex align-items-center justify-content-between mb-3">
                                                         <div className='d-flex w-75' style={{ gap: 5, overflowX: scroll }}>
                                                             {course.courseDetail.skills.map(skill =>
                                                                 <span className="category" key={skill.skillID}>{skill.skillName}</span>
@@ -85,8 +89,15 @@ export const CourseRender = () => {
                                                         {course?.classDescription}
                                                     </p>
                                                 </div>
-                                                <div className="trainer d-flex justify-content-between align-items-center">
-                                                    <div className="trainer-profile d-flex align-items-center">
+                                                <div className={`alert ${isToday ? "alert-warning" : "alert-success"}`}>
+                                                    <strong>Opening:</strong>{" "}
+                                                    {
+                                                        expectedDate
+                                                        ? new Intl.DateTimeFormat("en-GB").format(expectedDate)
+                                                        : "N/A"}
+                                                </div>
+                                                <div className="d-flex align-items-center justify-content-between trainer">
+                                                    <div className="d-flex align-items-center trainer-profile">
                                                         <img
                                                             src={course.mentorInfo.avatar}
                                                             className="img-fluid"
@@ -96,7 +107,7 @@ export const CourseRender = () => {
                                                             {course.mentorInfo.mentorName}
                                                         </a>
                                                     </div>
-                                                    <div className="trainer-rank d-flex align-items-center">
+                                                    <div className="d-flex align-items-center trainer-rank">
                                                         <i className="bi bi-person user-icon"></i>&nbsp;{course.totalStudent - course.registeredStudent}
                                                         &nbsp;&nbsp;
                                                         <i className="bi bi-heart heart-icon"></i>&nbsp;0
@@ -112,7 +123,7 @@ export const CourseRender = () => {
 
                     <div>
                         <nav aria-label="Page navigation example">
-                            <ul className="pagination justify-content-center">
+                            <ul className="justify-content-center pagination">
                                 <li className={`page-item ${classFilter.page === 1 ? "disabled" : ""}`}>
                                     <button
                                         className="page-link"

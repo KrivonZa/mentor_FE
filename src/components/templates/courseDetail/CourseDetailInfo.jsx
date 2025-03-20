@@ -26,7 +26,7 @@ export const CourseDetailInfo = () => {
                                 </p>
                             </div>
                             <div className="col-lg-4">
-                                <div className="course-info d-flex justify-content-between align-items-center">
+                                <div className="d-flex align-items-center justify-content-between course-info">
                                     <h5>Trainer</h5>
                                     <p>
                                         {/* Navigate to TrainerInfo */}
@@ -34,28 +34,83 @@ export const CourseDetailInfo = () => {
                                     </p>
                                 </div>
 
-                                <div className="course-info d-flex justify-content-between align-items-center">
+                                <div className="d-flex align-items-center justify-content-between course-info">
                                     <h5>Course Fee</h5>
                                     <p>{courseDetail?.price?.toLocaleString()}đ</p>
                                 </div>
 
-                                <div className="course-info d-flex justify-content-between align-items-center">
-                                    <h5>Available Slot</h5>
-                                    <p>{courseDetail?.remainSlot}/{courseDetail?.totalStudent}</p>
+                                <div className="d-flex align-items-center justify-content-between course-info">
+                                    <h5>Total Slot</h5>
+                                    <p>{courseDetail?.totalStudent}</p>
                                 </div>
 
-                                <div className="course-info d-flex justify-content-between align-items-center">
+                                <div className="d-flex align-items-center justify-content-between course-info">
+                                    <h5>Remain Slot</h5>
+                                    <p>{courseDetail?.remainSlot}</p>
+                                </div>
+
+                                <div className="d-flex align-items-center justify-content-between course-info">
                                     <h5>Level</h5>
                                     <p>{courseDetail?.courseInfo?.courseLevel}</p>
                                 </div>
 
-                                <button className="w-100 course-info btn btn-lg fw-semibold d-flex justify-content-between align-items-center gap-2 px-4 rounded shadow-sm"
-                                    style={{ backgroundColor: "#5fd080", border: "none", transition: "transform 0.2s ease-in-out" }}
-                                    onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-                                    onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
-                                    onClick={() => navigate(`/checkout/${courseDetail?.classID}`)}>
-                                    <h5 className='text-white'>Buy Now - {courseDetail?.price?.toLocaleString()}đ</h5>
-                                </button>
+                                
+                                {courseDetail?.remainSlot > 0 && (!courseDetail?.deletedStatus && courseDetail?.visibleStatus
+                                    ? (
+                                        <>
+                                            <button className="d-flex btn btn-lg align-items-center justify-content-between rounded shadow-sm w-100 course-info fw-semibold gap-2 px-4"
+                                                style={{ backgroundColor: "#5fd080", border: "none", transition: "transform 0.2s ease-in-out" }}
+                                                onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+                                                onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
+                                                onClick={() => navigate(`/checkout/${courseDetail?.classID}`)}>
+                                                <h5 className='text-white'>Buy Now: {courseDetail?.price?.toLocaleString()}đ</h5>
+                                            </button>
+                                        </>
+                                    )
+                                    : (
+                                        <>
+                                            <button disabled className="d-flex btn btn-lg align-items-center justify-content-between rounded shadow-sm w-100 course-info fw-semibold gap-2 px-4"
+                                                style={{ backgroundColor: "#5fd080", border: "none", transition: "transform 0.2s ease-in-out" }}
+                                                onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+                                                onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
+                                                onClick={() => navigate(`/checkout/${courseDetail?.classID}`)}>
+                                                <h5 className='text-white'>Buy Now: {courseDetail?.price?.toLocaleString()}đ</h5>
+                                            </button>
+                                            <span className="text-warning">Enrollment for the course was closed.</span>
+                                        </>
+                                    ))
+                                }
+
+                                {
+                                    courseDetail?.remainSlot > 0 && courseDetail?.deletedStatus && (
+                                        <>
+                                            <button disabled className="d-flex btn btn-lg align-items-center justify-content-between rounded shadow-sm w-100 course-info fw-semibold gap-2 px-4"
+                                                style={{ backgroundColor: "#5fd080", border: "none", transition: "transform 0.2s ease-in-out" }}
+                                                onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+                                                onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
+                                                onClick={() => navigate(`/checkout/${courseDetail?.classID}`)}>
+                                                <h5 className='text-white'>Buy Now: {courseDetail?.price?.toLocaleString()}đ</h5>
+                                            </button>
+                                            <span className="text-danger">The course is no longer exist.</span>
+                                        </>
+                                    )
+                                }
+
+                                {
+                                    courseDetail?.remainSlot == 0 && (
+                                        <>
+                                            <button disabled className="d-flex btn btn-lg align-items-center justify-content-between rounded shadow-sm w-100 course-info fw-semibold gap-2 px-4"
+                                                style={{ backgroundColor: "#5fd080", border: "none", transition: "transform 0.2s ease-in-out" }}
+                                                onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+                                                onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
+                                                onClick={() => navigate(`/checkout/${courseDetail?.classID}`)}>
+                                                <h5 className='text-white'>Buy Now: {courseDetail?.price?.toLocaleString()}đ</h5>
+                                            </button>
+                                            <span className="text-danger">The course slots are full</span>
+                                        </>
+                                    )
+                                }
+
                             </div>
                         </div>
                     </div>

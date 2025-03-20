@@ -59,12 +59,12 @@ export const LessonFormTab = () => {
             } else {
                 newLessonErrorMessage[index].description = "";
             }
-            if (lesson.lessonStatus.trim() == "") {
-                newLessonErrorMessage[index].lessonStatus = "Lesson Status is required";
-                errCount++;
-            } else {
-                newLessonErrorMessage[index].lessonStatus = "";
-            }
+            // if (lesson.lessonStatus.trim() == "") {
+            //     newLessonErrorMessage[index].lessonStatus = "Lesson Status is required";
+            //     errCount++;
+            // } else {
+            //     newLessonErrorMessage[index].lessonStatus = "";
+            // }
             
 
             // if (lesson.schedule.length > 0) {
@@ -173,7 +173,7 @@ export const LessonFormTab = () => {
                                     </Form.Item>
 
                                     {/* Lesson Status */}
-                                    <Form.Item
+                                    {/* <Form.Item
                                         label="Lesson Status"
                                         name={[name, "lessonStatus"]}
                                         rules={[{ required: true, message: "Please select lesson status" }]}
@@ -191,7 +191,7 @@ export const LessonFormTab = () => {
                                             options={lessonStatusOptions}
                                         />
                                         <span className='text-danger'>{lessonErrorMessage[name]?.lessonStatus}</span>
-                                    </Form.Item>
+                                    </Form.Item> */}
 
                                     {/* Trial Lesson */}
                                     <Form.Item

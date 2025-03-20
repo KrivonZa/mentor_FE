@@ -136,7 +136,7 @@ const useRoutesElements = () => {
     },
 
     //routes dành cho Student và MENTOR
-    ...(role === "STUDENT" || role === "MENTOR" ?
+    ...(role === "USER" || role === "MENTOR" ?
       [
         {
           path: "/user",
@@ -166,7 +166,7 @@ const useRoutesElements = () => {
         },] : []),
 
     // //routes dành riêng cho STUDENT
-    // ...(role === "STUDENT" ?
+    // ...(role === "USER" ?
     //   [
     //     {
     //       path: "/user",
@@ -250,7 +250,7 @@ const useRoutesElements = () => {
     },
 
     //routes dành cho Student và MENTOR
-    ...(role === "STUDENT" || role === "MENTOR" ?
+    ...(role === "USER" || role === "MENTOR" ?
       [
         {
           path: "/user",
@@ -280,7 +280,7 @@ const useRoutesElements = () => {
         },] : []),
 
     // //routes dành riêng cho STUDENT
-    // ...(role === "STUDENT" ?
+    // ...(role === "USER" ?
     //   [
     //     {
     //       path: "/user",

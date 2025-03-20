@@ -341,6 +341,7 @@ export const CoursePortalProvider = ({ children }) => {
     resetCourseErrorMessage();
     resetLessonErrorMessage();
     setActiveKey("1")
+    resetLessonDetailModal();
   }
 
   //Fetch for re-use

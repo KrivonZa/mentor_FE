@@ -344,13 +344,15 @@ export const ClassPortalProvider = ({ children }) => {
   }
 
   const handleDeleteClass = async (classID: number) => {
+    const loadingId = toast.loading("Update course...");
     try {
       const response = await classService.deleteClass(classID)
       if (response) {
-        toast.success(response.message);
+        toastLoadingSuccessAction(loadingId, response.message);
         fetchClassPortal()
       }
     } catch (error) {
+      toastLoadingFailAction(loadingId, error.response.data.message)
       console.log("error: ", error);
     }
   }
