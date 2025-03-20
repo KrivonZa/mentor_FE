@@ -13,8 +13,6 @@ interface Mentor {
 
 
 interface MentorApprovalRequestDTO {
-  mentorApprovalRequestID: number;
-  assigneeID: number;
   Bio: string;
   CV: string;
   introductionVideo: string;

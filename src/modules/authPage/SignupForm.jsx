@@ -3,6 +3,7 @@ import axios from "axios";
 import "../../../public/css/Signup.scss";
 import { useNavigate } from "react-router-dom";
 import authenService from "../../services/authenService";
+import Swal from "sweetalert2";
 
 export const SignupForm = () => {
   const [role, setRole] = useState("USER");
@@ -26,12 +27,24 @@ export const SignupForm = () => {
     };
 
     try {
-      const response = await authenService.register(userData);
-      console.log("Signup successful:", response.data);
+      await authenService.register(userData);
+      console.log("Display now!");
 
-      navigate('/auth')
+      Swal.fire({
+        icon: "success",
+        title: "Please check and verify your email!",
+        text: "We have sent you a verification email. Please check your inbox.",
+        confirmButtonText: "OK",
+      });
     } catch (error) {
       console.error("Signup failed:", error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Signup Failed",
+        text: "Something went wrong. Please try again.",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -45,14 +58,14 @@ export const SignupForm = () => {
           </div>
 
           <form className="space-y-4" onSubmit={handleSignup}>
-              <input
-                type="text"
-                placeholder="Fullname"
-                required
-                className="w-full px-4 py-3 border border-neutral-200 rounded-lg focus:outline-none focus:border-[#5fd080] focus:ring-1 focus:ring-[#5fd080] transition-all"
-                value={fullname}
-                onChange={(e) => setFullname(e.target.value)}
-              />
+            <input
+              type="text"
+              placeholder="Fullname"
+              required
+              className="w-full px-4 py-3 border border-neutral-200 rounded-lg focus:outline-none focus:border-[#5fd080] focus:ring-1 focus:ring-[#5fd080] transition-all"
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
+            />
 
             <input
               type="email"
@@ -85,15 +98,15 @@ export const SignupForm = () => {
               Sign Up
             </button>
             <button
-                className="flex items-center justify-center w-full py-3 border border-gray-300 rounded-lg text-sm font-medium text-[#5fd080] hover:bg-gray-100 transition duration-200 hover:-translate-y-0.5"
-                type="button"
-                onClick={async() => {
-                  await authenService.loginGoogle()
-                }}
-              >
-                <i className="fa-brands fa-google me-2 text-[#5fd080]" style={{ fontSize: "26px" }} />
-                Login with Google
-              </button>
+              className="flex items-center justify-center w-full py-3 border border-gray-300 rounded-lg text-sm font-medium text-[#5fd080] hover:bg-gray-100 transition duration-200 hover:-translate-y-0.5"
+              type="button"
+              onClick={async () => {
+                await authenService.loginGoogle()
+              }}
+            >
+              <i className="fa-brands fa-google me-2 text-[#5fd080]" style={{ fontSize: "26px" }} />
+              Login with Google
+            </button>
           </form>
         </div>
       </div>
