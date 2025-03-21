@@ -32,9 +32,8 @@ export const SignupForm = () => {
     };
 
     try {
-      const response = await authenService.register(userData);
-      console.log("Signup successful:", response.data);
-
+      await authenService.register(userData);
+      console.log("Display now!");
       navigate('/auth')
       toastLoadingSuccessAction(loadingId, "Create Session Success!");
 
@@ -47,7 +46,7 @@ export const SignupForm = () => {
 
   return (
     <div id="signupContainer">
-      <div id="signupForm" className="d-flex items-center justify-center min-h-screen" style={{ height: '100vh' }}>
+      <div id="signupForm" className="d-flex items-center justify-center min-h-screen" style={{ height: "100vh" }}>
         <div className="w-[480px] bg-white rounded-xl p-8 shadow-lg m-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-2">Create Account</h1>
@@ -100,7 +99,7 @@ export const SignupForm = () => {
               className="flex items-center justify-center w-full py-3 border border-gray-300 rounded-lg text-sm font-medium text-[#5fd080] hover:bg-gray-100 transition duration-200 hover:-translate-y-0.5"
               type="button"
               onClick={async () => {
-                await authenService.loginGoogle()
+                await authenService.loginGoogle();
               }}
             >
               <i className="fa-brands fa-google me-2 text-[#5fd080]" style={{ fontSize: "26px" }} />
@@ -120,5 +119,5 @@ export const SignupForm = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

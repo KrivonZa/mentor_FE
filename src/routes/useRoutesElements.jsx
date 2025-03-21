@@ -34,7 +34,7 @@ import CourseRequestPortal from "../modules/mainPage/CourseRequestPortal";
 import MentorRequestForm from "../components/User/MentorRequestForm";
 import MentorApprovalRequest from "../modules/adminPage/Mentor/MentorApprovalRequest";
 import CourseManagement from "../modules/adminPage/CourseManagement/CourseManagement";
-
+import RecentComments from "../modules/adminPage/CourseManagement/Feedback";
 const role = localStorage.getItem("ROLE")
 
 const titleMap = {
@@ -132,6 +132,11 @@ const useRoutesElements = () => {
           path: "make-approval-request",
           element: <MentorRequestForm />
         },
+        {
+          path: "feedback",
+          element: <RecentComments/>
+        }
+        ,
       ],
     },
 

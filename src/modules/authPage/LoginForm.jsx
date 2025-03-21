@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom"; // Import useLocation
 import "/public/css/Login.scss";
 import authenService from "../../services/authenService";
 import Swal from "sweetalert2";
@@ -12,7 +12,26 @@ export function LoginForm() {
     email: "",
     password: "",
   });
+
   const navigate = useNavigate();
+  const location = useLocation(); // Get the current URL
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const check = params.get("check");
+
+    if (check === "true") {
+      Swal.fire({
+        icon: "success",
+        title: "Account Created!",
+        text: "Your account has been successfully created. Please log in.",
+        confirmButtonText: "OK",
+      }).then(() => {
+        navigate("/auth", { replace: true }); // Remove ?check=true from URL
+      });
+    }
+  }, [location, navigate]); // Runs when location changes
+
   const handleChange = (event) => {
     setLoginData({ ...loginData, [event.target.name]: event.target.value });
   };
@@ -35,10 +54,7 @@ export function LoginForm() {
         // window.location.reload();
       }
     } catch (err) {
-      // alert("Invalid credentials")
       toast.error("Invalid Username or Password");
-      // console.error("Login error:", err);
-      // setError(err.message || "Invalid credentials");
     }
     setLoading(false)
   };
@@ -102,13 +118,12 @@ export function LoginForm() {
                 className="flex items-center justify-center w-full py-3 border border-gray-300 rounded-lg text-sm font-medium text-[#5fd080] hover:bg-gray-100 transition duration-200 hover:-translate-y-0.5"
                 type="button"
                 onClick={async () => {
-                  await authenService.loginGoogle()
+                  await authenService.loginGoogle();
                 }}
               >
                 <i className="fa-brands fa-google me-2 text-[#5fd080]" style={{ fontSize: "26px" }} />
                 Login with Google
               </button>
-
             </form>
             <p className="mt-6 text-center text-sm text-neutral-600">
               Don't have an account?
