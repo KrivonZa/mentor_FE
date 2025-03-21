@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Import useLocation
-import Swal from "sweetalert2";
-import authenService from "../../services/authenService";
+import axios from "axios";
 import "../../../public/css/Signup.scss";
+import { Link, useNavigate } from "react-router-dom";
+import authenService from "../../services/authenService";
+import { Button, Spin } from "antd";
+import { toast } from "react-toastify";
+import { toastLoadingFailAction, toastLoadingSuccessAction } from "../../utils/functions";
 
 export const SignupForm = () => {
   const [role, setRole] = useState("USER");
@@ -10,8 +13,14 @@ export const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [loading, setLoading] = useState(false)
+
+  const navigate = useNavigate();
+
   const handleSignup = async (event) => {
     event.preventDefault();
+    setLoading(true)
+    const loadingId = toast.loading("Creating your account...");
 
     const userData = {
       fullname,
@@ -25,23 +34,14 @@ export const SignupForm = () => {
     try {
       await authenService.register(userData);
       console.log("Display now!");
+      navigate('/auth')
+      toastLoadingSuccessAction(loadingId, "Create Session Success!");
 
-      Swal.fire({
-        icon: "success",
-        title: "Please check and verify your email!",
-        text: "We have sent you a verification email. Please check your inbox.",
-        confirmButtonText: "OK",
-      });
     } catch (error) {
       console.error("Signup failed:", error);
-
-      Swal.fire({
-        icon: "error",
-        title: "Signup Failed",
-        text: "Something went wrong. Please try again.",
-        confirmButtonText: "OK",
-      });
+      toastLoadingFailAction(loadingId, error?.response?.data?.message || "Signup failed" );
     }
+    setLoading(false)
   };
 
   return (
@@ -89,9 +89,11 @@ export const SignupForm = () => {
             />
             <button
               type="submit"
+              disabled={loading}
               className="w-full py-3 bg-[#5fd080] text-white font-semibold rounded-lg hover:bg-[#4fb36a] transform hover:scale-[1.02] transition-all"
             >
-              Sign Up
+              {loading && <Spin size="small" style={{ marginRight: '20px' }} />}
+              <span className="">Sign Up</span>
             </button>
             <button
               className="flex items-center justify-center w-full py-3 border border-gray-300 rounded-lg text-sm font-medium text-[#5fd080] hover:bg-gray-100 transition duration-200 hover:-translate-y-0.5"
@@ -104,9 +106,16 @@ export const SignupForm = () => {
               Login with Google
             </button>
           </form>
-          <Link to={"/auth"} className="ml-1 text-[#5fd080] hover:text-[#4db068] transition-colors duration-200">
-            Login
-          </Link>
+          <p className="mt-6 text-center text-sm text-neutral-600">
+            Already have an account?
+            <Link
+              to={"/auth"}
+              style={{ marginLeft: '5px', color: '#5fd080'}}
+              // className="ml-1 text-[#5fd080] hover:text-[#4db068] transition-colors duration-200"
+            >
+              Sign in
+            </Link>
+          </p>
         </div>
       </div>
     </div>

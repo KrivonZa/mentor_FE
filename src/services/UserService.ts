@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL } from "../constants";
+import { API_BASE_URL, apiPrivateInstance } from "../constants";
 
 // Define a User interface
 interface User {
@@ -61,6 +61,10 @@ export enum Role {
   STUDENT = "STUDENT",
 }
 
+const userPrivateApi = apiPrivateInstance({
+  baseURL: `${API_BASE_URL}/user`,
+});
+
 const createUser = async (user: User): Promise<void> => {
   try {
     await axios.post(`${API_BASE_URL}/user/create-user`, user);
@@ -113,8 +117,8 @@ const getUserByToken = async (
     let endpoint = "";
     if (role === "MENTOR") {
       endpoint = `${API_BASE_URL}/mentor/get-detail`;
-    } else if (role === "STUDENT") {
-      endpoint = `${API_BASE_URL}/student/get-detail`;
+    } else if (role === "USER") {
+      endpoint = `${API_BASE_URL}/user/get-detail`;
     } else {
       throw new Error("Invalid role. Unable to fetch user data.");
     }
@@ -126,7 +130,6 @@ const getUserByToken = async (
         Authorization: `Bearer ${token}`,
       },
     });
-
     return response.data;
   } catch (error) {
     console.error("Error fetching user by token:", error);
@@ -143,8 +146,8 @@ const updateUserProfile = async (
     let endpoint = "";
     if (role === "MENTOR") {
       endpoint = `${API_BASE_URL}/mentor/update-mentor-by-token`;
-    } else if (role === "STUDENT") {
-      endpoint = `${API_BASE_URL}/student/update-student-by-token`;
+    } else if (role === "USER") {
+      endpoint = `${API_BASE_URL}/user/update-by-token`;
     }
     const response = await axios.put(`${endpoint}`, userProfileData, {
       headers: {
@@ -179,6 +182,15 @@ const updateUser = async (user: User, id: number): Promise<User> => {
   }
 };
 
+const getTimeTable = async () => {
+  try {
+    const response = await userPrivateApi.get('/time-table');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 
 export {
   getAllUsers,
@@ -188,5 +200,6 @@ export {
   createUser,
   getUserByToken,
   updateUserProfile,
-  getUserByEmail
+  getUserByEmail,
+  getTimeTable
 };

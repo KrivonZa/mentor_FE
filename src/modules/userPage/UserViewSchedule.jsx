@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../../public/css/UserViewSchedule.scss";
 import courseService from "../../services/courseService";
+import { getTimeTable } from "../../services/UserService";
+
 
 export const UserViewSchedule = () => {
     const navigate = useNavigate();
@@ -11,7 +13,7 @@ export const UserViewSchedule = () => {
 
     const fetchBookedCourse = async () => {
         try {
-            const response = await courseService.getBookedCourse(page);
+            const response = await getTimeTable();
             setCourse(response.data.data || []); // Sửa setHistory thành setCourse
             setTotalPages(response.data.totalPage || 1);
         } catch (error) {

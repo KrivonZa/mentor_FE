@@ -5,8 +5,10 @@ import authenService from "../../services/authenService";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { AppContext } from "../../routes/AppProvider";
+import { Spin } from "antd";
 
 export function LoginForm() {
+  const [loading, setLoading] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -38,11 +40,13 @@ export function LoginForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true)
     try {
       login(loginData);
     } catch (err) {
       toast.error("Invalid Username or Password");
     }
+    setLoading(false)
   };
 
   return (
@@ -93,9 +97,11 @@ export function LoginForm() {
               </div>
               <button
                 type="submit"
+                disabled={loading}
                 className="w-full bg-[#5fd080] text-white py-3 rounded-lg font-medium hover:bg-[#4db068] transform hover:-translate-y-0.5 transition-all duration-200"
               >
-                Sign In
+                {loading && <Spin size="small" style={{ marginRight: '20px' }} />}
+                <span>Sign In</span>
               </button>
               <p className="text-[#5fd080] text-center">Or</p>
               <button

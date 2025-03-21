@@ -14,8 +14,8 @@ export function UserSidebar() {
 
   if (role === "MENTOR") {
     menuItems.push({ to: "/user/course-portal", label: "Manage Courses", icon: "list_alt" });
-    menuItems.push({ to: "/user/course-request", label: "Manage Course Requests", icon: "list_alt" });
-    menuItems.push({ to: "/user/class-portal", label: "Manage Classes", icon: "list_alt" });
+    menuItems.push({ to: "/user/course-request", label: "Manage Course Requests", icon: "local_activity" });
+    menuItems.push({ to: "/user/class-portal", label: "Manage Classes", icon: "school" });
   }
 
   const isActive = (itemTo) => {
