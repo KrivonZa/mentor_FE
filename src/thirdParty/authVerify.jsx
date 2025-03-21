@@ -5,10 +5,6 @@ import Swal from "sweetalert2";
 
 export const AuthVerify = () => {
     const navigate = useNavigate();
-    const handleLogout = () => {
-        ["USER", "ROLE", "ID"].forEach(key => localStorage.removeItem(key));
-        navigate("/auth");
-    }
 
     useEffect(() => {
         const checkAuth = () => {

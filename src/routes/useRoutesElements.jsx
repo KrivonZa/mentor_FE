@@ -169,6 +169,10 @@ const useRoutesElements = () => {
               path: "transaction-history",
               element: <TransactionHistory />,
             },
+            {
+              path: "checkout/:courseID",
+              element: <Checkout />,
+            },
           ],
         },] : []),
 
@@ -244,16 +248,6 @@ const useRoutesElements = () => {
     {
       path: "/admin",
       element: <Navigate to="*" replace />,
-    },
-    {
-      path: "/user",
-      element: <UserLayout />,
-      children: [
-        {
-          path: "checkout/:courseID",
-          element: <Checkout />,
-        },
-      ],
     },
 
     //routes dành cho Student và MENTOR

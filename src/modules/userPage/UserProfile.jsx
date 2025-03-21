@@ -3,7 +3,7 @@ import { updateUserProfile } from "../../services/UserService";
 import '../../../public/css/ViewProfile.scss';
 import { toast } from "react-toastify";
 import { toastLoadingFailAction, toastLoadingSuccessAction } from "../../utils/functions";
-import { AppContext } from "../../App";
+import { AppContext } from "../../routes/AppProvider";
 
 export const UserProfile = () => {
     const [formData, setFormData] = useState({});

@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getUserByID } from "../../services/UserService"
+import { AppContext } from "../../routes/AppProvider";
 
 export function AdminSidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const id = localStorage.getItem("ID")
+  const { logout } = useContext(AppContext)
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -24,10 +26,7 @@ export function AdminSidebar() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("USER");
-    localStorage.removeItem("ROLE");
-    localStorage.removeItem("ID");
-    navigate("/");
+    logout();
   };
 
   return (
