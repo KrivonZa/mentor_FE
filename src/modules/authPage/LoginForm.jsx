@@ -4,8 +4,10 @@ import "/public/css/Login.scss";
 import authenService from "../../services/authenService";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { Spin } from "antd";
 
 export function LoginForm() {
+  const [loading, setLoading] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -17,17 +19,20 @@ export function LoginForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true)
     try {
       const data = await authenService.login(loginData);
+      console.log("dataLogin: ", data);
+
       localStorage.setItem("USER", data.token);
       const role = localStorage.getItem("ROLE");
       if (role === "STAFF") {
         localStorage.setItem("ID", data.id);
         navigate("/admin");
-        window.location.reload();
+        // window.location.reload();
       } else {
         navigate("/");
-        window.location.reload();
+        // window.location.reload();
       }
     } catch (err) {
       // alert("Invalid credentials")
@@ -35,6 +40,7 @@ export function LoginForm() {
       // console.error("Login error:", err);
       // setError(err.message || "Invalid credentials");
     }
+    setLoading(false)
   };
 
   return (
@@ -85,15 +91,17 @@ export function LoginForm() {
               </div>
               <button
                 type="submit"
+                disabled={loading}
                 className="w-full bg-[#5fd080] text-white py-3 rounded-lg font-medium hover:bg-[#4db068] transform hover:-translate-y-0.5 transition-all duration-200"
               >
-                Sign In
+                {loading && <Spin size="small" style={{ marginRight: '20px' }} />}
+                <span>Sign In</span>
               </button>
               <p className="text-[#5fd080] text-center">Or</p>
               <button
                 className="flex items-center justify-center w-full py-3 border border-gray-300 rounded-lg text-sm font-medium text-[#5fd080] hover:bg-gray-100 transition duration-200 hover:-translate-y-0.5"
                 type="button"
-                onClick={async() => {
+                onClick={async () => {
                   await authenService.loginGoogle()
                 }}
               >

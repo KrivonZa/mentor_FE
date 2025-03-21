@@ -53,7 +53,7 @@ export const CourseRender = () => {
                                 return (
                                     <div
                                         key={course?.courseID || 0}
-                                        className="col-lg-4 col-md-6 d-flex align-items-stretch"
+                                        className="col-lg-4 col-md-6 d-flex align-items-stretch mb-5"
                                         data-aos="zoom-in"
                                         data-aos-delay="100"
                                         style={{ height: '495px' }}

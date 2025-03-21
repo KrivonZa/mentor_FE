@@ -57,7 +57,9 @@ export const Checkout = () => {
                 icon: "success",
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: "OK",
-            });
+            }).then(() => {
+                window.location.href = "http://localhost:3000/user/transaction-history";
+            });;
         } catch (error) {
             console.log("error: ", error);
             await Swal.fire({
@@ -77,7 +79,6 @@ export const Checkout = () => {
             </h1>
 
             <div className="g-4 row">
-                {/* Left column: Course information */}
                 <div className="col-md-6">
                     <div className="card border-0 shadow">
                         <div className="d-flex align-content-center justify-content-center">
@@ -95,7 +96,6 @@ export const Checkout = () => {
                     </div>
                 </div>
 
-                {/* Right column: Payment information */}
                 <div className="col-md-6">
                     <div className="bg-white border p-4 rounded shadow">
                         <h5 className="fw-bold mb-4" style={{ fontSize: "24px" }}>Payment Information</h5>

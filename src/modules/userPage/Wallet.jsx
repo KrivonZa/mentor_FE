@@ -15,6 +15,8 @@ export function Wallet() {
     const { user } = useContext(AppContext);
 
     useEffect(() => {
+        console.log("user: ", user);
+        
         setBalance(user?.balance || 0);
     }, [user]);
 
@@ -62,24 +64,24 @@ export function Wallet() {
 
     return (
         <div className="container py-5">
-            <div className="card shadow-lg border-0 rounded-4 p-5 mx-auto" style={{ maxWidth: "600px", width: "100%" }}>
-                <h1 className="text-center mb-5 fw-bold h1" style={{ color: "#5fd080" }}>Your Wallet</h1>
-                <div className="bg-light p-4 rounded-3 mb-5 text-center">
+            <div className="card border-0 p-5 rounded-4 shadow-lg mx-auto" style={{ maxWidth: "600px", width: "100%" }}>
+                <h1 className="text-center fw-bold h1 mb-5" style={{ color: "#5fd080" }}>Your Wallet</h1>
+                <div className="bg-light p-4 rounded-3 text-center mb-5">
                     <span className="d-block text-muted text-uppercase fw-medium h5">Current Balance</span>
-                    <h2 className="fw-bold mt-3 h2" style={{ color: "#5fd080" }}>
+                    <h2 className="fw-bold h2 mt-3" style={{ color: "#5fd080" }}>
                         {balance.toLocaleString()}đ
                     </h2>
                 </div>
                 <div className="d-flex gap-4">
                     <button
-                        className="btn w-100 text-white py-3 fs-5"
+                        className="btn text-white w-100 fs-5 py-3"
                         style={{ backgroundColor: "#5fd080", borderColor: "#5fd080" }}
                         onClick={() => handleShow("deposit")}
                     >
                         Deposit
                     </button>
                     <button
-                        className="btn w-100 text-dark border py-3 fs-5"
+                        className="btn border text-dark w-100 fs-5 py-3"
                         style={{ borderColor: "#5fd080", color: "#5fd080" }}
                         onClick={() => handleShow("withdraw")}
                     >
@@ -89,9 +91,9 @@ export function Wallet() {
             </div>
 
             {show && (
-                <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+                <div className="d-block modal fade show" tabIndex="-1" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
                     <div className="modal-dialog modal-dialog-centered modal-lg">
-                        <div className="modal-content rounded-4 shadow-lg border-0">
+                        <div className="modal-content border-0 rounded-4 shadow-lg">
                             <div className="modal-header border-bottom px-4 py-3">
                                 <h4 className="modal-title fw-bold h4">
                                     {action === "deposit" ? "Deposit Funds" : "Withdraw Funds"}
@@ -100,7 +102,7 @@ export function Wallet() {
                             </div>
                             <div className="modal-body p-4">
                                 <div className="mb-4">
-                                    <label htmlFor="amount" className="form-label fw-medium fs-5">
+                                    <label htmlFor="amount" className="form-label fs-5 fw-medium">
                                         Amount (VND)
                                     </label>
                                     <input
@@ -115,7 +117,7 @@ export function Wallet() {
                                 </div>
                                 {action === "deposit" && (
                                     <div className="mb-4">
-                                        <label className="form-label fw-medium fs-5">Payment Method</label>
+                                        <label className="form-label fs-5 fw-medium">Payment Method</label>
                                         <div className="d-flex flex-column gap-2">
                                             <div className="form-check">
                                                 <input
@@ -134,7 +136,7 @@ export function Wallet() {
                                 {action === "withdraw" && (
                                     <>
                                         <div className="mb-4">
-                                            <label htmlFor="bankName" className="form-label fw-medium fs-5">
+                                            <label htmlFor="bankName" className="form-label fs-5 fw-medium">
                                                 Bank Name
                                             </label>
                                             <input
@@ -147,7 +149,7 @@ export function Wallet() {
                                             />
                                         </div>
                                         <div className="mb-4">
-                                            <label htmlFor="accountNumber" className="form-label fw-medium fs-5">
+                                            <label htmlFor="accountNumber" className="form-label fs-5 fw-medium">
                                                 Account Number
                                             </label>
                                             <input
@@ -160,7 +162,7 @@ export function Wallet() {
                                             />
                                         </div>
                                         <div className="mb-4">
-                                            <label htmlFor="accountHolderName" className="form-label fw-medium fs-5">
+                                            <label htmlFor="accountHolderName" className="form-label fs-5 fw-medium">
                                                 Account Holder Name
                                             </label>
                                             <input
@@ -178,14 +180,14 @@ export function Wallet() {
                             <div className="modal-footer border-top px-4 py-3">
                                 <button
                                     type="button"
-                                    className="btn btn-outline-secondary rounded-3 px-4 py-2 fs-5"
+                                    className="btn btn-outline-secondary rounded-3 fs-5 px-4 py-2"
                                     onClick={handleClose}
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="button"
-                                    className="btn text-white rounded-3 px-4 py-2 fs-5"
+                                    className="btn rounded-3 text-white fs-5 px-4 py-2"
                                     style={{ backgroundColor: "#5fd080", borderColor: "#5fd080" }}
                                     onClick={handleSubmit}
                                     disabled={action === "deposit" && !paymentMethod}
