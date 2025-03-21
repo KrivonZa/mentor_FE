@@ -40,7 +40,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       if (role === "STAFF") {
         navigate("/admin");
       } else {
-        navigate("/");
+        navigate("/user");
       }
       window.location.reload();
     } catch (err) {
@@ -50,9 +50,14 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   };
 
   const logout = async () => {
-    await ["USER", "ROLE", "ID"].forEach((key) => localStorage.removeItem(key));
-    setUser(null);
-    navigate("/auth");
+    try {
+      await authenService.logout();
+      ["USER", "ROLE", "ID"].forEach((key) => localStorage.removeItem(key));
+      setUser(null);
+      navigate("/auth");
+    } catch (error) {
+      console.error("Lỗi khi logout:", error);
+    }
   };
 
   const value: AppContextValue = {
