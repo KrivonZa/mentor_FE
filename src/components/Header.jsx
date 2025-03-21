@@ -1,13 +1,13 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import React, { useState, useEffect, useContext } from "react"
 import { getUserByToken } from "../services/UserService";
-import { AppContext } from "../App";
+import { AppContext } from "../routes/AppProvider";
 
 export default function Header() {
   const token = localStorage.getItem("USER")
   const role = localStorage.getItem("ROLE")
   const navigate = useNavigate();
-  const { setUser, user } = useContext(AppContext);
+  const { setUser, user, logout } = useContext(AppContext);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -26,9 +26,7 @@ export default function Header() {
   }, []);
 
   const handleLogout = () => {
-    ["USER", "ROLE"].forEach(key => localStorage.removeItem(key));
-    setUser(null);
-    setTimeout(() => navigate("/"), 0);
+    logout();
   };
   return (
     <header id="header" className="header d-flex align-items-center sticky-top" style={{ zIndex: '10' }}>

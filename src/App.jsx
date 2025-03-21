@@ -1,30 +1,18 @@
-import useRoutesElements from "./routes/useRoutesElements";
+// src/App.tsx
 import { useLocation } from "react-router-dom";
-import { createContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ConfigProvider } from "antd";
-import { AuthVerify } from "./thirdParty"
+import useRoutesElements from "./routes/useRoutesElements";
+import { AppProvider } from "./routes/AppProvider"
+import { AuthVerify } from "./thirdParty";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-
   return null;
 };
-
-export const AppContext = createContext(undefined);
-
-export const AppProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  return (
-    <AppContext.Provider value={{ user, setUser }}>
-      {children}
-    </AppContext.Provider>
-  );
-}
-
 
 function App() {
   const routesElements = useRoutesElements();

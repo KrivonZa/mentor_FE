@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import transactionService from "../../services/transactionService";
 import "./styles.css"
-import { AppContext } from "../../App";
+import { AppContext } from "../../routes/AppProvider";
 
 export function Wallet() {
     const [balance, setBalance] = useState(0);

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom"; // Import useLocation
 import "/public/css/Login.scss";
 import authenService from "../../services/authenService";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { AppContext } from "../../routes/AppProvider";
 import { Spin } from "antd";
 
 export function LoginForm() {
@@ -12,6 +13,7 @@ export function LoginForm() {
     email: "",
     password: "",
   });
+  const { login } = useContext(AppContext);
 
   const navigate = useNavigate();
   const location = useLocation(); // Get the current URL
@@ -40,19 +42,7 @@ export function LoginForm() {
     event.preventDefault();
     setLoading(true)
     try {
-      const data = await authenService.login(loginData);
-      console.log("dataLogin: ", data);
-
-      localStorage.setItem("USER", data.token);
-      const role = localStorage.getItem("ROLE");
-      if (role === "STAFF") {
-        localStorage.setItem("ID", data.id);
-        navigate("/admin");
-        // window.location.reload();
-      } else {
-        navigate("/");
-        // window.location.reload();
-      }
+      login(loginData);
     } catch (err) {
       toast.error("Invalid Username or Password");
     }

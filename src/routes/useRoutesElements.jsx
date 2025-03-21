@@ -88,57 +88,59 @@ const useRoutesElements = () => {
         }
       ],
     },
-    {
-      path: "",
-      element: <MainLayout />,
-      children: [
+    ...(role !== "STAFF" ?
+      [
         {
-          index: true,
-          element: <Homepage />,
-        },
-        {
-          path: "about",
-          element: <About />,
-        },
-        {
-          path: "courses",
-          element: <Courses />,
-        },
-        {
-          path: "courses/:courseID",
-          element: <CourseDetail />, // Component for course details
-        },
-        {
-          path: "trainers",
-          element: <Trainers />,
-        },
-        {
-          path: "events",
-          element: <Events />,
-        },
-        {
-          path: "pricing",
-          element: <Pricing />,
-        },
-        {
-          path: "contact",
-          element: <Contact />,
-        },
-        {
-          path: "checkout/:courseID",
-          element: <Checkout />,
-        },
-        {
-          path: "make-approval-request",
-          element: <MentorRequestForm />
-        },
-        {
-          path: "feedback",
-          element: <RecentComments/>
-        }
-        ,
-      ],
-    },
+          path: "",
+          element: <MainLayout />,
+          children: [
+            {
+              index: true,
+              element: <Homepage />,
+            },
+            {
+              path: "about",
+              element: <About />,
+            },
+            {
+              path: "courses",
+              element: <Courses />,
+            },
+            {
+              path: "courses/:courseID",
+              element: <CourseDetail />, // Component for course details
+            },
+            {
+              path: "trainers",
+              element: <Trainers />,
+            },
+            {
+              path: "events",
+              element: <Events />,
+            },
+            {
+              path: "pricing",
+              element: <Pricing />,
+            },
+            {
+              path: "contact",
+              element: <Contact />,
+            },
+            {
+              path: "checkout/:courseID",
+              element: <Checkout />,
+            },
+            {
+              path: "make-approval-request",
+              element: <MentorRequestForm />
+            },
+            {
+              path: "feedback",
+              element: <RecentComments />
+            }
+            ,
+          ],
+        },] : []),
 
     //routes dành cho Student và MENTOR
     ...(role === "USER" || role === "MENTOR" ?
@@ -166,6 +168,10 @@ const useRoutesElements = () => {
             {
               path: "transaction-history",
               element: <TransactionHistory />,
+            },
+            {
+              path: "checkout/:courseID",
+              element: <Checkout />,
             },
           ],
         },] : []),
@@ -242,16 +248,6 @@ const useRoutesElements = () => {
     {
       path: "/admin",
       element: <Navigate to="*" replace />,
-    },
-    {
-      path: "/user",
-      element: <UserLayout />,
-      children: [
-        {
-          path: "checkout/:courseID",
-          element: <Checkout />,
-        },
-      ],
     },
 
     //routes dành cho Student và MENTOR
