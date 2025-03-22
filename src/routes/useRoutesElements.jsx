@@ -35,6 +35,7 @@ import MentorRequestForm from "../components/User/MentorRequestForm";
 import MentorApprovalRequest from "../modules/adminPage/Mentor/MentorApprovalRequest";
 import CourseManagement from "../modules/adminPage/CourseManagement/CourseManagement";
 import RecentComments from "../modules/adminPage/CourseManagement/Feedback";
+import { WithdrawRequestsPage } from "../modules/adminPage/Withdraw";
 const role = localStorage.getItem("ROLE")
 
 const titleMap = {
@@ -62,6 +63,7 @@ const titleMap = {
   "/admin/students": "Students Dashboard",
   "/admin/staffs": "Staffs Dashboard",
   "/admin/report": "Reports Dashboard",
+  "/admin/withdraw-requests": "Withdraw Requests Dashboard",
   "*": "Not Found",
   "/500": "Server Error",
 };
@@ -349,6 +351,10 @@ const useRoutesElements = () => {
           {
             path: "students",
             element: <StudentBody />,
+          },
+          {
+            path: "withdraw-requests",
+            element: <WithdrawRequestsPage />,
           },
           {
             path: "report",

@@ -1,6 +1,8 @@
 import { apiPrivateInstance, API_BASE_URL } from "../constants";
 import {
   DepositRequest,
+  WithdrawFilter,
+  WithdrawStatus,
   WithdrawRequest,
   coursePayment,
   transactionHistory,
@@ -59,7 +61,37 @@ export const transactionService = {
     } catch (error) {
       throw error.response?.data;
     }
-  }
+  },
+  getWithdrawList: async (filters: WithdrawFilter = {}, page: number = 0, size: number = 10) => {
+    try {
+      const response = await transactionApi.post(
+        `/withdraw/list?page=${page}&size=${size}`,
+        filters
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching withdraw list:", error);
+      throw error.response?.data;
+    }
+  },
+  updateWithdrawStatus: async (requestId: string, status: WithdrawStatus) => {
+    try {
+      const response = await transactionApi.put(`/withdraw/${requestId}/status?requestStatus=${status}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error updating withdraw status:", error);
+      throw error.response?.data;
+    }
+  },
+  getWithdrawById: async (id: string | number) => {
+    try {
+      const response = await transactionApi.get(`/withdraw/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching withdraw details:", error);
+      throw error.response?.data;
+    }
+  },
 };
 
 export default transactionService;
