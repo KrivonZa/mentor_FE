@@ -16,7 +16,7 @@ export default function Header() {
       try {
         const userData = await getUserByToken(token);
         console.log("error: ", userData);
-        
+
         setUser(userData.data);
       } catch (err) {
         console.error("Error fetching user:", err);

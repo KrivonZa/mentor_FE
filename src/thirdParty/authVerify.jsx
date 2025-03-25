@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
+import { AppContext } from "../routes/AppProvider";
 
 export const AuthVerify = () => {
     const navigate = useNavigate();
+    const { logout } = useContext(AppContext);
 
     useEffect(() => {
         const checkAuth = () => {
@@ -23,7 +25,7 @@ export const AuthVerify = () => {
                         confirmButtonColor: "#d33",
                         allowOutsideClick: false
                     }).then(() => {
-                        handleLogout();
+                        logout();
                     });
                 }
             } catch (error) {
