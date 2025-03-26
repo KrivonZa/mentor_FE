@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom"; // Import useLocation
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "/public/css/Login.scss";
 import authenService from "../../services/authenService";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { AppContext } from "../../routes/AppProvider";
 import { Spin } from "antd";
+import "./login.scss";
 
 export function LoginForm() {
   const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ export function LoginForm() {
   const { login } = useContext(AppContext);
 
   const navigate = useNavigate();
-  const location = useLocation(); // Get the current URL
+  const location = useLocation();
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -29,10 +30,10 @@ export function LoginForm() {
         text: "Your account has been successfully created. Please log in.",
         confirmButtonText: "OK",
       }).then(() => {
-        navigate("/auth", { replace: true }); // Remove ?check=true from URL
+        navigate("/auth", { replace: true });
       });
     }
-  }, [location, navigate]); // Runs when location changes
+  }, [location, navigate]);
 
   const handleChange = (event) => {
     setLoginData({ ...loginData, [event.target.name]: event.target.value });
@@ -40,36 +41,36 @@ export function LoginForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true)
+    setLoading(true);
     try {
       login(loginData);
     } catch (err) {
       toast.error("Invalid Username or Password");
     }
-    setLoading(false)
+    setLoading(false);
   };
+
+  const handleUndo = () => {
+    navigate("/");
+  };
+
   return (
     <div id="loginContainer">
       <div id="webcrumbs">
-        <Link
-          to="/"
-          className="absolute top-4 left-4 flex items-center text-neutral-600 px-2"
-        >
-          <span className="material-symbols-outlined mr-2 p-1">
-            home
-          </span>
-          <span className="font-medium text-sm">
-            Home
-          </span>
-        </Link>
         <div className="min-h-screen w-full flex items-center justify-center bg-neutral-50">
           <div className="w-[400px] bg-white rounded-xl shadow-2xl p-8 transform hover:scale-105 transition-all duration-300">
-            <header className="mb-8">
+            {/* Title Section */}
+            <div className="login-header">
               <h1 className="text-3xl font-bold text-[#5fd080] mb-2">
                 Welcome Back!
               </h1>
-              <p className="text-neutral-600">Please sign in to continue</p>
-            </header>
+              <button onClick={handleUndo} className="undo-button">
+                <span className="material-symbols-outlined">undo</span>
+              </button>
+            </div>
+            <p className="text-neutral-600 mb-6">Please sign in to continue</p>
+
+            {/* Form Section */}
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label className="block text-sm font-medium mb-2">
@@ -110,7 +111,7 @@ export function LoginForm() {
                 disabled={loading}
                 className="w-full bg-[#5fd080] text-white py-3 rounded-lg font-medium hover:bg-[#4db068] transform hover:-translate-y-0.5 transition-all duration-200"
               >
-                {loading && <Spin size="small" style={{ marginRight: '20px' }} />}
+                {loading && <Spin size="small" style={{ marginRight: "20px" }} />}
                 <span>Sign In</span>
               </button>
               <p className="text-[#5fd080] text-center">Or</p>
