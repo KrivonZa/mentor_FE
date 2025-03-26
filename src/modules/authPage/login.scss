@@ -1,0 +1,38 @@
+.undo-button {
+  display: flex;
+  align-items: center;
+  padding: 8px 14px;
+  color: #5fd080;
+  border: 1px solid #5fd080;
+  border-radius: 6px;
+  background: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #5fd080;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  .material-symbols-outlined {
+    margin-right: 8px;
+    font-size: 20px;
+  }
+
+  span:last-child {
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.login-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.header-text {
+  flex-grow: 1;
+}
