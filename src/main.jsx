@@ -12,12 +12,17 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { AppProvider } from "./routes/AppProvider"
+import { AuthVerify } from "./thirdParty";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
+      <AppProvider>
         <App />
         <ToastContainer />
+        <AuthVerify />
+      </AppProvider>
     </BrowserRouter>
   </StrictMode>
 );

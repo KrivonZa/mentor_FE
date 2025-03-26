@@ -11,7 +11,7 @@ export const AuthVerify = () => {
     useEffect(() => {
         const checkAuth = () => {
             try {
-                const userData = user.token;
+                const userData = user?.token || localStorage.getItem("USER");
                 if (!userData) {
                     return;
                 }

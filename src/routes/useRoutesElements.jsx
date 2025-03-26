@@ -37,7 +37,7 @@ import MentorApprovalRequest from "../modules/adminPage/Mentor/MentorApprovalReq
 import CourseManagement from "../modules/adminPage/CourseManagement/CourseManagement";
 import RecentComments from "../modules/adminPage/CourseManagement/Feedback";
 import { WithdrawRequestsPage } from "../modules/adminPage/Withdraw";
-import { AppContext } from "./AppProvider"
+import { AppContext } from "./AppProvider";
 
 const titleMap = {
   "/": "Homepage",
@@ -70,8 +70,8 @@ const titleMap = {
 };
 
 const useRoutesElements = () => {
-  const appContext = useContext(AppContext);
-  const role = appContext?.user?.role || localStorage.getItem("ROLE")
+  const { user } = useContext(AppContext);
+  const role = user?.role || localStorage.getItem("ROLE")
   useTitle(titleMap)
 
   const element = useRoutes([
