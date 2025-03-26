@@ -1,29 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { getUserByID } from "../../services/UserService"
 import { AppContext } from "../../routes/AppProvider";
 
 export function AdminSidebar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const id = localStorage.getItem("ID")
   const { logout } = useContext(AppContext)
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem("USER");
-      if (!token) return;
-
-      try {
-        const userData = await getUserByID(id);
-        setUser(userData.data);
-      } catch (err) {
-        console.error("Error fetching user:", err);
-      }
-    };
-    fetchUser();
-  }, []);
 
   const handleLogout = () => {
     logout();
