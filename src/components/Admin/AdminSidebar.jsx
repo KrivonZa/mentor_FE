@@ -31,10 +31,9 @@ export function AdminSidebar() {
 
   return (
     <aside className="d-flex flex-column w-64 bg-white shadow-lg" style={{ width: "250px", height: "100vh" }}>
-      <div className="p-3 bg-success text-white text-center fw-bold">
-        <button onClick={() => navigate("/admin")} className="w-100 d-flex flex-column align-items-center justify-content-center border-0 bg-transparent">
-          <img src={user?.avatar} className="rounded-circle object-fit-cover" style={{ width: "40px", height: "40px" }} />
-          <p>{user?.fullname}</p>
+      <div className="px-3 py-4 bg-success text-center fw-bold">
+        <button onClick={() => navigate("/admin")}>
+          <h1 className="text-white fs-4">Empower U</h1>
         </button>
       </div>
       <nav className="flex-grow-1">
