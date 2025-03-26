@@ -93,8 +93,8 @@ export const CourseRender = () => {
                                                     <strong>Opening:</strong>{" "}
                                                     {
                                                         expectedDate
-                                                        ? new Intl.DateTimeFormat("en-GB").format(expectedDate)
-                                                        : "N/A"}
+                                                            ? new Intl.DateTimeFormat("en-GB").format(expectedDate)
+                                                            : "N/A"}
                                                 </div>
                                                 <div className="d-flex align-items-center justify-content-between trainer">
                                                     <div className="d-flex align-items-center trainer-profile">
@@ -102,6 +102,12 @@ export const CourseRender = () => {
                                                             src={course.mentorInfo.avatar}
                                                             className="img-fluid"
                                                             alt={course.mentorInfo.mentorName}
+                                                            style={{
+                                                                height: '50px',
+                                                                objectFit: 'cover',
+                                                                width: '100%',
+                                                                border: '2px solid #5fcf80',
+                                                            }}
                                                         />
                                                         <a href="" className="trainer-link">
                                                             {course.mentorInfo.mentorName}
