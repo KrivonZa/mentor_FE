@@ -6,12 +6,12 @@ import { AppContext } from "../routes/AppProvider";
 
 export const AuthVerify = () => {
     const navigate = useNavigate();
-    const { logout } = useContext(AppContext);
+    const { logout, user } = useContext(AppContext);
 
     useEffect(() => {
         const checkAuth = () => {
             try {
-                const userData = localStorage.getItem("USER");
+                const userData = user?.token || localStorage.getItem("USER");
                 if (!userData) {
                     return;
                 }

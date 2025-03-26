@@ -36,13 +36,13 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       localStorage.setItem("ROLE", data.role);
       localStorage.setItem("ID", data.id);
       setUser({ token: data.token, role: data.role, id: data.id });
-      const role = data.role;
-      if (role === "STAFF") {
+      if (data.role === "STAFF") {
         navigate("/admin");
-      } else {
+      } else if (data.role === "USER" || data.role === "MENTOR") {
         navigate("/user");
+      } else {
+        navigate("/auth");
       }
-      window.location.reload();
     } catch (err) {
       Swal.fire("Error", "Invalid Email or Password", "error");
       throw err;
@@ -52,12 +52,12 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const logout = async () => {
     try {
       await authenService.logout();
-      ["USER", "ROLE", "ID"].forEach((key) => localStorage.removeItem(key));
-      setUser(null);
-      navigate("/auth");
     } catch (error) {
       console.error("Lỗi khi logout:", error);
     }
+    ["USER", "ROLE", "ID"].forEach((key) => localStorage.removeItem(key));
+    setUser(null);
+    navigate("/auth");
   };
 
   const value: AppContextValue = {

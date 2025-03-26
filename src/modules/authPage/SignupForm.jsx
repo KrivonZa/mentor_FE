@@ -39,13 +39,24 @@ export const SignupForm = () => {
 
     } catch (error) {
       console.error("Signup failed:", error);
-      toastLoadingFailAction(loadingId, error?.response?.data?.message || "Signup failed" );
+      toastLoadingFailAction(loadingId, error?.response?.data?.message || "Signup failed");
     }
     setLoading(false)
   };
 
   return (
     <div id="signupContainer">
+      <Link
+        to="/"
+        className="absolute top-4 left-4 flex items-center justify-center text-neutral-600 px-2"
+      >
+        <span className="material-symbols-outlined mr-2 p-1">
+          home
+        </span>
+        <span className="font-medium text-sm">
+          Home
+        </span>
+      </Link>
       <div id="signupForm" className="d-flex items-center justify-center min-h-screen" style={{ height: "100vh" }}>
         <div className="w-[480px] bg-white rounded-xl p-8 shadow-lg m-auto">
           <div className="text-center mb-8">
@@ -110,8 +121,8 @@ export const SignupForm = () => {
             Already have an account?
             <Link
               to={"/auth"}
-              style={{ marginLeft: '5px', color: '#5fd080'}}
-              // className="ml-1 text-[#5fd080] hover:text-[#4db068] transition-colors duration-200"
+              style={{ marginLeft: '5px', color: '#5fd080' }}
+            // className="ml-1 text-[#5fd080] hover:text-[#4db068] transition-colors duration-200"
             >
               Sign in
             </Link>
