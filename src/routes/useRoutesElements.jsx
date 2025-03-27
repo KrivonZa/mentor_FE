@@ -32,7 +32,6 @@ import { UserProfile, Wallet, UserViewSchedule, ViewDetailSchedule, TransactionH
 import { NotFound, ServerError } from "../modules/errorPage";
 import ClassPortal from "../modules/mainPage/ClassPortal";
 import CourseRequestPortal from "../modules/mainPage/CourseRequestPortal";
-import MentorRequestForm from "../components/User/MentorRequestForm";
 import MentorApprovalRequest from "../modules/adminPage/Mentor/MentorApprovalRequest";
 import CourseManagement from "../modules/adminPage/CourseManagement/CourseManagement";
 import RecentComments from "../modules/adminPage/CourseManagement/Feedback";
@@ -49,23 +48,28 @@ const titleMap = {
   "/events": "Events",
   "/pricing": "Pricing",
   "/contact": "Contact",
-  "/checkout": "Checkout",
+  "/checkout/:courseID": "Checkout",
   "/auth": "Log in",
   "/auth/signup": "Sign up",
   "/auth/update-password": "Forget Password",
   "/user": "My Profile",
   "/user/wallet": "My Wallet",
   "/user/schedule": "My Schedule",
-  "/user/schedule/:id": "Detail Schedule",
+  // "/user/schedule/:id": "Detail Schedule",
+  "/user/transaction-history": "Transaction History",
+  "/user/approval": "Create Mentor Approval",
   "/user/course-portal": "Manage Courses",
   "/user/class-portal": "Manage Classes",
   "/user/course-request": "Manage Course Requests",
   "/admin": "Users Dashboard",
   "/admin/mentors": "Mentors Dashboard",
+  "/admin/mentors/update-mentor": "Updated Mentors",
   "/admin/students": "Students Dashboard",
-  "/admin/staffs": "Staffs Dashboard",
+  // "/admin/staffs": "Staffs Dashboard",
   // "/admin/report": "Reports Dashboard",
   "/admin/withdraw-requests": "Withdraw Requests Dashboard",
+  "/admin/mentor-approval": "Approval Mentors",
+  "/admin/approve-course": "Approval Courses",
   "*": "Not Found",
   "/500": "Server Error",
 };
@@ -101,9 +105,13 @@ const useRoutesElements = () => {
             { path: "events", element: <Events /> },
             { path: "pricing", element: <Pricing /> },
             { path: "contact", element: <Contact /> },
-            { path: "checkout/:courseID", element: <Checkout /> },
-            { path: "make-approval-request", element: <MentorRequestForm /> },
             { path: "feedback", element: <RecentComments /> },
+
+            ...(role === "USER" || role === "MENTOR" // Additional routes only for MENTOR
+              ? [
+                { path: "checkout/:courseID", element: <Checkout /> },
+              ]
+              : []),
           ],
         },
       ]
@@ -119,7 +127,7 @@ const useRoutesElements = () => {
         { index: true, element: <UserProfile /> }, // Default user route
         { path: "wallet", element: <Wallet /> },
         { path: "schedule", element: <UserViewSchedule /> },
-        { path: "schedule/:courseID", element: <ViewDetailSchedule /> },
+        // { path: "schedule/:courseID", element: <ViewDetailSchedule /> },
         { path: "transaction-history", element: <TransactionHistory /> },
         { path: "checkout/:courseID", element: <Checkout /> },
         { path: "approval", element: <CreateMentorApproval /> },
