@@ -186,15 +186,32 @@ export default function Header() {
                       My Schedule
                     </NavLink>
                   </li>
+                  <li>
+                    <NavLink
+                      to="/user/transaction-history"
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                      Transaction History
+                    </NavLink>
+                  </li>
                   {role === "MENTOR" && (
-                    <li>
-                      <NavLink
-                        to="/user/course-portal"
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                      >
-                        My Course
-                      </NavLink>
-                    </li>
+                    <>
+                      <li>
+                        <NavLink to="/user/course-portal" className={({ isActive }) => (isActive ? "active" : "")}>
+                          My Course
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/user/course-request" className={({ isActive }) => (isActive ? "active" : "")}>
+                          Course Request
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/user/class-portal" className={({ isActive }) => (isActive ? "active" : "")}>
+                          Manage Classes
+                        </NavLink>
+                      </li>
+                    </>
                   )}
                   <li>
                     <NavLink
