@@ -140,11 +140,11 @@ const useRoutesElements = () => {
       element: <AdminLayout />,
       children: [
         { index: true, element: <UserBody /> }, // Default admin route
-        { path: "staffs", element: <StaffBody /> },
-        { path: "staffs/add-new-staff", element: <AddNewStaff /> },
+        // { path: "staffs", element: <StaffBody /> },
+        // { path: "staffs/add-new-staff", element: <AddNewStaff /> },
         { path: "mentors", element: <MentorBody /> },
         { path: "mentors/update-mentor", element: <UpdateMentorForm /> },
-        { path: "staffs/update-staff", element: <UpdateStaffForm /> },
+        // { path: "staffs/update-staff", element: <UpdateStaffForm /> },
         { path: "students", element: <StudentBody /> },
         { path: "withdraw-requests", element: <WithdrawRequestsPage /> },
         // { path: "report", element: <Report /> },

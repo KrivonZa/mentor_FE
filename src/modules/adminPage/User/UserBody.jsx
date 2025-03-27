@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   getAllUsers,
-  getUserByID,
   deleteUserByID,
   getUserByEmail
 } from "../../../services/UserService";
@@ -14,6 +13,8 @@ export function UserBody() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  console.log(allUsers)
 
   useEffect(() => {
     fetchUsers();

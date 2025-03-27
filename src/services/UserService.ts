@@ -67,7 +67,7 @@ const userPrivateApi = apiPrivateInstance({
 
 const createUser = async (user: User): Promise<void> => {
   try {
-    await axios.post(`${API_BASE_URL}/user/create-user`, user);
+    await userPrivateApi.post(`/create-user`, user);
   } catch (error) {
     throw error;
   }
@@ -75,9 +75,7 @@ const createUser = async (user: User): Promise<void> => {
 
 const getAllUsers = async (): Promise<User[]> => {
   try {
-    const response = await axios.get<User[]>(
-      `${API_BASE_URL}/user/get-all-users`
-    );
+    const response = await userPrivateApi.get<User[]>(`/get-all-users`);
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -87,9 +85,7 @@ const getAllUsers = async (): Promise<User[]> => {
 
 const getUserByID = async (id: number): Promise<User> => {
   try {
-    const response = await axios.get<User>(
-      `${API_BASE_URL}/user/get-by-id/${id}`
-    );
+    const response = await userPrivateApi.get<User>(`/get-by-id/${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -98,9 +94,9 @@ const getUserByID = async (id: number): Promise<User> => {
 
 const getUserByEmail = async (email: string): Promise<User> => {
   try {
-    const response = await axios.get<User>(
-      `${API_BASE_URL}/user/get-user-by-email`,
-      { params: { email } }  // Pass email as a query parameter
+    const response = await userPrivateApi.get<User>(
+      `/get-user-by-email`,
+      { params: { email } } // Pass email as a query parameter
     );
     return response.data;
   } catch (error) {
@@ -164,7 +160,7 @@ const updateUserProfile = async (
 
 const deleteUserByID = async (id: number): Promise<void> => {
   try {
-    await axios.delete(`${API_BASE_URL}/user/delete-by-id/${id}`);
+    await userPrivateApi.delete(`/delete-by-id/${id}`);
   } catch (error) {
     throw error;
   }
@@ -172,10 +168,7 @@ const deleteUserByID = async (id: number): Promise<void> => {
 
 const updateUser = async (user: User, id: number): Promise<User> => {
   try {
-    const response = await axios.put<User>(
-      `${API_BASE_URL}/user/update-user/${id}`,
-      user
-    );
+    const response = await userPrivateApi.put<User>(`/update-user/${id}`, user);
     return response.data;
   } catch (error) {
     throw error;
@@ -184,13 +177,12 @@ const updateUser = async (user: User, id: number): Promise<User> => {
 
 const getTimeTable = async () => {
   try {
-    const response = await userPrivateApi.get('/time-table');
+    const response = await userPrivateApi.get("/time-table");
     return response.data;
   } catch (error) {
     throw error;
   }
-}
-
+};
 
 export {
   getAllUsers,
@@ -201,5 +193,5 @@ export {
   getUserByToken,
   updateUserProfile,
   getUserByEmail,
-  getTimeTable
+  getTimeTable,
 };
