@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   getAllUsers,
   deleteUserByID,
-  getUserByEmail
+  getUserByEmail,
+  updateUser
 } from "../../../services/UserService";
-import "./user.scss"
+import "./user.scss";
 
 export function UserBody() {
   const [allUsers, setAllUsers] = useState([]);
@@ -60,11 +62,27 @@ export function UserBody() {
     }
   };
 
-  const handleDelete = async (email) => { // Changed from id to email since userID isn't in the data
+  const handleReset = () => {
+    setSearchTerm(""); // Xóa giá trị trong ô tìm kiếm
+    fetchUsers(); // Lấy lại danh sách ban đầu
+  };
+
+  const handleStatusChange = async (user) => {
+    const newStatus = !user.status;
+    const updatedData = { ...user, status: newStatus };
+    // const response = await updateUser(updatedData, user.userID)
+    setAllUsers((prevUsers) =>
+      prevUsers.map((u) =>
+        u.email === user.email ? updatedData : u
+      )
+    );
+  };
+
+  const handleDelete = async (email) => {
     try {
-      const response = await deleteUserByID(email); // Assuming the API accepts email
+      const response = await deleteUserByID(email);
       alert(response.data.message);
-      fetchUsers(); // Refresh the list after deletion
+      fetchUsers();
     } catch (err) {
       setError(err.message);
       console.error("Error deleting user:", err);
@@ -80,8 +98,7 @@ export function UserBody() {
 
   const handleConfirm = () => {
     if (userToDelete) {
-      console.log(userToDelete)
-      // handleDelete(userToDelete.email);
+      handleDelete(userToDelete.email);
       setShowConfirm(false);
       setUserToDelete(null);
     }
@@ -101,7 +118,7 @@ export function UserBody() {
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">All Users</h2>
           <div>
-            <form onSubmit={handleSearchByID}>
+            <form onSubmit={handleSearchByID} className="flex items-center space-x-2">
               <label htmlFor="search">Search user by email: </label>
               <input
                 type="text"
@@ -112,9 +129,16 @@ export function UserBody() {
               />
               <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded ml-2"
+                className="text-success px-4 py-2 rounded"
               >
                 Search
+              </button>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="bg-success text-white px-4 py-2 rounded"
+              >
+                Reset
               </button>
             </form>
           </div>
@@ -139,22 +163,44 @@ export function UserBody() {
                     <td className="px-6 py-4">{user.email}</td>
                     <td className="px-6 py-4">{user.role}</td>
                     <td className="px-6 py-4">{user.phoneNumber}</td>
-                    <td className="px-6 py-4">{user.status ? 'Active' : 'Inactive'}</td>
                     <td className="px-6 py-4">
-                      <div className="flex space-x-2">
-                        <Link to={`/update-user/${user.email}`}>
-                          <span className="material-symbols-outlined cursor-pointer hover:text-[#5fd080] transition-colors">
-                            edit
-                          </span>
-                        </Link>
+                      <div className="flex items-center space-x-2">
+                        <label className="switch">
+                          <input
+                            type="checkbox"
+                            checked={user.status}
+                            onChange={() => handleStatusChange(user)}
+                          />
+                          <span className="slider round"></span>
+                        </label>
                         <span
-                          className="material-symbols-outlined cursor-pointer hover:text-red-500 transition-colors"
-                          onClick={() => handleShowConfirm(user)}
+                          style={{
+                            color: user.status ? "#22c55e" : "#ef4444",
+                            fontWeight: "600",
+                          }}
                         >
-                          delete
+                          {user.status ? "Active" : "Inactive"}
                         </span>
                       </div>
                     </td>
+                    {user.role !== "STAFF" ? (
+                      <td className="px-6 py-4">
+                        <div className="flex space-x-2">
+                          <span
+                            className="material-symbols-outlined cursor-pointer hover:text-red-500 transition-colors"
+                            onClick={() => handleShowConfirm(user)}
+                          >
+                            delete
+                          </span>
+                        </div>
+                      </td>
+                    ) : (
+                      <td className="px-6 py-4">
+                        <div className="flex space-x-2 text-danger fw-bold">
+                          Take no action
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))
               ) : (

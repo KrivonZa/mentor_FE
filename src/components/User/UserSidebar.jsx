@@ -5,12 +5,17 @@ export function UserSidebar() {
   const location = useLocation();
   const role = localStorage.getItem("ROLE");
 
+  // Base menu items for all users
   const menuItems = [
     { to: "/user", label: "Profile", icon: "man" },
     { to: "/user/wallet", label: "Wallet", icon: "wallet" },
     { to: "/user/schedule", label: "Schedule", icon: "calendar_month" },
-    { to: "/user/transaction-history", label: "Transaction History", icon: "history" }
+    { to: "/user/transaction-history", label: "Transaction History", icon: "history" },
   ];
+
+  if (role !== "MENTOR") {
+    menuItems.push({ to: "/user/approval", label: "Become Mentor", icon: "school" });
+  }
 
   if (role === "MENTOR") {
     menuItems.push({ to: "/user/course-portal", label: "Manage Courses", icon: "list_alt" });

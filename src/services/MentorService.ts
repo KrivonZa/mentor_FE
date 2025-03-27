@@ -12,9 +12,11 @@ interface Mentor {
 }
 
 interface MentorApprovalRequestDTO {
-  Bio: string;
-  CV: string;
+  bio: string;
+  cv: string;
   introductionVideo: string;
+  approvalStatus: string;
+  mentorApprovalRequestID: string;
 }
 
 const mentorPrivateApi = apiPrivateInstance({
@@ -143,15 +145,9 @@ const createMentorRequest = async (
   mentorApprovalRequest: MentorApprovalRequestDTO
 ) => {
   try {
-    const token = localStorage.getItem("USER");
-    const response = await axios.post(
-      `${API_BASE_URL}/mentor-approval/create-approval`,
-      mentorApprovalRequest,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+    const response = await mentorApprovalPrivateApi.post(
+      `/create-approval`,
+      mentorApprovalRequest
     );
     return response.data;
   } catch (error) {

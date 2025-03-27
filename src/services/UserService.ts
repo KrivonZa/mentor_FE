@@ -11,6 +11,16 @@ interface User {
   status?: boolean;
 }
 
+interface UpdateStatus {
+  fullname: string;
+  email: string;
+  password?: string;
+  role?: string;
+  phoneNumber?: string;
+  status?: boolean;
+  balance: number;
+}
+
 export interface RelevantSkillsCustom {
   skillName: string;
   description: string;
@@ -172,10 +182,9 @@ const deleteUserByID = async (id: number): Promise<void> => {
   }
 };
 
-const updateUser = async (user: User, id: number): Promise<User> => {
+const updateUser = async (user: UpdateStatus, id: number): Promise<void> => {
   try {
-    const response = await userPrivateApi.put<User>(`/update-user/${id}`, user);
-    return response.data;
+    await userPrivateApi.put<User>(`/update-user/${id}`, user);
   } catch (error) {
     throw error;
   }
@@ -191,7 +200,7 @@ const getTimeTable = async () => {
 };
 
 const changePassword = async (data: ChangePassword): Promise<void> => {
-  console.log(data)
+  console.log(data);
   try {
     await userPrivateApi.post(`/reset-password`, data);
   } catch (error) {

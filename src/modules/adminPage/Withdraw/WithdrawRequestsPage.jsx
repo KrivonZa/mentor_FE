@@ -17,6 +17,8 @@ export function WithdrawRequestsPage() {
     fetchWithdrawRequests();
   }, []);
 
+  console.log(withdrawRequests)
+
   // Fetch withdraw requests with optional status filter
   const fetchWithdrawRequests = async () => {
     setLoading(true);
@@ -69,7 +71,7 @@ export function WithdrawRequestsPage() {
   return (
     <div className="withdraw-requests-container">
       <div className="page-header">
-        <h2 className="title" style={{fontWeight: "bold", fontSize: "24px"}}>Withdraw Requests Management</h2>
+        <h2 className="title" style={{ fontWeight: "bold", fontSize: "24px" }}>Withdraw Requests Management</h2>
       </div>
 
       {/* Summary Cards */}
