@@ -16,6 +16,11 @@ export interface RelevantSkillsCustom {
   description: string;
 }
 
+export interface ChangePassword {
+  oldPassword: string;
+  newPassword: string;
+}
+
 export interface StudentDetailResponse {
   studentID: number;
   level: string;
@@ -73,9 +78,11 @@ const createUser = async (user: User): Promise<void> => {
   }
 };
 
-const getAllUsers = async (): Promise<User[]> => {
+const getAllUsers = async ({ page, size }): Promise<User[]> => {
   try {
-    const response = await userPrivateApi.get<User[]>(`/get-all-users`);
+    const response = await userPrivateApi.get<User[]>(
+      `/get-all-users?page=${page}&size=${size}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -95,8 +102,7 @@ const getUserByID = async (id: number): Promise<User> => {
 const getUserByEmail = async (email: string): Promise<User> => {
   try {
     const response = await userPrivateApi.get<User>(
-      `/get-user-by-email`,
-      { params: { email } } // Pass email as a query parameter
+      `/get-user-by-email?email=${email}`
     );
     return response.data;
   } catch (error) {
@@ -184,6 +190,15 @@ const getTimeTable = async () => {
   }
 };
 
+const changePassword = async (data: ChangePassword): Promise<void> => {
+  console.log(data)
+  try {
+    await userPrivateApi.post(`/reset-password`, data);
+  } catch (error) {
+    throw error;
+  }
+};
+
 export {
   getAllUsers,
   getUserByID,
@@ -194,4 +209,5 @@ export {
   updateUserProfile,
   getUserByEmail,
   getTimeTable,
+  changePassword,
 };

@@ -22,7 +22,7 @@ export function AdminSidebar() {
         <ul className="list-unstyled position-relative d-flex flex-column h-100">
           {[
             { to: "/admin", label: "Users", icon: "man" },
-            { to: "/admin/mentors", label: "Mentors", icon: "computer" },
+            { to: "/admin/mentors", label: "Mentors", icon: "school" },
             { to: "/admin/mentor-approval", label: "Mentor Request", icon: "computer" },
             // { to: "/admin/staffs", label: "Staffs", icon: "engineering" },
             // { to: "/admin/report", label: "Reports", icon: "flag" },
@@ -32,7 +32,7 @@ export function AdminSidebar() {
             <li key={item.to} className="position-relative p-2">
               <Link
                 to={item.to}
-                className={`d-flex align-items-center ps-4 p-2 text-success text-decoration-none rounded fw-bold transition 
+                className={`d-flex align-items-center ps-2 p-2 text-success text-decoration-none rounded fw-bold transition 
               ${location.pathname === item.to && "bg-success text-white"}`}
                 style={{ transition: "all 0.3s ease-in-out", position: "relative" }}
               >
