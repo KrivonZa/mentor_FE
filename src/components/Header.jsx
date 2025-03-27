@@ -194,6 +194,14 @@ export default function Header() {
                       Transaction History
                     </NavLink>
                   </li>
+                  <li>
+                    <NavLink
+                      to="/user/approval"
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                      Become Mentor
+                    </NavLink>
+                  </li>
                   {role === "MENTOR" && (
                     <>
                       <li>

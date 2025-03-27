@@ -9,7 +9,8 @@ export function UserSidebar() {
     { to: "/user", label: "Profile", icon: "man" },
     { to: "/user/wallet", label: "Wallet", icon: "wallet" },
     { to: "/user/schedule", label: "Schedule", icon: "calendar_month" },
-    { to: "/user/transaction-history", label: "Transaction History", icon: "history" }
+    { to: "/user/transaction-history", label: "Transaction History", icon: "history" },
+    { to: "/user/approval", label: "Become Mentor", icon: "school" }
   ];
 
   if (role === "MENTOR") {

@@ -14,9 +14,11 @@ export function Wallet() {
     const [accountHolderName, setAccountHolderName] = useState("");
     const { user } = useContext(AppContext);
 
+    // Danh sách các mệnh giá
+    const amountOptions = [50000, 100000, 200000, 500000, 1000000];
+
     useEffect(() => {
         console.log("user: ", user);
-        
         setBalance(user?.balance || 0);
     }, [user]);
 
@@ -29,6 +31,10 @@ export function Wallet() {
         setBankName("");
         setAccountNumber("");
         setAccountHolderName("");
+    };
+
+    const handleAmountSelect = (value) => {
+        setAmount(value.toString());
     };
 
     const handleSubmit = async () => {
@@ -114,6 +120,22 @@ export function Wallet() {
                                         placeholder="Enter amount"
                                         style={{ appearance: "textfield", MozAppearance: "textfield" }}
                                     />
+                                    {/* Thêm các thẻ mệnh giá */}
+                                    <div className="d-flex flex-wrap gap-2 mt-2">
+                                        {amountOptions.map((option) => (
+                                            <button
+                                                key={option}
+                                                type="button"
+                                                className={`btn rounded-3 px-3 py-1 text-dark border ${amount === option.toString() ? "text-white" : ""}`}
+                                                style={{
+                                                    backgroundColor: amount === option.toString() ? "#5fd080" : "#f8f9fa",
+                                                }}
+                                                onClick={() => handleAmountSelect(option)}
+                                            >
+                                                {option.toLocaleString()}đ
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
                                 {action === "deposit" && (
                                     <div className="mb-4">

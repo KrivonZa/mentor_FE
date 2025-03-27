@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode } from "react";
+import React, { createContext, useState, useEffect, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { authenService } from "../services/authenService";
@@ -26,8 +26,25 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     token: string;
     role: string;
     id: string;
-  } | null>(null);
+  } | null>(() => {
+    const token = localStorage.getItem("USER");
+    const role = localStorage.getItem("ROLE");
+    const id = localStorage.getItem("ID");
+    return token && role && id ? { token, role, id } : null;
+  });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("USER");
+    const role = localStorage.getItem("ROLE");
+    const id = localStorage.getItem("ID");
+
+    if (token && role && id) {
+      setUser({ token, role, id });
+    } else {
+      setUser(null);
+    }
+  }, []);
 
   const login = async (loginData: LoginRequest) => {
     try {

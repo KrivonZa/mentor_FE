@@ -28,7 +28,7 @@ import {
   UserBody,
   Report,
 } from "../modules/adminPage";
-import { UserProfile, Wallet, UserViewSchedule, ViewDetailSchedule, TransactionHistory } from "../modules/userPage";
+import { UserProfile, Wallet, UserViewSchedule, ViewDetailSchedule, TransactionHistory, CreateMentorApproval } from "../modules/userPage";
 import { NotFound, ServerError } from "../modules/errorPage";
 import ClassPortal from "../modules/mainPage/ClassPortal";
 import CourseRequestPortal from "../modules/mainPage/CourseRequestPortal";
@@ -122,6 +122,7 @@ const useRoutesElements = () => {
         { path: "schedule/:courseID", element: <ViewDetailSchedule /> },
         { path: "transaction-history", element: <TransactionHistory /> },
         { path: "checkout/:courseID", element: <Checkout /> },
+        { path: "approval", element: <CreateMentorApproval /> },
         ...(role === "MENTOR" // Additional routes only for MENTOR
           ? [
             { path: "course-portal", element: <CoursePortal /> },
