@@ -155,7 +155,7 @@ export const TransactionHistory = () => {
                                             <td>{tx.transactionDate}</td>
                                             <td>{tx.paymentMethod}</td>
                                             <td>{tx.type}</td>
-                                            <td>${tx.amount}</td>
+                                            <td>{tx.amount.toLocaleString()}đ</td>
                                             <td>
                                                 <span
                                                     className="badge"

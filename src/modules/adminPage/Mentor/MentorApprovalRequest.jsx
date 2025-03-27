@@ -6,6 +6,7 @@ import {
   deleteMentorRequestById,
   updateMentorRequest,
 } from "../../../services/MentorService";
+import { toast } from "react-toastify";
 
 export function MentorApprovalRequest() {
   const [allRequests, setAllRequests] = useState([]);
@@ -24,8 +25,8 @@ export function MentorApprovalRequest() {
     setError(null);
     try {
       const response = await getAllMentorRequest();
-      setAllRequests(response.data || []);
-      console.log("Response: ", response.data);
+      setAllRequests(response.data.content || []);
+      console.log("Response: ", response.data.content);
     } catch (err) {
       setError(err.message);
       console.error("Error fetching mentor requests: ", err);
@@ -61,6 +62,11 @@ export function MentorApprovalRequest() {
     }
   };
 
+  const handleReset = () => {
+    setSearchTerm("");
+    fetchRequests();
+  };
+
   const handleDelete = async (id) => {
     try {
       const response = await deleteMentorRequestById(id);
@@ -78,13 +84,25 @@ export function MentorApprovalRequest() {
   };
 
   const handleUpdateStatus = async (id, status) => {
+    const loadingId = toast.loading("Submitting mentor application...");
     try {
       const response = await updateMentorRequest(id, status);
       console.log("Response: ", response.data);
-      alert(response.data.message || `Request status updated to ${status}`);
+      toast.update(loadingId, {
+        render: response?.data?.message || `Request status updated to ${status}!`,
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
       fetchRequests();
     } catch (err) {
       setError(err.message);
+      toast.update(loadingId, {
+        render: err?.response?.data?.message || "Error updating status. Please try again.",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
       console.error("Error updating mentor request:", err);
     }
   };
@@ -115,7 +133,9 @@ export function MentorApprovalRequest() {
           <h2 className="text-2xl font-bold">Mentor Approval Requests</h2>
           <div>
             <form onSubmit={handleSearchByID}>
-              <label htmlFor="search">Search request by ID: </label>
+              <label htmlFor="search" className="mr-2">
+                Search request by ID:
+              </label>
               <input
                 type="text"
                 id="search"
@@ -125,9 +145,16 @@ export function MentorApprovalRequest() {
               />
               <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded ml-2"
+                className="text-success px-4 py-2 rounded ml-2"
               >
                 Search
+              </button>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="bg-success text-white px-4 py-2 rounded ml-2"
+              >
+                Reset
               </button>
             </form>
           </div>
@@ -138,9 +165,6 @@ export function MentorApprovalRequest() {
               <tr>
                 <th className="px-6 py-3 text-left text-sm font-semibold">
                   Request ID
-                </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
-                  Assignee ID
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">
                   Bio
@@ -161,29 +185,115 @@ export function MentorApprovalRequest() {
             </thead>
             <tbody className="divide-y divide-gray-200">
               {allRequests.map((request) => (
-                <tr key={request.mentorApprovalRequestID} className="hover:bg-gray-50">
-                  <td className="px-6 py-4">{request.mentorApprovalRequestID}</td>
-                  <td className="px-6 py-4">{request.assigneeID}</td>
-                  <td className="px-6 py-4">{request.bio}</td>
-                  <td className="px-6 py-4">{request.cv}</td>
-                  <td className="px-6 py-4">{request.approvalStatus}</td>
-                  <td className="px-6 py-4">{request.introductionVideo}</td>
+                <tr
+                  key={request.mentorApprovalRequestID}
+                  className="hover:bg-gray-50"
+                >
                   <td className="px-6 py-4">
-                    <div className="flex space-x-2">
-                      <select
-                        className="border p-1 rounded text-sm"
-                        defaultValue=""
-                        onChange={(e) => {
-                          if (e.target.value) {
-                            handleUpdateStatus(request.mentorApprovalRequestID, e.target.value);
-                            e.target.value = ""; // Reset after action
-                          }
-                        }}
-                      >
-                        <option value="" disabled>Change Status</option>
-                        <option value="APPROVED">Approve</option>
-                        <option value="REJECTED">Reject</option>
-                      </select>
+                    {request.mentorApprovalRequestID}
+                  </td>
+                  <td className="px-6 py-4">{request.bio}</td>
+                  <td className="px-6 py-4">
+                    <a
+                      href={request.cv}
+                      className="text-[#5fd080] hover:underline transition-colors duration-200"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Preview
+                    </a>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span
+                      style={{
+                        padding: "4px 8px",
+                        borderRadius: "9999px",
+                        fontSize: "0.875rem",
+                        backgroundColor:
+                          request.approvalStatus === "APPROVED"
+                            ? "#d1fae5"
+                            : request.approvalStatus === "REJECTED"
+                              ? "#fee2e2"
+                              : "#fef3c7",
+                        color:
+                          request.approvalStatus === "APPROVED"
+                            ? "#065f46"
+                            : request.approvalStatus === "REJECTED"
+                              ? "#991b1b"
+                              : "#92400e",
+                      }}
+                    >
+                      {request.approvalStatus}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <a
+                      href={request.introductionVideo}
+                      className="text-[#5fd080] hover:underline transition-colors duration-200"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Preview
+                    </a>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex space-x-2 items-center">
+                      {request.approvalStatus === "PENDING" ? (
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() =>
+                              handleUpdateStatus(
+                                request.mentorApprovalRequestID,
+                                "APPROVED"
+                              )
+                            }
+                            style={{
+                              backgroundColor: "#22c55e",
+                              color: "white",
+                              padding: "4px 12px",
+                              borderRadius: "4px",
+                              fontSize: "14px",
+                              transition: "background-color 0.2s",
+                            }}
+                            onMouseOver={(e) =>
+                              (e.target.style.backgroundColor = "#16a34a")
+                            }
+                            onMouseOut={(e) =>
+                              (e.target.style.backgroundColor = "#22c55e")
+                            }
+                          >
+                            Approve
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleUpdateStatus(
+                                request.mentorApprovalRequestID,
+                                "REJECTED"
+                              )
+                            }
+                            style={{
+                              backgroundColor: "#ef4444",
+                              color: "white",
+                              padding: "4px 12px",
+                              borderRadius: "4px",
+                              fontSize: "14px",
+                              transition: "background-color 0.2s",
+                            }}
+                            onMouseOver={(e) =>
+                              (e.target.style.backgroundColor = "#dc2626")
+                            }
+                            onMouseOut={(e) =>
+                              (e.target.style.backgroundColor = "#ef4444")
+                            }
+                          >
+                            Reject
+                          </button>
+                        </div>
+                      ) : (
+                        <span className="text-secondary fw-bold">
+                          Status Finalized
+                        </span>
+                      )}
                       <span
                         className="material-symbols-outlined cursor-pointer hover:text-red-500 transition-colors ml-2"
                         onClick={() => handleShowConfirm(request)}
@@ -198,36 +308,35 @@ export function MentorApprovalRequest() {
           </table>
         </div>
       </div>
-      {
-        showConfirm && (
-          <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              {requestToDelete && (
-                <p>
-                  Are you sure you want to delete request ID:{" "}
-                  {requestToDelete.mentorApprovalRequestID}?
-                </p>
-              )}
-              <p>This action cannot be undone.</p>
-              <div className="flex justify-end mt-4 space-x-2">
-                <button
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
-                  onClick={handleCancel}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-                  onClick={handleConfirm}
-                >
-                  Delete
-                </button>
-              </div>
+      {showConfirm && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            {requestToDelete && (
+              <p>
+                Are you sure you want to delete request ID:{" "}
+                {requestToDelete.mentorApprovalRequestID}?
+              </p>
+            )}
+            <p>This action cannot be undone.</p>
+            <div className="flex justify-end mt-4 space-x-2">
+              <button
+                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                onClick={handleConfirm}
+              >
+                Delete
+              </button>
             </div>
           </div>
-        )
-      }
-    </main >
+        </div>
+      )}
+    </main>
   );
 }
+
 export default MentorApprovalRequest;

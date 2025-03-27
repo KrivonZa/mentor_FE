@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import transactionService from "../../services/transactionService";
 import "./styles.css"
 import { AppContext } from "../../routes/AppProvider";
+import { toast } from "react-toastify";
 
 export function Wallet() {
     const [balance, setBalance] = useState(0);
@@ -40,6 +41,7 @@ export function Wallet() {
     const handleSubmit = async () => {
         const value = parseFloat(amount);
         if (!value || value <= 0) return;
+        const loadingId = toast.loading("Submitting request withdraw...");
 
         if (action === "deposit") {
             try {
@@ -49,18 +51,30 @@ export function Wallet() {
                     window.open(response.payUrl, "_blank");
                 }
             } catch (error) {
-                console.error("Error when Deposit:", error);
+                toast.update(loadingId, {
+                    render: error?.response?.data?.message || "Error when Deposit!",
+                    type: "error",
+                    isLoading: false,
+                    autoClose: 3000,
+                });
             }
         } else if (action === "withdraw") {
             try {
                 const withdrawData = { amount: value, accountNumber, bankName, accountHolderName };
                 const response = await transactionService.withdraw(withdrawData);
-                if (response) {
-                    console.log(response);
-                    alert("Success");
-                }
+                toast.update(loadingId, {
+                    render: response?.data?.message || "Request withdraw successfully!",
+                    type: "success",
+                    isLoading: false,
+                    autoClose: 3000,
+                });
             } catch (error) {
-                console.error("Error when Withdraw:", error);
+                toast.update(loadingId, {
+                    render: error?.response?.data?.message || "Error when Withdraw!",
+                    type: "error",
+                    isLoading: false,
+                    autoClose: 3000,
+                });
             }
         }
 

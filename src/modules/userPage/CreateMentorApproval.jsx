@@ -27,7 +27,8 @@ export const CreateMentorApproval = () => {
     const requestor = user?.studentId || user?.mentorId || localStorage.getItem("ID");
 
     // Kiểm tra xem tất cả các field đã được điền chưa
-    const isFormValid = formData.bio.trim() !== "" && formData.cv !== null && formData.introductionVideo !== null;
+    const isFormValid = formData.bio.trim() !== "" && formData.cv !== null;
+    // const isFormValid = formData.bio.trim() !== "" && formData.cv !== null && formData.introductionVideo !== null;
 
     useEffect(() => {
         if (cvFile instanceof File) {
@@ -92,19 +93,17 @@ export const CreateMentorApproval = () => {
                 cvUrl = await uploadToS3(formData.cv);
             }
 
-            if (formData.introductionVideo instanceof File) {
-                videoUrl = await uploadToS3(formData.introductionVideo);
-            }
+            // if (formData.introductionVideo instanceof File) {
+            //     videoUrl = await uploadToS3(formData.introductionVideo);
+            // }
 
             const mentorApplicationData = {
-                mentorApprovalRequestID: requestor,
+                mentorApprovalRequestID: null,
                 bio: formData.bio,
                 cv: cvUrl,
                 introductionVideo: videoUrl,
                 approvalStatus: "PENDING"
             };
-
-            console.log(mentorApplicationData)
 
             const response = await createMentorRequest(mentorApplicationData);
 
@@ -186,7 +185,7 @@ export const CreateMentorApproval = () => {
                                     accept="video/mp4"
                                     onChange={handleVideoChange}
                                     className="border border-gray-200 p-2.5 rounded-lg w-full duration-300 focus:border-[#5fd080] focus:ring-[#5fd080] focus:ring-2 focus:ring-opacity-20 mb-2 sm:p-3 transition-all"
-                                    required
+                                    // required
                                 />
                                 {videoPreviewUrl && (
                                     <div className="mt-2">
