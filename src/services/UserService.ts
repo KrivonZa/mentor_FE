@@ -73,9 +73,11 @@ const createUser = async (user: User): Promise<void> => {
   }
 };
 
-const getAllUsers = async (): Promise<User[]> => {
+const getAllUsers = async ({ page, size }): Promise<User[]> => {
   try {
-    const response = await userPrivateApi.get<User[]>(`/get-all-users`);
+    const response = await userPrivateApi.get<User[]>(
+      `/get-all-users?page=${page}&size=${size}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -95,8 +97,7 @@ const getUserByID = async (id: number): Promise<User> => {
 const getUserByEmail = async (email: string): Promise<User> => {
   try {
     const response = await userPrivateApi.get<User>(
-      `/get-user-by-email`,
-      { params: { email } } // Pass email as a query parameter
+      `/get-user-by-email?email=${email}`
     );
     return response.data;
   } catch (error) {
