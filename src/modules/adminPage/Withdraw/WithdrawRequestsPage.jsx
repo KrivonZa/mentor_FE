@@ -69,7 +69,7 @@ export function WithdrawRequestsPage() {
   return (
     <div className="withdraw-requests-container">
       <div className="page-header">
-        <h2>Withdraw Requests Management</h2>
+        <h2 className="title" style={{fontWeight: "bold", fontSize: "24px"}}>Withdraw Requests Management</h2>
       </div>
 
       {/* Summary Cards */}
@@ -92,9 +92,9 @@ export function WithdrawRequestsPage() {
       <div className="filters">
         <div className="status-filter">
           <label htmlFor="status-filter">Filter by Status:</label>
-          <select 
-            id="status-filter" 
-            value={statusFilter} 
+          <select
+            id="status-filter"
+            value={statusFilter}
             onChange={handleStatusFilterChange}
           >
             <option value="">All Statuses</option>
@@ -145,7 +145,7 @@ export function WithdrawRequestsPage() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="action-buttons">
-                      <button 
+                      <button
                         onClick={() => handleViewRequest(request)}
                         className="view-btn"
                       >
@@ -155,13 +155,13 @@ export function WithdrawRequestsPage() {
                       </button>
                       {request.status === 'PENDING' && (
                         <>
-                          <button 
+                          <button
                             onClick={() => handleStatusChange(request.id, 'DONE')}
                             className="approve-btn"
                           >
                             Approve
                           </button>
-                          <button 
+                          <button
                             onClick={() => handleStatusChange(request.id, 'REJECTED')}
                             className="reject-btn"
                           >
@@ -227,11 +227,11 @@ export function WithdrawRequestsPage() {
                 <span className="detail-value">{selectedRequest.accountHolderName || 'N/A'}</span>
               </div>
             </div>
-            
+
             <div className="modal-actions">
               {selectedRequest.status === 'PENDING' && (
                 <>
-                  <button 
+                  <button
                     onClick={() => {
                       handleStatusChange(selectedRequest.id, 'DONE');
                       setViewModalOpen(false);
@@ -240,7 +240,7 @@ export function WithdrawRequestsPage() {
                   >
                     Approve
                   </button>
-                  <button 
+                  <button
                     onClick={() => {
                       handleStatusChange(selectedRequest.id, 'REJECTED');
                       setViewModalOpen(false);
@@ -251,7 +251,7 @@ export function WithdrawRequestsPage() {
                   </button>
                 </>
               )}
-              <button 
+              <button
                 onClick={() => setViewModalOpen(false)}
                 className="close-btn"
               >
