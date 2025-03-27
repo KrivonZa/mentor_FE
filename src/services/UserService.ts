@@ -16,6 +16,11 @@ export interface RelevantSkillsCustom {
   description: string;
 }
 
+export interface ChangePassword {
+  oldPassword: string;
+  newPassword: string;
+}
+
 export interface StudentDetailResponse {
   studentID: number;
   level: string;
@@ -185,6 +190,15 @@ const getTimeTable = async () => {
   }
 };
 
+const changePassword = async (data: ChangePassword): Promise<void> => {
+  console.log(data)
+  try {
+    await userPrivateApi.post(`/reset-password`, data);
+  } catch (error) {
+    throw error;
+  }
+};
+
 export {
   getAllUsers,
   getUserByID,
@@ -195,4 +209,5 @@ export {
   updateUserProfile,
   getUserByEmail,
   getTimeTable,
+  changePassword,
 };
