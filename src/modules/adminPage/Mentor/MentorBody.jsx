@@ -7,6 +7,7 @@ import {
   getDisableMentors,
   deleteMentorByID,
 } from "../../../services/MentorService";
+import "./mentor.scss"
 
 export function MentorBody() {
   const [allMentors, setAllMentors] = useState([]);
@@ -181,7 +182,7 @@ export function MentorBody() {
         </div>
       </div>
       {showConfirm && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center modal">
           <div className="bg-white p-6 rounded-lg shadow-md">
             {mentorToDelete && (
               <p>
