@@ -7,6 +7,7 @@ import {
   updateMentorRequest,
 } from "../../../services/MentorService";
 import { toast } from "react-toastify";
+import "./mentor.scss"
 
 export function MentorApprovalRequest() {
   const [allRequests, setAllRequests] = useState([]);
@@ -309,7 +310,7 @@ export function MentorApprovalRequest() {
         </div>
       </div>
       {showConfirm && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center modal">
           <div className="bg-white p-6 rounded-lg shadow-md">
             {requestToDelete && (
               <p>
