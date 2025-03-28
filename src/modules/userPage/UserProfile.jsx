@@ -123,13 +123,12 @@ export const UserProfile = () => {
             });
         } catch (error) {
             toast.update(loadingId, {
-                render: "Error updating profile. Please try again.",
+                render: error?.response?.data?.message,
                 type: "error",
                 isLoading: false,
                 autoClose: 3000,
             });
-            setMessage("Error updating profile. Please try again.");
-            console.error(error);
+            setMessage(error?.response?.data?.message || "Error updating profile. Please try again.");
         } finally {
             setLoading(false);
         }
