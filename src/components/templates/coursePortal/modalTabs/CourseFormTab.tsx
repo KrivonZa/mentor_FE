@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { CoursePortalContext } from '../../../../modules/mainPage/CoursePortal';
 import { CourseDetailFormData } from '../../../../types/courseModel';
 import { PlusOutlined } from '@ant-design/icons';
+import { toast } from 'react-toastify';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -163,7 +164,13 @@ export const CourseFormTab = () => {
             >
                 <Upload
                     name='thumbnail'
-                    beforeUpload={() => false}
+                    beforeUpload={(file) => {
+                        const isImage = file.type.startsWith("image/");
+                        if (!isImage) {
+                            toast.error("You can only upload image files!");
+                        }
+                        return isImage ? false : Upload.LIST_IGNORE;
+                    }}                    
                     listType="picture-card"
                     fileList={fileList}
                     onPreview={handlePreview}
