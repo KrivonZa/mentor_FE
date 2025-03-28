@@ -7,7 +7,9 @@ import {
   updateMentorRequest,
 } from "../../../services/MentorService";
 import { toast } from "react-toastify";
-import "./mentor.scss"
+import { Modal, Button, Pagination } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
+import "./mentor.scss";
 
 export function MentorApprovalRequest() {
   const [allRequests, setAllRequests] = useState([]);
@@ -16,50 +18,47 @@ export function MentorApprovalRequest() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  console.log(allRequests)
+  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState(5);
+  const [totalElements, setTotalElements] = useState(0);
 
   useEffect(() => {
     fetchRequests();
-  }, []);
+  }, [currentPage, pageSize]);
 
-  const fetchRequests = async () => {
+  const fetchRequests = async (email = searchTerm) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await getAllMentorRequest();
+      const response = await getAllMentorRequest({ page: currentPage, size: pageSize, email: email.trim() });
       setAllRequests(response.data.content || []);
-      console.log("Response: ", response.data.content);
+      setTotalElements(response.data.totalElements || 0);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Failed to fetch requests");
       console.error("Error fetching mentor requests: ", err);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSearchByID = async (event) => {
+  const handleSearch = async (event) => {
     event.preventDefault();
+    setCurrentPage(0); // Reset to first page on search
     if (!searchTerm.trim()) {
-      fetchRequests();
+      fetchRequests("");
       return;
     }
     setLoading(true);
     setError(null);
     try {
-      const response = await getMentorRequestByID(parseInt(searchTerm));
-      const request = response.data;
-
-      if (request) {
-        setAllRequests([request]);
-      } else {
-        setError("No request found with this ID");
-        setAllRequests([]);
-      }
+      await fetchRequests(searchTerm);
     } catch (err) {
-      setError("Request not found");
+      setError("No requests found for this email");
       setAllRequests([]);
-      console.error("Error searching by ID:", err);
+      setTotalElements(0);
+      console.error("Error searching:", err);
     } finally {
       setLoading(false);
     }
@@ -67,20 +66,19 @@ export function MentorApprovalRequest() {
 
   const handleReset = () => {
     setSearchTerm("");
-    fetchRequests();
+    setCurrentPage(0);
+    fetchRequests("");
   };
 
   const handleDelete = async (id) => {
     try {
       const response = await deleteMentorRequestById(id);
-      console.log("Response: ", response.data);
       alert(response.data.message || "Request deleted successfully");
       fetchRequests();
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Failed to delete request");
       console.error("Error deleting mentor request:", err);
     } finally {
-      setLoading(false);
       setShowConfirm(false);
       setRequestToDelete(null);
     }
@@ -90,7 +88,6 @@ export function MentorApprovalRequest() {
     const loadingId = toast.loading("Submitting mentor application...");
     try {
       const response = await updateMentorRequest(id, status);
-      console.log("Response: ", response.data);
       toast.update(loadingId, {
         render: response?.data?.message || `Request status updated to ${status}!`,
         type: "success",
@@ -99,15 +96,24 @@ export function MentorApprovalRequest() {
       });
       fetchRequests();
     } catch (err) {
-      setError(err.message);
       toast.update(loadingId, {
-        render: err?.response?.data?.message || "Error updating status. Please try again.",
+        render: err?.response?.data?.message || "Error updating status",
         type: "error",
         isLoading: false,
         autoClose: 3000,
       });
       console.error("Error updating mentor request:", err);
     }
+  };
+
+  const showDetails = (request) => {
+    setSelectedRequest(request);
+    setIsModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+    setSelectedRequest(null);
   };
 
   const handleShowConfirm = (request) => {
@@ -126,6 +132,11 @@ export function MentorApprovalRequest() {
     setRequestToDelete(null);
   };
 
+  const handlePageChange = (page, pageSize) => {
+    setCurrentPage(page - 1); // Antd Pagination uses 1-based index, API uses 0-based
+    setPageSize(pageSize);
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -135,9 +146,9 @@ export function MentorApprovalRequest() {
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Mentor Approval Requests</h2>
           <div>
-            <form onSubmit={handleSearchByID}>
+            <form onSubmit={handleSearch}>
               <label htmlFor="search" className="mr-2">
-                Search request by ID:
+                Search by Email:
               </label>
               <input
                 type="text"
@@ -145,6 +156,7 @@ export function MentorApprovalRequest() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="border p-2 rounded"
+                placeholder="Enter email"
               />
               <button
                 type="submit"
@@ -166,48 +178,34 @@ export function MentorApprovalRequest() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
-                  Request ID
-                </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
-                  Bio
-                </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
-                  CV
-                </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
-                  Introduction Video
-                </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
-                  Actions
-                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">Request ID</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">Full Name</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">Email</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">Bio</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">CV</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">Status</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {allRequests.map((request) => (
-                <tr
-                  key={request.mentorApprovalRequestID}
-                  className="hover:bg-gray-50"
-                >
-                  <td className="px-6 py-4">
-                    {request.mentorApprovalRequestID}
-                  </td>
+                <tr key={request.mentorApprovalRequestID} className="hover:bg-gray-50">
+                  <td className="px-6 py-4">{request.mentorApprovalRequestID}</td>
+                  <td className="px-6 py-4">{request.user.fullName}</td>
+                  <td className="px-6 py-4">{request.user.email}</td>
                   <td className="px-6 py-4">{request.bio}</td>
                   <td className="px-6 py-4">
                     {request.cv ? (
                       <a
                         href={request.cv}
-                        className="text-[#5fd080] fw-bold hover:underline transition-colors duration-200"
+                        className="text-[#5fd080] fw-bold hover:underline"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         Preview
                       </a>
                     ) : (
-                      <span className="text-danger fw-bold transition-colors duration-200">No data</span>
+                      <span className="text-danger fw-bold">No data</span>
                     )}
                   </td>
                   <td className="px-6 py-4">
@@ -234,29 +232,12 @@ export function MentorApprovalRequest() {
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    {request.introductionVideo ? (
-                      <a
-                        href={request.introductionVideo}
-                        className="text-[#5fd080] fw-bold hover:underline transition-colors duration-200"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Preview
-                      </a>
-                    ) : (
-                      <span className="text-danger fw-bold transition-colors duration-200">No data</span>
-                    )}
-                  </td>
-                  <td className="px-6 py-4">
                     <div className="flex space-x-2 items-center">
-                      {request.approvalStatus === "PENDING" ? (
+                      {request.approvalStatus === "PENDING" && (
                         <div className="flex space-x-2">
                           <button
                             onClick={() =>
-                              handleUpdateStatus(
-                                request.mentorApprovalRequestID,
-                                "APPROVED"
-                              )
+                              handleUpdateStatus(request.mentorApprovalRequestID, "APPROVED")
                             }
                             style={{
                               backgroundColor: "#22c55e",
@@ -264,23 +245,15 @@ export function MentorApprovalRequest() {
                               padding: "4px 12px",
                               borderRadius: "4px",
                               fontSize: "14px",
-                              transition: "background-color 0.2s",
                             }}
-                            onMouseOver={(e) =>
-                              (e.target.style.backgroundColor = "#16a34a")
-                            }
-                            onMouseOut={(e) =>
-                              (e.target.style.backgroundColor = "#22c55e")
-                            }
+                            onMouseOver={(e) => (e.target.style.backgroundColor = "#16a34a")}
+                            onMouseOut={(e) => (e.target.style.backgroundColor = "#22c55e")}
                           >
                             Approve
                           </button>
                           <button
                             onClick={() =>
-                              handleUpdateStatus(
-                                request.mentorApprovalRequestID,
-                                "REJECTED"
-                              )
+                              handleUpdateStatus(request.mentorApprovalRequestID, "REJECTED")
                             }
                             style={{
                               backgroundColor: "#ef4444",
@@ -288,25 +261,21 @@ export function MentorApprovalRequest() {
                               padding: "4px 12px",
                               borderRadius: "4px",
                               fontSize: "14px",
-                              transition: "background-color 0.2s",
                             }}
-                            onMouseOver={(e) =>
-                              (e.target.style.backgroundColor = "#dc2626")
-                            }
-                            onMouseOut={(e) =>
-                              (e.target.style.backgroundColor = "#ef4444")
-                            }
+                            onMouseOver={(e) => (e.target.style.backgroundColor = "#dc2626")}
+                            onMouseOut={(e) => (e.target.style.backgroundColor = "#ef4444")}
                           >
                             Reject
                           </button>
                         </div>
-                      ) : (
-                        <span className="text-secondary fw-bold">
-                          Status Finalized
-                        </span>
                       )}
+                      <Button
+                        type="link"
+                        icon={<EyeOutlined />}
+                        onClick={() => showDetails(request)}
+                      />
                       <span
-                        className="material-symbols-outlined cursor-pointer hover:text-red-500 transition-colors ml-2"
+                        className="material-symbols-outlined cursor-pointer hover:text-red-500"
                         onClick={() => handleShowConfirm(request)}
                       >
                         delete
@@ -318,14 +287,23 @@ export function MentorApprovalRequest() {
             </tbody>
           </table>
         </div>
+        <div className="mt-4 flex justify-end">
+          <Pagination
+            current={currentPage + 1} // Convert to 1-based for Antd
+            pageSize={pageSize}
+            total={totalElements}
+            onChange={handlePageChange}
+          />
+        </div>
       </div>
+
+      {/* Confirmation Modal */}
       {showConfirm && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center modal">
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-md">
             {requestToDelete && (
               <p>
-                Are you sure you want to delete request ID:{" "}
-                {requestToDelete.mentorApprovalRequestID}?
+                Are you sure you want to delete request ID: {requestToDelete.mentorApprovalRequestID}?
               </p>
             )}
             <p>This action cannot be undone.</p>
@@ -346,6 +324,60 @@ export function MentorApprovalRequest() {
           </div>
         </div>
       )}
+
+      {/* Details Modal */}
+      <Modal
+        title="Mentor Request Details"
+        visible={isModalVisible}
+        onCancel={handleModalClose}
+        footer={[
+          <Button key="close" onClick={handleModalClose}>
+            Close
+          </Button>,
+        ]}
+        width={600}
+        bodyStyle={{ maxHeight: "60vh", overflowY: "auto" }}
+      >
+        {selectedRequest && (
+          <div>
+            <p><strong>Request ID:</strong> {selectedRequest.mentorApprovalRequestID}</p>
+            <p><strong>Full Name:</strong> {selectedRequest.user.fullName}</p>
+            <p><strong>Email:</strong> {selectedRequest.user.email}</p>
+            <p><strong>Phone Number:</strong> {selectedRequest.user.phoneNumber || "No data"}</p>
+            <p><strong>Role:</strong> {selectedRequest.user.role}</p>
+            <p><strong>Bio:</strong> {selectedRequest.bio || "No data"}</p>
+            <p>
+              <strong>CV:</strong>{" "}
+              {selectedRequest.cv ? (
+                <a href={selectedRequest.cv} target="_blank" rel="noopener noreferrer">
+                  View CV
+                </a>
+              ) : (
+                "No data"
+              )}
+            </p>
+            <p>
+              <strong>Introduction Video:</strong>{" "}
+              {selectedRequest.introductionVideo ? (
+                <a href={selectedRequest.introductionVideo} target="_blank" rel="noopener noreferrer">
+                  View Video
+                </a>
+              ) : (
+                "No data"
+              )}
+            </p>
+            <p><strong>Status:</strong> {selectedRequest.approvalStatus}</p>
+            <p>
+              <strong>Avatar:</strong>{" "}
+              {selectedRequest.user.avatar ? (
+                <img src={selectedRequest.user.avatar} alt="Avatar" style={{ maxWidth: "100px" }} />
+              ) : (
+                "No data"
+              )}
+            </p>
+          </div>
+        )}
+      </Modal>
     </main>
   );
 }
