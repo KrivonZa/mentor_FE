@@ -242,6 +242,7 @@ export const ClassPortalProvider = ({ children }) => {
 
     if (classModalFormData.totalStudent > 100) {
       newCourseDetailError.totalStudent = "Class must not exceed 100 students";
+      errCount++;
     }
 
     if (classModalFormData.price < 10000) {

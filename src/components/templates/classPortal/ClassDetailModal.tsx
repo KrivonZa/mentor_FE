@@ -122,6 +122,7 @@ export const ClassDetailModal = () => {
                         style={{ width: "100%" }}
                         value={classModalFormData.totalSession}
                         onChange={(value) => handleNumberChange("totalSession", value)}
+                        disabled={classModalFormData?.classID !== -1}
                     />
                     <span className="text-danger">{classFormDataError?.totalSession}</span>
                 </Form.Item>
