@@ -8,10 +8,7 @@ export const CourseLayout = () => {
         <div className="main">
             <PageBanner
                 title="Course"
-                description="Odio et unde deleniti. Deserunt numquam exercitationem.
-                                Officiis quo odio sint voluptas consequatur ut a odio
-                    voluptatem. Sit dolorum debitis veritatis natus dolores. Quasi
-                                ratione sint. Sit quaerat ipsum dolorem."
+                description="Expand your knowledge and skills with our diverse courses. From technology to arts, we offer engaging and informative learning experiences."
             />
             <CourseRender />
         </div>

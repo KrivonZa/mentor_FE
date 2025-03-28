@@ -105,7 +105,7 @@ const useRoutesElements = () => {
             { path: "trainers", element: <Trainers /> },
             // { path: "events", element: <Events /> },
             // { path: "pricing", element: <Pricing /> },
-            // { path: "contact", element: <Contact /> },
+            { path: "contact", element: <Contact /> },
             { path: "feedback", element: <RecentComments /> },
 
             ...(role === "USER" || role === "MENTOR" // Additional routes only for MENTOR

@@ -86,6 +86,7 @@ export default function Header() {
                 Pricing
               </NavLink>
             </li>
+            */}
             <li>
               <NavLink
                 to="/contact"
@@ -93,7 +94,7 @@ export default function Header() {
               >
                 Contact
               </NavLink>
-            </li> */}
+            </li>
             {token ? (
               <li className="dropdown">
                 <NavLink

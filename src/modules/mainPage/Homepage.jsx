@@ -63,30 +63,27 @@ export function Homepage() {
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              <h3>Voluptatem dignissimos provident quasi corporis</h3>
+              <h3>Connect with mentors</h3>
               <p className="fst-italic">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Every field has top experts, let the experts help you solve your problem. You are not alone.
               </p>
               <ul>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    Ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    People with a Mentor advance 5 times faster than others*
                   </span>
                 </li>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    Duis aute irure dolor in reprehenderit in voluptate velit.
+                    80% of working people consider networking a must for success*
                   </span>
                 </li>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    Ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate trideta
-                    storacalaperda mastiro dolore eu fugiat nulla pariatur.
+                    Chances of getting a job are 4 times higher if introduced through networking*
                   </span>
                 </li>
               </ul>
@@ -158,13 +155,9 @@ export function Homepage() {
           <div className="row gy-4">
             <div className="col-lg-4" data-aos="fade-up" data-aos-delay="100">
               <div className="why-box">
-                <h3>Why Choose Our Products?</h3>
+                <h3>The value you will get from EmpowerU?</h3>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Duis aute irure dolor in reprehenderit Asperiores dolores sed
-                  et. Tenetur quia eos. Autem tempore quibusdam vel
-                  necessitatibus optio ad corporis.
+                  EmpowerU provides a learning platform that connects students with quality experts, helping you improve your skills, expand your knowledge, and develop your career effectively. With a diverse course system, flexible study schedules, and comprehensive support tools, EmpowerU provides a personalized learning experience that suits all your needs and goals.
                 </p>
                 <div className="text-center">
                   <a href="#" className="more-btn">
@@ -180,10 +173,9 @@ export function Homepage() {
                 <div className="col-xl-4">
                   <div className="icon-box d-flex flex-column justify-content-center align-items-center">
                     <i className="bi bi-clipboard-data"></i>
-                    <h4>Corporis voluptates officia eiusmod</h4>
+                    <h4>Mission</h4>
                     <p>
-                      Consequuntur sunt aut quasi enim aliquam quae harum
-                      pariatur laboris nisi ut aliquip
+                      EmpowerU’s mission is to create an online education platform that connects experienced professionals with those seeking knowledge and guidance. This will help students develop practical skills, confidently pursue their career goals, and achieve sustainable success.
                     </p>
                   </div>
                 </div>
@@ -195,10 +187,9 @@ export function Homepage() {
                 >
                   <div className="icon-box d-flex flex-column justify-content-center align-items-center">
                     <i className="bi bi-gem"></i>
-                    <h4>Ullamco laboris ladore pan</h4>
+                    <h4>Vision</h4>
                     <p>
-                      Excepteur sint occaecat cupidatat non proident, sunt in
-                      culpa qui officia deserunt
+                      To become the leading educational platform where every individual has the opportunity to access the best mentors, learn in the most suitable 1-1 method and develop comprehensively in career and life.
                     </p>
                   </div>
                 </div>
@@ -210,10 +201,15 @@ export function Homepage() {
                 >
                   <div className="icon-box d-flex flex-column justify-content-center align-items-center">
                     <i className="bi bi-inboxes"></i>
-                    <h4>Labore consequatur incidid dolore</h4>
+                    <h4>Core Values</h4>
                     <p>
-                      Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut
-                      maiores omnis facere
+                      <p><span className="fw-bold">Quality:</span> Provide the best learning content and support services</p>
+
+                      <p><span className="fw-bold">Connection:</span> Build an active learning community</p>
+
+                      <p><span className="fw-bold">Flexibility:</span> Allow for self-selection of suitable study schedules</p>
+
+                      <p><span className="fw-bold">Sustainable Development:</span> Continuously improve to deliver long-term value</p>
                     </p>
                   </div>
                 </div>
@@ -235,7 +231,7 @@ export function Homepage() {
                 <i className="bi bi-eye" style={{ color: "#ffbb2c" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Lorem Ipsum
+                    IT & Software
                   </a>
                 </h3>
               </div>
@@ -250,7 +246,7 @@ export function Homepage() {
                 <i className="bi bi-infinity" style={{ color: "#5578ff" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Dolor Sitema
+                    Digital Marketing
                   </a>
                 </h3>
               </div>
@@ -268,7 +264,7 @@ export function Homepage() {
                 ></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Sed perspiciatis
+                    Marketing
                   </a>
                 </h3>
               </div>
@@ -283,7 +279,7 @@ export function Homepage() {
                 <i className="bi bi-nut" style={{ color: "#e361ff" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Magni Dolores
+                    Business
                   </a>
                 </h3>
               </div>
@@ -298,7 +294,7 @@ export function Homepage() {
                 <i className="bi bi-shuffle" style={{ color: "#47aeff" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Nemo Enim
+                    Foreign Languages
                   </a>
                 </h3>
               </div>
@@ -313,7 +309,7 @@ export function Homepage() {
                 <i className="bi bi-star" style={{ color: "#ffa76e" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Eiusmod Tempor
+                    Graphics & Design
                   </a>
                 </h3>
               </div>
@@ -328,7 +324,7 @@ export function Homepage() {
                 <i className="bi bi-x-diamond" style={{ color: "#11dbcf" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Midela Teren
+                    Start up
                   </a>
                 </h3>
               </div>
@@ -346,7 +342,7 @@ export function Homepage() {
                 ></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Pira Neve
+                    Soft skills
                   </a>
                 </h3>
               </div>
@@ -361,7 +357,7 @@ export function Homepage() {
                 <i className="bi bi-command" style={{ color: "#b2904f" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Dirada Pack
+                    Investment
                   </a>
                 </h3>
               </div>
@@ -376,7 +372,7 @@ export function Homepage() {
                 <i className="bi bi-dribbble" style={{ color: "#b20969" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Moton Ideal
+                    Office informatics
                   </a>
                 </h3>
               </div>
@@ -391,7 +387,7 @@ export function Homepage() {
                 <i className="bi bi-activity" style={{ color: "#ff5828" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Verdo Park
+                    Financial accounting
                   </a>
                 </h3>
               </div>
@@ -409,7 +405,7 @@ export function Homepage() {
                 ></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Flavor Nivelanda
+                    MMO
                   </a>
                 </h3>
               </div>
@@ -418,7 +414,7 @@ export function Homepage() {
         </div>
       </section>
 
-      <section id="courses" className="courses section">
+      {/* <section id="courses" className="courses section">
         <div className="container section-title" data-aos="fade-up">
           <h2>Courses</h2>
           <p>Popular Courses</p>
@@ -436,7 +432,7 @@ export function Homepage() {
                 <div className="course-content">
                   <div className="d-flex justify-content-between align-items-center mb-3">
                     <p className="category">Web Development</p>
-                    <p className="price">$169</p>
+                    <p className="price">169,000đ</p>
                   </div>
 
                   <h3>
@@ -550,7 +546,7 @@ export function Homepage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section id="trainers-index" className="section trainers-index">
         <div className="container">
@@ -570,8 +566,7 @@ export function Homepage() {
                   <h4>Walter White</h4>
                   <span>Web Development</span>
                   <p>
-                    Magni qui quod omnis unde et eos fuga et exercitationem.
-                    Odio veritatis perspiciatis quaerat qui aut aut aut
+                    With years of experience in web development, I can help you build a professional website from frontend to backend
                   </p>
                   <div className="social">
                     <a href="">
@@ -606,8 +601,7 @@ export function Homepage() {
                   <h4>Sarah Jhinson</h4>
                   <span>Marketing</span>
                   <p>
-                    Repellat fugiat adipisci nemo illum nesciunt voluptas
-                    repellendus. In architecto rerum rerum temporibus
+                    Marketing expert with creative strategies to help businesses develop their brands and reach customers effectively
                   </p>
                   <div className="social">
                     <a href="">
@@ -642,8 +636,7 @@ export function Homepage() {
                   <h4>William Anderson</h4>
                   <span>Content</span>
                   <p>
-                    Voluptas necessitatibus occaecati quia. Earum totam
-                    consequuntur qui porro et laborum toro des clara
+                    Deliver engaging content strategies that help businesses build strong brands and connect better with customers
                   </p>
                   <div className="social">
                     <a href="">
