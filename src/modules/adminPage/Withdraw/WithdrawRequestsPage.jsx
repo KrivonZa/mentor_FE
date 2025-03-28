@@ -1,30 +1,58 @@
 import React, { useState, useEffect } from "react";
 import { transactionService } from "../../../services/transactionService";
-import Modal from 'react-modal';
-import "../../../../public/css/WithdrawRequest.scss"
+import { Modal, Button, Input, Select, Space, Table } from "antd";
+import "../../../../public/css/WithdrawRequest.scss";
+
+const { Option } = Select;
 
 export function WithdrawRequestsPage() {
   const [withdrawRequests, setWithdrawRequests] = useState([]);
-  const [filteredRequests, setFilteredRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [statusFilter, setStatusFilter] = useState("");
+  const [filters, setFilters] = useState({
+    email: "",
+    name: "",
+    phone: "",
+    status: "",
+  });
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 5,
+    total: 0,
+  });
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
-  // Fetch withdraw requests on component mount
+  // Gọi API khi component mount hoặc pagination thay đổi
   useEffect(() => {
-    fetchWithdrawRequests();
-  }, []);
+    fetchWithdrawRequests({
+      page: pagination.current - 1,
+      size: pagination.pageSize,
+    });
+  }, [pagination.current, pagination.pageSize]);
 
-  // Fetch withdraw requests with optional status filter
-  const fetchWithdrawRequests = async () => {
+  const fetchWithdrawRequests = async (params = {}) => {
     setLoading(true);
     try {
-      const filters = statusFilter ? { status: statusFilter } : {};
-      const response = await transactionService.getWithdrawList(filters);
+      const page = params.page || 0;
+      const size = params.size || pagination.pageSize;
+      const apiFilters = params.filters || filters; // Sử dụng filters từ params nếu có
+
+      const filteredApiFilters = {};
+      if (apiFilters.email) filteredApiFilters.email = apiFilters.email;
+      if (apiFilters.name) filteredApiFilters.name = apiFilters.name;
+      if (apiFilters.phone) filteredApiFilters.phone = apiFilters.phone;
+      filteredApiFilters.statuses = apiFilters.status ? [apiFilters.status] : [];
+
+      const response = await transactionService.getWithdrawList(filteredApiFilters, page, size);
+
       setWithdrawRequests(response.content || []);
-      setFilteredRequests(response.content || []);
+      setPagination((prev) => ({
+        ...prev,
+        current: response.pageable.pageNumber + 1,
+        total: response.totalElements,
+        pageSize: response.size,
+      }));
     } catch (error) {
       setError("Failed to fetch withdraw requests");
       console.error("Error fetching withdraw requests:", error);
@@ -33,30 +61,62 @@ export function WithdrawRequestsPage() {
     }
   };
 
-  // Handle filter change
-  const handleStatusFilterChange = (e) => {
-    setStatusFilter(e.target.value);
+  const handleFilterChange = (name, value) => {
+    setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle view request details
+  const handleSearch = () => {
+    setPagination((prev) => ({ ...prev, current: 1 }));
+    fetchWithdrawRequests({
+      page: 0,
+      size: pagination.pageSize,
+    });
+  };
+
+  const handleReset = () => {
+    const defaultFilters = {
+      email: "",
+      name: "",
+      phone: "",
+      status: "",
+    };
+    setFilters(defaultFilters);
+    setPagination((prev) => ({ ...prev, current: 1 }));
+    // Gọi API với defaultFilters trực tiếp để đảm bảo không dùng filters cũ
+    fetchWithdrawRequests({
+      page: 0,
+      size: pagination.pageSize,
+      filters: defaultFilters,
+    });
+  };
+
+  const handleTableChange = (paginationConfig) => {
+    setPagination((prev) => ({
+      ...prev,
+      current: paginationConfig.current,
+      pageSize: paginationConfig.pageSize,
+    }));
+  };
+
   const handleViewRequest = (request) => {
     setSelectedRequest(request);
     setViewModalOpen(true);
   };
 
-  // Handle status change (approve or reject)
-  const handleStatusChange = async (requestId, status) => {
+  const handleStatusUpdate = async (requestId, status) => {
     try {
       await transactionService.updateWithdrawStatus(requestId, status);
-      // Refresh the list after update
-      fetchWithdrawRequests();
+      fetchWithdrawRequests({
+        page: pagination.current - 1,
+        size: pagination.pageSize,
+      });
+      setViewModalOpen(false);
     } catch (error) {
       console.error("Error updating withdraw status:", error);
       alert("Failed to update status. Please try again.");
     }
   };
 
-  // Format date helper
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -66,201 +126,258 @@ export function WithdrawRequestsPage() {
     });
   };
 
+  const columns = [
+    {
+      title: "Name",
+      dataIndex: "creatorName",
+      key: "creatorName",
+      render: (text) => text || "N/A",
+    },
+    {
+      title: "Email",
+      dataIndex: "creatorEmail",
+      key: "creatorEmail",
+      render: (text) => text || "N/A",
+    },
+    {
+      title: "Bank Name",
+      dataIndex: "bankName",
+      key: "bankName",
+      render: (text) => text || "N/A",
+    },
+    {
+      title: "Account Number",
+      dataIndex: "accountNumber",
+      key: "accountNumber",
+      render: (text) => text || "N/A",
+    },
+    {
+      title: "Account Holder",
+      dataIndex: "accountHolderName",
+      key: "accountHolderName",
+      render: (text) => text || "N/A",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => (
+        <span className={`status-${status?.toLowerCase()}`}>{status}</span>
+      ),
+    },
+    {
+      title: "Actions",
+      key: "actions",
+      render: (_, record) => (
+        <Space>
+          <Button
+            icon={<span className="material-symbols-outlined">visibility</span>}
+            onClick={() => handleViewRequest(record)}
+          />
+          {record.status === "PENDING" && (
+            <>
+              <Button
+                type="link"
+                style={{ color: "#4CAF50", fontWeight: "bold" }}
+                onClick={() => handleStatusUpdate(record.id, "DONE")}
+              >
+                Approve
+              </Button>
+              <Button
+                type="link"
+                style={{ color: "#dc2626", fontWeight: "bold" }}
+                onClick={() => handleStatusUpdate(record.id, "REJECTED")}
+              >
+                Reject
+              </Button>
+            </>
+          )}
+        </Space>
+      ),
+    },
+  ];
+
   return (
     <div className="withdraw-requests-container">
-      <div className="page-header">
-        <h2>Withdraw Requests Management</h2>
-      </div>
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="page-header">
+          <h2 className="title" style={{ fontWeight: "bold", fontSize: "24px" }}>
+            Withdraw Requests Management
+          </h2>
+        </div>
 
-      {/* Summary Cards */}
-      <div className="summary-cards">
-        <div className="summary-card pending">
-          <h3>Pending</h3>
-          <p>{withdrawRequests.filter(req => req.status === 'PENDING').length}</p>
+        <div className="summary-cards">
+          <div className="summary-card pending">
+            <h3>Pending</h3>
+            <p>{withdrawRequests.filter((req) => req.status === "PENDING").length}</p>
+          </div>
+          <div className="summary-card approved">
+            <h3>Approved</h3>
+            <p>{withdrawRequests.filter((req) => req.status === "DONE").length}</p>
+          </div>
+          <div className="summary-card rejected">
+            <h3>Rejected</h3>
+            <p>{withdrawRequests.filter((req) => req.status === "REJECTED").length}</p>
+          </div>
         </div>
-        <div className="summary-card approved">
-          <h3>Approved</h3>
-          <p>{withdrawRequests.filter(req => req.status === 'DONE').length}</p>
-        </div>
-        <div className="summary-card rejected">
-          <h3>Rejected</h3>
-          <p>{withdrawRequests.filter(req => req.status === 'REJECTED').length}</p>
-        </div>
-      </div>
 
-      {/* Filters */}
-      <div className="filters">
-        <div className="status-filter">
-          <label htmlFor="status-filter">Filter by Status:</label>
-          <select 
-            id="status-filter" 
-            value={statusFilter} 
-            onChange={handleStatusFilterChange}
-          >
-            <option value="">All Statuses</option>
-            <option value="PENDING">Pending</option>
-            <option value="DONE">Approved</option>
-            <option value="REJECTED">Rejected</option>
-          </select>
-        </div>
-        <button onClick={fetchWithdrawRequests} className="refresh-btn">
-          Refresh
-        </button>
-      </div>
-
-      {loading ? (
-        <div className="loading">Loading...</div>
-      ) : filteredRequests.length === 0 ? (
-        <div className="no-data">No withdrawal requests found</div>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Name</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Email</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Bank Name</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Account Number</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Account Holder</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Amount</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Date</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Status</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {filteredRequests.map((request, index) => (
-                <tr key={index} className="hover:bg-gray-50">
-                  <td className="px-6 py-4">{request.creatorName || 'N/A'}</td>
-                  <td className="px-6 py-4">{request.creatorEmail || 'N/A'}</td>
-                  <td className="px-6 py-4">{request.bankName || 'N/A'}</td>
-                  <td className="px-6 py-4">{request.accountNumber || 'N/A'}</td>
-                  <td className="px-6 py-4">{request.accountHolderName || 'N/A'}</td>
-                  <td className="px-6 py-4">{request.amount?.toLocaleString() || '0'}</td>
-                  <td className="px-6 py-4">{formatDate(request.createdAt)}</td>
-                  <td className="px-6 py-4">
-                    <span className={`status-${request.status?.toLowerCase()}`}>
-                      {request.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="action-buttons">
-                      <button 
-                        onClick={() => handleViewRequest(request)}
-                        className="view-btn"
-                      >
-                        <span className="material-symbols-outlined">
-                          visibility
-                        </span>
-                      </button>
-                      {request.status === 'PENDING' && (
-                        <>
-                          <button 
-                            onClick={() => handleStatusChange(request.id, 'DONE')}
-                            className="approve-btn"
-                          >
-                            Approve
-                          </button>
-                          <button 
-                            onClick={() => handleStatusChange(request.id, 'REJECTED')}
-                            className="reject-btn"
-                          >
-                            Reject
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {selectedRequest && (
-        <Modal
-          isOpen={viewModalOpen}
-          onRequestClose={() => setViewModalOpen(false)}
-          className="modal"
-          overlayClassName="modal-overlay"
-        >
-          <div className="modal-content">
-            <h2>Withdraw Request Details</h2>
-            <div className="details-grid">
-              <div className="detail-row">
-                <span className="detail-label">Request ID:</span>
-                <span className="detail-value">{selectedRequest.id}</span>
+        <div className="filters" style={{ marginBottom: "24px" }}>
+          <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+            <Space wrap>
+              <div style={{ minWidth: "250px" }}>
+                <label style={{ display: "block", marginBottom: "8px", fontWeight: 500 }}>
+                  Email
+                </label>
+                <Input
+                  name="email"
+                  value={filters.email}
+                  onChange={(e) => handleFilterChange("email", e.target.value)}
+                  placeholder="Enter email"
+                  allowClear
+                  style={{ width: "100%" }}
+                />
               </div>
-              <div className="detail-row">
-                <span className="detail-label">Status:</span>
-                <span className={`detail-value status-${selectedRequest.status?.toLowerCase()}`}>
+              <div style={{ minWidth: "250px" }}>
+                <label style={{ display: "block", marginBottom: "8px", fontWeight: 500 }}>
+                  Name
+                </label>
+                <Input
+                  name="name"
+                  value={filters.name}
+                  onChange={(e) => handleFilterChange("name", e.target.value)}
+                  placeholder="Enter name"
+                  allowClear
+                  style={{ width: "100%" }}
+                />
+              </div>
+              <div style={{ minWidth: "250px" }}>
+                <label style={{ display: "block", marginBottom: "8px", fontWeight: 500 }}>
+                  Status
+                </label>
+                <Select
+                  name="status"
+                  value={filters.status || undefined}
+                  onChange={(value) => handleFilterChange("status", value)}
+                  placeholder="Select status"
+                  allowClear
+                  style={{ width: "100%" }}
+                >
+                  <Option value="PENDING">Pending</Option>
+                  <Option value="DONE">Approved</Option>
+                  <Option value="REJECTED">Rejected</Option>
+                </Select>
+              </div>
+            </Space>
+            <Space>
+              <button className="bg-success px-3 py-2 text-white rounded-4" onClick={handleSearch}>
+                Search
+              </button>
+              <button className="bg-secondary px-3 py-2 text-white rounded-4" onClick={handleReset}>Reset</button>
+              <button className="bg-primary px-3 py-2 text-white rounded-4" onClick={() => fetchWithdrawRequests({ page: pagination.current - 1, size: pagination.pageSize })}>
+                Refresh
+              </button>
+            </Space>
+          </Space>
+        </div>
+
+        <Table
+          columns={columns}
+          dataSource={withdrawRequests}
+          loading={loading}
+          pagination={pagination}
+          onChange={handleTableChange}
+          rowKey="id"
+          locale={{ emptyText: "No withdrawal requests found" }}
+        />
+
+        <Modal
+          title="Withdraw Request Details"
+          open={viewModalOpen}
+          onCancel={() => setViewModalOpen(false)}
+          footer={[
+            selectedRequest?.status === "PENDING" && (
+              <>
+                <Button
+                  key="approve"
+                  type="primary"
+                  style={{ backgroundColor: "#10b981", borderColor: "#10b981" }}
+                  onClick={() => handleStatusUpdate(selectedRequest.id, "DONE")}
+                >
+                  Approve
+                </Button>
+                <Button
+                  key="reject"
+                  danger
+                  onClick={() => handleStatusUpdate(selectedRequest.id, "REJECTED")}
+                >
+                  Reject
+                </Button>
+              </>
+            ),
+            <Button key="close" onClick={() => setViewModalOpen(false)}>
+              Close
+            </Button>,
+          ].filter(Boolean)}
+          width={600}
+        >
+          {selectedRequest && (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "16px",
+                padding: "16px 0",
+              }}
+            >
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <span style={{ fontWeight: 500, color: "#374151" }}>Request ID:</span>
+                <span>{selectedRequest.id}</span>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <span style={{ fontWeight: 500, color: "#374151" }}>Status:</span>
+                <span className={`status-${selectedRequest.status?.toLowerCase()}`}>
                   {selectedRequest.status}
                 </span>
               </div>
-              <div className="detail-row">
-                <span className="detail-label">Amount:</span>
-                <span className="detail-value">${selectedRequest.amount?.toLocaleString()}</span>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <span style={{ fontWeight: 500, color: "#374151" }}>Amount:</span>
+                <span>{selectedRequest.amount?.toLocaleString()}đ</span>
               </div>
-              <div className="detail-row">
-                <span className="detail-label">Created Date:</span>
-                <span className="detail-value">{formatDate(selectedRequest.createdAt)}</span>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <span style={{ fontWeight: 500, color: "#374151" }}>Created Date:</span>
+                <span>{formatDate(selectedRequest.createdAt)}</span>
               </div>
-              <div className="detail-row">
-                <span className="detail-label">Creator Name:</span>
-                <span className="detail-value">{selectedRequest.creatorName || 'N/A'}</span>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <span style={{ fontWeight: 500, color: "#374151" }}>Creator Name:</span>
+                <span>{selectedRequest.creatorName || "N/A"}</span>
               </div>
-              <div className="detail-row">
-                <span className="detail-label">Creator Email:</span>
-                <span className="detail-value">{selectedRequest.creatorEmail || 'N/A'}</span>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <span style={{ fontWeight: 500, color: "#374151" }}>Creator Email:</span>
+                <span>{selectedRequest.creatorEmail || "N/A"}</span>
               </div>
-              <div className="detail-row">
-                <span className="detail-label">Bank Name:</span>
-                <span className="detail-value">{selectedRequest.bankName || 'N/A'}</span>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <span style={{ fontWeight: 500, color: "#374151" }}>Bank Name:</span>
+                <span>{selectedRequest.bankName || "N/A"}</span>
               </div>
-              <div className="detail-row">
-                <span className="detail-label">Account Number:</span>
-                <span className="detail-value">{selectedRequest.accountNumber || 'N/A'}</span>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <span style={{ fontWeight: 500, color: "#374151" }}>Account Number:</span>
+                <span>{selectedRequest.accountNumber || "N/A"}</span>
               </div>
-              <div className="detail-row">
-                <span className="detail-label">Account Holder:</span>
-                <span className="detail-value">{selectedRequest.accountHolderName || 'N/A'}</span>
-              </div>
-            </div>
-            
-            <div className="modal-actions">
-              {selectedRequest.status === 'PENDING' && (
-                <>
-                  <button 
-                    onClick={() => {
-                      handleStatusChange(selectedRequest.id, 'DONE');
-                      setViewModalOpen(false);
-                    }}
-                    className="approve-btn"
-                  >
-                    Approve
-                  </button>
-                  <button 
-                    onClick={() => {
-                      handleStatusChange(selectedRequest.id, 'REJECTED');
-                      setViewModalOpen(false);
-                    }}
-                    className="reject-btn"
-                  >
-                    Reject
-                  </button>
-                </>
-              )}
-              <button 
-                onClick={() => setViewModalOpen(false)}
-                className="close-btn"
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "8px",
+                  gridColumn: "span 2",
+                }}
               >
-                Close
-              </button>
+                <span style={{ fontWeight: 500, color: "#374151" }}>Account Holder:</span>
+                <span>{selectedRequest.accountHolderName || "N/A"}</span>
+              </div>
             </div>
-          </div>
+          )}
         </Modal>
-      )}
+      </div>
     </div>
   );
 }

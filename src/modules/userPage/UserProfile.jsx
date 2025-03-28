@@ -8,6 +8,7 @@ import courseService from "../../services/courseService";
 import { API_BASE_URL, apiPrivateInstance } from "../../constants";
 import { Avatar, Upload } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
+import { ChangePasswordModal } from "../../components/User";
 
 const getBase64 = (file) =>
     new Promise((resolve, reject) => {
@@ -24,8 +25,9 @@ export const UserProfile = () => {
     const { user } = useContext(AppContext);
     const [cvPreviewUrl, setCvPreviewUrl] = useState(null);
     const [cvFile, setCvFile] = useState(null);
-    const [avatarPreview, setAvatarPreview] = useState(null); // New state for avatar preview
-    const [avatarFile, setAvatarFile] = useState(null); // New state for avatar file
+    const [avatarPreview, setAvatarPreview] = useState(null);
+    const [avatarFile, setAvatarFile] = useState(null);
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
         setFormData(user || {});
@@ -33,7 +35,7 @@ export const UserProfile = () => {
             setCvPreviewUrl(user.cv);
         }
         if (typeof user?.avatar === 'string') {
-            setAvatarPreview(user.avatar); // Set initial avatar from user data
+            setAvatarPreview(user.avatar);
         }
     }, [user]);
 
@@ -60,11 +62,11 @@ export const UserProfile = () => {
 
     const handleAvatarChange = async (e) => {
         const file = e.target.files[0];
-        if (file && file.type.startsWith('image/')) { // Ensure it's an image
+        if (file && file.type.startsWith('image/')) {
             const base64 = await getBase64(file);
-            setAvatarPreview(base64); // Set preview as base64
-            setAvatarFile(file); // Store file for S3 upload on submit
-            setFormData({ ...formData, avatar: file }); // Temporarily store file in formData
+            setAvatarPreview(base64);
+            setAvatarFile(file);
+            setFormData({ ...formData, avatar: file });
         }
     };
 
@@ -78,7 +80,7 @@ export const UserProfile = () => {
             },
         });
 
-        return item.data.url; // Assuming item.data.url is the S3 URL
+        return item.data.url;
     };
 
     const handleSubmit = async (e) => {
@@ -90,32 +92,28 @@ export const UserProfile = () => {
         try {
             let cvUrl = formData.cv;
             let videoUrl = formData.introductionVideo;
-            let avatarUrl = formData.avatar; // Default to existing avatar URL
+            let avatarUrl = formData.avatar;
 
-            // Upload CV if it's a File
             if (formData.cv instanceof File) {
                 cvUrl = await uploadToS3(formData.cv);
             }
 
-            // Upload Video if it's a File
             if (formData.introductionVideo instanceof File) {
                 videoUrl = await uploadToS3(formData.introductionVideo);
             }
 
-            // Upload Avatar if it's a File
             if (avatarFile instanceof File) {
                 avatarUrl = await uploadToS3(avatarFile);
             }
 
-            // Update formData with S3 URLs
             const updatedFormData = { ...formData, cv: cvUrl, introductionVideo: videoUrl, avatar: avatarUrl };
 
             await updateUserProfile(updatedFormData);
             setFormData(updatedFormData);
             setCvFile(null);
             setCvPreviewUrl(cvUrl);
-            setAvatarFile(null); // Clear avatar file after upload
-            setAvatarPreview(avatarUrl); // Update preview with S3 URL
+            setAvatarFile(null);
+            setAvatarPreview(avatarUrl);
             setMessage("Profile updated successfully!");
             toast.update(loadingId, {
                 render: "Profile updated successfully!",
@@ -137,6 +135,14 @@ export const UserProfile = () => {
         }
     };
 
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleModalClose = () => {
+        setIsModalVisible(false);
+    };
+
     return (
         <div id="webcrumbs">
             <div className="bg-gray-50 p-4 w-full lg:p-8 min-h-screen sm:p-6" data-aos="fade-up" data-aos-delay="100">
@@ -147,19 +153,17 @@ export const UserProfile = () => {
                                 <div className="border-4 border-white h-32 rounded-full w-32 duration-300 hover:scale-105 overflow-hidden sm:h-40 sm:w-40 transform transition-all relative">
                                     <Avatar
                                         src={avatarPreview || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde"}
-                                        size={{ xs: 128, sm: 160 }} // Adjust size for small and larger screens (matches h-32 and sm:h-40)
+                                        size={{ xs: 128, sm: 160 }}
                                         className="h-full w-full object-cover"
-                                        onError={() => {
-                                            return true; // Returning true sets the fallback image
-                                        }}
+                                        onError={() => true}
                                     />
                                     <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded-full">
                                         <Upload
                                             accept="image/*"
-                                            showUploadList={false} // Hide the default upload list
+                                            showUploadList={false}
                                             beforeUpload={(file) => {
-                                                handleAvatarChange({ target: { files: [file] } }); // Simulate the native input's onChange
-                                                return false; // Prevent automatic upload since we handle it manually
+                                                handleAvatarChange({ target: { files: [file] } });
+                                                return false;
                                             }}
                                         >
                                             <button
@@ -264,12 +268,21 @@ export const UserProfile = () => {
                                     >
                                         {loading ? "Saving..." : "Save Changes"}
                                     </button>
+                                    <button
+                                        type="button"
+                                        onClick={showModal}
+                                        className="bg-transparent border-2 border-[#5fd080] rounded-lg text-[#5fd080] w-full duration-300 hover:bg-[#5fd080] hover:scale-105 px-6 py-2.5 sm:w-auto transform transition-all"
+                                    >
+                                        Change Password
+                                    </button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <ChangePasswordModal visible={isModalVisible} onClose={handleModalClose} />
         </div>
     );
 };

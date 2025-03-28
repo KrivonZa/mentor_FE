@@ -53,14 +53,11 @@ export function LoginForm() {
       <div id="webcrumbs">
         <Link
           to="/"
-          className="absolute top-4 left-4 flex items-center text-neutral-600 px-2"
+          className="absolute flex items-center text-neutral-600 px-2"
         >
-          <span className="material-symbols-outlined mr-2 p-1">
-            home
-          </span>
-          <span className="font-medium text-sm">
-            Home
-          </span>
+          <div className="mt-4 ms-4">
+            <h1 className="font-bold text-4xl text-[#5fd080]">Empower U</h1>
+          </div>
         </Link>
         <div className="min-h-screen w-full flex items-center justify-center bg-neutral-50">
           <div className="w-[400px] bg-white rounded-xl shadow-2xl p-8 transform hover:scale-105 transition-all duration-300">

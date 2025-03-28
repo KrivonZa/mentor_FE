@@ -1,57 +1,38 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { getUserByID } from "../../services/UserService"
 import { AppContext } from "../../routes/AppProvider";
 
 export function AdminSidebar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const id = localStorage.getItem("ID")
   const { logout } = useContext(AppContext)
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem("USER");
-      if (!token) return;
-
-      try {
-        const userData = await getUserByID(id);
-        setUser(userData.data);
-      } catch (err) {
-        console.error("Error fetching user:", err);
-      }
-    };
-    fetchUser();
-  }, []);
 
   const handleLogout = () => {
     logout();
   };
 
   return (
-    <aside className="d-flex flex-column w-64 bg-white shadow-lg" style={{ width: "250px", height: "100vh" }}>
-      <div className="p-3 bg-success text-white text-center fw-bold">
-        <button onClick={() => navigate("/admin")} className="w-100 d-flex flex-column align-items-center justify-content-center border-0 bg-transparent">
-          <img src={user?.avatar} className="rounded-circle object-fit-cover" style={{ width: "40px", height: "40px" }} />
-          <p>{user?.fullname}</p>
+    <aside className="d-flex flex-column w-64 bg-white shadow-lg sticky-md-top z-0" style={{ width: "250px", height: "100vh" }}>
+      <div className="px-3 py-4 bg-success text-center fw-bold">
+        <button onClick={() => navigate("/admin")}>
+          <h1 className="text-white fs-4">Empower U</h1>
         </button>
       </div>
       <nav className="flex-grow-1">
         <ul className="list-unstyled position-relative d-flex flex-column h-100">
           {[
             { to: "/admin", label: "Users", icon: "man" },
-            { to: "/admin/mentors", label: "Mentors", icon: "computer" },
+            { to: "/admin/mentors", label: "Mentors", icon: "school" },
             { to: "/admin/mentor-approval", label: "Mentor Request", icon: "computer" },
-            { to: "/admin/staffs", label: "Staffs", icon: "engineering" },
-            { to: "/admin/report", label: "Reports", icon: "flag" },
+            // { to: "/admin/staffs", label: "Staffs", icon: "engineering" },
+            // { to: "/admin/report", label: "Reports", icon: "flag" },
             { to: "/admin/approve-course", label: "Approve Course", icon: "thumbs_up_down" },
             { to: "/admin/withdraw-requests", label: "Withdraw Requests", icon: "money" },
           ].map((item) => (
             <li key={item.to} className="position-relative p-2">
               <Link
                 to={item.to}
-                className={`d-flex align-items-center ps-4 p-2 text-success text-decoration-none rounded fw-bold transition 
+                className={`d-flex align-items-center ps-2 p-2 text-success text-decoration-none rounded fw-bold transition 
               ${location.pathname === item.to && "bg-success text-white"}`}
                 style={{ transition: "all 0.3s ease-in-out", position: "relative" }}
               >

@@ -11,9 +11,24 @@ interface User {
   status?: boolean;
 }
 
+interface UpdateStatus {
+  fullname: string;
+  email: string;
+  password?: string;
+  role?: string;
+  phoneNumber?: string;
+  status?: boolean;
+  balance: number;
+}
+
 export interface RelevantSkillsCustom {
   skillName: string;
   description: string;
+}
+
+export interface ChangePassword {
+  oldPassword: string;
+  newPassword: string;
 }
 
 export interface StudentDetailResponse {
@@ -67,18 +82,17 @@ const userPrivateApi = apiPrivateInstance({
 
 const createUser = async (user: User): Promise<void> => {
   try {
-    await userPrivateApi.post(`${API_BASE_URL}/user/create-user`, user)
+    await userPrivateApi.post(`/create-user`, user);
   } catch (error) {
     throw error;
   }
 };
 
-const getAllUsers = async (): Promise<User[]> => {
+const getAllUsers = async ({ page, size }): Promise<User[]> => {
   try {
     const response = await userPrivateApi.get<User[]>(
-      `${API_BASE_URL}/user/get-all-users`
-    )
-
+      `/get-all-users?page=${page}&size=${size}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -88,9 +102,7 @@ const getAllUsers = async (): Promise<User[]> => {
 
 const getUserByID = async (id: number): Promise<User> => {
   try {
-    const response = await axios.get<User>(
-      `${API_BASE_URL}/user/get-by-id/${id}`
-    );
+    const response = await userPrivateApi.get<User>(`/get-by-id/${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -100,8 +112,7 @@ const getUserByID = async (id: number): Promise<User> => {
 const getUserByEmail = async (email: string): Promise<User> => {
   try {
     const response = await userPrivateApi.get<User>(
-      `${API_BASE_URL}/user/get-user-by-email`,
-      { params: { email } }  // Pass email as a query parameter
+      `/get-user-by-email?email=${email}`
     );
     return response.data;
   } catch (error) {
@@ -163,19 +174,15 @@ const updateUserProfile = async (
 
 const deleteUserByID = async (id: number): Promise<void> => {
   try {
-    await userPrivateApi.delete(`${API_BASE_URL}/user/delete-by-id/${id}`);
+    await userPrivateApi.delete(`/delete-by-id/${id}`);
   } catch (error) {
     throw error;
   }
 };
 
-const updateUser = async (user: User, id: number): Promise<User> => {
+const updateUser = async (user: UpdateStatus, id: number): Promise<void> => {
   try {
-    const response = await userPrivateApi.put<User>(
-      `${API_BASE_URL}/user/update-user/${id}`,
-      user
-    );
-    return response.data;
+    await userPrivateApi.put<User>(`/update-user/${id}`, user);
   } catch (error) {
     throw error;
   }
@@ -183,13 +190,21 @@ const updateUser = async (user: User, id: number): Promise<User> => {
 
 const getTimeTable = async () => {
   try {
-    const response = await userPrivateApi.get('/time-table');
+    const response = await userPrivateApi.get("/time-table");
     return response.data;
   } catch (error) {
     throw error;
   }
-}
+};
 
+const changePassword = async (data: ChangePassword): Promise<void> => {
+  console.log(data);
+  try {
+    await userPrivateApi.post(`/reset-password`, data);
+  } catch (error) {
+    throw error;
+  }
+};
 
 export {
   getAllUsers,
@@ -200,5 +215,6 @@ export {
   getUserByToken,
   updateUserProfile,
   getUserByEmail,
-  getTimeTable
+  getTimeTable,
+  changePassword,
 };

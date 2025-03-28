@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL } from "../constants"
+import { API_BASE_URL, apiPrivateInstance } from "../constants";
 
 // Define a mentor interface
 interface Mentor {
@@ -8,19 +8,28 @@ interface Mentor {
   cv: string;
   introductionVideo?: string;
   mentorStatus?: string;
-  user?: object
+  user?: object;
 }
-
 
 interface MentorApprovalRequestDTO {
-  Bio: string;
-  CV: string;
+  bio: string;
+  cv: string;
   introductionVideo: string;
+  approvalStatus: string;
+  mentorApprovalRequestID: string;
 }
+
+const mentorPrivateApi = apiPrivateInstance({
+  baseURL: `${API_BASE_URL}/mentor`,
+});
+
+const mentorApprovalPrivateApi = apiPrivateInstance({
+  baseURL: `${API_BASE_URL}/mentor-approval`,
+});
 
 const createMentor = async (mentor: Mentor): Promise<void> => {
   try {
-    await axios.post(`${API_BASE_URL}/mentor/create-mentor`, mentor);
+    await mentorPrivateApi.post(`/create-mentor`, mentor);
   } catch (error) {
     throw error;
   }
@@ -28,9 +37,7 @@ const createMentor = async (mentor: Mentor): Promise<void> => {
 
 const getAllMentors = async (): Promise<Mentor[]> => {
   try {
-    const response = await axios.get<Mentor[]>(
-      `${API_BASE_URL}/mentor/get-all-mentors`
-    );
+    const response = await mentorPrivateApi.get<Mentor[]>(`/get-all-mentors`);
     return response.data;
   } catch (error) {
     console.error("Error fetching mentors:", error);
@@ -40,9 +47,7 @@ const getAllMentors = async (): Promise<Mentor[]> => {
 
 const getMentorByID = async (id: number): Promise<Mentor> => {
   try {
-    const response = await axios.get<Mentor>(
-      `${API_BASE_URL}/mentor/get-mentor/${id}`
-    );
+    const response = await mentorPrivateApi.get<Mentor>(`/get-mentor/${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -51,7 +56,7 @@ const getMentorByID = async (id: number): Promise<Mentor> => {
 
 const deleteMentorByID = async (id: number): Promise<void> => {
   try {
-    await axios.delete(`${API_BASE_URL}/mentor/delete-mentor/${id}`);
+    await mentorPrivateApi.delete(`/delete-mentor/${id}`);
   } catch (error) {
     throw error;
   }
@@ -59,8 +64,8 @@ const deleteMentorByID = async (id: number): Promise<void> => {
 
 const updateMentor = async (mentor: Mentor, id: number): Promise<Mentor> => {
   try {
-    const response = await axios.put<Mentor>(
-      `${API_BASE_URL}/mentor/update-mentor/${id}`,
+    const response = await mentorPrivateApi.put<Mentor>(
+      `/update-mentor/${id}`,
       mentor
     );
     return response.data;
@@ -71,9 +76,7 @@ const updateMentor = async (mentor: Mentor, id: number): Promise<Mentor> => {
 
 const getActiveMentors = async (): Promise<Mentor> => {
   try {
-    const response = await axios.get<Mentor>(
-      `${API_BASE_URL}/mentor/get-active-mentors`
-    );
+    const response = await mentorPrivateApi.get<Mentor>(`/get-active-mentors`);
     return response.data;
   } catch (error) {
     throw error;
@@ -82,8 +85,40 @@ const getActiveMentors = async (): Promise<Mentor> => {
 
 const getDisableMentors = async (): Promise<Mentor> => {
   try {
-    const response = await axios.get<Mentor>(
-      `${API_BASE_URL}/mentor/get-disable-mentors`
+    const response = await mentorPrivateApi.get<Mentor>(`/get-disable-mentors`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getAllMentorRequest = async () => {
+  try {
+    const response = await mentorApprovalPrivateApi.get(`/get-all-request`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getMentorRequestByID = async (id: number) => {
+  try {
+    const response = await mentorApprovalPrivateApi.get(`/get-request-by-id`, {
+      params: { id },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deleteMentorRequestById = async (id: number) => {
+  try {
+    const response = await mentorApprovalPrivateApi.delete(
+      `/delete-request-by-id`,
+      {
+        params: { id },
+      }
     );
     return response.data;
   } catch (error) {
@@ -91,60 +126,28 @@ const getDisableMentors = async (): Promise<Mentor> => {
   }
 };
 
-
-const getAllMentorRequest = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/mentor-approval/get-all-request`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-const getMentorRequestByID = async (id: number) => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/mentor-approval/get-request-by-id`, {
-      params: { id },
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-const deleteMentorRequestById = async (id: number) => {
-  try {
-    const response = await axios.delete(`${API_BASE_URL}/mentor-approval/delete-request-by-id`, {
-      params: { id },
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-}
-
 const updateMentorRequest = async (id: number, status: string) => {
   try {
-    const response = await axios.put(`${API_BASE_URL}/mentor-approval/update-approval-status`, null, {
-      params: { id, status },
-    });
+    const response = await mentorApprovalPrivateApi.put(
+      `/update-approval-status`,
+      null,
+      {
+        params: { id, status },
+      }
+    );
     return response.data;
   } catch (error) {
     throw error;
   }
-}
+};
 
-const createMentorRequest = async (mentorApprovalRequest: MentorApprovalRequestDTO) => {
+const createMentorRequest = async (
+  mentorApprovalRequest: MentorApprovalRequestDTO
+) => {
   try {
-    const token = localStorage.getItem("USER");
-    const response = await axios.post(
-      `${API_BASE_URL}/mentor-approval/create-approval`,
-      mentorApprovalRequest,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+    const response = await mentorApprovalPrivateApi.post(
+      `/create-approval`,
+      mentorApprovalRequest
     );
     return response.data;
   } catch (error) {
@@ -164,5 +167,5 @@ export {
   getMentorRequestByID,
   createMentorRequest,
   deleteMentorRequestById,
-  updateMentorRequest
+  updateMentorRequest,
 };

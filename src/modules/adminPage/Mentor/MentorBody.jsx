@@ -7,12 +7,12 @@ import {
   getDisableMentors,
   deleteMentorByID,
 } from "../../../services/MentorService";
+import "./mentor.scss"
 
 export function MentorBody() {
   const [allMentors, setAllMentors] = useState([]);
   const [mentorToDelete, setMentorToDelete] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -65,33 +65,6 @@ export function MentorBody() {
     }
   };
 
-  const handleSearchByID = async (event) => {
-    event.preventDefault();
-    if (!searchTerm.trim()) {
-      fetchMentors();
-      return;
-    }
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await getMentorByID(searchTerm);
-      const mentor = response.data;
-
-      if (mentor) {
-        setAllStaffs([mentor]);
-      } else {
-        setError("No mentor found with this ID");
-        setAllMentors([]);
-      }
-    } catch (err) {
-      setError("mentor not found");
-      setAllMentors([]);
-      console.error("Error searching by ID:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleDelete = async (id) => {
     try {
       const response = await deleteMentorByID(id);
@@ -132,46 +105,25 @@ export function MentorBody() {
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">All Mentors</h2>
-          <Link to="/add-new-user">
-            <button className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors">
-              Check New Mentor Request
+          <div className="flex gap-4 items-center mb-6">
+            <button
+              // onClick={getAllSystemMentors}
+              className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
+            >
+              Get all mentors
             </button>
-          </Link>
-          <button
-            onClick={getAllSystemMentors}
-            className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
-          >
-            Get all mentors
-          </button>
-          <button
-            onClick={getAllDisableMentors}
-            className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
-          >
-            Get disable mentors
-          </button>
-          <button
-            onClick={fetchMentors}
-            className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
-          >
-            Get active mentors
-          </button>
-          <div>
-            <form onSubmit={handleSearchByID}>
-              <label htmlFor="search">Search mentor by ID: </label>
-              <input
-                type="text"
-                id="search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="border p-2 rounded"
-              />
-              <button
-                type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded ml-2"
-              >
-                Search
-              </button>
-            </form>
+            <button
+              // onClick={getAllDisableMentors}
+              className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
+            >
+              Get disable mentors
+            </button>
+            <button
+              // onClick={fetchMentors}
+              className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
+            >
+              Get active mentors
+            </button>
           </div>
         </div>
         <div className="overflow-x-auto">
@@ -230,7 +182,7 @@ export function MentorBody() {
         </div>
       </div>
       {showConfirm && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center modal">
           <div className="bg-white p-6 rounded-lg shadow-md">
             {mentorToDelete && (
               <p>
