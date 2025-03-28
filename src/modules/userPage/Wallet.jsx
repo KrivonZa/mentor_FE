@@ -13,9 +13,9 @@ export function Wallet() {
     const [bankName, setBankName] = useState("");
     const [accountNumber, setAccountNumber] = useState("");
     const [accountHolderName, setAccountHolderName] = useState("");
+    const [errors, setErrors] = useState({});
     const { user } = useContext(AppContext);
 
-    // Danh sách các mệnh giá
     const amountOptions = [50000, 100000, 200000, 500000, 1000000];
 
     useEffect(() => {
@@ -23,7 +23,11 @@ export function Wallet() {
         setBalance(user?.balance || 0);
     }, [user]);
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        setErrors({});
+    };
+
     const handleShow = (type) => {
         setAction(type);
         setShow(true);
@@ -32,15 +36,41 @@ export function Wallet() {
         setBankName("");
         setAccountNumber("");
         setAccountHolderName("");
+        setErrors({});
     };
 
     const handleAmountSelect = (value) => {
         setAmount(value.toString());
+        setErrors(prev => ({ ...prev, amount: "" }));
+    };
+
+    const validateForm = () => {
+        let newErrors = {};
+
+        if (!amount || parseFloat(amount) <= 1000) {
+            newErrors.amount = "Amount is required and must be greater than 1000";
+        }
+
+        if (action === "withdraw") {
+            if (!bankName.trim()) {
+                newErrors.bankName = "Bank name is required";
+            }
+            if (!accountNumber.trim()) {
+                newErrors.accountNumber = "Account number is required";
+            }
+            if (!accountHolderName.trim()) {
+                newErrors.accountHolderName = "Account holder name is required";
+            }
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async () => {
+        if (!validateForm()) return;
+
         const value = parseFloat(amount);
-        if (!value || value <= 0) return;
         const loadingId = toast.loading("Submitting request withdraw...");
 
         if (action === "deposit") {
@@ -128,13 +158,16 @@ export function Wallet() {
                                     <input
                                         type="number"
                                         id="amount"
-                                        className="form-control form-control-lg rounded-3"
+                                        className={`form-control form-control-lg rounded-3 ${errors.amount ? "is-invalid" : ""}`}
                                         value={amount}
-                                        onChange={(e) => setAmount(e.target.value)}
+                                        onChange={(e) => {
+                                            setAmount(e.target.value);
+                                            setErrors(prev => ({ ...prev, amount: "" }));
+                                        }}
                                         placeholder="Enter amount"
                                         style={{ appearance: "textfield", MozAppearance: "textfield" }}
                                     />
-                                    {/* Thêm các thẻ mệnh giá */}
+                                    {errors.amount && <div className="invalid-feedback">{errors.amount}</div>}
                                     <div className="d-flex flex-wrap gap-2 mt-2">
                                         {amountOptions.map((option) => (
                                             <button
@@ -178,11 +211,15 @@ export function Wallet() {
                                             <input
                                                 type="text"
                                                 id="bankName"
-                                                className="form-control form-control-lg rounded-3"
+                                                className={`form-control form-control-lg rounded-3 ${errors.bankName ? "is-invalid" : ""}`}
                                                 value={bankName}
-                                                onChange={(e) => setBankName(e.target.value)}
+                                                onChange={(e) => {
+                                                    setBankName(e.target.value);
+                                                    setErrors(prev => ({ ...prev, bankName: "" }));
+                                                }}
                                                 placeholder="Enter bank name"
                                             />
+                                            {errors.bankName && <div className="invalid-feedback">{errors.bankName}</div>}
                                         </div>
                                         <div className="mb-4">
                                             <label htmlFor="accountNumber" className="form-label fs-5 fw-medium">
@@ -191,11 +228,15 @@ export function Wallet() {
                                             <input
                                                 type="text"
                                                 id="accountNumber"
-                                                className="form-control form-control-lg rounded-3"
+                                                className={`form-control form-control-lg rounded-3 ${errors.accountNumber ? "is-invalid" : ""}`}
                                                 value={accountNumber}
-                                                onChange={(e) => setAccountNumber(e.target.value)}
+                                                onChange={(e) => {
+                                                    setAccountNumber(e.target.value);
+                                                    setErrors(prev => ({ ...prev, accountNumber: "" }));
+                                                }}
                                                 placeholder="Enter account number"
                                             />
+                                            {errors.accountNumber && <div className="invalid-feedback">{errors.accountNumber}</div>}
                                         </div>
                                         <div className="mb-4">
                                             <label htmlFor="accountHolderName" className="form-label fs-5 fw-medium">
@@ -204,11 +245,15 @@ export function Wallet() {
                                             <input
                                                 type="text"
                                                 id="accountHolderName"
-                                                className="form-control form-control-lg rounded-3"
+                                                className={`form-control form-control-lg rounded-3 ${errors.accountHolderName ? "is-invalid" : ""}`}
                                                 value={accountHolderName}
-                                                onChange={(e) => setAccountHolderName(e.target.value)}
+                                                onChange={(e) => {
+                                                    setAccountHolderName(e.target.value);
+                                                    setErrors(prev => ({ ...prev, accountHolderName: "" }));
+                                                }}
                                                 placeholder="Enter account holder name"
                                             />
+                                            {errors.accountHolderName && <div className="invalid-feedback">{errors.accountHolderName}</div>}
                                         </div>
                                     </>
                                 )}
