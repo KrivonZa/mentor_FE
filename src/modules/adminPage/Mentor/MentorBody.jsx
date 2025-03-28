@@ -190,11 +190,11 @@ export function MentorBody() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex space-x-2">
-                        <Link to={`/update-user/${mentor.mentorID}`}>
+                        {/* <Link to={`/update-user/${mentor.mentorID}`}>
                           <span className="material-symbols-outlined cursor-pointer hover:text-[#5fd080] transition-colors">
                             edit
                           </span>
-                        </Link>
+                        </Link> */}
                         <span
                           className="material-symbols-outlined cursor-pointer hover:text-red-500 transition-colors"
                           onClick={() => handleShowConfirm(mentor)}

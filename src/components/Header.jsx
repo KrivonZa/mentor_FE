@@ -70,7 +70,7 @@ export default function Header() {
                 Trainers
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink
                 to="/events"
                 className={({ isActive }) => (isActive ? "active" : "")}
@@ -93,7 +93,7 @@ export default function Header() {
               >
                 Contact
               </NavLink>
-            </li>
+            </li> */}
             {token ? (
               <li className="dropdown">
                 <NavLink
