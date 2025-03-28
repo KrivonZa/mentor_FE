@@ -299,7 +299,7 @@ export function MentorApprovalRequest() {
 
       {/* Confirmation Modal */}
       {showConfirm && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center modal">
           <div className="bg-white p-6 rounded-lg shadow-md">
             {requestToDelete && (
               <p>
@@ -309,13 +309,29 @@ export function MentorApprovalRequest() {
             <p>This action cannot be undone.</p>
             <div className="flex justify-end mt-4 space-x-2">
               <button
-                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+                style={{
+                  backgroundColor: '#d1d5db',
+                  color: '#1f2937',
+                  fontWeight: 'bold',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '0.25rem'
+                }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#9ca3af'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#d1d5db'}
                 onClick={handleCancel}
               >
                 Cancel
               </button>
               <button
-                className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                style={{
+                  backgroundColor: '#ef4444',
+                  color: '#ffffff',
+                  fontWeight: 'bold',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '0.25rem'
+                }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#dc2626'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#ef4444'}
                 onClick={handleConfirm}
               >
                 Delete
@@ -360,7 +376,7 @@ export function MentorApprovalRequest() {
             <p>
               <strong>Avatar:</strong>{" "}
               {selectedRequest.user.avatar ? (
-                <img src={selectedRequest.user.avatar} alt="Avatar" style={{ maxWidth: "100px" }} />
+                <img src={selectedRequest.user.avatar} alt="Avatar" style={{ maxWidth: "100px", borderRadius: "50%" }} />
               ) : (
                 "No data"
               )}

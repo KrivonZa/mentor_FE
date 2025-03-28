@@ -176,7 +176,18 @@ export function MentorBody() {
                     <td className="px-6 py-4">{mentor.mentorID}</td>
                     <td className="px-6 py-4">{mentor.user.fullName}</td>
                     <td className="px-6 py-4">{mentor.user.email}</td>
-                    <td className="px-6 py-4">{mentor.mentorStatus}</td>
+                    <td className="px-6 py-4">
+                      <span
+                        className={`badge ${mentor.mentorStatus === "APPROVED"
+                          ? "bg-success"
+                          : mentor.mentorStatus === "PENDING"
+                            ? "bg-warning"
+                            : "bg-danger"
+                          }`}
+                      >
+                        {mentor.mentorStatus}
+                      </span>
+                    </td>
                     <td className="px-6 py-4">
                       <div className="flex space-x-2">
                         <Link to={`/update-user/${mentor.mentorID}`}>
@@ -219,13 +230,29 @@ export function MentorBody() {
             <p>This action cannot be undone.</p>
             <div className="flex justify-end mt-4 space-x-2">
               <button
-                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+                style={{
+                  backgroundColor: '#d1d5db',
+                  color: '#1f2937',
+                  fontWeight: 'bold',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '0.25rem'
+                }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#9ca3af'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#d1d5db'}
                 onClick={handleCancel}
               >
                 Cancel
               </button>
               <button
-                className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                style={{
+                  backgroundColor: '#ef4444',
+                  color: '#ffffff',
+                  fontWeight: 'bold',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '0.25rem'
+                }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#dc2626'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#ef4444'}
                 onClick={handleConfirm}
               >
                 Delete
@@ -271,7 +298,19 @@ export function MentorBody() {
                 <span className="text-danger fw-bold">No data</span>
               )}
             </p>
-            <p><strong>Status:</strong> {selectedMentor.mentorStatus}</p>
+            <p>
+              <strong>Status:</strong>{" "}
+              <span
+                className={`badge ${selectedMentor.mentorStatus === "APPROVED"
+                  ? "bg-success"
+                  : selectedMentor.mentorStatus === "PENDING"
+                    ? "bg-warning"
+                    : "bg-danger"
+                  }`}
+              >
+                {selectedMentor.mentorStatus}
+              </span>
+            </p>
           </div>
         )}
       </Modal>
