@@ -36,8 +36,8 @@ export const SignupForm = () => {
       navigate('/auth')
       toastLoadingSuccessAction(loadingId, response?.data?.message || "An email has been sent to you for confirmation!");
     } catch (error) {
-      console.error("Signup failed:", error);
-      toastLoadingFailAction(loadingId, error?.response?.data?.message || "Signup failed");
+      console.error("Signup failed:", error.message );
+      toastLoadingFailAction(loadingId, error.message || "Signup failed");
     }
     setLoading(false)
   };
