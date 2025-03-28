@@ -7,7 +7,8 @@ import {
   getDisableMentors,
   deleteMentorByID,
 } from "../../../services/MentorService";
-import "./mentor.scss"
+import "./mentor.scss";
+import { Modal } from "antd"; // Import Modal từ Ant Design
 
 export function MentorBody() {
   const [allMentors, setAllMentors] = useState([]);
@@ -15,6 +16,8 @@ export function MentorBody() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedMentor, setSelectedMentor] = useState(null); // State cho mentor được chọn
+  const [isModalVisible, setIsModalVisible] = useState(false); // State cho modal
 
   useEffect(() => {
     fetchMentors();
@@ -98,8 +101,21 @@ export function MentorBody() {
     setShowConfirm(false);
     setMentorToDelete(null);
   };
+
+  // Hàm hiển thị modal chi tiết
+  const showModal = (mentor) => {
+    setSelectedMentor(mentor);
+    setIsModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+    setSelectedMentor(null);
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
+
   return (
     <main className="flex-1 p-6">
       <div className="bg-white rounded-lg shadow-md p-6">
@@ -116,7 +132,7 @@ export function MentorBody() {
               onClick={getAllDisableMentors}
               className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
             >
-              Get disable mentors
+              Get disabled mentors
             </button>
             <button
               onClick={fetchMentors}
@@ -134,16 +150,13 @@ export function MentorBody() {
                   Mentor ID
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">
-                  Mentor Status Request
+                  Full Name
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">
-                  bio
+                  Email
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">
-                  cv
-                </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
-                  Status
+                  Mentor Status
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">
                   Actions
@@ -151,43 +164,56 @@ export function MentorBody() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {allMentors.map((mentor) => (
-                <tr key={mentor.mentorID} className="hover:bg-gray-50">
-                  <td className="px-6 py-4">{mentor.mentorID}</td>
-                  <td className="px-6 py-4">{mentor.mentorStatus}</td>
-                  <td className="px-6 py-4">{mentor.bio}</td>
-                  <td className="px-6 py-4">{mentor.cv}</td>
-                  <td className="px-6 py-4">
-                    {mentor?.user?.status ? "Active" : "Disabled"}
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex space-x-2">
-                      <Link to={`/update-user/${mentor.mentorID}`}>
-                        <span className="material-symbols-outlined cursor-pointer hover:text-[#5fd080] transition-colors">
-                          edit
-                        </span>
-                      </Link>
-                      <span
-                        className="material-symbols-outlined cursor-pointer hover:text-red-500 transition-colors"
-                        onClick={() => handleShowConfirm(mentor)}
-                      >
-                        delete
-                      </span>
-                    </div>
+              {allMentors.length === 0 ? (
+                <tr>
+                  <td colSpan="7" className="px-6 py-4 text-center text-gray-500">
+                    No mentors found
                   </td>
                 </tr>
-              ))}
+              ) : (
+                allMentors.map((mentor) => (
+                  <tr key={mentor.mentorID} className="hover:bg-gray-50">
+                    <td className="px-6 py-4">{mentor.mentorID}</td>
+                    <td className="px-6 py-4">{mentor.user.fullName}</td>
+                    <td className="px-6 py-4">{mentor.user.email}</td>
+                    <td className="px-6 py-4">{mentor.mentorStatus}</td>
+                    <td className="px-6 py-4">
+                      <div className="flex space-x-2">
+                        <Link to={`/update-user/${mentor.mentorID}`}>
+                          <span className="material-symbols-outlined cursor-pointer hover:text-[#5fd080] transition-colors">
+                            edit
+                          </span>
+                        </Link>
+                        <span
+                          className="material-symbols-outlined cursor-pointer hover:text-red-500 transition-colors"
+                          onClick={() => handleShowConfirm(mentor)}
+                        >
+                          delete
+                        </span>
+                        <span
+                          className="material-symbols-outlined cursor-pointer hover:text-blue-500 transition-colors"
+                          onClick={() => showModal(mentor)}
+                        >
+                          visibility
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
       </div>
+
+      {/* Modal xác nhận xóa */}
       {showConfirm && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center modal">
           <div className="bg-white p-6 rounded-lg shadow-md">
             {mentorToDelete && (
               <p>
                 Are you sure you want to delete mentor:{" "}
-                {mentorToDelete.mentorID}?
+                {mentorToDelete.user.fullName} (ID: {mentorToDelete.mentorID})?
               </p>
             )}
             <p>This action cannot be undone.</p>
@@ -199,7 +225,7 @@ export function MentorBody() {
                 Cancel
               </button>
               <button
-                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
                 onClick={handleConfirm}
               >
                 Delete
@@ -208,6 +234,47 @@ export function MentorBody() {
           </div>
         </div>
       )}
+
+      {/* Modal chi tiết từ Ant Design */}
+      <Modal
+        title="Mentor Details"
+        visible={isModalVisible}
+        onCancel={handleModalClose}
+        footer={[
+          <button
+            key="close"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            onClick={handleModalClose}
+          >
+            Close
+          </button>,
+        ]}
+      >
+        {selectedMentor && (
+          <div>
+            <p><strong>Mentor ID:</strong> {selectedMentor.mentorID}</p>
+            <p><strong>Full Name:</strong> {selectedMentor.user.fullName}</p>
+            <p><strong>Email:</strong> {selectedMentor.user.email}</p>
+            <p><strong>Bio:</strong> {selectedMentor.bio}</p>
+            <p>
+              <strong>CV:</strong>{" "}
+              {selectedMentor.cv ? (
+                <a
+                  href={selectedMentor.cv}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-success fw-bold hover:underline"
+                >
+                  View CV
+                </a>
+              ) : (
+                <span className="text-danger fw-bold">No data</span>
+              )}
+            </p>
+            <p><strong>Status:</strong> {selectedMentor.mentorStatus}</p>
+          </div>
+        )}
+      </Modal>
     </main>
   );
 }

@@ -356,16 +356,6 @@ export function MentorApprovalRequest() {
                 "No data"
               )}
             </p>
-            <p>
-              <strong>Introduction Video:</strong>{" "}
-              {selectedRequest.introductionVideo ? (
-                <a href={selectedRequest.introductionVideo} target="_blank" rel="noopener noreferrer">
-                  View Video
-                </a>
-              ) : (
-                "No data"
-              )}
-            </p>
             <p><strong>Status:</strong> {selectedRequest.approvalStatus}</p>
             <p>
               <strong>Avatar:</strong>{" "}
