@@ -67,7 +67,7 @@ const userPrivateApi = apiPrivateInstance({
 
 const createUser = async (user: User): Promise<void> => {
   try {
-    await axios.post(`${API_BASE_URL}/user/create-user`, user);
+    await userPrivateApi.post(`${API_BASE_URL}/user/create-user`, user)
   } catch (error) {
     throw error;
   }
@@ -75,9 +75,10 @@ const createUser = async (user: User): Promise<void> => {
 
 const getAllUsers = async (): Promise<User[]> => {
   try {
-    const response = await axios.get<User[]>(
+    const response = await userPrivateApi.get<User[]>(
       `${API_BASE_URL}/user/get-all-users`
-    );
+    )
+
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -98,7 +99,7 @@ const getUserByID = async (id: number): Promise<User> => {
 
 const getUserByEmail = async (email: string): Promise<User> => {
   try {
-    const response = await axios.get<User>(
+    const response = await userPrivateApi.get<User>(
       `${API_BASE_URL}/user/get-user-by-email`,
       { params: { email } }  // Pass email as a query parameter
     );
@@ -123,13 +124,8 @@ const getUserByToken = async (
       throw new Error("Invalid role. Unable to fetch user data.");
     }
 
-    const response = await axios.get<
-      StudentDetailResponse | MentorDetailResponse
-    >(endpoint, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await userPrivateApi.get<StudentDetailResponse | MentorDetailResponse>(endpoint);
+
     return response.data;
   } catch (error) {
     console.error("Error fetching user by token:", error);
@@ -149,12 +145,15 @@ const updateUserProfile = async (
     } else if (role === "USER") {
       endpoint = `${API_BASE_URL}/user/update-by-token`;
     }
-    const response = await axios.put(`${endpoint}`, userProfileData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    // const response = await axios.put(`${endpoint}`, userProfileData, {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+
+    const response = await userPrivateApi.put(endpoint, userProfileData)
+
     return response.data;
   } catch (error) {
     console.error("Error updating user:", error);
@@ -164,7 +163,7 @@ const updateUserProfile = async (
 
 const deleteUserByID = async (id: number): Promise<void> => {
   try {
-    await axios.delete(`${API_BASE_URL}/user/delete-by-id/${id}`);
+    await userPrivateApi.delete(`${API_BASE_URL}/user/delete-by-id/${id}`);
   } catch (error) {
     throw error;
   }
@@ -172,7 +171,7 @@ const deleteUserByID = async (id: number): Promise<void> => {
 
 const updateUser = async (user: User, id: number): Promise<User> => {
   try {
-    const response = await axios.put<User>(
+    const response = await userPrivateApi.put<User>(
       `${API_BASE_URL}/user/update-user/${id}`,
       user
     );
