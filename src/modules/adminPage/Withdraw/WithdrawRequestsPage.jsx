@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { transactionService } from "../../../services/transactionService";
-import Modal from 'react-modal';
-import "../../../../public/css/WithdrawRequest.scss"
+import { Modal, Button } from "antd";
+import "../../../../public/css/WithdrawRequest.scss";
 
 export function WithdrawRequestsPage() {
   const [withdrawRequests, setWithdrawRequests] = useState([]);
@@ -12,14 +12,10 @@ export function WithdrawRequestsPage() {
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
-  // Fetch withdraw requests on component mount
   useEffect(() => {
     fetchWithdrawRequests();
   }, []);
 
-  console.log(withdrawRequests)
-
-  // Fetch withdraw requests with optional status filter
   const fetchWithdrawRequests = async () => {
     setLoading(true);
     try {
@@ -35,30 +31,26 @@ export function WithdrawRequestsPage() {
     }
   };
 
-  // Handle filter change
   const handleStatusFilterChange = (e) => {
     setStatusFilter(e.target.value);
   };
 
-  // Handle view request details
   const handleViewRequest = (request) => {
     setSelectedRequest(request);
     setViewModalOpen(true);
   };
 
-  // Handle status change (approve or reject)
   const handleStatusChange = async (requestId, status) => {
     try {
       await transactionService.updateWithdrawStatus(requestId, status);
-      // Refresh the list after update
       fetchWithdrawRequests();
+      setViewModalOpen(false);
     } catch (error) {
       console.error("Error updating withdraw status:", error);
       alert("Failed to update status. Please try again.");
     }
   };
 
-  // Format date helper
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -70,11 +62,13 @@ export function WithdrawRequestsPage() {
 
   return (
     <div className="withdraw-requests-container">
+      <div className="bg-white rounded-lg shadow-md p-6">
       <div className="page-header">
-        <h2 className="title" style={{ fontWeight: "bold", fontSize: "24px" }}>Withdraw Requests Management</h2>
+        <h2 className="title" style={{ fontWeight: "bold", fontSize: "24px" }}>
+          Withdraw Requests Management
+        </h2>
       </div>
 
-      {/* Summary Cards */}
       <div className="summary-cards">
         <div className="summary-card pending">
           <h3>Pending</h3>
@@ -90,7 +84,6 @@ export function WithdrawRequestsPage() {
         </div>
       </div>
 
-      {/* Filters */}
       <div className="filters">
         <div className="status-filter">
           <label htmlFor="status-filter">Filter by Status:</label>
@@ -124,8 +117,6 @@ export function WithdrawRequestsPage() {
                 <th className="px-6 py-3 text-left text-sm font-semibold">Bank Name</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">Account Number</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">Account Holder</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Amount</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Date</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">Status</th>
                 <th className="px-6 py-3 text-left text-sm font-semibold">Actions</th>
               </tr>
@@ -138,8 +129,6 @@ export function WithdrawRequestsPage() {
                   <td className="px-6 py-4">{request.bankName || 'N/A'}</td>
                   <td className="px-6 py-4">{request.accountNumber || 'N/A'}</td>
                   <td className="px-6 py-4">{request.accountHolderName || 'N/A'}</td>
-                  <td className="px-6 py-4">{request.amount?.toLocaleString() || '0'}</td>
-                  <td className="px-6 py-4">{formatDate(request.createdAt)}</td>
                   <td className="px-6 py-4">
                     <span className={`status-${request.status?.toLowerCase()}`}>
                       {request.status}
@@ -151,21 +140,28 @@ export function WithdrawRequestsPage() {
                         onClick={() => handleViewRequest(request)}
                         className="view-btn"
                       >
-                        <span className="material-symbols-outlined">
-                          visibility
-                        </span>
+                        <span className="material-symbols-outlined">visibility</span>
                       </button>
                       {request.status === 'PENDING' && (
                         <>
                           <button
                             onClick={() => handleStatusChange(request.id, 'DONE')}
-                            className="approve-btn"
+                            style={{
+                              fontWeight: 'bold',
+                              color: '#4CAF50',
+                              cursor: 'pointer',
+                              marginRight: '10px'
+                            }}
                           >
                             Approve
                           </button>
                           <button
                             onClick={() => handleStatusChange(request.id, 'REJECTED')}
-                            className="reject-btn"
+                            style={{
+                              fontWeight: 'bold',
+                              color: '#f44336',
+                              cursor: 'pointer'
+                            }}
                           >
                             Reject
                           </button>
@@ -180,89 +176,80 @@ export function WithdrawRequestsPage() {
         </div>
       )}
 
-      {selectedRequest && (
-        <Modal
-          isOpen={viewModalOpen}
-          onRequestClose={() => setViewModalOpen(false)}
-          className="modal"
-          overlayClassName="modal-overlay"
-        >
-          <div className="modal-content">
-            <h2>Withdraw Request Details</h2>
-            <div className="details-grid">
-              <div className="detail-row">
-                <span className="detail-label">Request ID:</span>
-                <span className="detail-value">{selectedRequest.id}</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Status:</span>
-                <span className={`detail-value status-${selectedRequest.status?.toLowerCase()}`}>
-                  {selectedRequest.status}
-                </span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Amount:</span>
-                <span className="detail-value">${selectedRequest.amount?.toLocaleString()}</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Created Date:</span>
-                <span className="detail-value">{formatDate(selectedRequest.createdAt)}</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Creator Name:</span>
-                <span className="detail-value">{selectedRequest.creatorName || 'N/A'}</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Creator Email:</span>
-                <span className="detail-value">{selectedRequest.creatorEmail || 'N/A'}</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Bank Name:</span>
-                <span className="detail-value">{selectedRequest.bankName || 'N/A'}</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Account Number:</span>
-                <span className="detail-value">{selectedRequest.accountNumber || 'N/A'}</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Account Holder:</span>
-                <span className="detail-value">{selectedRequest.accountHolderName || 'N/A'}</span>
-              </div>
-            </div>
-
-            <div className="modal-actions">
-              {selectedRequest.status === 'PENDING' && (
-                <>
-                  <button
-                    onClick={() => {
-                      handleStatusChange(selectedRequest.id, 'DONE');
-                      setViewModalOpen(false);
-                    }}
-                    className="approve-btn"
-                  >
-                    Approve
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleStatusChange(selectedRequest.id, 'REJECTED');
-                      setViewModalOpen(false);
-                    }}
-                    className="reject-btn"
-                  >
-                    Reject
-                  </button>
-                </>
-              )}
-              <button
-                onClick={() => setViewModalOpen(false)}
-                className="close-btn"
+      <Modal
+        title="Withdraw Request Details"
+        open={viewModalOpen}
+        onCancel={() => setViewModalOpen(false)}
+        footer={[
+          selectedRequest?.status === 'PENDING' && (
+            <>
+              <Button
+                key="approve"
+                type="primary"
+                style={{ backgroundColor: '#10b981', borderColor: '#10b981' }}
+                onClick={() => handleStatusChange(selectedRequest.id, 'DONE')}
               >
-                Close
-              </button>
+                Approve
+              </Button>
+              <Button
+                key="reject"
+                danger
+                onClick={() => handleStatusChange(selectedRequest.id, 'REJECTED')}
+              >
+                Reject
+              </Button>
+            </>
+          ),
+          <Button key="close" onClick={() => setViewModalOpen(false)}>
+            Close
+          </Button>,
+        ].filter(Boolean)}
+        width={600}
+      >
+        {selectedRequest && (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', padding: '16px 0' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <span style={{ fontWeight: 500, color: '#374151' }}>Request ID:</span>
+              <span>{selectedRequest.id}</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <span style={{ fontWeight: 500, color: '#374151' }}>Status:</span>
+              <span className={`status-${selectedRequest.status?.toLowerCase()}`}>
+                {selectedRequest.status}
+              </span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <span style={{ fontWeight: 500, color: '#374151' }}>Amount:</span>
+              <span>{selectedRequest.amount?.toLocaleString()}đ</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <span style={{ fontWeight: 500, color: '#374151' }}>Created Date:</span>
+              <span>{formatDate(selectedRequest.createdAt)}</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <span style={{ fontWeight: 500, color: '#374151' }}>Creator Name:</span>
+              <span>{selectedRequest.creatorName || 'N/A'}</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <span style={{ fontWeight: 500, color: '#374151' }}>Creator Email:</span>
+              <span>{selectedRequest.creatorEmail || 'N/A'}</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <span style={{ fontWeight: 500, color: '#374151' }}>Bank Name:</span>
+              <span>{selectedRequest.bankName || 'N/A'}</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <span style={{ fontWeight: 500, color: '#374151' }}>Account Number:</span>
+              <span>{selectedRequest.accountNumber || 'N/A'}</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', gridColumn: 'span 2' }}>
+              <span style={{ fontWeight: 500, color: '#374151' }}>Account Holder:</span>
+              <span>{selectedRequest.accountHolderName || 'N/A'}</span>
             </div>
           </div>
-        </Modal>
-      )}
+        )}
+      </Modal>
+      </div>
     </div>
   );
 }
