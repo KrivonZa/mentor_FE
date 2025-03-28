@@ -19,9 +19,14 @@ export const CourseProvider = ({ children }) => {
 
   const fetchCoursePagi = async () => {
     setIsLoading(true);
-    const response = await classService.getClassPagination(classFilter);
-    setCourseList(response.data);
-    setIsLoading(false);
+    try {
+      const response = await classService.getClassPagination(classFilter);
+      setCourseList(response.data || {}); // ✅ REPLACES instead of appending
+    } catch (error) {
+      console.error("Error fetching courses:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -31,7 +36,7 @@ export const CourseProvider = ({ children }) => {
   return (
     <CourseContext.Provider value={{
       courseList, isLoading,
-      classFilter, setClassFilter
+      classFilter, setClassFilter, setCourseList
     }}>
       {children}
     </CourseContext.Provider>

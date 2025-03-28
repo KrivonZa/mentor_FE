@@ -6,7 +6,7 @@ import Search from 'antd/es/input/Search';
 
 export const CourseRender = () => {
 
-    const { courseList, isLoading, classFilter, setClassFilter } = useContext(CourseContext);
+    const { courseList, isLoading, classFilter, setClassFilter, setCourseList } = useContext(CourseContext);
 
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) {
@@ -30,10 +30,12 @@ export const CourseRender = () => {
                             enterButton="Search"
                             size="large"
                             onSearch={(e) => {
+                                setCourseList({});
                                 setClassFilter({
                                     ...classFilter,
-                                    name: e
-                                })
+                                    name: e,
+                                    page: 1,
+                                });
                             }}
                             className="border-black w-50"
                         />
@@ -49,81 +51,79 @@ export const CourseRender = () => {
                             const expectedDate = course?.expectedStartDate ? new Date(course.expectedStartDate) : null;
                             const today = new Date();
                             const isToday = expectedDate?.toDateString() === today.toDateString();
-                            if (true) {
-                                return (
-                                    <div
-                                        key={course?.courseID || 0}
-                                        className="col-lg-4 col-md-6 d-flex align-items-stretch mb-5"
-                                        data-aos="zoom-in"
-                                        data-aos-delay="100"
-                                        style={{ height: '495px' }}
-                                    >
-                                        <div className="w-100 course-item">
-                                            <img
-                                                src={course.courseDetail.thumbnail}
-                                                className="img-fluid"
-                                                alt={course.courseDetail.courseName}
-                                                style={{ height: '200px', objectFit: 'cover', width: '100%' }}
-                                            />
-                                            <div className="d-flex flex-column justify-content-between course-content"
-                                                style={{ height: '295px' }}
-                                            >
-                                                <div>
-                                                    <div className="d-flex align-items-center justify-content-between mb-3">
-                                                        <div className='d-flex w-75' style={{ gap: 5, overflowX: scroll }}>
-                                                            {course.courseDetail.skills.map(skill =>
-                                                                <span className="category" key={skill.skillID}>{skill.skillName}</span>
-                                                            )}
-                                                        </div>
-                                                        <div className="price">{course?.price?.toLocaleString()}đ</div>
+                            return (
+                                <div
+                                    key={course?.courseID || 0}
+                                    className="col-lg-4 col-md-6 d-flex align-items-stretch mb-5"
+                                    data-aos="zoom-in"
+                                    data-aos-delay="100"
+                                    style={{ height: '495px' }}
+                                >
+                                    <div className="w-100 course-item">
+                                        <img
+                                            src={course.courseDetail.thumbnail}
+                                            className="img-fluid"
+                                            alt={course.courseDetail.courseName}
+                                            style={{ height: '200px', objectFit: 'cover', width: '100%' }}
+                                        />
+                                        <div className="d-flex flex-column justify-content-between course-content"
+                                            style={{ height: '295px' }}
+                                        >
+                                            <div>
+                                                <div className="d-flex align-items-center justify-content-between mb-3">
+                                                    <div className='d-flex w-75' style={{ gap: 5, overflowX: scroll }}>
+                                                        {course.courseDetail.skills.map(skill =>
+                                                            <span className="category" key={skill.skillID}>{skill.skillName}</span>
+                                                        )}
                                                     </div>
+                                                    <div className="price">{course?.price?.toLocaleString()}đ</div>
+                                                </div>
 
-                                                    {/* nav to courseDetail */}
-                                                    <h3>
-                                                        <Link
-                                                            to={`/courses/${course?.classID}`}
-                                                            state={{ courseName: course.courseDetail.courseName }}
-                                                        >{course?.courseDetail.courseName}</Link>
-                                                    </h3>
-                                                    <p className="description">
-                                                        {course?.classDescription}
-                                                    </p>
+                                                {/* nav to courseDetail */}
+                                                <h3>
+                                                    <Link
+                                                        to={`/courses/${course?.classID}`}
+                                                        state={{ courseName: course.courseDetail.courseName }}
+                                                    >{course?.courseDetail.courseName}</Link>
+                                                </h3>
+                                                <p className="description">
+                                                    {course?.classDescription}
+                                                </p>
+                                            </div>
+                                            <div className={`alert ${isToday ? "alert-warning" : "alert-success"}`}>
+                                                <strong>Opening:</strong>{" "}
+                                                {
+                                                    expectedDate
+                                                        ? new Intl.DateTimeFormat("en-GB").format(expectedDate)
+                                                        : "N/A"}
+                                            </div>
+                                            <div className="d-flex align-items-center justify-content-between trainer">
+                                                <div className="d-flex align-items-center trainer-profile">
+                                                    <img
+                                                        src={course.mentorInfo.avatar}
+                                                        className="img-fluid"
+                                                        alt={course.mentorInfo.mentorName}
+                                                        style={{
+                                                            height: '50px',
+                                                            objectFit: 'cover',
+                                                            width: '100%',
+                                                            border: '2px solid #5fcf80',
+                                                        }}
+                                                    />
+                                                    <a href="" className="trainer-link">
+                                                        {course.mentorInfo.mentorName}
+                                                    </a>
                                                 </div>
-                                                <div className={`alert ${isToday ? "alert-warning" : "alert-success"}`}>
-                                                    <strong>Opening:</strong>{" "}
-                                                    {
-                                                        expectedDate
-                                                            ? new Intl.DateTimeFormat("en-GB").format(expectedDate)
-                                                            : "N/A"}
-                                                </div>
-                                                <div className="d-flex align-items-center justify-content-between trainer">
-                                                    <div className="d-flex align-items-center trainer-profile">
-                                                        <img
-                                                            src={course.mentorInfo.avatar}
-                                                            className="img-fluid"
-                                                            alt={course.mentorInfo.mentorName}
-                                                            style={{
-                                                                height: '50px',
-                                                                objectFit: 'cover',
-                                                                width: '100%',
-                                                                border: '2px solid #5fcf80',
-                                                            }}
-                                                        />
-                                                        <a href="" className="trainer-link">
-                                                            {course.mentorInfo.mentorName}
-                                                        </a>
-                                                    </div>
-                                                    <div className="d-flex align-items-center trainer-rank">
-                                                        <i className="bi bi-person user-icon"></i>&nbsp;{course.totalStudent - course.registeredStudent}
-                                                        &nbsp;&nbsp;
-                                                        <i className="bi bi-heart heart-icon"></i>&nbsp;0
-                                                    </div>
+                                                <div className="d-flex align-items-center trainer-rank">
+                                                    <i className="bi bi-person user-icon"></i>&nbsp;{course.totalStudent - course.registeredStudent}
+                                                    &nbsp;&nbsp;
+                                                    <i className="bi bi-heart heart-icon"></i>&nbsp;0
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                )
-                            }
+                                </div>
+                            )
                         }
                         )}
 
