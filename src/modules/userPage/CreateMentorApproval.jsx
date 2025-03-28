@@ -4,14 +4,6 @@ import { AppContext } from "../../routes/AppProvider";
 import { createMentorRequest } from "../../services/MentorService"
 import { API_BASE_URL, apiPrivateInstance } from "../../constants";
 
-const getBase64 = (file) =>
-    new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = (error) => reject(error);
-    });
-
 export const CreateMentorApproval = () => {
     const [formData, setFormData] = useState({
         bio: "",
@@ -92,10 +84,11 @@ export const CreateMentorApproval = () => {
             if (formData.cv instanceof File) {
                 cvUrl = await uploadToS3(formData.cv);
             }
-
-            // if (formData.introductionVideo instanceof File) {
-            //     videoUrl = await uploadToS3(formData.introductionVideo);
-            // }
+            if (formData.introductionVideo instanceof File) {
+                videoUrl = await uploadToS3(formData.introductionVideo);
+            } else {
+                videoUrl = "";
+            }
 
             const mentorApplicationData = {
                 mentorApprovalRequestID: null,
@@ -176,7 +169,7 @@ export const CreateMentorApproval = () => {
                                     </div>
                                 )}
                             </div>
-
+{/* 
                             <div>
                                 <label className="text-sm block font-medium mb-2">Introduction Video (MP4)</label>
                                 <input
@@ -185,7 +178,7 @@ export const CreateMentorApproval = () => {
                                     accept="video/mp4"
                                     onChange={handleVideoChange}
                                     className="border border-gray-200 p-2.5 rounded-lg w-full duration-300 focus:border-[#5fd080] focus:ring-[#5fd080] focus:ring-2 focus:ring-opacity-20 mb-2 sm:p-3 transition-all"
-                                    // required
+                                // required
                                 />
                                 {videoPreviewUrl && (
                                     <div className="mt-2">
@@ -197,7 +190,7 @@ export const CreateMentorApproval = () => {
                                     </div>
                                 )}
                             </div>
-
+ */}
                             <div className="flex flex-col sm:flex-row sm:space-x-4 sm:space-y-0 space-y-3">
                                 <button
                                     type="submit"

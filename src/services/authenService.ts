@@ -41,7 +41,9 @@ export const authenService = {
   loginGoogle: async (data: LoginRequest) => {
     // http://localhost:9090/oauth2/authorization/google
     try {
-      window.location.href =
+      // window.location.href =
+      //   "http://empoweru.trangiangkhanh.online/oauth2/authorization/google";
+        window.location.href =
         "http://localhost:9090/oauth2/authorization/google";
     } catch (error) {
       throw error.response?.data || "Login failed";
