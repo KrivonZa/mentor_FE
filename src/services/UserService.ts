@@ -135,13 +135,8 @@ const getUserByToken = async (
       throw new Error("Invalid role. Unable to fetch user data.");
     }
 
-    const response = await axios.get<
-      StudentDetailResponse | MentorDetailResponse
-    >(endpoint, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await userPrivateApi.get<StudentDetailResponse | MentorDetailResponse>(endpoint);
+
     return response.data;
   } catch (error) {
     console.error("Error fetching user by token:", error);
@@ -161,12 +156,15 @@ const updateUserProfile = async (
     } else if (role === "USER") {
       endpoint = `${API_BASE_URL}/user/update-by-token`;
     }
-    const response = await axios.put(`${endpoint}`, userProfileData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    // const response = await axios.put(`${endpoint}`, userProfileData, {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+
+    const response = await userPrivateApi.put(endpoint, userProfileData)
+
     return response.data;
   } catch (error) {
     console.error("Error updating user:", error);
