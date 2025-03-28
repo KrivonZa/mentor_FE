@@ -107,19 +107,19 @@ export function MentorBody() {
           <h2 className="text-2xl font-bold">All Mentors</h2>
           <div className="flex gap-4 items-center mb-6">
             <button
-              // onClick={getAllSystemMentors}
+              onClick={getAllSystemMentors}
               className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
             >
               Get all mentors
             </button>
             <button
-              // onClick={getAllDisableMentors}
+              onClick={getAllDisableMentors}
               className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
             >
               Get disable mentors
             </button>
             <button
-              // onClick={fetchMentors}
+              onClick={fetchMentors}
               className="bg-[#5fd080] text-white px-4 py-2 rounded-lg hover:bg-[#4db36a] transition-colors"
             >
               Get active mentors

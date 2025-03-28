@@ -17,6 +17,8 @@ export function MentorApprovalRequest() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  console.log(allRequests)
+
   useEffect(() => {
     fetchRequests();
   }, []);
@@ -195,14 +197,18 @@ export function MentorApprovalRequest() {
                   </td>
                   <td className="px-6 py-4">{request.bio}</td>
                   <td className="px-6 py-4">
-                    <a
-                      href={request.cv}
-                      className="text-[#5fd080] hover:underline transition-colors duration-200"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Preview
-                    </a>
+                    {request.cv ? (
+                      <a
+                        href={request.cv}
+                        className="text-[#5fd080] fw-bold hover:underline transition-colors duration-200"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Preview
+                      </a>
+                    ) : (
+                      <span className="text-danger fw-bold transition-colors duration-200">No data</span>
+                    )}
                   </td>
                   <td className="px-6 py-4">
                     <span
@@ -228,14 +234,18 @@ export function MentorApprovalRequest() {
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <a
-                      href={request.introductionVideo}
-                      className="text-[#5fd080] hover:underline transition-colors duration-200"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Preview
-                    </a>
+                    {request.introductionVideo ? (
+                      <a
+                        href={request.introductionVideo}
+                        className="text-[#5fd080] fw-bold hover:underline transition-colors duration-200"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Preview
+                      </a>
+                    ) : (
+                      <span className="text-danger fw-bold transition-colors duration-200">No data</span>
+                    )}
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex space-x-2 items-center">
