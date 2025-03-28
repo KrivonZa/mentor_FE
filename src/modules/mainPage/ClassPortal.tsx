@@ -240,6 +240,10 @@ export const ClassPortalProvider = ({ children }) => {
       errCount++;
     }
 
+    if (classModalFormData.totalStudent > 100) {
+      newCourseDetailError.totalStudent = "Class must not exceed 100 students";
+    }
+
     if (classModalFormData.price < 10000) {
       newCourseDetailError.price = "Price must be above 10000VND";
       errCount++;
@@ -260,6 +264,11 @@ export const ClassPortalProvider = ({ children }) => {
 
     if (classModalFormData.totalSession <= 0) {
       newCourseDetailError.totalSession = "Class must have at least 1 session"
+      errCount++;
+    }
+
+    if (classModalFormData.totalSession > 50) {
+      newCourseDetailError.totalSession = "Class must not exceed 50 sessions"
       errCount++;
     }
 
