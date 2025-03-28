@@ -134,10 +134,10 @@ export function WithdrawRequestsPage() {
       render: (text) => text || "N/A",
     },
     {
-      title: "Email",
-      dataIndex: "creatorEmail",
-      key: "creatorEmail",
-      render: (text) => text || "N/A",
+      title: "Amount",
+      dataIndex: "amount",
+      key: "amount",
+      render: (text) => (text ? `${text.toLocaleString()}đ` : "N/A"),
     },
     {
       title: "Bank Name",

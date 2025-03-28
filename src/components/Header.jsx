@@ -188,14 +188,6 @@ export default function Header() {
                   </li>
                   <li>
                     <NavLink
-                      to="/user/transaction-history"
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                    >
-                      Transaction History
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
                       to="/user/request-withdraw"
                       className={({ isActive }) => (isActive ? "active" : "")}
                     >
@@ -203,14 +195,24 @@ export default function Header() {
                     </NavLink>
                   </li>
                   {role !== "MENTOR" && (
-                    <li>
-                      <NavLink
-                        to="/user/approval"
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                      >
-                        Become Mentor
-                      </NavLink>
-                    </li>
+                    <>
+                      <li>
+                        <NavLink
+                          to="/user/registered-class"
+                          className={({ isActive }) => (isActive ? "active" : "")}
+                        >
+                          Registered Classes
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to="/user/approval"
+                          className={({ isActive }) => (isActive ? "active" : "")}
+                        >
+                          Become Mentor
+                        </NavLink>
+                      </li>
+                    </>
                   )}
                   {role === "MENTOR" && (
                     <>

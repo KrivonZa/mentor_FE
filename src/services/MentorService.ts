@@ -92,9 +92,11 @@ const getDisableMentors = async (): Promise<Mentor> => {
   }
 };
 
-const getAllMentorRequest = async () => {
+const getAllMentorRequest = async ({ page, size, email }) => {
   try {
-    const response = await mentorApprovalPrivateApi.get(`/get-all-request`);
+    const response = await mentorApprovalPrivateApi.get(
+      `/get-all-request?page=${page}&size=${size}&email=${email}`
+    );
     return response.data;
   } catch (error) {
     throw error;

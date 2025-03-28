@@ -6,34 +6,27 @@ export function UserSchedule({ scheduleData }) {
     const currentYear = new Date().getFullYear();
     const [selectedYear, setSelectedYear] = useState(currentYear);
     const [selectedWeekStart, setSelectedWeekStart] = useState(
-        getFirstMondayOfWeek(new Date()) // Khởi tạo với tuần hiện tại
+        getFirstMondayOfWeek(new Date())
     );
     const calendarRef = useRef(null);
-    console.log(scheduleData)
 
-    // Hàm lấy thứ Hai của tuần chứa ngày hiện tại
     function getFirstMondayOfWeek(date) {
         const tempDate = new Date(date);
-        const dayOfWeek = tempDate.getDay(); // 0 = Chủ nhật, 1 = Thứ Hai, ...
+        const dayOfWeek = tempDate.getDay();
         const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
         tempDate.setDate(tempDate.getDate() + diff);
         tempDate.setHours(0, 0, 0, 0);
         return tempDate;
     }
 
-    // Chuyển đổi dữ liệu thành định dạng events cho FullCalendar
-    const events = scheduleData
-        ? scheduleData.map((event) => ({
-            title: `Session ${event.sessionID}`,
-            start: event.startTime.replace(" ", "T"),
-            end: event.endTime.replace(" ", "T"),
-            extendedProps: {
-                meetLink: event.googleMeetUrl,
-                startTime: event.startTime,
-                endTime: event.endTime,
-            },
-        }))
-        : [];
+    const formatTime = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleTimeString("en-GB", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+        });
+    };
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -44,14 +37,22 @@ export function UserSchedule({ scheduleData }) {
         });
     };
 
-    const formatTime = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleTimeString("en-GB", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-        });
-    };
+    const events = scheduleData
+        ? scheduleData.map((event) => ({
+            title: event.googleMeetUrl
+                ? `<a href="${event.googleMeetUrl}" target="_blank" rel="noopener noreferrer">Session ${event.sessionID}</a><br>${formatTime(event.startTime)}-${formatTime(event.endTime)}`
+                : `Session ${event.sessionID}<br>${formatTime(event.startTime)}-${formatTime(event.endTime)}`,
+            start: event.startTime.replace(" ", "T"),
+            end: event.endTime.replace(" ", "T"),
+            extendedProps: {
+                startTime: event.startTime,
+                endTime: event.endTime,
+                googleMeetUrl: event.googleMeetUrl || null,
+                sessionID: event.sessionID,
+            },
+            classNames: event.googleMeetUrl ? ['clickable-event'] : [], // Thêm class cho sự kiện có URL
+        }))
+        : [];
 
     const yearOptions = Array.from({ length: currentYear - 2021 + 1 }, (_, i) => 2022 + i);
 
@@ -74,7 +75,7 @@ export function UserSchedule({ scheduleData }) {
             if (weekStartDate.getFullYear() > year) break;
 
             options.push({
-                value: weekStartDate, // Lưu nguyên object Date
+                value: weekStartDate,
                 label: `Week ${weekCounter++}: ${formatDate(weekStartDate)} - ${formatDate(weekEndDate)}`,
             });
         }
@@ -108,33 +109,72 @@ export function UserSchedule({ scheduleData }) {
     };
 
     const handleWeekChange = (e) => {
-        const newWeekStart = new Date(e.target.value); // Chuyển chuỗi thành Date
+        const newWeekStart = new Date(e.target.value);
         setSelectedWeekStart(newWeekStart);
         calendarRef.current.getApi().gotoDate(newWeekStart);
     };
 
     const eventContent = (arg) => {
         const { event } = arg;
-        const { meetLink, startTime, endTime } = event.extendedProps;
         return (
-            <div className="p-1 text-white w-100">
-                <div>{event.title}</div>
-                <div>
-                    {formatTime(startTime)} - {formatTime(endTime)}
-                </div>
-                {meetLink && (
-                    <a href={meetLink} target="_blank" rel="noopener noreferrer" className="text-white">
-                        <span className="material-symbols-outlined align-middle">videocam</span>
-                    </a>
-                )}
-            </div>
+            <div
+                className="p-1 text-white event-content"
+                dangerouslySetInnerHTML={{ __html: event.title }}
+            />
         );
     };
 
-    // Đồng bộ lịch khi selectedWeekStart thay đổi
+    const eventDidMount = (info) => {
+        const eventEl = info.el;
+        const timeSlot = eventEl.closest('.fc-timegrid-slot');
+        if (timeSlot) {
+            const overlappingEvents = Array.from(timeSlot.querySelectorAll('.fc-timegrid-event'));
+            const eventCount = overlappingEvents.length;
+            const maxVisibleEvents = 3;
+            const baseWidth = 100 / Math.min(eventCount, maxVisibleEvents);
+
+            overlappingEvents.forEach((event, index) => {
+                if (index < maxVisibleEvents) {
+                    event.style.width = `${baseWidth}%`;
+                    event.style.left = `${baseWidth * index}%`;
+                    event.style.position = 'absolute';
+                    event.style.boxSizing = 'border-box';
+                    event.style.zIndex = index + 1;
+                } else {
+                    event.style.display = 'none';
+                }
+            });
+        }
+    };
+
+    const handleEventClick = (info) => {
+        const { googleMeetUrl } = info.event.extendedProps;
+        if (googleMeetUrl) {
+            window.open(googleMeetUrl, "_blank", "noopener,noreferrer");
+        }
+    };
+
+    const handleDateClick = (info) => {
+        const clickedEvents = calendarRef.current.getApi().getEvents().filter(event => {
+            const eventStart = new Date(event.start);
+            const eventEnd = new Date(event.end);
+            const clickedDate = new Date(info.dateStr);
+            return clickedDate >= eventStart && clickedDate <= eventEnd;
+        });
+
+        if (clickedEvents.length > 0) {
+            const { googleMeetUrl } = clickedEvents[0].extendedProps;
+            if (googleMeetUrl) {
+                window.open(googleMeetUrl, "_blank", "noopener,noreferrer");
+            }
+        }
+    };
+
     useEffect(() => {
         if (calendarRef.current) {
-            calendarRef.current.getApi().gotoDate(selectedWeekStart);
+            setTimeout(() => {
+                calendarRef.current.getApi().gotoDate(selectedWeekStart);
+            }, 0);
         }
     }, [selectedWeekStart]);
 
@@ -159,7 +199,7 @@ export function UserSchedule({ scheduleData }) {
                         </select>
                         <select
                             className="form-select w-auto"
-                            value={selectedWeekStart.toISOString().split("T")[0]} // Chuyển Date thành chuỗi
+                            value={selectedWeekStart.toISOString().split("T")[0]}
                             onChange={handleWeekChange}
                         >
                             {weekOptions.map((option) => (
@@ -179,20 +219,76 @@ export function UserSchedule({ scheduleData }) {
                 <div className="col-12">
                     <div className="card shadow-sm border-0">
                         <div className="card-body p-0">
+                            <style>
+                                {`
+                                    .fc-timegrid-slot {
+                                        height: 2.5em !important;
+                                        position: relative;
+                                        min-width: 120px;
+                                    }
+                                    .fc-timegrid-event {
+                                        margin: 2px;
+                                        font-size: 12px;
+                                        line-height: 1.2;
+                                        padding: 2px !important;
+                                        min-width: 0;
+                                        overflow: hidden;
+                                        text-overflow: ellipsis;
+                                        white-space: nowrap;
+                                        box-sizing: border-box;
+                                        border-radius: 4px;
+                                    }
+                                    .fc-timegrid-event.clickable-event {
+                                        cursor: pointer; /* Chỉ áp dụng con trỏ cho sự kiện có URL */
+                                    }
+                                    .fc-scroller {
+                                        max-height: 70vh !important;
+                                        overflow-y: auto !important;
+                                    }
+                                    .fc-timegrid-col {
+                                        position: relative;
+                                        width: 14.28%;
+                                        min-width: 120px;
+                                    }
+                                    .fc-daygrid-day {
+                                        min-width: 120px;
+                                    }
+                                    .fc-col-header-cell {
+                                        min-width: 120px;
+                                    }
+                                    .event-content {
+                                        display: flex;
+                                        flex-direction: column;
+                                        justify-content: center;
+                                        height: 100%;
+                                    }
+                                    .event-content a {
+                                        color: white;
+                                        text-decoration: none;
+                                    }
+                                    .event-content a:hover {
+                                        text-decoration: underline;
+                                    }
+                                `}
+                            </style>
                             <FullCalendar
                                 ref={calendarRef}
                                 plugins={[timeGridPlugin]}
                                 initialView="timeGridWeek"
-                                initialDate={selectedWeekStart} // Dùng trực tiếp object Date
+                                initialDate={selectedWeekStart}
                                 events={events}
+                                aspectRatio={4}
                                 slotMinTime="00:00:00"
                                 slotMaxTime="24:00:00"
                                 height="auto"
                                 headerToolbar={false}
                                 eventContent={eventContent}
-                                slotDuration="02:00:00"
+                                eventDidMount={eventDidMount}
+                                eventClick={handleEventClick}
+                                dateClick={handleDateClick}
+                                slotDuration="00:30:00"
                                 allDaySlot={false}
-                                firstDay={1} // Thứ Hai là ngày đầu tuần, Bé hứa cố gắng chăm ngoan, Thứ ba thứ tư thứ năm, Ngày nào cũng luôn cố gắng
+                                firstDay={1}
                                 locale="en-GB"
                                 dayHeaderFormat={{ weekday: "long", day: "2-digit", month: "2-digit" }}
                                 slotLabelFormat={{
@@ -200,9 +296,9 @@ export function UserSchedule({ scheduleData }) {
                                     minute: "2-digit",
                                     hour12: false,
                                 }}
-                                slotLabelInterval="02:00"
-                                slotEventOverlap={false}
-                                eventMinHeight={100}
+                                slotLabelInterval="01:00"
+                                slotEventOverlap={true}
+                                eventMinHeight={50}
                                 slotLabelContent={(slotInfo) => (
                                     <div style={{ width: "80px", textAlign: "center" }}>{slotInfo.text}</div>
                                 )}

@@ -206,6 +206,17 @@ const changePassword = async (data: ChangePassword): Promise<void> => {
   }
 };
 
+const getRegisteredClass = async ({ page, perPage }): Promise<void> => {
+  try {
+    const response = await userPrivateApi.get(
+      `/get-registered-class?page=${page}&perPage=${perPage}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export {
   getAllUsers,
   getUserByID,
@@ -217,4 +228,5 @@ export {
   getUserByEmail,
   getTimeTable,
   changePassword,
+  getRegisteredClass,
 };

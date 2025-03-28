@@ -28,7 +28,7 @@ import {
   UserBody,
   Report,
 } from "../modules/adminPage";
-import { UserProfile, Wallet, UserViewSchedule, ViewDetailSchedule, TransactionHistory, CreateMentorApproval, RequestWithdraw } from "../modules/userPage";
+import { UserProfile, Wallet, UserViewSchedule, ViewDetailSchedule, RegisteredClasses, CreateMentorApproval, RequestWithdraw } from "../modules/userPage";
 import { NotFound, ServerError } from "../modules/errorPage";
 import ClassPortal from "../modules/mainPage/ClassPortal";
 import CourseRequestPortal from "../modules/mainPage/CourseRequestPortal";
@@ -56,7 +56,7 @@ const titleMap = {
   "/user/wallet": "My Wallet",
   "/user/schedule": "My Schedule",
   // "/user/schedule/:id": "Detail Schedule",
-  "/user/transaction-history": "Transaction History",
+  "/user/registered-class": "Registered Class",
   "/user/request-withdraw": "Withdraw Request",
   "/user/approval": "Create Mentor Approval",
   "/user/course-portal": "Manage Courses",
@@ -129,10 +129,12 @@ const useRoutesElements = () => {
         { path: "wallet", element: <Wallet /> },
         { path: "schedule", element: <UserViewSchedule /> },
         // { path: "schedule/:courseID", element: <ViewDetailSchedule /> },
-        { path: "transaction-history", element: <TransactionHistory /> },
         { path: "request-withdraw", element: <RequestWithdraw /> },
         { path: "checkout/:courseID", element: <Checkout /> },
-        { path: "approval", element: <CreateMentorApproval /> },
+        ...(role === "USER" ? [ // Additional routes only for USER
+          { path: "approval", element: <CreateMentorApproval /> },
+          { path: "registered-class", element: <RegisteredClasses /> },
+        ] : []),
         ...(role === "MENTOR" // Additional routes only for MENTOR
           ? [
             { path: "course-portal", element: <CoursePortal /> },

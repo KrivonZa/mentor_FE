@@ -50,8 +50,8 @@ export function UserBody() {
     setError(null);
     try {
       const response = await getUserByEmail(searchTerm);
-      const user = response.data;
-      setAllUsers(user ? [user] : []);
+      const users = response.data;
+      setAllUsers(Array.isArray(users) ? users : []);
       setTotalPages(1);
     } catch (err) {
       setError(err.message);

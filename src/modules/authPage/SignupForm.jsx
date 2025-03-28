@@ -34,7 +34,7 @@ export const SignupForm = () => {
     try {
       await authenService.register(userData);
       navigate('/auth')
-      toastLoadingSuccessAction(loadingId, response?.data?.message || "An email has been sent to you for confirmation!");
+      toastLoadingSuccessAction(loadingId, "An email has been sent to you for confirmation!");
     } catch (error) {
       console.error("Signup failed:", error.message );
       toastLoadingFailAction(loadingId, error.message || "Signup failed");

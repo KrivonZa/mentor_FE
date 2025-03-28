@@ -4,14 +4,6 @@ import { AppContext } from "../../routes/AppProvider";
 import { createMentorRequest } from "../../services/MentorService"
 import { API_BASE_URL, apiPrivateInstance } from "../../constants";
 
-const getBase64 = (file) =>
-    new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = (error) => reject(error);
-    });
-
 export const CreateMentorApproval = () => {
     const [formData, setFormData] = useState({
         bio: "",
