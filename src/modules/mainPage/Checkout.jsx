@@ -26,7 +26,10 @@ export const Checkout = () => {
     if (!courseDetail) {
         return <div className="text-center py-5">Loading...</div>;
     }
+
     const handlePayment = async () => {
+        if (!paymentMethod) return; // Prevent action if no payment method is selected
+
         const course = {
             classId: courseID,
             paymentMethod: paymentMethod,
@@ -59,7 +62,7 @@ export const Checkout = () => {
                 confirmButtonText: "OK",
             }).then(() => {
                 window.location.href = "http://localhost:3000/user/transaction-history";
-            });;
+            });
         } catch (error) {
             console.log("error: ", error);
             await Swal.fire({
@@ -115,7 +118,11 @@ export const Checkout = () => {
                         {/* Select payment method */}
                         <h6 className="mt-4">Select Payment Method:</h6>
                         <div className="d-flex gap-2 mt-2">
-                            <button className="d-flex flex-fill btn btn-light align-items-center border justify-content-center" onClick={() => setPaymentMethod("MOMO")} style={{ backgroundColor: paymentMethod === "MOMO" && "#cfcfcf" }}>
+                            <button 
+                                className="d-flex flex-fill btn btn-light align-items-center border justify-content-center" 
+                                onClick={() => setPaymentMethod("MOMO")} 
+                                style={{ backgroundColor: paymentMethod === "MOMO" && "#cfcfcf" }}
+                            >
                                 <img src="../../../public/img/MOMO.png" alt="MoMo" width="64" className="me-2" />
                             </button>
 
@@ -132,13 +139,15 @@ export const Checkout = () => {
                         <button
                             className="d-flex btn align-content-center justify-content-center text-white w-100 fw-semibold mt-4 py-2"
                             style={{
-                                backgroundColor: "#5fd080",
+                                backgroundColor: paymentMethod ? "#5fd080" : "#cccccc",
                                 border: "none",
                                 transition: "0.3s",
+                                cursor: paymentMethod ? "pointer" : "not-allowed"
                             }}
-                            onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-                            onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                            onMouseOver={(e) => paymentMethod && (e.currentTarget.style.transform = "scale(1.05)")}
+                            onMouseOut={(e) => paymentMethod && (e.currentTarget.style.transform = "scale(1)")}
                             onClick={handlePayment}
+                            disabled={!paymentMethod}
                         >
                             Pay Now
                         </button>

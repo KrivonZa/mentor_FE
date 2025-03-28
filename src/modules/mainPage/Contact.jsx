@@ -8,10 +8,7 @@ export function Contact() {
               <div className="col-lg-8">
                 <h1>Contact</h1>
                 <p className="mb-0">
-                  Odio et unde deleniti. Deserunt numquam exercitationem.
-                  Officiis quo odio sint voluptas consequatur ut a odio
-                  voluptatem. Sit dolorum debitis veritatis natus dolores. Quasi
-                  ratione sint. Sit quaerat ipsum dolorem.
+                  For questions, suggestions, or collaboration inquiries, please contact us using the information below.
                 </p>
               </div>
             </div>

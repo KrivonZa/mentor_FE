@@ -22,10 +22,7 @@ export function About() {
                   <br />
                 </h1>
                 <p className="mb-0">
-                  Odio et unde deleniti. Deserunt numquam exercitationem.
-                  Officiis quo odio sint voluptas consequatur ut a odio
-                  voluptatem. Sit dolorum debitis veritatis natus dolores. Quasi
-                  ratione sint. Sit quaerat ipsum dolorem.
+                  Empower U is an innovative platform where mentors and mentees connect directly (1:1) to grow, learn, and achieve personal and professional goals together. Born with the mission of providing personalized and inspiring learning opportunities, we are proud to have supported thousands of individuals on their development journey.
                 </p>
               </div>
             </div>
@@ -62,30 +59,36 @@ export function About() {
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              <h3>Voluptatem dignissimos provident quasi corporis</h3>
-              <p className="fst-italic">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
+              <h3>EmpowerU - Consulting, mentoring with experts</h3>
               <ul>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    Ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    200+ experts who have worked in large companies
                   </span>
                 </li>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    Duis aute irure dolor in reprehenderit in voluptate velit.
+                    Experts with successful case studies
                   </span>
                 </li>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    Ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate trideta
-                    storacalaperda mastiro dolore eu fugiat nulla pariatur.
+                    Experts with high qualifications
+                  </span>
+                </li>
+                <li>
+                  <i className="bi bi-check-circle"></i>{" "}
+                  <span>
+                    EmpowerU guarantees verification of expert information
+                  </span>
+                </li>
+                <li>
+                  <i className="bi bi-check-circle"></i>{" "}
+                  <span>
+                    100% refund if you are not satisfied
                   </span>
                 </li>
               </ul>
@@ -193,10 +196,7 @@ export function About() {
                   <p>
                     <i className="bi bi-quote quote-icon-left"></i>
                     <span>
-                      Proin iaculis purus consequat sem cure digni ssim donec
-                      porttitora entum suscipit rhoncus. Accusantium quam,
-                      ultricies eget id, aliquam eget nibh et. Maecen aliquam,
-                      risus at semper.
+                      Great service! Quality content, dedicated mentor. Helped me develop my skills significantly!
                     </span>
                     <i className="bi bi-quote quote-icon-right"></i>
                   </p>
@@ -224,10 +224,7 @@ export function About() {
                   <p>
                     <i className="bi bi-quote quote-icon-left"></i>
                     <span>
-                      Export tempor illum tamen malis malis eram quae irure esse
-                      labore quem cillum quid cillum eram malis quorum velit
-                      fore eram velit sunt aliqua noster fugiat irure amet legam
-                      anim culpa.
+                      The course is easy to understand, concise content, and can be applied immediately to work. A very effective learning experiences!
                     </span>
                     <i className="bi bi-quote quote-icon-right"></i>
                   </p>
@@ -255,9 +252,7 @@ export function About() {
                   <p>
                     <i className="bi bi-quote quote-icon-left"></i>
                     <span>
-                      Enim nisi quem export duis labore cillum quae magna enim
-                      sint quorum nulla quem veniam duis minim tempor labore
-                      quem eram duis noster aute amet eram fore quis sint minim.
+                      Great service! Quality content, dedicated mentor. Helped me develop my skills significantly!
                     </span>
                     <i className="bi bi-quote quote-icon-right"></i>
                   </p>
@@ -285,10 +280,7 @@ export function About() {
                   <p>
                     <i className="bi bi-quote quote-icon-left"></i>
                     <span>
-                      Fugiat enim eram quae cillum dolore dolor amet nulla culpa
-                      multos export minim fugiat minim velit minim dolor enim
-                      duis veniam ipsum anim magna sunt elit fore quem dolore
-                      labore illum veniam.
+                      The course is easy to understand, concise content, and can be applied immediately to work. A very effective learning experiences!
                     </span>
                     <i className="bi bi-quote quote-icon-right"></i>
                   </p>
@@ -316,10 +308,7 @@ export function About() {
                   <p>
                     <i className="bi bi-quote quote-icon-left"></i>
                     <span>
-                      Quis quorum aliqua sint quem legam fore sunt eram irure
-                      aliqua veniam tempor noster veniam enim culpa labore duis
-                      sunt culpa nulla illum cillum fugiat legam esse veniam
-                      culpa fore nisi cillum quid.
+                      Great service! Quality content, dedicated mentor. Helped me develop my skills significantly!
                     </span>
                     <i className="bi bi-quote quote-icon-right"></i>
                   </p>

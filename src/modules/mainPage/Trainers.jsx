@@ -8,10 +8,7 @@ export function Trainers() {
               <div className="col-lg-8">
                 <h1>Trainers</h1>
                 <p className="mb-0">
-                  Odio et unde deleniti. Deserunt numquam exercitationem.
-                  Officiis quo odio sint voluptas consequatur ut a odio
-                  voluptatem. Sit dolorum debitis veritatis natus dolores. Quasi
-                  ratione sint. Sit quaerat ipsum dolorem.
+                  Connect with leading experts for skill and career development
                 </p>
               </div>
             </div>
@@ -58,8 +55,7 @@ export function Trainers() {
                 <h4>Walter White</h4>
                 <span>Business</span>
                 <p>
-                  Aliquam iure quaerat voluptatem praesentium possimus unde
-                  laudantium vel dolorum distinctio dire flow
+                  Expert in business strategy, financial management and market development with over 10 years of experience
                 </p>
               </div>
             </div>
@@ -90,8 +86,7 @@ export function Trainers() {
                 <h4>Sarah Jhonson</h4>
                 <span>Marketing</span>
                 <p>
-                  Labore ipsam sit consequatur exercitationem rerum laboriosam
-                  laudantium aut quod dolores exercitationem ut
+                  Branding and digital advertising expert, helping businesses optimize marketing strategies and improve performance
                 </p>
               </div>
             </div>
@@ -122,8 +117,7 @@ export function Trainers() {
                 <h4>William Anderson</h4>
                 <span>Maths</span>
                 <p>
-                  Illum minima ea autem doloremque ipsum quidem quas aspernatur
-                  modi ut praesentium vel tque sed facilis at qui
+                  Mathematics lecturer, specializing in helping students master theory and practical applications in academia and technology
                 </p>
               </div>
             </div>
@@ -154,8 +148,7 @@ export function Trainers() {
                 <h4>Amanda Jepson</h4>
                 <span>Foreign Languages</span>
                 <p>
-                  Magni voluptatem accusamus assumenda cum nisi aut qui dolorem
-                  voluptate sed et veniam quasi quam consectetur
+                  Foreign language teaching expert, helping students improve communication skills and use language more confidently
                 </p>
               </div>
             </div>
@@ -189,8 +182,7 @@ export function Trainers() {
                   <br />
                 </span>
                 <p>
-                  Qui consequuntur quos accusamus magnam quo est molestiae eius
-                  laboriosam sunt doloribus quia impedit laborum velit
+                  Experienced programmer, guide from basic to advanced in web application design and development
                 </p>
               </div>
             </div>
@@ -221,8 +213,7 @@ export function Trainers() {
                 <h4>Josepha Palas</h4>
                 <span>Business</span>
                 <p>
-                  Sint sint eveniet explicabo amet consequatur nesciunt error
-                  enim rerum earum et omnis fugit eligendi cupiditate vel
+                  Strategic consulting for startups and SMEs, specializing in management, operations and scaling
                 </p>
               </div>
             </div>
