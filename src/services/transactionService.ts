@@ -51,18 +51,22 @@ export const transactionService = {
       throw error.response?.data;
     }
   },
-  classPayment: async ({classId, paymentMethod}) => {
+  classPayment: async ({ classId, paymentMethod }) => {
     try {
-      const response = await transactionApi.post(
-        `/class/register`,
-        { classId, paymentMethod }
-      );
+      const response = await transactionApi.post(`/class/register`, {
+        classId,
+        paymentMethod,
+      });
       return response.data;
     } catch (error) {
       throw error.response?.data;
     }
   },
-  getWithdrawList: async (filters: WithdrawFilter = {}, page: number = 0, size: number = 10) => {
+  getWithdrawList: async (
+    filters: WithdrawFilter = {},
+    page: number,
+    size: number
+  ) => {
     try {
       const response = await transactionApi.post(
         `/withdraw/list?page=${page}&size=${size}`,
@@ -76,7 +80,9 @@ export const transactionService = {
   },
   updateWithdrawStatus: async (requestId: string, status: WithdrawStatus) => {
     try {
-      const response = await transactionApi.put(`/withdraw/${requestId}/status?requestStatus=${status}`);
+      const response = await transactionApi.put(
+        `/withdraw/${requestId}/status?requestStatus=${status}`
+      );
       return response.data;
     } catch (error) {
       console.error("Error updating withdraw status:", error);

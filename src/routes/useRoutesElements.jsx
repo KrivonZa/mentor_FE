@@ -28,7 +28,7 @@ import {
   UserBody,
   Report,
 } from "../modules/adminPage";
-import { UserProfile, Wallet, UserViewSchedule, ViewDetailSchedule, TransactionHistory, CreateMentorApproval } from "../modules/userPage";
+import { UserProfile, Wallet, UserViewSchedule, ViewDetailSchedule, TransactionHistory, CreateMentorApproval, RequestWithdraw } from "../modules/userPage";
 import { NotFound, ServerError } from "../modules/errorPage";
 import ClassPortal from "../modules/mainPage/ClassPortal";
 import CourseRequestPortal from "../modules/mainPage/CourseRequestPortal";
@@ -57,6 +57,7 @@ const titleMap = {
   "/user/schedule": "My Schedule",
   // "/user/schedule/:id": "Detail Schedule",
   "/user/transaction-history": "Transaction History",
+  "/user/request-withdraw": "Withdraw Request",
   "/user/approval": "Create Mentor Approval",
   "/user/course-portal": "Manage Courses",
   "/user/class-portal": "Manage Classes",
@@ -129,6 +130,7 @@ const useRoutesElements = () => {
         { path: "schedule", element: <UserViewSchedule /> },
         // { path: "schedule/:courseID", element: <ViewDetailSchedule /> },
         { path: "transaction-history", element: <TransactionHistory /> },
+        { path: "request-withdraw", element: <RequestWithdraw /> },
         { path: "checkout/:courseID", element: <Checkout /> },
         { path: "approval", element: <CreateMentorApproval /> },
         ...(role === "MENTOR" // Additional routes only for MENTOR

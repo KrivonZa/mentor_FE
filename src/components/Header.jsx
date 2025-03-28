@@ -194,6 +194,14 @@ export default function Header() {
                       Transaction History
                     </NavLink>
                   </li>
+                  <li>
+                    <NavLink
+                      to="/user/request-withdraw"
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                      Withdraw Request
+                    </NavLink>
+                  </li>
                   {role !== "MENTOR" && (
                     <li>
                       <NavLink

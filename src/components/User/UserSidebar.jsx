@@ -11,6 +11,7 @@ export function UserSidebar() {
     { to: "/user/wallet", label: "Wallet", icon: "wallet" },
     { to: "/user/schedule", label: "Schedule", icon: "calendar_month" },
     { to: "/user/transaction-history", label: "Transaction History", icon: "history" },
+    { to: "/user/request-withdraw", label: "Withdraw Request", icon: "request_page" },
   ];
 
   if (role !== "MENTOR") {
