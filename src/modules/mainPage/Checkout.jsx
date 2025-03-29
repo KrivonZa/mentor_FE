@@ -61,7 +61,7 @@ export const Checkout = () => {
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: "OK",
             }).then(() => {
-                window.location.href = "http://localhost:3000/user/wallet";
+                window.location.href = "http://empoweru-fe.trangiangkhanh.online/user/wallet";
             });
         } catch (error) {
             console.log("error: ", error);
