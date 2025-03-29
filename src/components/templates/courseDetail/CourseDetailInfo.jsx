@@ -59,8 +59,10 @@ export const CourseDetailInfo = () => {
     }
 
     const handleCheckout = (id) => {
-        if (user) navigate(`/checkout/${id}`)
-        navigate('/auth')
+        if (user) {
+            navigate(`/checkout/${id}`)
+        }
+        else { navigate('/auth') }
     }
 
     return (

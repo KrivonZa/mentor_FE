@@ -107,8 +107,10 @@ export function Wallet() {
                     autoClose: 3000,
                 });
             } catch (error) {
+                console.log("erdasdasdaror: ", error);
+                
                 toast.update(loadingId, {
-                    render: error?.response?.data?.message || "Error when Withdraw!",
+                    render: error?.message || "Error when Withdraw!",
                     type: "error",
                     isLoading: false,
                     autoClose: 3000,

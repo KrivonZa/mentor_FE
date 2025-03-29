@@ -39,9 +39,17 @@ export function UserSchedule({ scheduleData }) {
 
     const events = scheduleData
         ? scheduleData.map((event) => ({
-            title: event.googleMeetUrl
-                ? `<a href="${event.googleMeetUrl}" target="_blank" rel="noopener noreferrer">Session ${event.sessionID}</a><br>${formatTime(event.startTime)}-${formatTime(event.endTime)}`
-                : `Session ${event.sessionID}<br>${formatTime(event.startTime)}-${formatTime(event.endTime)}`,
+            title: `
+        <div>
+          ${event.googleMeetUrl
+                    ? `<a href="${event.googleMeetUrl}" target="_blank" rel="noopener noreferrer">Session ${event.sessionID}</a>`
+                    : `Session ${event.sessionID}`}
+          <br>
+          ${formatTime(event.startTime)} - ${formatTime(event.endTime)}
+          <br>
+          <strong>Status:</strong> ${event.status || "N/A"}
+        </div>
+      `,
             start: event.startTime.replace(" ", "T"),
             end: event.endTime.replace(" ", "T"),
             extendedProps: {
@@ -49,8 +57,9 @@ export function UserSchedule({ scheduleData }) {
                 endTime: event.endTime,
                 googleMeetUrl: event.googleMeetUrl || null,
                 sessionID: event.sessionID,
+                status: event.status || "N/A",
             },
-            classNames: event.googleMeetUrl ? ['clickable-event'] : [], // Thêm class cho sự kiện có URL
+            classNames: event.googleMeetUrl ? ["clickable-event"] : [],
         }))
         : [];
 

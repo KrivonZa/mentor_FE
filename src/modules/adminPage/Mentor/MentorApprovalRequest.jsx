@@ -274,12 +274,12 @@ export function MentorApprovalRequest() {
                         icon={<EyeOutlined />}
                         onClick={() => showDetails(request)}
                       />
-                      <span
+                      {/* <span
                         className="material-symbols-outlined cursor-pointer hover:text-red-500"
                         onClick={() => handleShowConfirm(request)}
                       >
                         delete
-                      </span>
+                      </span> */}
                     </div>
                   </td>
                 </tr>
