@@ -175,17 +175,10 @@ export const UserProfile = () => {
                                     </div>
                                 </div>
                                 <h1 className="text-white text-xl font-bold mt-4 sm:text-2xl">{user?.fullName}</h1>
-                                <h4 className="text-white/80 mt-1">{user?.role === 'USER' ? 'STUDENT' : user?.role}</h4>
-                                {user?.role === 'MENTOR' && (
-                                    <h5 className="text-white/80 mt-1">Mentor status: {user?.mentorStatus}</h5>
-                                )}
                             </div>
                         </div>
                         <div className="p-4 w-full lg:p-8 lg:w-2/3 sm:p-6">
                             <h2 className="text-xl font-bold mb-4 sm:mb-6 sm:text-2xl">Update Profile Information</h2>
-
-                            {message && <p className={`text-${message.includes("success") ? "green" : "red"}-500`}>{message}</p>}
-
                             <form onSubmit={handleSubmit} className="sm:space-y-6 space-y-4">
                                 <div>
                                     <label className="text-sm block font-medium mb-2">Full Name</label>
