@@ -8,6 +8,7 @@ const buttonStyles = {
     backgroundColor: "#5fd080",
     border: "none",
     transition: "transform 0.2s ease-in-out",
+    textAlign: "center"
 };
 
 export const CourseDetailInfo = () => {
@@ -114,7 +115,7 @@ export const CourseDetailInfo = () => {
                                 <>
                                     <button
                                         disabled={isDisabled}
-                                        className="d-flex btn btn-lg align-items-center justify-content-between rounded shadow-sm w-100 course-info fw-semibold gap-2 px-4"
+                                        className="d-flex btn btn-lg align-items-center justify-content-end rounded shadow-sm w-100 course-info fw-semibold gap-2 px-4"
                                         style={buttonStyles}
                                         onClick={() => handleCheckout(courseDetail?.classID)}
                                     >
