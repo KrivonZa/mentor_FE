@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import CourseDetailInfoSkeleton from './skeleton/CourseDetailInfoSkeleton'
 import { CourseDetailContext } from '../../../modules/mainPage/CourseDetail';
+import { AppContext } from "../../../routes/AppProvider"
 
 const buttonStyles = {
     backgroundColor: "#5fd080",
@@ -12,6 +13,7 @@ const buttonStyles = {
 export const CourseDetailInfo = () => {
     const { courseDetail, isLoading } = useContext(CourseDetailContext);
     const navigate = useNavigate();
+    const { user } = useContext(AppContext)
 
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
@@ -54,6 +56,11 @@ export const CourseDetailInfo = () => {
         isDisabled = true;
         message = "The course start date has passed.";
         messageClass = "text-danger";
+    }
+
+    const handleCheckout = (id) => {
+        if (user) navigate(`/checkout/${id}`)
+        navigate('/auth')
     }
 
     return (
@@ -107,7 +114,7 @@ export const CourseDetailInfo = () => {
                                         disabled={isDisabled}
                                         className="d-flex btn btn-lg align-items-center justify-content-between rounded shadow-sm w-100 course-info fw-semibold gap-2 px-4"
                                         style={buttonStyles}
-                                        onClick={() => navigate(`/checkout/${courseDetail?.classID}`)}
+                                        onClick={() => handleCheckout(courseDetail?.classID)}
                                     >
                                         <h5 className="text-white">
                                             Buy Now: {courseDetail?.price?.toLocaleString()}đ
