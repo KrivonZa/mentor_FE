@@ -12,7 +12,7 @@ export function Homepage() {
 
       if (uuid) {
         try {
-          const response = await axios.get(`http://localhost:9090/empoweru/sba/user/google-principal?uuid=${uuid}`);
+          const response = await axios.get(`http://empoweru.trangiangkhanh.online/empoweru/sba/user/google-principal?uuid=${uuid}`);
           const token = response.data.data.token;
           localStorage.setItem("ROLE", response.data.data.role);
           localStorage.setItem("USER", token);
