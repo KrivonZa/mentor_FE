@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { AppContext } from "../../routes/AppProvider";
 import { createMentorRequest } from "../../services/MentorService"
 import { API_BASE_URL, apiPrivateInstance } from "../../constants";
+import courseService from "../../services/courseService";
 
 export const CreateMentorApproval = () => {
     const [formData, setFormData] = useState({
@@ -99,6 +100,9 @@ export const CreateMentorApproval = () => {
             };
 
             const response = await createMentorRequest(mentorApplicationData);
+
+            console.log("response: ", response);
+            
 
             toast.update(loadingId, {
                 render: response?.data?.message || "Mentor application submitted successfully!",
