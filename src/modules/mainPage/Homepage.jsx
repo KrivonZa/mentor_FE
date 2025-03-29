@@ -37,7 +37,7 @@ export function Homepage() {
             Leading Tomorrow
           </h2>
           <p data-aos="fade-up" data-aos-delay="200">
-            We are team of talented designers making websites with Bootstrap
+            We are a team of talented Mentors to support you in your journey
           </p>
           <div className="d-flex mt-4" data-aos="fade-up" data-aos-delay="300">
             <a href="/courses" className="btn-get-started">
