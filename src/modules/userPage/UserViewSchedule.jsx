@@ -1,10 +1,21 @@
 import React, { useEffect, useState } from "react";
 import "../../../public/css/UserViewSchedule.scss";
-import { getTimeTable } from "../../services/UserService";
+import { getAllRegisteredClass, getTimeTable } from "../../services/UserService";
 import { UserSchedule } from "../../components/User";
 
 export const UserViewSchedule = () => {
     const [scheduleData, setScheduleData] = useState([]);
+    
+    const fetchAllRegisteredClass = async () => {
+        try {
+            const response = await getAllRegisteredClass();
+            setScheduleData(response.data || []);
+        } catch (error) {
+            console.error("Error fetching schedule data:", error);
+            setScheduleData([]);
+        }
+    };
+
 
     const fetchScheduleData = async () => {
         try {

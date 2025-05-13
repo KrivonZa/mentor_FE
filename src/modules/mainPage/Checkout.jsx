@@ -61,7 +61,7 @@ export const Checkout = () => {
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: "OK",
             }).then(() => {
-                window.location.href = "http://localhost:3000/user/transaction-history";
+                window.location.href = "http://localhost:3000/user/registered-class";
             });
         } catch (error) {
             console.log("error: ", error);
@@ -118,9 +118,9 @@ export const Checkout = () => {
                         {/* Select payment method */}
                         <h6 className="mt-4">Select Payment Method:</h6>
                         <div className="d-flex gap-2 mt-2">
-                            <button 
-                                className="d-flex flex-fill btn btn-light align-items-center border justify-content-center" 
-                                onClick={() => setPaymentMethod("MOMO")} 
+                            <button
+                                className="d-flex flex-fill btn btn-light align-items-center border justify-content-center"
+                                onClick={() => setPaymentMethod("MOMO")}
                                 style={{ backgroundColor: paymentMethod === "MOMO" && "#cfcfcf" }}
                             >
                                 <img src="../../../public/img/MOMO.png" alt="MoMo" width="64" className="me-2" />

@@ -180,6 +180,24 @@ const deleteUserByID = async (id: number): Promise<void> => {
   }
 };
 
+const getAllRegisteredClass = async () => {
+  try {
+    const email = localStorage.getItem("email");
+    if (!email) {
+      throw new Error("Email not found in localStorage.");
+    }
+
+    const response = await userPrivateApi.get("/get-registered-class", {
+      params: { email },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Failed to get registered class:", error);
+    throw error;
+  }
+};
+
 const updateUser = async (user: UpdateStatus, id: number): Promise<void> => {
   try {
     await userPrivateApi.put<User>(`/update-user/${id}`, user);
@@ -229,4 +247,5 @@ export {
   getTimeTable,
   changePassword,
   getRegisteredClass,
+  getAllRegisteredClass
 };
