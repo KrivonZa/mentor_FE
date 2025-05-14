@@ -123,7 +123,7 @@ export const ClassSessionModal = () => {
     return (
         <Modal
             maskClosable={false}
-            title="Class Session Calendar"
+            title="Khởi tạo buổi học"
             open={isClassSessionModalOpen}
             onOk={handleOkSessionModal}
             onCancel={handleCancelSessionModal}

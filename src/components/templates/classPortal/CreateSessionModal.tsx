@@ -39,7 +39,8 @@ const CreateSessionModal = () => {
         const updatedData = {
             selectedScheduleID: createSessionModalData.selectedScheduleID.classScheduleID,
             sessionDate: createSessionModalData.sessionDate,
-            googleMeetUrl: values.googleMeetUrl
+            // googleMeetUrl: values.googleMeetUrl
+            googleMeetUrl: ''
         };
         const loadingId = toast.loading("Creating Session...");
         setIsLoading(true);
@@ -47,7 +48,7 @@ const CreateSessionModal = () => {
         try {
             await classService.createSession(updatedData)
             await fetchClassSessions(createSessionModalData.classID)
-            handleCloseCreateSessionModal();            
+            handleCloseCreateSessionModal();
             toastLoadingSuccessAction(loadingId, "Create Session Success!");
         } catch (error) {
             toastLoadingFailAction(loadingId, error.response.data.message);
@@ -118,16 +119,14 @@ const CreateSessionModal = () => {
 
                 <Form.Item
                     name="googleMeetUrl"
-                    label="Google Meet URL"
+                    label="Your zoom room will start by the time session starts !"
                     rules={[
-                        { type: 'url', message: 'Please enter a valid URL' },
-                        { required: true, message: 'Please enter Google Meet URL' }
+                        { message: 'Your zoom room will be create !' }
                     ]}
                 >
-                    <Input
-                        placeholder="Enter Google Meet URL"
-                        allowClear
-                    />
+                    <img src='https://blog.logomyway.com/wp-content/uploads/2021/08/zoom-logo.png'
+                        alt="Zoom Logo"
+                        style={{ width: '100px' }} />
                 </Form.Item>
             </Form>
         </Modal>

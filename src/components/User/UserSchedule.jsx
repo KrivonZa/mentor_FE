@@ -10,6 +10,7 @@ export function UserSchedule({ scheduleData }) {
     );
     const calendarRef = useRef(null);
 
+    
     function getFirstMondayOfWeek(date) {
         const tempDate = new Date(date);
         const dayOfWeek = tempDate.getDay();
@@ -40,7 +41,7 @@ export function UserSchedule({ scheduleData }) {
     const events = scheduleData
         ? scheduleData.map((event) => ({
             title: event.googleMeetUrl
-                ? `<a href="${event.googleMeetUrl}" target="_blank" rel="noopener noreferrer">Session ${event.sessionID}</a><br>${formatTime(event.startTime)}-${formatTime(event.endTime)}`
+                ? `<a href="${event.googleMeetUrl}" target="_blank" rel="noopener noreferrer">Course ${event.className}</a><br>${formatTime(event.startTime)}-${formatTime(event.endTime)}`
                 : `Session ${event.sessionID}<br>${formatTime(event.startTime)}-${formatTime(event.endTime)}`,
             start: event.startTime.replace(" ", "T"),
             end: event.endTime.replace(" ", "T"),
@@ -131,6 +132,8 @@ export function UserSchedule({ scheduleData }) {
             const overlappingEvents = Array.from(timeSlot.querySelectorAll('.fc-timegrid-event'));
             const eventCount = overlappingEvents.length;
             const maxVisibleEvents = 3;
+
+
             const baseWidth = 100 / Math.min(eventCount, maxVisibleEvents);
 
             overlappingEvents.forEach((event, index) => {

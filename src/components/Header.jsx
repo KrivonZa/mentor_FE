@@ -31,10 +31,14 @@ export default function Header() {
   return (
     <header id="header" className="header d-flex align-items-center sticky-top" style={{ zIndex: '10' }}>
       <div className="container-fluid container-xl position-relative d-flex align-items-center">
-        <a href="/" className="logo d-flex align-items-center me-auto">
-          {/* <img src="/img/logo.png" alt="" /> */}
-          <h1 className="sitename">Empower U</h1>
+        <a href="/" className=" d-flex align-items-center me-auto">
+            <img
+              src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747233033623-duydtase183660%40fpt.edu.vn-logo.svg"
+              alt="Empower U Logo"
+              style={{ width: '55%',height:'30%'}}
+            />
         </a>
+
 
         <nav id="navmenu" className="navmenu">
           <ul>
