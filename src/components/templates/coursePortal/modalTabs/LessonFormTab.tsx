@@ -87,10 +87,7 @@ export const LessonFormTab = () => {
 
         if (lessonDetailFormDataList.length == 0) {
             errCount++;
-        }
-
-        console.log("error: ", errCount);
-        
+        }        
 
         setLessonErrorMessage([...newLessonErrorMessage]);
 

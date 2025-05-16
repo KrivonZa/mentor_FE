@@ -1,22 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import PureCounter from "@srexi/purecounterjs";
 import axios from "axios";
 export function Homepage() {
+  const fetchedRef = useRef(false);
+
   useEffect(() => {
     document.title = "Homepage";
     new PureCounter();
 
     const fetchJwtWithUuid = async () => {
+      if (fetchedRef.current) return; // prevent repeat
+      fetchedRef.current = true;
+
       const urlParams = new URLSearchParams(window.location.search);
       const uuid = urlParams.get("uuid");
 
       if (uuid) {
         try {
-          const response = await axios.get(`http://localhost:9090/empoweru/sba/user/google-principal?uuid=${uuid}`);
+          // const response = await axios.get(`http://localhost:9090/empoweru/sba/user/google-principal?uuid=${uuid}`);
+          const response = await axios.get(`http://empower-u.sytes.net:9090/empoweru/sba/user/google-principal?uuid=${uuid}`);
           const token = response.data.data.token;
           localStorage.setItem("ROLE", response.data.data.role);
           localStorage.setItem("USER", token);
           window.history.replaceState({}, document.title, window.location.pathname);
+          window.location.reload();
         } catch (error) {
           console.error("Error exchanging UUID for JWT:", error);
         }
@@ -25,6 +32,7 @@ export function Homepage() {
 
     fetchJwtWithUuid();
   }, []);
+
   return (
     <main className="main">
       <section id="hero" className="hero section dark-background">
@@ -202,15 +210,12 @@ export function Homepage() {
                   <div className="icon-box d-flex flex-column justify-content-center align-items-center">
                     <i className="bi bi-inboxes"></i>
                     <h4>Core Values</h4>
-                    <p>
+                    <div>
                       <p><span className="fw-bold">Quality:</span> Provide the best learning content and support services</p>
-
                       <p><span className="fw-bold">Connection:</span> Build an active learning community</p>
-
                       <p><span className="fw-bold">Flexibility:</span> Allow for self-selection of suitable study schedules</p>
-
                       <p><span className="fw-bold">Sustainable Development:</span> Continuously improve to deliver long-term value</p>
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -413,141 +418,6 @@ export function Homepage() {
           </div>
         </div>
       </section>
-
-      {/* <section id="courses" className="courses section">
-        <div className="container section-title" data-aos="fade-up">
-          <h2>Courses</h2>
-          <p>Popular Courses</p>
-        </div>
-
-        <div className="container">
-          <div className="row">
-            <div
-              className="col-lg-4 col-md-6 d-flex align-items-stretch"
-              data-aos="zoom-in"
-              data-aos-delay="100"
-            >
-              <div className="course-item">
-                <img src="/img/course-1.jpg" className="img-fluid" alt="..." />
-                <div className="course-content">
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <p className="category">Web Development</p>
-                    <p className="price">169,000đ</p>
-                  </div>
-
-                  <h3>
-                    <a href="/course-detail">Website Design</a>
-                  </h3>
-                  <p className="description">
-                    Et architecto provident deleniti facere repellat nobis iste.
-                    Id facere quia quae dolores dolorem tempore.
-                  </p>
-                  <div className="trainer d-flex justify-content-between align-items-center">
-                    <div className="trainer-profile d-flex align-items-center">
-                      <img
-                        src="/img/trainers/trainer-1-2.jpg"
-                        className="img-fluid"
-                        alt=""
-                      />
-                      <a href="" className="trainer-link">
-                        Antonio
-                      </a>
-                    </div>
-                    <div className="trainer-rank d-flex align-items-center">
-                      <i className="bi bi-person user-icon"></i>&nbsp;50
-                      &nbsp;&nbsp;
-                      <i className="bi bi-heart heart-icon"></i>&nbsp;65
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0"
-              data-aos="zoom-in"
-              data-aos-delay="200"
-            >
-              <div className="course-item">
-                <img src="/img/course-2.jpg" className="img-fluid" alt="..." />
-                <div className="course-content">
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <p className="category">Marketing</p>
-                    <p className="price">$250</p>
-                  </div>
-
-                  <h3>
-                    <a href="/course-detail">Search Engine Optimization</a>
-                  </h3>
-                  <p className="description">
-                    Et architecto provident deleniti facere repellat nobis iste.
-                    Id facere quia quae dolores dolorem tempore.
-                  </p>
-                  <div className="trainer d-flex justify-content-between align-items-center">
-                    <div className="trainer-profile d-flex align-items-center">
-                      <img
-                        src="/img/trainers/trainer-2-2.jpg"
-                        className="img-fluid"
-                        alt=""
-                      />
-                      <a href="" className="trainer-link">
-                        Lana
-                      </a>
-                    </div>
-                    <div className="trainer-rank d-flex align-items-center">
-                      <i className="bi bi-person user-icon"></i>&nbsp;35
-                      &nbsp;&nbsp;
-                      <i className="bi bi-heart heart-icon"></i>&nbsp;42
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0"
-              data-aos="zoom-in"
-              data-aos-delay="300"
-            >
-              <div className="course-item">
-                <img src="/img/course-3.jpg" className="img-fluid" alt="..." />
-                <div className="course-content">
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <p className="category">Content</p>
-                    <p className="price">$180</p>
-                  </div>
-
-                  <h3>
-                    <a href="/course-detail">Copywriting</a>
-                  </h3>
-                  <p className="description">
-                    Et architecto provident deleniti facere repellat nobis iste.
-                    Id facere quia quae dolores dolorem tempore.
-                  </p>
-                  <div className="trainer d-flex justify-content-between align-items-center">
-                    <div className="trainer-profile d-flex align-items-center">
-                      <img
-                        src="/img/trainers/trainer-3-2.jpg"
-                        className="img-fluid"
-                        alt=""
-                      />
-                      <a href="" className="trainer-link">
-                        Brandon
-                      </a>
-                    </div>
-                    <div className="trainer-rank d-flex align-items-center">
-                      <i className="bi bi-person user-icon"></i>&nbsp;20
-                      &nbsp;&nbsp;
-                      <i className="bi bi-heart heart-icon"></i>&nbsp;85
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
       <section id="trainers-index" className="section trainers-index">
         <div className="container">
           <div className="row">

@@ -322,7 +322,6 @@ export const ClassPortalProvider = ({ children }) => {
         setLoading(false);
       }
     } catch (error) {
-      console.log("error: ", error);
       toastLoadingFailAction(loadingId, error.response.data.message);
       setLoading(false);
     }
@@ -348,7 +347,6 @@ export const ClassPortalProvider = ({ children }) => {
         fetchClassPortal()
       }
     } catch (error) {
-      console.log("error: ", error);
     }
 
   }
@@ -363,7 +361,6 @@ export const ClassPortalProvider = ({ children }) => {
       }
     } catch (error) {
       toastLoadingFailAction(loadingId, error.response.data.message)
-      console.log("error: ", error);
     }
   }
 
@@ -378,7 +375,6 @@ export const ClassPortalProvider = ({ children }) => {
         }));
       }
     } catch (error) {
-      console.log("error: ", error);
     }
   }
   useEffect(() => {

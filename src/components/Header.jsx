@@ -15,8 +15,6 @@ export default function Header() {
 
       try {
         const userData = await getUserByToken(token);
-        console.log("error: ", userData);
-
         setUser(userData.data);
       } catch (err) {
         console.error("Error fetching user:", err);
@@ -74,23 +72,6 @@ export default function Header() {
                 Trainers
               </NavLink>
             </li>
-            {/* <li>
-              <NavLink
-                to="/events"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Events
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/pricing"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Pricing
-              </NavLink>
-            </li>
-            */}
             <li>
               <NavLink
                 to="/contact"
@@ -108,7 +89,7 @@ export default function Header() {
                   <span className="me-3 font-bold">{user?.fullName}</span>
                   <img
                     loading="lazy"
-                    src={user?.avatar}
+                    src={user?.avatar || "https://www.shareicon.net/data/128x128/2016/07/26/802001_man_512x512.png"}
                     className="rounded-circle object-fit-cover"
                     style={{ width: '40px', height: '40px' }}
                   />
@@ -122,59 +103,6 @@ export default function Header() {
                       My Profile
                     </NavLink>
                   </li>
-                  {/* <li className="dropdown">
-                    <NavLink
-                      to="#"
-                      className={({ isActive }) =>
-                        isActive ? "active toggle-dropdown" : "toggle-dropdown"
-                      }
-                    >
-                      <span>Deep Dropdown</span>
-                      <i className="bi bi-chevron-down"></i>
-                    </NavLink>
-                    <ul>
-                      <li>
-                        <NavLink
-                          to="#"
-                          className={({ isActive }) => (isActive ? "active" : "")}
-                        >
-                          Deep Dropdown 1
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="#"
-                          className={({ isActive }) => (isActive ? "active" : "")}
-                        >
-                          Deep Dropdown 2
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="#"
-                          className={({ isActive }) => (isActive ? "active" : "")}
-                        >
-                          Deep Dropdown 3
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="#"
-                          className={({ isActive }) => (isActive ? "active" : "")}
-                        >
-                          Deep Dropdown 4
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="#"
-                          className={({ isActive }) => (isActive ? "active" : "")}
-                        >
-                          Deep Dropdown 5
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </li> */}
                   <li>
                     <NavLink
                       to="/user/wallet"

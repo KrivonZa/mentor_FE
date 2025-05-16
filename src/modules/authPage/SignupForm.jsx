@@ -15,11 +15,18 @@ export const SignupForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(false)
 
+
   const navigate = useNavigate();
 
   const handleSignup = async (event) => {
     event.preventDefault();
     setLoading(true)
+    const phoneRegex = /^(?:\+84\s?|0)(\d{9})$/;
+    if (!phoneRegex.test(phoneNumber)) {
+      toast.error("Please enter a valid phone number (e.g. +84 903307685 or 0903307685).");
+      setLoading(false);
+      return;
+    }
     const loadingId = toast.loading("Creating your account...");
 
     const userData = {
@@ -36,7 +43,7 @@ export const SignupForm = () => {
       navigate('/auth')
       toastLoadingSuccessAction(loadingId, "An email has been sent to you for confirmation!");
     } catch (error) {
-      console.error("Signup failed:", error.message );
+      console.error("Signup failed:", error.message);
       toastLoadingFailAction(loadingId, error.message || "Signup failed");
     }
     setLoading(false)
@@ -110,7 +117,7 @@ export const SignupForm = () => {
                 }}
               >
                 <i className="fa-brands fa-google me-2 text-[#5fd080]" style={{ fontSize: "26px" }} />
-                Login with Google
+                Sign up with Google
               </button>
             </form>
             <p className="mt-6 text-center text-sm text-neutral-600">
@@ -118,7 +125,6 @@ export const SignupForm = () => {
               <Link
                 to={"/auth"}
                 style={{ marginLeft: '5px', color: '#5fd080' }}
-              // className="ml-1 text-[#5fd080] hover:text-[#4db068] transition-colors duration-200"
               >
                 Sign in
               </Link>

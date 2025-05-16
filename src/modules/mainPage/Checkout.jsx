@@ -61,7 +61,8 @@ export const Checkout = () => {
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: "OK",
             }).then(() => {
-                window.location.href = "http://localhost:3000/user/registered-class";
+                // window.location.href = "http://localhost:3000/user/registered-class";
+                window.location.href = "http://empower-u.sytes.net:3000/user";
             });
         } catch (error) {
             console.log("error: ", error);
@@ -123,7 +124,7 @@ export const Checkout = () => {
                                 onClick={() => setPaymentMethod("MOMO")}
                                 style={{ backgroundColor: paymentMethod === "MOMO" && "#cfcfcf" }}
                             >
-                                <img src="../../../public/img/MOMO.png" alt="MoMo" width="64" className="me-2" />
+                                <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-MoMo-Square.png" alt="MoMo" width="64" className="me-2" />
                             </button>
 
                             <button

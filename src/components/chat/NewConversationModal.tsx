@@ -12,9 +12,9 @@ interface NewConversationModalProps {
   onConversationCreated: () => void;
 }
 
-const NewConversationModal: React.FC<NewConversationModalProps> = ({ 
-  onClose, 
-  onConversationCreated 
+const NewConversationModal: React.FC<NewConversationModalProps> = ({
+  onClose,
+  onConversationCreated
 }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
@@ -22,13 +22,14 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({
   const [isGroup, setIsGroup] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   useEffect(() => {
     // This would be replaced with your actual user fetch API
     const fetchUsers = async () => {
       try {
         // Replace with your actual API call
-        const response = await fetch('http://localhost:8080/api/users');
+        // const response = await fetch('http://localhost:8080/api/users');
+        const response = await fetch('http://empower-u.sytes.net:9090/api/users');
         const data = await response.json();
         setUsers(data);
         setLoading(false);
@@ -37,10 +38,10 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({
         setLoading(false);
       }
     };
-    
+
     fetchUsers();
   }, []);
-  
+
   const handleUserSelect = (userId: string) => {
     if (selectedUsers.includes(userId)) {
       setSelectedUsers(selectedUsers.filter(id => id !== userId));
@@ -48,22 +49,22 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({
       setSelectedUsers([...selectedUsers, userId]);
     }
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       if (selectedUsers.length === 0) {
         setError('Please select at least one user');
         return;
       }
-      
+
       if (isGroup) {
         if (!groupName.trim()) {
           setError('Please enter a group name');
           return;
         }
-        
+
         await chatService.createGroupConversation({
           name: groupName,
           participantEmails: selectedUsers
@@ -73,10 +74,10 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({
           setError('Please select exactly one user for direct message');
           return;
         }
-        
+
         await chatService.createOneToOneConversation(selectedUsers[0]);
       }
-      
+
       onConversationCreated();
       onClose();
     } catch (err) {
@@ -84,29 +85,29 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({
       console.error(err);
     }
   };
-  
+
   return (
     <div className="modal-overlay">
       <div className="modal-content">
         <h2>{isGroup ? 'Create Group Chat' : 'Start Direct Message'}</h2>
-        
+
         <div className="toggle-container">
-          <button 
+          <button
             className={!isGroup ? 'active' : ''}
             onClick={() => setIsGroup(false)}
           >
             Direct Message
           </button>
-          <button 
+          <button
             className={isGroup ? 'active' : ''}
             onClick={() => setIsGroup(true)}
           >
             Group Chat
           </button>
         </div>
-        
+
         {error && <div className="error-message">{error}</div>}
-        
+
         <form onSubmit={handleSubmit}>
           {isGroup && (
             <div className="form-group">
@@ -121,7 +122,7 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({
               />
             </div>
           )}
-          
+
           <div className="form-group">
             <label>Select {isGroup ? 'Participants' : 'User'}</label>
             {loading ? (
@@ -144,7 +145,7 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({
               </ul>
             )}
           </div>
-          
+
           <div className="button-group">
             <button type="button" onClick={onClose} className="cancel-btn">
               Cancel
