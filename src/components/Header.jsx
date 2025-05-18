@@ -47,7 +47,7 @@ export default function Header() {
                 to="/"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                Home
+                Trang Chủ
               </NavLink>
             </li>
             <li>
@@ -55,7 +55,7 @@ export default function Header() {
                 to="/about"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                About
+                Về Chúng Tôi
               </NavLink>
             </li>
             <li>
@@ -63,7 +63,7 @@ export default function Header() {
                 to="/courses"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                Courses
+                Các Khoá Học
               </NavLink>
             </li>
             <li>
@@ -71,34 +71,17 @@ export default function Header() {
                 to="/trainers"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                Trainers
+                Đội Ngũ EmpowerU
               </NavLink>
             </li>
             {/* <li>
-              <NavLink
-                to="/events"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Events
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/pricing"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Pricing
-              </NavLink>
-            </li>
-            */}
-            <li>
               <NavLink
                 to="/contact"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 Contact
               </NavLink>
-            </li>
+            </li> */}
             {token ? (
               <li className="dropdown">
                 <NavLink
@@ -119,68 +102,15 @@ export default function Header() {
                       to="/user"
                       className={({ isActive }) => (isActive ? "active" : "")}
                     >
-                      My Profile
+                      Hồ Sơ Của Tôi
                     </NavLink>
                   </li>
-                  {/* <li className="dropdown">
-                    <NavLink
-                      to="#"
-                      className={({ isActive }) =>
-                        isActive ? "active toggle-dropdown" : "toggle-dropdown"
-                      }
-                    >
-                      <span>Deep Dropdown</span>
-                      <i className="bi bi-chevron-down"></i>
-                    </NavLink>
-                    <ul>
-                      <li>
-                        <NavLink
-                          to="#"
-                          className={({ isActive }) => (isActive ? "active" : "")}
-                        >
-                          Deep Dropdown 1
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="#"
-                          className={({ isActive }) => (isActive ? "active" : "")}
-                        >
-                          Deep Dropdown 2
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="#"
-                          className={({ isActive }) => (isActive ? "active" : "")}
-                        >
-                          Deep Dropdown 3
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="#"
-                          className={({ isActive }) => (isActive ? "active" : "")}
-                        >
-                          Deep Dropdown 4
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="#"
-                          className={({ isActive }) => (isActive ? "active" : "")}
-                        >
-                          Deep Dropdown 5
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </li> */}
                   <li>
                     <NavLink
                       to="/user/wallet"
                       className={({ isActive }) => (isActive ? "active" : "")}
                     >
-                      My Wallet
+                      Ví EmpowerU
                     </NavLink>
                   </li>
                   <li>
@@ -188,7 +118,7 @@ export default function Header() {
                       to="/user/schedule"
                       className={({ isActive }) => (isActive ? "active" : "")}
                     >
-                      My Schedule
+                     Lịch Học
                     </NavLink>
                   </li>
                   <li>
@@ -206,7 +136,7 @@ export default function Header() {
                           to="/user/registered-class"
                           className={({ isActive }) => (isActive ? "active" : "")}
                         >
-                          Registered Classes
+                          Các Khoá Học Đã Đăng Ký
                         </NavLink>
                       </li>
                       <li>
@@ -214,7 +144,7 @@ export default function Header() {
                           to="/user/approval"
                           className={({ isActive }) => (isActive ? "active" : "")}
                         >
-                          Become Mentor
+                          Đăng Ký Mentor
                         </NavLink>
                       </li>
                     </>
@@ -223,17 +153,17 @@ export default function Header() {
                     <>
                       <li>
                         <NavLink to="/user/course-portal" className={({ isActive }) => (isActive ? "active" : "")}>
-                          My Course
+                          Khoá Học Của Tôi
                         </NavLink>
                       </li>
                       <li>
                         <NavLink to="/user/course-request" className={({ isActive }) => (isActive ? "active" : "")}>
-                          Course Request
+                          Khoá Học Chờ Duyệt
                         </NavLink>
                       </li>
                       <li>
                         <NavLink to="/user/class-portal" className={({ isActive }) => (isActive ? "active" : "")}>
-                          Manage Classes
+                          Quản Lý Lớp Học
                         </NavLink>
                       </li>
                     </>
@@ -243,7 +173,7 @@ export default function Header() {
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={handleLogout}
                     >
-                      Logout
+                      Đăng Xuất
                     </NavLink>
                   </li>
                 </ul>
@@ -254,7 +184,7 @@ export default function Header() {
                   to="/auth"
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
-                  Login
+                  Đăng Nhập
                 </NavLink>
               </li>
             )}

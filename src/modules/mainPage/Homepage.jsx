@@ -3,7 +3,7 @@ import PureCounter from "@srexi/purecounterjs";
 import axios from "axios";
 export function Homepage() {
   useEffect(() => {
-    document.title = "Homepage";
+    document.title = "Trang Chủ";
     new PureCounter();
 
     const fetchJwtWithUuid = async () => {
@@ -12,11 +12,17 @@ export function Homepage() {
 
       if (uuid) {
         try {
-          const response = await axios.get(`http://localhost:9090/empoweru/sba/user/google-principal?uuid=${uuid}`);
+          const response = await axios.get(
+            `http://localhost:9090/empoweru/sba/user/google-principal?uuid=${uuid}`
+          );
           const token = response.data.data.token;
           localStorage.setItem("ROLE", response.data.data.role);
           localStorage.setItem("USER", token);
-          window.history.replaceState({}, document.title, window.location.pathname);
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+          );
         } catch (error) {
           console.error("Error exchanging UUID for JWT:", error);
         }
@@ -32,16 +38,15 @@ export function Homepage() {
 
         <div className="container">
           <h2 data-aos="fade-up" data-aos-delay="100">
-            Learning Today,
-            <br />
-            Leading Tomorrow
+            Học tập từ những người giỏi nhất
           </h2>
           <p data-aos="fade-up" data-aos-delay="200">
-            We are a team of talented Mentors to support you in your journey
+            Với đội ngũ mentors chất lượng ở đa lĩnh vực, hành trình chạm đến
+            thành công của bạn sẽ được rút ngắn lại tại EmpowerU.
           </p>
           <div className="d-flex mt-4" data-aos="fade-up" data-aos-delay="300">
             <a href="/courses" className="btn-get-started">
-              Get Started
+              Bắt Đầu Ngay!
             </a>
           </div>
         </div>
@@ -63,32 +68,25 @@ export function Homepage() {
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              <h3>Connect with mentors</h3>
-              <p className="fst-italic">
-                Every field has top experts, let the experts help you solve your problem. You are not alone.
-              </p>
+              <h3>Kết nối Mentors – Mở lối thành công</h3>
               <ul>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    People with a Mentor advance 5 times faster than others*
+                    Thăng tiến nhanh chóng, bứt phá hơn khi được dẫn dắt bởi
+                    những mentors giàu kinh nghiệm.
                   </span>
                 </li>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    80% of working people consider networking a must for success*
-                  </span>
-                </li>
-                <li>
-                  <i className="bi bi-check-circle"></i>{" "}
-                  <span>
-                    Chances of getting a job are 4 times higher if introduced through networking*
+                    Kết nối chuẩn – chìa khóa vàng để bứt phá sự nghiệp cùng
+                    EmpowerU.
                   </span>
                 </li>
               </ul>
-              <a href="#" className="read-more">
-                <span>Read More</span>
+              <a href="/courses" className="read-more">
+                <span>Tìm Hiểu Thêm</span>
                 <i className="bi bi-arrow-right"></i>
               </a>
             </div>
@@ -107,7 +105,7 @@ export function Homepage() {
                   data-purecounter-duration="1"
                   className="purecounter"
                 ></span>
-                <p>Students</p>
+                <p>Học Viên</p>
               </div>
             </div>
 
@@ -119,7 +117,7 @@ export function Homepage() {
                   data-purecounter-duration="1"
                   className="purecounter"
                 ></span>
-                <p>Courses</p>
+                <p>Khoá Học</p>
               </div>
             </div>
 
@@ -131,7 +129,7 @@ export function Homepage() {
                   data-purecounter-duration="1"
                   className="purecounter"
                 ></span>
-                <p>Events</p>
+                <p>Đánh Giá</p>
               </div>
             </div>
 
@@ -143,7 +141,7 @@ export function Homepage() {
                   data-purecounter-duration="1"
                   className="purecounter"
                 ></span>
-                <p>Trainers</p>
+                <p>Chuyên Gia</p>
               </div>
             </div>
           </div>
@@ -152,64 +150,90 @@ export function Homepage() {
 
       <section id="why-us" className="section why-us">
         <div className="container">
-          <div className="row gy-4">
-            <div className="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+          <div className="row-gy4">
+            <div
+              className="col-lg-12 mb-4"
+              data-aos="fade-up"
+              data-aos-delay="100"
+            >
               <div className="why-box">
-                <h3>The value you will get from EmpowerU?</h3>
-                <p>
-                  EmpowerU provides a learning platform that connects students with quality experts, helping you improve your skills, expand your knowledge, and develop your career effectively. With a diverse course system, flexible study schedules, and comprehensive support tools, EmpowerU provides a personalized learning experience that suits all your needs and goals.
-                </p>
+                <h3>EmpowerU – Đặt người học làm trọng tâm.</h3>
+                <p></p>
                 <div className="text-center">
-                  <a href="#" className="more-btn">
-                    <span>Learn More</span>{" "}
+                  <a href="/courses" className="more-btn">
+                    <span>Tìm Hiểu Thêm</span>{" "}
                     <i className="bi bi-chevron-right"></i>
                   </a>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="col-lg-8 d-flex align-items-stretch">
+          <div className="row gy-4">
+            <div className="col-lg-12 d-flex align-items-stretch">
               <div className="row gy-4" data-aos="fade-up" data-aos-delay="200">
-                <div className="col-xl-4">
-                  <div className="icon-box d-flex flex-column justify-content-center align-items-center">
+                <div className="col-sm-3">
+                  <div className="icon-box d-flex flex-column align-items-center">
                     <i className="bi bi-clipboard-data"></i>
-                    <h4>Mission</h4>
+                    <h4>Sứ Mệnh</h4>
                     <p>
-                      EmpowerU’s mission is to create an online education platform that connects experienced professionals with those seeking knowledge and guidance. This will help students develop practical skills, confidently pursue their career goals, and achieve sustainable success.
+                      EmpowerU tạo ra nền tảng kết nối trực tuyến giữa những
+                      người giàu kinh nghiệm và những ai khát khao phát triển.
+                      Chúng tôi giúp học viên tự tin theo đuổi mục tiêu nghề
+                      nghiệp, xây dựng kỹ năng thực tế và đạt được thành công
+                      bền vững.
                     </p>
                   </div>
                 </div>
 
                 <div
-                  className="col-xl-4"
+                  className="col-sm-3"
                   data-aos="fade-up"
                   data-aos-delay="300"
                 >
-                  <div className="icon-box d-flex flex-column justify-content-center align-items-center">
+                  <div className="icon-box d-flex flex-column align-items-center">
                     <i className="bi bi-gem"></i>
-                    <h4>Vision</h4>
+                    <h4>Tầm Nhìn</h4>
                     <p>
-                      To become the leading educational platform where every individual has the opportunity to access the best mentors, learn in the most suitable 1-1 method and develop comprehensively in career and life.
+                      Trở thành nền tảng giáo dục hàng đầu, nơi mọi cá nhân được
+                      kết nối với mentor giỏi nhất, học tập trực tiếp với lộ
+                      trình cá nhân hóa, phát triển toàn diện cả trong sự nghiệp
+                      lẫn cuộc sống.
                     </p>
                   </div>
                 </div>
 
                 <div
-                  className="col-xl-4"
+                  className="col-sm-6"
                   data-aos="fade-up"
                   data-aos-delay="400"
                 >
-                  <div className="icon-box d-flex flex-column justify-content-center align-items-center">
+                  <div className="icon-box d-flex flex-column align-items-center">
                     <i className="bi bi-inboxes"></i>
-                    <h4>Core Values</h4>
+                    <h4>Giá Trị</h4>
                     <p>
-                      <p><span className="fw-bold">Quality:</span> Provide the best learning content and support services</p>
+                      <p>
+                        <span className="fw-bold">Chất Lượng:</span> Chất lượng:
+                        Nội dung học tập được kiểm định bởi đội ngũ chuyên gia
+                        đầu ngành.
+                      </p>
 
-                      <p><span className="fw-bold">Connection:</span> Build an active learning community</p>
+                      <p>
+                        <span className="fw-bold">Kết Nối Đột Phá:</span> Mở
+                        rộng mạng lưới với những người giỏi nhất, tạo ra cơ hội
+                        học hỏi và phát triển cho học viên.
+                      </p>
 
-                      <p><span className="fw-bold">Flexibility:</span> Allow for self-selection of suitable study schedules</p>
+                      <p>
+                        <span className="fw-bold">Linh Hoạt Tối Đa:</span> Chủ
+                        động lựa chọn thời gian học tập theo lịch trình của bạn.
+                      </p>
 
-                      <p><span className="fw-bold">Sustainable Development:</span> Continuously improve to deliver long-term value</p>
+                      <p>
+                        <span className="fw-bold">Phát Triển Bền Vững:</span>{" "}
+                        Không ngừng đổi mới để kiến tạo giá trị lâu dài, dẫn lối
+                        thành công vững chắc.
+                      </p>
                     </p>
                   </div>
                 </div>
@@ -279,7 +303,7 @@ export function Homepage() {
                 <i className="bi bi-nut" style={{ color: "#e361ff" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Business
+                    Kinh Doanh
                   </a>
                 </h3>
               </div>
@@ -294,7 +318,7 @@ export function Homepage() {
                 <i className="bi bi-shuffle" style={{ color: "#47aeff" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Foreign Languages
+                    Ngoại Ngữ
                   </a>
                 </h3>
               </div>
@@ -309,7 +333,7 @@ export function Homepage() {
                 <i className="bi bi-star" style={{ color: "#ffa76e" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Graphics & Design
+                    Thiết Kế Đồ Hoạ
                   </a>
                 </h3>
               </div>
@@ -324,7 +348,7 @@ export function Homepage() {
                 <i className="bi bi-x-diamond" style={{ color: "#11dbcf" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Start up
+                    Khởi Nghiệp
                   </a>
                 </h3>
               </div>
@@ -342,7 +366,7 @@ export function Homepage() {
                 ></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Soft skills
+                    Kĩ Năng Mềm
                   </a>
                 </h3>
               </div>
@@ -357,7 +381,7 @@ export function Homepage() {
                 <i className="bi bi-command" style={{ color: "#b2904f" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Investment
+                    Đầu Tư Tài Chính
                   </a>
                 </h3>
               </div>
@@ -372,7 +396,7 @@ export function Homepage() {
                 <i className="bi bi-dribbble" style={{ color: "#b20969" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Office informatics
+                    Tin Học Văn Phòng
                   </a>
                 </h3>
               </div>
@@ -387,7 +411,7 @@ export function Homepage() {
                 <i className="bi bi-activity" style={{ color: "#ff5828" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Financial accounting
+                    Tài Chính Kế Toán
                   </a>
                 </h3>
               </div>
@@ -414,140 +438,6 @@ export function Homepage() {
         </div>
       </section>
 
-      {/* <section id="courses" className="courses section">
-        <div className="container section-title" data-aos="fade-up">
-          <h2>Courses</h2>
-          <p>Popular Courses</p>
-        </div>
-
-        <div className="container">
-          <div className="row">
-            <div
-              className="col-lg-4 col-md-6 d-flex align-items-stretch"
-              data-aos="zoom-in"
-              data-aos-delay="100"
-            >
-              <div className="course-item">
-                <img src="/img/course-1.jpg" className="img-fluid" alt="..." />
-                <div className="course-content">
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <p className="category">Web Development</p>
-                    <p className="price">169,000đ</p>
-                  </div>
-
-                  <h3>
-                    <a href="/course-detail">Website Design</a>
-                  </h3>
-                  <p className="description">
-                    Et architecto provident deleniti facere repellat nobis iste.
-                    Id facere quia quae dolores dolorem tempore.
-                  </p>
-                  <div className="trainer d-flex justify-content-between align-items-center">
-                    <div className="trainer-profile d-flex align-items-center">
-                      <img
-                        src="/img/trainers/trainer-1-2.jpg"
-                        className="img-fluid"
-                        alt=""
-                      />
-                      <a href="" className="trainer-link">
-                        Antonio
-                      </a>
-                    </div>
-                    <div className="trainer-rank d-flex align-items-center">
-                      <i className="bi bi-person user-icon"></i>&nbsp;50
-                      &nbsp;&nbsp;
-                      <i className="bi bi-heart heart-icon"></i>&nbsp;65
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0"
-              data-aos="zoom-in"
-              data-aos-delay="200"
-            >
-              <div className="course-item">
-                <img src="/img/course-2.jpg" className="img-fluid" alt="..." />
-                <div className="course-content">
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <p className="category">Marketing</p>
-                    <p className="price">$250</p>
-                  </div>
-
-                  <h3>
-                    <a href="/course-detail">Search Engine Optimization</a>
-                  </h3>
-                  <p className="description">
-                    Et architecto provident deleniti facere repellat nobis iste.
-                    Id facere quia quae dolores dolorem tempore.
-                  </p>
-                  <div className="trainer d-flex justify-content-between align-items-center">
-                    <div className="trainer-profile d-flex align-items-center">
-                      <img
-                        src="/img/trainers/trainer-2-2.jpg"
-                        className="img-fluid"
-                        alt=""
-                      />
-                      <a href="" className="trainer-link">
-                        Lana
-                      </a>
-                    </div>
-                    <div className="trainer-rank d-flex align-items-center">
-                      <i className="bi bi-person user-icon"></i>&nbsp;35
-                      &nbsp;&nbsp;
-                      <i className="bi bi-heart heart-icon"></i>&nbsp;42
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0"
-              data-aos="zoom-in"
-              data-aos-delay="300"
-            >
-              <div className="course-item">
-                <img src="/img/course-3.jpg" className="img-fluid" alt="..." />
-                <div className="course-content">
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <p className="category">Content</p>
-                    <p className="price">$180</p>
-                  </div>
-
-                  <h3>
-                    <a href="/course-detail">Copywriting</a>
-                  </h3>
-                  <p className="description">
-                    Et architecto provident deleniti facere repellat nobis iste.
-                    Id facere quia quae dolores dolorem tempore.
-                  </p>
-                  <div className="trainer d-flex justify-content-between align-items-center">
-                    <div className="trainer-profile d-flex align-items-center">
-                      <img
-                        src="/img/trainers/trainer-3-2.jpg"
-                        className="img-fluid"
-                        alt=""
-                      />
-                      <a href="" className="trainer-link">
-                        Brandon
-                      </a>
-                    </div>
-                    <div className="trainer-rank d-flex align-items-center">
-                      <i className="bi bi-person user-icon"></i>&nbsp;20
-                      &nbsp;&nbsp;
-                      <i className="bi bi-heart heart-icon"></i>&nbsp;85
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
       <section id="trainers-index" className="section trainers-index">
         <div className="container">
           <div className="row">
@@ -564,9 +454,11 @@ export function Homepage() {
                 />
                 <div className="member-content">
                   <h4>Walter White</h4>
-                  <span>Web Development</span>
+                  <span>IT & Software</span>
                   <p>
-                    With years of experience in web development, I can help you build a professional website from frontend to backend
+                    Với nhiều năm kinh nghiệm trong phát triển web, tôi có thể
+                    giúp bạn xây dựng một trang web chuyên nghiệp từ frontend
+                    đến backend.
                   </p>
                   <div className="social">
                     <a href="">
@@ -601,7 +493,9 @@ export function Homepage() {
                   <h4>Sarah Jhinson</h4>
                   <span>Marketing</span>
                   <p>
-                    Marketing expert with creative strategies to help businesses develop their brands and reach customers effectively
+                    Chuyên gia tiếp thị với chiến lược sáng tạo giúp doanh
+                    nghiệp phát triển thương hiệu và tiếp cận khách hàng hiệu
+                    quả.
                   </p>
                   <div className="social">
                     <a href="">
@@ -636,7 +530,8 @@ export function Homepage() {
                   <h4>William Anderson</h4>
                   <span>Content</span>
                   <p>
-                    Deliver engaging content strategies that help businesses build strong brands and connect better with customers
+                    Mang đến chiến lược nội dung hấp dẫn, giúp doanh nghiệp xây
+                    dựng thương hiệu mạnh mẽ và kết nối tốt hơn với khách hàng.
                   </p>
                   <div className="social">
                     <a href="">

@@ -30,7 +30,7 @@ export const PageBanner = ({ title, description, alternateLastPath }) => {
                 <div className="container">
                     <ol>
                         <li>
-                            <Link to="/">Home</Link>
+                            <Link to="/">Trang Chủ</Link>
                         </li>
                         {pathnames.map((value, index) => {
                             const to = `/${pathnames.slice(0, index + 1).join("/")}`;

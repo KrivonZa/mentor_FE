@@ -6,7 +6,7 @@ import PureCounter from "@srexi/purecounterjs";
 
 export function About() {
   useEffect(() => {
-    document.title = "About";
+    document.title = "Về Chúng Tôi";
     new PureCounter();
   }, []);
 
@@ -18,11 +18,11 @@ export function About() {
             <div className="row d-flex justify-content-center text-center">
               <div className="col-lg-8">
                 <h1>
-                  About Us
+                  Về Chúng Tôi
                   <br />
                 </h1>
                 <p className="mb-0">
-                  Empower U is an innovative platform where mentors and mentees connect directly (1:1) to grow, learn, and achieve personal and professional goals together. Born with the mission of providing personalized and inspiring learning opportunities, we are proud to have supported thousands of individuals on their development journey.
+                  EmpowerU là nền tảng sáng tạo kết nối Mentor và Mentee trực tiếp, giúp bạn phát triển kỹ năng, đạt được mục tiêu cá nhân và thăng tiến sự nghiệp nhanh hơn, vững chắc hơn. Với sứ mệnh mang đến cơ hội học tập cá nhân hóa cho học viên, chúng tôi tự hào đồng hành cùng hàng ngàn cá nhân trên hành trình chinh phục ước mơ.
                 </p>
               </div>
             </div>
@@ -32,10 +32,10 @@ export function About() {
           <div className="container">
             <ol>
               <li>
-                <a href="/">Home</a>
+                <a href="/">Trang Chủ</a>
               </li>
               <li className="current">
-                About Us
+                Về Chúng Tôi
                 <br />
               </li>
             </ol>
@@ -59,36 +59,36 @@ export function About() {
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              <h3>EmpowerU - Consulting, mentoring with experts</h3>
+              <h3>EmpowerU – Học tập cùng những chuyên gia hàng đầu</h3>
               <ul>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    200+ experts who have worked in large companies
+                   200+ chuyên gia từ các tập đoàn lớn: Trực tiếp học hỏi từ những người đã thành công và đang làm việc tại các công ty hàng đầu.
                   </span>
                 </li>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    Experts with successful case studies
+                    Case study thực chiến: Không chỉ là lý thuyết, bạn sẽ được hướng dẫn qua những tình huống thực tế, giúp rút ngắn thời gian và tối ưu kết quả.
                   </span>
                 </li>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    Experts with high qualifications
+                    Chuyên gia được chứng nhận: Tất cả mentor tại EmpowerU đều có bằng cấp cao và kinh nghiệm dày dặn trong lĩnh vực họ giảng dạy.
                   </span>
                 </li>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    EmpowerU guarantees verification of expert information
+                    Minh bạch & Đảm bảo: EmpowerU cam kết xác minh kỹ lưỡng thông tin chuyên gia trước khi kết nối với bạn.
                   </span>
                 </li>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    100% refund if you are not satisfied
+                    Hoàn tiền 100% nếu không hài lòng: Chúng tôi tin vào chất lượng – sự hài lòng của bạn là ưu tiên hàng đầu.
                   </span>
                 </li>
               </ul>
@@ -108,7 +108,7 @@ export function About() {
                   data-purecounter-duration="1"
                   className="purecounter"
                 ></span>
-                <p>Students</p>
+                <p>Học Viên</p>
               </div>
             </div>
 
@@ -120,7 +120,7 @@ export function About() {
                   data-purecounter-duration="1"
                   className="purecounter"
                 ></span>
-                <p>Courses</p>
+                <p>Khoá Học</p>
               </div>
             </div>
 
@@ -132,7 +132,7 @@ export function About() {
                   data-purecounter-duration="1"
                   className="purecounter"
                 ></span>
-                <p>Events</p>
+                <p>Đánh Giá</p>
               </div>
             </div>
 
@@ -144,7 +144,7 @@ export function About() {
                   data-purecounter-duration="1"
                   className="purecounter"
                 ></span>
-                <p>Trainers</p>
+                <p>Chuyên Gia</p>
               </div>
             </div>
           </div>
@@ -153,8 +153,8 @@ export function About() {
 
       <section id="testimonials" className="testimonials section">
         <div className="container section-title" data-aos="fade-up">
-          <h2>Testimonials</h2>
-          <p>What are they saying</p>
+          <h2>Trải Nghiệm</h2>
+          <p>Họ nghĩ gì về chúng tôi?</p>
         </div>
 
         <div className="container" data-aos="fade-up" data-aos-delay="100">
@@ -196,7 +196,7 @@ export function About() {
                   <p>
                     <i className="bi bi-quote quote-icon-left"></i>
                     <span>
-                      Great service! Quality content, dedicated mentor. Helped me develop my skills significantly!
+                      Dịch vụ rất tốt! Nội dung chất lượng, mentor tận tâm. Giúp tôi phát triển kỹ năng đáng kể!
                     </span>
                     <i className="bi bi-quote quote-icon-right"></i>
                   </p>
@@ -213,7 +213,7 @@ export function About() {
                     alt=""
                   />
                   <h3>Sara Wilsson</h3>
-                  <h4>Designer</h4>
+                  <h4>Nhà Thiết Kế</h4>
                   <div className="stars">
                     <i className="bi bi-star-fill"></i>
                     <i className="bi bi-star-fill"></i>
@@ -224,7 +224,7 @@ export function About() {
                   <p>
                     <i className="bi bi-quote quote-icon-left"></i>
                     <span>
-                      The course is easy to understand, concise content, and can be applied immediately to work. A very effective learning experiences!
+                      Khóa học dễ hiểu, nội dung súc tích, có thể áp dụng ngay vào công việc. Một trải nghiệm học tập rất hiệu quả!"
                     </span>
                     <i className="bi bi-quote quote-icon-right"></i>
                   </p>
@@ -241,7 +241,7 @@ export function About() {
                     alt=""
                   />
                   <h3>Jena Karlis</h3>
-                  <h4>Store Owner</h4>
+                  <h4>Chủ Cửa Hàng</h4>
                   <div className="stars">
                     <i className="bi bi-star-fill"></i>
                     <i className="bi bi-star-fill"></i>
@@ -252,7 +252,7 @@ export function About() {
                   <p>
                     <i className="bi bi-quote quote-icon-left"></i>
                     <span>
-                      Great service! Quality content, dedicated mentor. Helped me develop my skills significantly!
+                      Kiến thức thực tế, dễ tiếp cận. Khóa học giúp tôi cải thiện kỹ năng kinh doanh một cách đáng kể!
                     </span>
                     <i className="bi bi-quote quote-icon-right"></i>
                   </p>
@@ -280,7 +280,7 @@ export function About() {
                   <p>
                     <i className="bi bi-quote quote-icon-left"></i>
                     <span>
-                      The course is easy to understand, concise content, and can be applied immediately to work. A very effective learning experiences!
+                      Khóa học linh hoạt, phù hợp cho freelancer. Tôi có thể học bất cứ khi nào và áp dụng ngay vào dự án thực tế!
                     </span>
                     <i className="bi bi-quote quote-icon-right"></i>
                   </p>
@@ -297,7 +297,7 @@ export function About() {
                     alt=""
                   />
                   <h3>John Larson</h3>
-                  <h4>Entrepreneur</h4>
+                  <h4>Người Khởi Nghiệp</h4>
                   <div className="stars">
                     <i className="bi bi-star-fill"></i>
                     <i className="bi bi-star-fill"></i>
@@ -308,7 +308,7 @@ export function About() {
                   <p>
                     <i className="bi bi-quote quote-icon-left"></i>
                     <span>
-                      Great service! Quality content, dedicated mentor. Helped me develop my skills significantly!
+                      Khóa học dễ hiểu, nội dung súc tích, có thể áp dụng ngay vào công việc. Một trải nghiệm học tập rất hiệu quả!"
                     </span>
                     <i className="bi bi-quote quote-icon-right"></i>
                   </p>

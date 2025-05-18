@@ -7,8 +7,8 @@ export const CourseLayout = () => {
     return (
         <div className="main">
             <PageBanner
-                title="Course"
-                description="Expand your knowledge and skills with our diverse courses. From technology to arts, we offer engaging and informative learning experiences."
+                title="Các Khoá Học"
+                description="Khám phá các khoá học chất lượng từ các giảng viên hàng đầu"
             />
             <CourseRender />
         </div>

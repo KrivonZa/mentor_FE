@@ -44,7 +44,7 @@ export function LoginForm() {
     try {
       login(loginData);
     } catch (err) {
-      toast.error("Invalid Username or Password");
+      toast.error("Đăng nhập thất bại, vui lòng kiểm tra lại thông tin tài khoản của bạn!");
     }
     setLoading(false)
   };
@@ -56,26 +56,26 @@ export function LoginForm() {
           className="absolute flex items-center text-neutral-600 px-2"
         >
           <div className="mt-4 ms-4">
-            <h1 className="font-bold text-4xl text-[#5fd080]">Empower U</h1>
+            <h1 className="font-bold text-4xl text-[#5fd080]">EmpowerU</h1>
           </div>
         </Link>
         <div className="min-h-screen w-full flex items-center justify-center bg-neutral-50">
           <div className="w-[400px] bg-white rounded-xl shadow-2xl p-8 transform hover:scale-105 transition-all duration-300">
             <header className="mb-8">
               <h1 className="text-3xl font-bold text-[#5fd080] mb-2">
-                Welcome Back!
+                Chào Mừng Quay Lại!
               </h1>
-              <p className="text-neutral-600">Please sign in to continue</p>
+              <p className="text-neutral-600">Vui lòng đăng nhập để tiếp tục</p>
             </header>
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Email Address
+                 Địa Chỉ Email
                 </label>
                 <input
                   type="email"
                   className="w-full px-4 py-3 rounded-lg border border-neutral-200 focus:border-[#5fd080] focus:ring-2 focus:ring-[#5fd080] focus:ring-opacity-20 outline-none transition-all duration-200"
-                  placeholder="ex: name123@gmail.com"
+                  placeholder="ví dụ: name123@gmail.com"
                   name="email"
                   value={loginData.email}
                   onChange={handleChange}
@@ -83,34 +83,34 @@ export function LoginForm() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Password</label>
+                <label className="block text-sm font-medium mb-2">Mật Khẩu</label>
                 <input
                   type="password"
                   className="w-full px-4 py-3 rounded-lg border border-neutral-200 focus:border-[#5fd080] focus:ring-2 focus:ring-[#5fd080] focus:ring-opacity-20 outline-none transition-all duration-200"
-                  placeholder="Enter your password"
+                  placeholder="Điền Mật Khẩu"
                   name="password"
                   value={loginData.password}
                   onChange={handleChange}
                   required
                 />
               </div>
-              <div className="flex items-center justify-between">
+              {/* <div className="flex items-center justify-between">
                 <a
                   href="auth/update-password"
                   className="text-sm text-[#5fd080] hover:text-[#4db068] transition-colors duration-200"
                 >
                   Forgot Password?
                 </a>
-              </div>
+              </div> */}
               <button
                 type="submit"
                 disabled={loading}
                 className="w-full bg-[#5fd080] text-white py-3 rounded-lg font-medium hover:bg-[#4db068] transform hover:-translate-y-0.5 transition-all duration-200"
               >
                 {loading && <Spin size="small" style={{ marginRight: '20px' }} />}
-                <span>Sign In</span>
+                <span>Đăng Nhập</span>
               </button>
-              <p className="text-[#5fd080] text-center">Or</p>
+              <p className="text-[#5fd080] text-center">Hay</p>
               <button
                 className="flex items-center justify-center w-full py-3 border border-gray-300 rounded-lg text-sm font-medium text-[#5fd080] hover:bg-gray-100 transition duration-200 hover:-translate-y-0.5"
                 type="button"
@@ -119,16 +119,16 @@ export function LoginForm() {
                 }}
               >
                 <i className="fa-brands fa-google me-2 text-[#5fd080]" style={{ fontSize: "26px" }} />
-                Login with Google
+                Đăng Nhập Bằng Google
               </button>
             </form>
             <p className="mt-6 text-center text-sm text-neutral-600">
-              Don't have an account?
+              Chưa có tài khoản?
               <Link
                 to={"/auth/signup"}
                 className="ml-1 text-[#5fd080] hover:text-[#4db068] transition-colors duration-200"
               >
-                Sign up
+                Đăng Kí
               </Link>
             </p>
           </div>
