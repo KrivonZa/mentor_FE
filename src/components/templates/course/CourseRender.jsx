@@ -115,7 +115,7 @@ export const CourseRender = () => {
                                                     </a>
                                                 </div>
                                                 <div className="d-flex align-items-center trainer-rank">
-                                                    <i className="bi bi-person user-icon"></i>&nbsp;{course.totalStudent - course.registeredStudent}
+                                                    <i className="">Số buổi học: </i>&nbsp;{course.totalStudent - course.registeredStudent}
                                                     &nbsp;&nbsp;
                                                     <i className="bi bi-heart heart-icon"></i>&nbsp;0
                                                 </div>

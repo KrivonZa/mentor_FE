@@ -145,7 +145,6 @@ export const CoursePortalTable = () => {
                             </div>
                           </div>
                         </td>
-                        {/* <td className="px-6 py-4">Bob Smith</td> */}
                         <td className="px-6 py-4">
                           {(() => {
                             switch (course.level) {

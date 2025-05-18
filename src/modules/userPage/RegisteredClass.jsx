@@ -61,7 +61,6 @@ export const RegisteredClasses = () => {
                                     <th style={{ padding: '10px' }}>Mentor</th>
                                     <th style={{ padding: '10px' }}>Price</th>
                                     <th style={{ padding: '10px' }}>Start Date</th>
-                                    <th style={{ padding: '10px' }}>Students</th>
                                     <th style={{ padding: '10px' }}>Sessions</th>
                                     <th style={{ padding: '10px' }}>Details</th> {/* New column for the eye icon */}
                                 </tr>
@@ -75,9 +74,8 @@ export const RegisteredClasses = () => {
                                             <td style={{ padding: '10px' }}>{classItem.mentorInfo.mentorName}</td>
                                             <td style={{ padding: '10px' }}>{classItem.price.toLocaleString()}đ</td>
                                             <td style={{ padding: '10px' }}>{classItem.expectedStartDate}</td>
-                                            <td style={{ padding: '10px' }}>{classItem.registeredStudent}/{classItem.totalStudent}</td>
                                             <td style={{ padding: '10px' }}>{classItem.totalSession}</td>
-                                            <td style={{ padding: '10px', textAlign: 'center' }}>
+                                            <td style={{ padding: '10px', textAlign: 'left' }}>
                                                 <Button
                                                     type="link"
                                                     style={{ color: '#52c41a' }}

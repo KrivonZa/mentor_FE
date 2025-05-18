@@ -55,14 +55,14 @@ export const Checkout = () => {
                 window.open(response.transaction.paymentResponse.payUrl, "_blank");
             }
             await Swal.fire({
-                title: "Payment Successful",
-                text: "Your payment has been processed successfully!",
+                title: "Đang xử lý",
+                text: "Yêu cầu của bạn đã được gửi cho Momo xử lý",
                 icon: "success",
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: "OK",
             }).then(() => {
                 // window.location.href = "http://localhost:3000/user/registered-class";
-                window.location.href = "http://empower-u.sytes.net:3000/user";
+                window.location.href = "http://empower-u.sytes.net:3000/user/registered-class";
             });
         } catch (error) {
             console.log("error: ", error);
