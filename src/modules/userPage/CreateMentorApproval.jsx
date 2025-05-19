@@ -131,17 +131,17 @@ export const CreateMentorApproval = () => {
             <div className="bg-gray-50 p-4 w-full lg:p-8 min-h-screen sm:p-6" data-aos="fade-up" data-aos-delay="100">
                 <div className="bg-white rounded-2xl shadow-xl w-full max-w-7xl mx-auto overflow-hidden">
                     <div className="p-4 w-full lg:p-8 sm:p-6">
-                        <h2 className="text-2xl font-bold mb-4 sm:mb-6 text-center text-[#5fd080]">Apply to Become a Mentor</h2>
+                        <h2 className="text-2xl font-bold mb-4 sm:mb-6 text-center text-[#5fd080]">Hồ Sơ Ứng Cử Vị Trí Chuyên Gia</h2>
 
                         <form onSubmit={handleSubmit} className="sm:space-y-6 space-y-4">
                             <div>
-                                <label className="text-sm block font-medium mb-2">Bio (Tell us about yourself)</label>
+                                <label className="text-sm block font-medium mb-2">Tiểu Sử</label>
                                 <textarea
                                     name="bio"
                                     value={formData.bio || ""}
                                     onChange={handleChange}
                                     className="border border-gray-200 h-32 p-2.5 rounded-lg w-full duration-300 focus:border-[#5fd080] focus:ring-[#5fd080] focus:ring-2 focus:ring-opacity-20 sm:p-3 transition-all"
-                                    placeholder="Describe your experience, skills, and why you want to be a mentor..."
+                                    placeholder="Gợi ý: Giới thiệu sơ lược về bản thân, kinh nghiệm, kĩ năng nổi trội của mình và lí do vì sao bạn muốn trở thành một chuyên gia hướng dẫn trên EmpowerU. Thông tin này sẽ được hiển thị cho người duyệt hồ sơ của bạn và những học viên tương lai."
                                     required
                                 />
                             </div>
@@ -164,7 +164,7 @@ export const CreateMentorApproval = () => {
                                             rel="noopener noreferrer"
                                             className="flex text-[#5fd080] gap-2 hover:underline items-center"
                                         >
-                                            View CV (PDF)
+                                            Xem CV (PDF)
                                         </a>
                                     </div>
                                 )}
@@ -201,7 +201,7 @@ export const CreateMentorApproval = () => {
                                     }}
                                     disabled={!isFormValid || loading}
                                 >
-                                    {loading ? "Submitting..." : "Submit Application"}
+                                    {loading ? "Đang xử lý..." : "Nộp Đơn Ngay"}
                                 </button>
                             </div>
                         </form>

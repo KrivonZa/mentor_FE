@@ -67,38 +67,38 @@ export const CourseDetailInfo = () => {
                 >
                     <div className="container" data-aos="fade-up">
                         <div className="row">
-                            <div className="col-lg-8">
-                                <img src={courseDetail?.courseInfo?.thumbnail} className="img-fluid" alt="" />
+                            <div className="col-lg-7">
+                                <img src={courseDetail?.courseInfo?.thumbnail} className="img-fluid" alt="" style={{width: "90%", borderRadius:"30px", boxShadow:"0 12px 25px rgba(0, 0, 0, 0.2)"}}/>
                                 <h3>{courseDetail?.courseInfo?.courseName}</h3>
                                 <p>
                                     {courseDetail?.classDescription}
                                 </p>
                             </div>
-                            <div className="col-lg-4">
+                            <div className="col-lg-5">
                                 <div className="d-flex align-items-center justify-content-between course-info">
-                                    <h5>Trainer</h5>
+                                    <h5>Người Hướng Dẫn</h5>
                                     <p>
                                         <a href="#">{courseDetail?.mentorInfo?.mentorName}</a>
                                     </p>
                                 </div>
 
                                 <div className="d-flex align-items-center justify-content-between course-info">
-                                    <h5>Course Fee</h5>
+                                    <h5>Học Phí</h5>
                                     <p>{courseDetail?.price?.toLocaleString()}đ</p>
                                 </div>
 
                                 <div className="d-flex align-items-center justify-content-between course-info">
-                                    <h5>Total Slot</h5>
+                                    <h5>Tổng Số Học Viên</h5>
                                     <p>{courseDetail?.totalStudent}</p>
                                 </div>
 
                                 <div className="d-flex align-items-center justify-content-between course-info">
-                                    <h5>Remain Slot</h5>
+                                    <h5>Slot Còn Lại</h5>
                                     <p>{courseDetail?.remainSlot}</p>
                                 </div>
 
                                 <div className="d-flex align-items-center justify-content-between course-info">
-                                    <h5>Level</h5>
+                                    <h5>Trình Độ</h5>
                                     <p>{courseDetail?.courseInfo?.courseLevel}</p>
                                 </div>
 
@@ -110,7 +110,7 @@ export const CourseDetailInfo = () => {
                                         onClick={() => navigate(`/checkout/${courseDetail?.classID}`)}
                                     >
                                         <h5 className="text-white">
-                                            Buy Now: {courseDetail?.price?.toLocaleString()}đ
+                                            Thanh Toán Ngay: {courseDetail?.price?.toLocaleString()}đ
                                         </h5>
                                     </button>
                                     {message && <span className={messageClass}>{message}</span>}

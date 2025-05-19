@@ -14,7 +14,7 @@ export const CourseDetailSchedule = () => {
                 <div className="row">
                     {/* Left column - Lessons (1/3 width) */}
                     <div className="col-lg-4">
-                        <h3>Course Lessons</h3>
+                        <h3 className='mb-3'>Bạn sẽ học những gì trong khoá học này?</h3>
                         <ul className="flex-column nav nav-tabs">
                             {courseDetail?.courseInfo?.lessons?.map((item, index) => (
                                 <li key={item.lessonID} className="nav-item">
@@ -39,13 +39,13 @@ export const CourseDetailSchedule = () => {
                                 className="mentor-avatar"
                             />
                             <div className="mentor-greeting">
-                                <div>Hi, I'm{' '}</div>
+                                <div>Xin Chào, Tôi là{' '}</div>
                                 <h3 className="d-inline">{courseDetail?.mentorInfo?.mentorName}</h3>
                             </div>
                         </div>
 
                         <div className="mentor-bio">
-                            <h3>Mentor Biography</h3>
+                            <h3>Hồ Sơ Người Hướng Dẫn</h3>
                             <p className="bio-text">
                                 <span className="quote-mark">“</span>
                                 {courseDetail?.mentorInfo?.bio}
@@ -56,9 +56,9 @@ export const CourseDetailSchedule = () => {
                 </div>
                 {/* Class Schedule Chart */}
                 <div className="mt-4 schedule-chart">
-                    <h3>Class Schedule</h3>
+                    <h3>Lịch Học Mỗi Tuần</h3>
                     <div className="schedule-timeline">
-                        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => {
+                        {['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật'].map((day, index) => {
                             const dayNum = index + 1;
                             const schedule = courseDetail?.classSchedules?.find(
                                 (sched) => sched.dayOfWeek === dayNum
