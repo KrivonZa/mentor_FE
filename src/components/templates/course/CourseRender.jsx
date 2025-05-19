@@ -25,7 +25,7 @@ export const CourseRender = () => {
                 <div className="row">
                     <div className='mb-3'>
                         <Search
-                            placeholder="input search text"
+                            placeholder="Tìm kiếm khoá học yêu thích của bạn"
                             allowClear
                             enterButton="Search"
                             size="large"
