@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 //? ***********************
@@ -14,23 +14,23 @@ export const PageBanner = ({ title, description, alternateLastPath }) => {
 
     return (
         <div className="page-title" data-aos="fade">
-            <div className="heading">
-                <div className="container">
-                    <div className="row d-flex justify-content-center text-center">
-                        <div className="col-lg-8">
-                            <h1>{title}</h1>
-                            <p className="mb-0">
-                                {description}
-                            </p>
+            {title !== "Course Details" && (
+                <>
+                    <div className="heading">
+                        <div className="container">
+                            <div className="row d-flex justify-content-center text-center">
+                                <div className="col-lg-8">
+                                    <h1>{title}</h1>
+                                    <p className="mb-0">{description}</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </div></>)}
             <nav className="breadcrumbs">
                 <div className="container">
                     <ol>
                         <li>
-                            <Link to="/">Home</Link>
+                            <Link to="/">Tra Chủ</Link>
                         </li>
                         {pathnames.map((value, index) => {
                             const to = `/${pathnames.slice(0, index + 1).join("/")}`;
@@ -56,7 +56,7 @@ export const PageBanner = ({ title, description, alternateLastPath }) => {
                 </div>
             </nav>
         </div>
-    )
-}
+    );
+};
 
-export default PageBanner
+export default PageBanner;

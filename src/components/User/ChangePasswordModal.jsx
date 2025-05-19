@@ -20,7 +20,7 @@ export const ChangePasswordModal = ({ visible, onClose }) => {
     // Kiểm tra confirm password mỗi khi passwordData thay đổi
     useEffect(() => {
         if (passwordData.confirmPassword && passwordData.newPassword !== passwordData.confirmPassword) {
-            setConfirmError("Passwords do not match!");
+            setConfirmError("Mật khẩu cũ chưa khớp!");
         } else {
             setConfirmError("");
         }
@@ -28,12 +28,12 @@ export const ChangePasswordModal = ({ visible, onClose }) => {
 
     const handleSubmit = async () => {
         if (passwordData.newPassword !== passwordData.confirmPassword) {
-            toast.error("New password and confirmation do not match!");
+            toast.error("Mật khẩu mới phải trùng khớp với nhau!");
             return;
         }
 
         setLoading(true);
-        const loadingId = toast.loading("Updating password...");
+        const loadingId = toast.loading("Cập nhật mật khẩu...");
 
         try {
             const response = await changePassword({
@@ -42,7 +42,7 @@ export const ChangePasswordModal = ({ visible, onClose }) => {
             });
 
             toast.update(loadingId, {
-                render: response?.data?.message || "Password updated successfully!",
+                render: response?.data?.message || "Mật khẩu cập nhật thành công!",
                 type: "success",
                 isLoading: false,
                 autoClose: 3000,
@@ -52,7 +52,7 @@ export const ChangePasswordModal = ({ visible, onClose }) => {
             onClose(); // Đóng modal khi thành công
         } catch (error) {
             toast.update(loadingId, {
-                render: error?.response?.data?.message || "Error updating password. Please try again.",
+                render: error?.response?.data?.message || "Không cập nhật được mật khẩu. Xin vui lòng thử lại.",
                 type: "error",
                 isLoading: false,
                 autoClose: 3000,
@@ -76,7 +76,7 @@ export const ChangePasswordModal = ({ visible, onClose }) => {
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" style={{ color: "#5fcf80", fontSize: "24px", fontWeight: "bold" }}>Change Password</h5>
+                        <h5 className="modal-title" style={{ color: "#5fcf80", fontSize: "24px", fontWeight: "bold" }}>Thay Đổi Mật Khẩu</h5>
                         <button
                             type="button"
                             className="btn-close"
@@ -87,7 +87,7 @@ export const ChangePasswordModal = ({ visible, onClose }) => {
                     <div className="modal-body">
                         <div className="mb-3">
                             <label htmlFor="oldPassword" className="form-label">
-                                Current Password
+                                Mật Khẩu Cũ
                             </label>
                             <input
                                 type="password"
@@ -96,13 +96,13 @@ export const ChangePasswordModal = ({ visible, onClose }) => {
                                 name="oldPassword"
                                 value={passwordData.oldPassword}
                                 onChange={handlePasswordChange}
-                                placeholder="Enter current password"
+                                placeholder="Nhập mật khẩu hiện tại"
                                 disabled={loading}
                             />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="newPassword" className="form-label">
-                                New Password
+                                Mật Khẩu Mới
                             </label>
                             <input
                                 type="password"
@@ -111,13 +111,13 @@ export const ChangePasswordModal = ({ visible, onClose }) => {
                                 name="newPassword"
                                 value={passwordData.newPassword}
                                 onChange={handlePasswordChange}
-                                placeholder="Enter new password"
+                                placeholder="Nhập Mật Khẩu Mới"
                                 disabled={loading}
                             />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="confirmPassword" className="form-label">
-                                Confirm New Password
+                                Xác Nhật Mật Khẩu Mới
                             </label>
                             <input
                                 type="password"
@@ -126,7 +126,7 @@ export const ChangePasswordModal = ({ visible, onClose }) => {
                                 name="confirmPassword"
                                 value={passwordData.confirmPassword}
                                 onChange={handlePasswordChange}
-                                placeholder="Confirm new password"
+                                placeholder="Nhập mật khẩu mới"
                                 disabled={loading}
                             />
                             {confirmError && (
@@ -141,7 +141,7 @@ export const ChangePasswordModal = ({ visible, onClose }) => {
                             onClick={handleCancel}
                             disabled={loading}
                         >
-                            Cancel
+                            Hủy
                         </button>
                         <button
                             type="button"
@@ -149,7 +149,7 @@ export const ChangePasswordModal = ({ visible, onClose }) => {
                             onClick={handleSubmit}
                             disabled={loading || confirmError}
                         >
-                            {loading ? "Updating..." : "Update"}
+                            {loading ? "Đang cập nậht..." : "Cập Nhật"}
                         </button>
                     </div>
                 </div>

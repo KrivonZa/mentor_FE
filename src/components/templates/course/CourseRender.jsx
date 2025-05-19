@@ -25,7 +25,7 @@ export const CourseRender = () => {
                 <div className="row">
                     <div className='mb-3'>
                         <Search
-                            placeholder="input search text"
+                            placeholder="Tìm kiếm khoá học yêu thích của bạn"
                             allowClear
                             enterButton="Search"
                             size="large"
@@ -91,7 +91,7 @@ export const CourseRender = () => {
                                                 </p>
                                             </div>
                                             <div className={`alert ${isToday ? "alert-warning" : "alert-success"}`}>
-                                                <strong>Opening:</strong>{" "}
+                                                <strong>Ngày Bắt Đầu:</strong>{" "}
                                                 {
                                                     expectedDate
                                                         ? new Intl.DateTimeFormat("en-GB").format(expectedDate)
@@ -136,7 +136,7 @@ export const CourseRender = () => {
                                         onClick={() => handlePageChange(classFilter.page - 1)}
                                         disabled={classFilter.page === 1}
                                     >
-                                        Previous
+                                        Trang Trước
                                     </button>
                                 </li>
 
@@ -160,7 +160,7 @@ export const CourseRender = () => {
                                         onClick={() => handlePageChange(classFilter.page + 1)} course
                                         disabled={classFilter.page === courseList?.totalPages}
                                     >
-                                        Next
+                                        Kết Tiếp
                                     </button>
                                 </li>
                             </ul>

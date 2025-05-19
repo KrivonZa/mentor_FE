@@ -6,9 +6,13 @@ export function Trainers() {
           <div className="container">
             <div className="row d-flex justify-content-center text-center">
               <div className="col-lg-8">
-                <h1>Trainers</h1>
+                <h1>Đội Ngũ Phát Triển EmpowerU</h1>
                 <p className="mb-0">
-                  Connect with leading experts for skill and career development
+                  Đây là đội ngũ EmpowerU – một tập thể đa năng gồm những cá
+                  nhân đầy nhiệt huyết từ marketing, công nghệ, thiết kế đến tài
+                  chính. Chúng tôi cùng nhau tạo nên sức mạnh tổng hợp, đưa tầm
+                  nhìn của EmpowerU thành hiện thực và kiến tạo những giá trị
+                  đột phá, hướng đến việc trao quyền và tạo ảnh hưởng tích cực.
                 </p>
               </div>
             </div>
@@ -18,9 +22,9 @@ export function Trainers() {
           <div className="container">
             <ol>
               <li>
-                <a href="/">Home</a>
+                <a href="/">Trang Chủ</a>
               </li>
-              <li className="current">Trainers</li>
+              <li className="current">Đội Ngũ Phát Triển EmpowerU</li>
             </ol>
           </div>
         </nav>
@@ -35,12 +39,12 @@ export function Trainers() {
               data-aos-delay="100"
             >
               <div className="member-img">
-                <img src="/img/team/team-1.jpg" className="img-fluid" alt="" />
+                <img src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747671671315-bob.smith%40example.com-nguyen.jpg.url" className="img-fluid" alt="" />
                 <div className="social">
                   <a href="#">
                     <i className="bi bi-twitter-x"></i>
                   </a>
-                  <a href="#">
+                  <a href="https://www.facebook.com/thuannguyen.tran.52">
                     <i className="bi bi-facebook"></i>
                   </a>
                   <a href="#">
@@ -52,10 +56,11 @@ export function Trainers() {
                 </div>
               </div>
               <div className="member-info text-center">
-                <h4>Walter White</h4>
-                <span>Business</span>
+                <h4>Trần Thuận Nguyên</h4>
+                <span>CMO</span>
                 <p>
-                  Expert in business strategy, financial management and market development with over 10 years of experience
+                  Người mang ý tưởng vào trong EmpowerU, xây dựng một cộng đồng
+                  cùng nhau phát triển, nâng cao giá trị kết nối thực sự.
                 </p>
               </div>
             </div>
@@ -66,27 +71,29 @@ export function Trainers() {
               data-aos-delay="200"
             >
               <div className="member-img">
-                <img src="/img/team/team-2.jpg" className="img-fluid" alt="" />
+                <img src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747671774164-bob.smith%40example.com-nhut.png.url" className="img-fluid" alt="" />
                 <div className="social">
                   <a href="#">
                     <i className="bi bi-twitter-x"></i>
                   </a>
-                  <a href="#">
+                  <a href="https://www.facebook.com/minh.nhut.53526">
                     <i className="bi bi-facebook"></i>
                   </a>
                   <a href="#">
                     <i className="bi bi-instagram"></i>
                   </a>
-                  <a href="#">
+                  <a href="https://www.linkedin.com/in/caominhnhut/">
                     <i className="bi bi-linkedin"></i>
                   </a>
                 </div>
               </div>
               <div className="member-info text-center">
-                <h4>Sarah Jhonson</h4>
-                <span>Marketing</span>
+                <h4>Cao Minh Nhựt</h4>
+                <span>CEO</span>
                 <p>
-                  Branding and digital advertising expert, helping businesses optimize marketing strategies and improve performance
+                  Tư duy chiến lược và sự nhạy bén với thị trường giúp EmpowerU
+                  mở rộng tầm ảnh hưởng, và chinh phục những cơ hội tăng trưởng
+                  mới.
                 </p>
               </div>
             </div>
@@ -97,27 +104,30 @@ export function Trainers() {
               data-aos-delay="300"
             >
               <div className="member-img">
-                <img src="/img/team/team-3.jpg" className="img-fluid" alt="" />
+                <img src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747671858005-bob.smith%40example.com-diem.jpg.url" className="img-fluid" alt="" />
                 <div className="social">
                   <a href="#">
                     <i className="bi bi-twitter-x"></i>
                   </a>
-                  <a href="#">
+                  <a href="https://www.facebook.com/diemdiem.bocon">
                     <i className="bi bi-facebook"></i>
                   </a>
                   <a href="#">
                     <i className="bi bi-instagram"></i>
                   </a>
-                  <a href="#">
+                  <a href="https://www.linkedin.com/in/buithihongdiem2004/">
                     <i className="bi bi-linkedin"></i>
                   </a>
                 </div>
               </div>
               <div className="member-info text-center">
-                <h4>William Anderson</h4>
-                <span>Maths</span>
+                <h4>Bùi Thị Hồng Diễm</h4>
+                <span>CFO</span>
                 <p>
-                  Mathematics lecturer, specializing in helping students master theory and practical applications in academia and technology
+                 Người với khả năng phân tích sắc bén và tầm nhìn chiến lược -
+                  giữ cho EmpowerU luôn vững vàng về tài chính, định hướng các
+                  quyết định đầu tư và đảm bảo sự phát triển bền vững cho doanh
+                  nghiệp.
                 </p>
               </div>
             </div>
@@ -128,27 +138,29 @@ export function Trainers() {
               data-aos-delay="400"
             >
               <div className="member-img">
-                <img src="/img/team/team-4.jpg" className="img-fluid" alt="" />
+                <img src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747671937141-bob.smith%40example.com-michael.jpg.url" className="img-fluid" alt="" />
                 <div className="social">
                   <a href="#">
                     <i className="bi bi-twitter-x"></i>
                   </a>
-                  <a href="#">
+                  <a href="https://www.facebook.com/michael.dang.10485">
                     <i className="bi bi-facebook"></i>
                   </a>
                   <a href="#">
                     <i className="bi bi-instagram"></i>
                   </a>
-                  <a href="#">
+                  <a href="https://www.linkedin.com/in/michael-dang-191345306/">
                     <i className="bi bi-linkedin"></i>
                   </a>
                 </div>
               </div>
               <div className="member-info text-center">
-                <h4>Amanda Jepson</h4>
-                <span>Foreign Languages</span>
+                <h4>Đặng Trịnh Anh Duy</h4>
+                <span>CTO/Technical Leader</span>
                 <p>
-                  Foreign language teaching expert, helping students improve communication skills and use language more confidently
+                  Người đặt nền móng vững chắc cho các giải pháp cộng nghệ tối
+                  ưu của empowerU, đảm bảo sự ổn định, bảo mật, và trải nghiệm
+                  liền mạch cho người dùng.
                 </p>
               </div>
             </div>
@@ -159,30 +171,30 @@ export function Trainers() {
               data-aos-delay="500"
             >
               <div className="member-img">
-                <img src="/img/team/team-5.jpg" className="img-fluid" alt="" />
+                <img src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747672013730-bob.smith%40example.com-an.png.url" className="img-fluid" alt="" />
                 <div className="social">
                   <a href="#">
                     <i className="bi bi-twitter-x"></i>
                   </a>
-                  <a href="#">
+                  <a href="https://www.facebook.com/abigail.vban/">
                     <i className="bi bi-facebook"></i>
                   </a>
                   <a href="#">
                     <i className="bi bi-instagram"></i>
                   </a>
-                  <a href="#">
+                  <a href="https://www.linkedin.com/in/abigail-vo-5a06091b3/">
                     <i className="bi bi-linkedin"></i>
                   </a>
                 </div>
               </div>
               <div className="member-info text-center">
-                <h4>Brian Doe</h4>
+                <h4>Võ Bảo An</h4>
                 <span>
-                  Web Development
+                  Software Engineer
                   <br />
                 </span>
                 <p>
-                  Experienced programmer, guide from basic to advanced in web application design and development
+                   Người không ngừng tìm tòi những tính năng đột phá, mang đến những giải pháp hiệu quả và tối ưu hoá trải nghiệm cho người dùng của EmpowerU.
                 </p>
               </div>
             </div>
@@ -193,9 +205,9 @@ export function Trainers() {
               data-aos-delay="600"
             >
               <div className="member-img">
-                <img src="/img/team/team-6.jpg" className="img-fluid" alt="" />
+                <img src="src/assets/img/dung.jpg" className="img-fluid" alt="" />
                 <div className="social">
-                  <a href="#">
+                  <a href="https://www.facebook.com/di.ngu.9022/">
                     <i className="bi bi-twitter-x"></i>
                   </a>
                   <a href="#">
@@ -204,16 +216,16 @@ export function Trainers() {
                   <a href="#">
                     <i className="bi bi-instagram"></i>
                   </a>
-                  <a href="#">
+                  <a href="https://www.behance.net/dungphuong9">
                     <i className="bi bi-linkedin"></i>
                   </a>
                 </div>
               </div>
               <div className="member-info text-center">
-                <h4>Josepha Palas</h4>
-                <span>Business</span>
+                <h4>Nguyễn Đỗ Phương Dung</h4>
+                <span>Graphic Designer</span>
                 <p>
-                  Strategic consulting for startups and SMEs, specializing in management, operations and scaling
+                   Người luôn sáng tạo không ngừng và thấu hiểu mong cầu của người dùng để kiến tạo những bản sắc, hình ảnh độc đáo và trải nghiệm trực quan của EmpowerU.
                 </p>
               </div>
             </div>

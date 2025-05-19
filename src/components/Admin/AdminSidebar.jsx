@@ -15,7 +15,7 @@ export function AdminSidebar() {
     <aside className="d-flex flex-column w-64 bg-white shadow-lg sticky-md-top z-0" style={{ width: "250px", height: "100vh" }}>
       <div className="px-3 py-4 bg-success text-center fw-bold">
         <button onClick={() => navigate("/admin")}>
-          <h1 className="text-white fs-4">Empower U</h1>
+          <h1 className="text-white fs-4">EmpowerU</h1>
         </button>
       </div>
       <nav className="flex-grow-1">
