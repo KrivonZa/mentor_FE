@@ -22,9 +22,9 @@ export const CourseDetailHeader = () => {
                 <div class="container">
                     <ol>
                         <li>
-                            <a href="/">Home</a>
+                            <a href="/">Trang Chủ</a>
                         </li>
-                        <li class="current">Course Details</li>
+                        <li class="current">Chi Tiết Khoá Học</li>
                     </ol>
                 </div>
             </nav>

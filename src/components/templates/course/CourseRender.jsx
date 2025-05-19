@@ -25,7 +25,7 @@ export const CourseRender = () => {
                 <div className="row">
                     <div className='mb-3'>
                         <Search
-                            placeholder="Tìm kiếm khoá học yêu thích của bạn"
+                            placeholder="Tìm kiếm khoá học yêu thích của "
                             allowClear
                             enterButton="Search"
                             size="large"
@@ -43,9 +43,9 @@ export const CourseRender = () => {
 
                     {isLoading
                         ? <>
+                            {/* <SkeletonCourse />
                             <SkeletonCourse />
-                            <SkeletonCourse />
-                            <SkeletonCourse />
+                            <SkeletonCourse /> */}
                         </>
                         : courseList?.content?.map(course => {
                             const expectedDate = course?.expectedStartDate ? new Date(course.expectedStartDate) : null;
@@ -91,7 +91,7 @@ export const CourseRender = () => {
                                                 </p>
                                             </div>
                                             <div className={`alert ${isToday ? "alert-warning" : "alert-success"}`}>
-                                                <strong>Opening:</strong>{" "}
+                                                <strong>Ngày Bắt Đầu:</strong>{" "}
                                                 {
                                                     expectedDate
                                                         ? new Intl.DateTimeFormat("en-GB").format(expectedDate)
@@ -136,7 +136,7 @@ export const CourseRender = () => {
                                         onClick={() => handlePageChange(classFilter.page - 1)}
                                         disabled={classFilter.page === 1}
                                     >
-                                        Previous
+                                        Trang Trước
                                     </button>
                                 </li>
 
@@ -160,7 +160,7 @@ export const CourseRender = () => {
                                         onClick={() => handlePageChange(classFilter.page + 1)} course
                                         disabled={classFilter.page === courseList?.totalPages}
                                     >
-                                        Next
+                                        Kế Tiếp
                                     </button>
                                 </li>
                             </ul>

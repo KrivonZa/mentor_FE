@@ -16,6 +16,7 @@ export default function Footer() {
           </div>
           <div className="social-links d-flex mt-4">
             <a href="https://www.facebook.com/profile.php?id=61576285256194"><i className="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/empoweru_vn/"><i className="bi bi-instagram"></i></a>
           </div>
         </div>
 

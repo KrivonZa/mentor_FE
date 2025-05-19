@@ -460,20 +460,6 @@ export function Homepage() {
                     giúp bạn xây dựng một trang web chuyên nghiệp từ frontend
                     đến backend.
                   </p>
-                  <div className="social">
-                    <a href="">
-                      <i className="bi bi-twitter-x"></i>
-                    </a>
-                    <a href="">
-                      <i className="bi bi-facebook"></i>
-                    </a>
-                    <a href="">
-                      <i className="bi bi-instagram"></i>
-                    </a>
-                    <a href="">
-                      <i className="bi bi-linkedin"></i>
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -497,20 +483,6 @@ export function Homepage() {
                     nghiệp phát triển thương hiệu và tiếp cận khách hàng hiệu
                     quả.
                   </p>
-                  <div className="social">
-                    <a href="">
-                      <i className="bi bi-twitter-x"></i>
-                    </a>
-                    <a href="">
-                      <i className="bi bi-facebook"></i>
-                    </a>
-                    <a href="">
-                      <i className="bi bi-instagram"></i>
-                    </a>
-                    <a href="">
-                      <i className="bi bi-linkedin"></i>
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -533,20 +505,6 @@ export function Homepage() {
                     Mang đến chiến lược nội dung hấp dẫn, giúp doanh nghiệp xây
                     dựng thương hiệu mạnh mẽ và kết nối tốt hơn với khách hàng.
                   </p>
-                  <div className="social">
-                    <a href="">
-                      <i className="bi bi-twitter-x"></i>
-                    </a>
-                    <a href="">
-                      <i className="bi bi-facebook"></i>
-                    </a>
-                    <a href="">
-                      <i className="bi bi-instagram"></i>
-                    </a>
-                    <a href="">
-                      <i className="bi bi-linkedin"></i>
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
