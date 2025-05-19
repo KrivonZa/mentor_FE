@@ -80,9 +80,9 @@ export const CourseFormTab = () => {
     };
 
     const levelOptions = [
-        { value: "BEGINNER", label: "Beginner" },
-        { value: "INTERMEDIATE", label: "Intermediate" },
-        { value: "ADVANCED", label: "Advanced" }
+        { value: "BEGINNER", label: "Cơ Bản" },
+        { value: "INTERMEDIATE", label: "Trung Cấp" },
+        { value: "ADVANCED", label: "Nâng Cao" }
     ];
 
     const handlePreview = async (file: UploadFile) => {
@@ -112,12 +112,12 @@ export const CourseFormTab = () => {
         >
             {/* Course Name */}
             <Form.Item
-                label="Course Name"
+                label="Tên Khoá Học"
                 name="courseName"
-                rules={[{ required: true, message: "Please enter course name" }]}
+                rules={[{ required: true, message: "Vui lòng nhập tên khoá học." }]}
             >
                 <Input
-                    placeholder="Enter course name"
+                    placeholder="Vd: Lập Trình Web Cơ Bản với React.js"
                     name="courseName"
                     value={courseDetailFormData.courseName}
                     onChange={handleInputChange}
@@ -127,12 +127,12 @@ export const CourseFormTab = () => {
 
             {/* Description */}
             <Form.Item
-                label="Description"
+                label="Mô Tả Khoá Học"
                 name="description"
-                rules={[{ required: true, message: "Please enter description" }]}
+                rules={[{ required: true, message: "Vui lòng nhập mô tả" }]}
             >
                 <Input.TextArea
-                    placeholder="Enter course description"
+                    placeholder="Vd: Khóa học này cung cấp nền tảng vững chắc về thư viện React.js, giúp học viên xây dựng giao diện người dùng web tương tác và hiệu quả."
                     name="description"
                     value={courseDetailFormData.description}
                     onChange={handleInputChange}
@@ -141,33 +141,18 @@ export const CourseFormTab = () => {
                 <span className='text-danger'>{courseDetailError?.description}</span>
             </Form.Item>
 
-            {/* Price */}
-            {/* <Form.Item
-                label="Price (VND)"
-                name="price"
-                rules={[{ required: true, message: "Please enter price" }]}
-            >
-                <InputNumber
-                    min={0}
-                    style={{ width: "100%" }}
-                    value={courseDetailFormData.price}
-                    onChange={(value) => handleNumberChange("price", value)}
-                />
-                <span className='text-danger'>NO LONGER</span>
-            </Form.Item> */}
-
             {/* Thumbnail URL */}
             <Form.Item
-                label="Thumbnail URL"
+                label="Hình Đại Diện Cho Khoá Học"
                 name="thumbnail"
-                rules={[{ required: false }]}
+                rules={[{ required: true }]}
             >
                 <Upload
                     name='thumbnail'
                     beforeUpload={(file) => {
                         const isImage = file.type.startsWith("image/");
                         if (!isImage) {
-                            toast.error("You can only upload image files!");
+                            toast.error("Bạn chỉ được sử dụng các file hình ảnh!");
                         }
                         return isImage ? false : Upload.LIST_IGNORE;
                     }}                    
@@ -180,7 +165,7 @@ export const CourseFormTab = () => {
                         (
                             <button style={{ border: 0, background: 'none' }} type="button">
                                 <PlusOutlined />
-                                <div style={{ marginTop: 8 }}>Upload</div>
+                                <div style={{ marginTop: 8 }}>Tải Tệp Lên</div>
                             </button>
                         )}
                 </Upload>
@@ -200,9 +185,9 @@ export const CourseFormTab = () => {
 
             {/* Course Level */}
             <Form.Item
-                label="Level"
+                label="Trình Độ"
                 name="level"
-                rules={[{ required: true, message: "Please select level" }]}
+                rules={[{ required: true, message: "Vui lòng chọn trình độ thích hợp" }]}
             >
                 <Select
                     className=""
@@ -215,7 +200,7 @@ export const CourseFormTab = () => {
 
             {/* Skills */}
             <Form.Item
-                label="Course Skills"
+                label="Kĩ Năng Khoá Học"
                 name="skill"
             // rules={[{}]}
             >
@@ -223,7 +208,7 @@ export const CourseFormTab = () => {
                     mode="multiple"
                     allowClear
                     style={{ width: '100%' }}
-                    placeholder="Please select"
+                    placeholder="Chọn một hoặc nhiều kĩ năng"
                     onChange={handleSelectMultiSkillChange}
                     value={courseDetailFormData.skill}
                     options={skillOptionList}
@@ -235,11 +220,11 @@ export const CourseFormTab = () => {
             {courseDetailFormData.courseID == -1 &&
                 <div className="text-right" style={{ marginTop: 16 }}>
                     <Button onClick={handleClose} style={{ marginRight: 8 }}>
-                        Cancel
+                        Huỷ
                     </Button>
                     {/* Enable Lesson Tab Button */}
                     <Button type="primary" onClick={() => navigateTab("2")} className='bg-warning'>
-                        Next: Add Lessons
+                        Tiếp Tục
                     </Button>
                 </div>}
         </Form>

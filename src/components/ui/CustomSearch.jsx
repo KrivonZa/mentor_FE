@@ -2,7 +2,7 @@ import React from "react";
 import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
-// Component Search đã được cải tiến
+// Component Search 
 export default function CustomSearch({
   classFilter,
   setClassFilter,

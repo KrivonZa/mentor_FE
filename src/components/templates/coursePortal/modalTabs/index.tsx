@@ -13,13 +13,13 @@ const CourseModalTab = () => {
     const tabItems = [
         {
             key: "1",
-            label: "Course",
+            label: "Khoá Học",
             children: (<CourseFormTab />),
             disabled: true,
         },
         {
             key: "2",
-            label: "Lessons",
+            label: "Nội Dung",
             disabled: true,
             children: (<LessonFormTab />)
         },
