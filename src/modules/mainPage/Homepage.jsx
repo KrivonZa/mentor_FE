@@ -34,7 +34,11 @@ export function Homepage() {
   return (
     <main className="main">
       <section id="hero" className="hero section dark-background">
-        <img src="/img/hero-bg.jpg" alt="hero-bg" data-aos="fade-in" />
+        <img
+          src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747729618506-abigailvo2005%40gmail.com-2149178706.jpg"
+          alt="hero-bg"
+          data-aos="fade-in"
+        />
 
         <div className="container">
           <h2 data-aos="fade-up" data-aos-delay="100">
@@ -60,7 +64,12 @@ export function Homepage() {
               data-aos="fade-up"
               data-aos-delay="100"
             >
-              <img src="/img/about.jpg" className="img-fluid" alt="" />
+              <img
+                src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747729738692-abigailvo2005%40gmail.com-2566.jpg"
+                className="img-fluid"
+                alt=""
+                style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15" }}
+              />
             </div>
 
             <div
@@ -446,11 +455,12 @@ export function Homepage() {
               data-aos="fade-up"
               data-aos-delay="100"
             >
-              <div className="member">
+              <div className="member" style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15" }}>
                 <img
-                  src="/img/trainers/trainer-1.jpg"
+                  src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747730067531-abigailvo2005%40gmail.com-2148200953.jpg"
                   className="img-fluid"
                   alt=""
+                  style={{ height: "280px" }}
                 />
                 <div className="member-content">
                   <h4>Walter White</h4>
@@ -469,11 +479,12 @@ export function Homepage() {
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              <div className="member">
+              <div className="member" style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15" }}>
                 <img
-                  src="/img/trainers/trainer-2.jpg"
+                  src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747729880944-abigailvo2005%40gmail.com-59122.jpg"
                   className="img-fluid"
                   alt=""
+                  style={{ height: "280px" }}
                 />
                 <div className="member-content">
                   <h4>Sarah Jhinson</h4>
@@ -491,11 +502,13 @@ export function Homepage() {
               className="col-lg-4 col-md-6 d-flex"
               data-aos="fade-up"
               data-aos-delay="300"
+              
             >
-              <div className="member">
+              <div className="member" style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15" }}>
                 <img
-                  src="/img/trainers/trainer-3.jpg"
+                  src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747730035695-abigailvo2005%40gmail.com-2429.jpg"
                   className="img-fluid"
+                  style={{ height: "280px" }}
                   alt=""
                 />
                 <div className="member-content">

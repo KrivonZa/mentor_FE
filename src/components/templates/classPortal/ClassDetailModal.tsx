@@ -408,6 +408,7 @@ export const ClassDetailModal = () => {
 
       <div className="text-right" style={{ marginTop: 16 }}>
         <Button
+          type="primary"
           onClick={closeClassModel}
           style={{
             backgroundColor: "#6c8777",

@@ -21,7 +21,7 @@ export const PageBanner = ({ title, description, alternateLastPath }) => {
               <div className="row d-flex justify-content-center text-center">
                 <div className="col-lg-8">
                   <h1>{title}</h1>
-                  <p className="mb-0">{description}</p>
+                  <p className="mb-0 mt-3">{description}</p>
                 </div>
               </div>
             </div>

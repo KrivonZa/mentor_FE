@@ -7,7 +7,7 @@ export function Trainers() {
             <div className="row d-flex justify-content-center text-center">
               <div className="col-lg-8">
                 <h1>Đội Ngũ Phát Triển EmpowerU</h1>
-                <p className="mb-0">
+                <p className="mb-0 mt-3">
                   Đây là đội ngũ EmpowerU – một tập thể đa năng gồm những cá
                   nhân đầy nhiệt huyết từ marketing, công nghệ, thiết kế đến tài
                   chính. Chúng tôi cùng nhau tạo nên sức mạnh tổng hợp, đưa tầm

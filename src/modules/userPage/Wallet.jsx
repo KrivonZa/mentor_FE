@@ -221,7 +221,7 @@ export function Wallet() {
               color: "#5fd080",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Drop shadow cơ bản
               fontWeight: "700",
-              borderRadius: "20px"
+              borderRadius: "20px",
             }}
             onClick={() => handleShow("withdraw")}
           >
@@ -267,7 +267,7 @@ export function Wallet() {
                       setAmount(e.target.value);
                       setErrors((prev) => ({ ...prev, amount: "" }));
                     }}
-                    placeholder="Enter amount"
+                    placeholder="Vd: 500,000đ"
                   />
                   {errors.amount && (
                     <div className="invalid-feedback">{errors.amount}</div>
@@ -333,7 +333,7 @@ export function Wallet() {
                           setBankName(e.target.value);
                           setErrors((prev) => ({ ...prev, bankName: "" }));
                         }}
-                        placeholder="Nhập tên ngân hàng"
+                        placeholder="Vd: Vietcombank"
                       />
                       {errors.bankName && (
                         <div className="invalid-feedback">
@@ -359,7 +359,7 @@ export function Wallet() {
                           setAccountNumber(e.target.value);
                           setErrors((prev) => ({ ...prev, accountNumber: "" }));
                         }}
-                        placeholder="Nhập số tài khoản"
+                        placeholder="Vd: 1238395739"
                       />
                       {errors.accountNumber && (
                         <div className="invalid-feedback">
@@ -388,7 +388,7 @@ export function Wallet() {
                             accountHolderName: "",
                           }));
                         }}
-                        placeholder="Nhập tên chủ tài khoản"
+                        placeholder="Vd: Nguyen Van A"
                       />
                       {errors.accountHolderName && (
                         <div className="invalid-feedback">

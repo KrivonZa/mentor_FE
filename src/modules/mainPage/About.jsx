@@ -21,8 +21,13 @@ export function About() {
                   Về Chúng Tôi
                   <br />
                 </h1>
-                <p className="mb-0">
-                  EmpowerU là nền tảng sáng tạo kết nối Mentor và Mentee trực tiếp, giúp bạn phát triển kỹ năng, đạt được mục tiêu cá nhân và thăng tiến sự nghiệp nhanh hơn, vững chắc hơn. Với sứ mệnh mang đến cơ hội học tập cá nhân hóa cho học viên, chúng tôi tự hào đồng hành cùng hàng ngàn cá nhân trên hành trình chinh phục ước mơ.
+                <p className="mb-0 mt-3">
+                  EmpowerU là nền tảng sáng tạo kết nối Mentor và Mentee trực
+                  tiếp, giúp bạn phát triển kỹ năng, đạt được mục tiêu cá nhân
+                  và thăng tiến sự nghiệp nhanh hơn, vững chắc hơn. Với sứ mệnh
+                  mang đến cơ hội học tập cá nhân hóa cho học viên, chúng tôi tự
+                  hào đồng hành cùng hàng ngàn cá nhân trên hành trình chinh
+                  phục ước mơ.
                 </p>
               </div>
             </div>
@@ -51,7 +56,12 @@ export function About() {
               data-aos="fade-up"
               data-aos-delay="100"
             >
-              <img src="/img/about-2.jpg" className="img-fluid" alt="" />
+              <img
+                src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747730324563-abigailvo2005%40gmail.com-young-woman-learning-english-from-her-teacher.jpg"
+                className="img-fluid"
+                alt=""
+                style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15" }}
+              />
             </div>
 
             <div
@@ -64,31 +74,39 @@ export function About() {
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                   200+ chuyên gia từ các tập đoàn lớn: Trực tiếp học hỏi từ những người đã thành công và đang làm việc tại các công ty hàng đầu.
+                    200+ chuyên gia từ các tập đoàn lớn: Trực tiếp học hỏi từ
+                    những người đã thành công và đang làm việc tại các công ty
+                    hàng đầu.
                   </span>
                 </li>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    Case study thực chiến: Không chỉ là lý thuyết, bạn sẽ được hướng dẫn qua những tình huống thực tế, giúp rút ngắn thời gian và tối ưu kết quả.
+                    Case study thực chiến: Không chỉ là lý thuyết, bạn sẽ được
+                    hướng dẫn qua những tình huống thực tế, giúp rút ngắn thời
+                    gian và tối ưu kết quả.
                   </span>
                 </li>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    Chuyên gia được chứng nhận: Tất cả mentor tại EmpowerU đều có bằng cấp cao và kinh nghiệm dày dặn trong lĩnh vực họ giảng dạy.
+                    Chuyên gia được chứng nhận: Tất cả mentor tại EmpowerU đều
+                    có bằng cấp cao và kinh nghiệm dày dặn trong lĩnh vực họ
+                    giảng dạy.
                   </span>
                 </li>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    Minh bạch & Đảm bảo: EmpowerU cam kết xác minh kỹ lưỡng thông tin chuyên gia trước khi kết nối với bạn.
+                    Minh bạch & Đảm bảo: EmpowerU cam kết xác minh kỹ lưỡng
+                    thông tin chuyên gia trước khi kết nối với bạn.
                   </span>
                 </li>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
                   <span>
-                    Hoàn tiền 100% nếu không hài lòng: Chúng tôi tin vào chất lượng – sự hài lòng của bạn là ưu tiên hàng đầu.
+                    Hoàn tiền 100% nếu không hài lòng: Chúng tôi tin vào chất
+                    lượng – sự hài lòng của bạn là ưu tiên hàng đầu.
                   </span>
                 </li>
               </ul>
@@ -196,7 +214,8 @@ export function About() {
                   <p>
                     <i className="bi bi-quote quote-icon-left"></i>
                     <span>
-                      Dịch vụ rất tốt! Nội dung chất lượng, mentor tận tâm. Giúp tôi phát triển kỹ năng đáng kể!
+                      Dịch vụ rất tốt! Nội dung chất lượng, mentor tận tâm. Giúp
+                      tôi phát triển kỹ năng đáng kể!
                     </span>
                     <i className="bi bi-quote quote-icon-right"></i>
                   </p>
@@ -224,7 +243,8 @@ export function About() {
                   <p>
                     <i className="bi bi-quote quote-icon-left"></i>
                     <span>
-                      Khóa học dễ hiểu, nội dung súc tích, có thể áp dụng ngay vào công việc. Một trải nghiệm học tập rất hiệu quả!"
+                      Khóa học dễ hiểu, nội dung súc tích, có thể áp dụng ngay
+                      vào công việc. Một trải nghiệm học tập rất hiệu quả!"
                     </span>
                     <i className="bi bi-quote quote-icon-right"></i>
                   </p>
@@ -252,7 +272,8 @@ export function About() {
                   <p>
                     <i className="bi bi-quote quote-icon-left"></i>
                     <span>
-                      Kiến thức thực tế, dễ tiếp cận. Khóa học giúp tôi cải thiện kỹ năng kinh doanh một cách đáng kể!
+                      Kiến thức thực tế, dễ tiếp cận. Khóa học giúp tôi cải
+                      thiện kỹ năng kinh doanh một cách đáng kể!
                     </span>
                     <i className="bi bi-quote quote-icon-right"></i>
                   </p>
@@ -280,7 +301,8 @@ export function About() {
                   <p>
                     <i className="bi bi-quote quote-icon-left"></i>
                     <span>
-                      Khóa học linh hoạt, phù hợp cho freelancer. Tôi có thể học bất cứ khi nào và áp dụng ngay vào dự án thực tế!
+                      Khóa học linh hoạt, phù hợp cho freelancer. Tôi có thể học
+                      bất cứ khi nào và áp dụng ngay vào dự án thực tế!
                     </span>
                     <i className="bi bi-quote quote-icon-right"></i>
                   </p>
@@ -308,7 +330,8 @@ export function About() {
                   <p>
                     <i className="bi bi-quote quote-icon-left"></i>
                     <span>
-                      Khóa học dễ hiểu, nội dung súc tích, có thể áp dụng ngay vào công việc. Một trải nghiệm học tập rất hiệu quả!"
+                      Khóa học dễ hiểu, nội dung súc tích, có thể áp dụng ngay
+                      vào công việc. Một trải nghiệm học tập rất hiệu quả!"
                     </span>
                     <i className="bi bi-quote quote-icon-right"></i>
                   </p>
