@@ -63,13 +63,13 @@ export const SignupForm = () => {
           <div className="w-[480px] bg-white rounded-xl p-8 shadow-lg m-auto">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold mb-2">Tạo Tài Khoản</h1>
-              <p className="text-neutral-600">Tham gia vào cộng đồng EmpowerU ngay bây giờ</p>
+              <p className="text-neutral-600">Tham gia vào cộng đồng EmpowerU ngay bây giờ !</p>
             </div>
 
             <form className="space-y-4" onSubmit={handleSignup}>
               <input
                 type="text"
-                placeholder="Họ và tên"
+                placeholder="Họ và Tên"
                 required
                 className="w-full px-4 py-3 border border-neutral-200 rounded-lg focus:outline-none focus:border-[#5fd080] focus:ring-1 focus:ring-[#5fd080] transition-all"
                 value={fullname}
@@ -94,7 +94,7 @@ export const SignupForm = () => {
               />
               <input
                 type="text"
-                placeholder="Số điện thoại"
+                placeholder="Số Điện Thoại"
                 required
                 className="w-full px-4 py-3 border border-neutral-200 rounded-lg focus:outline-none focus:border-[#5fd080] focus:ring-1 focus:ring-[#5fd080] transition-all"
                 value={phoneNumber}

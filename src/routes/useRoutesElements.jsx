@@ -45,9 +45,6 @@ const titleMap = {
   "/courses": "Courses",
   "/courses/:courseID": "Course Detail",
   "/trainers": "Trainers",
-  // "/events": "Events",
-  // "/pricing": "Pricing",
-  // "/contact": "Contact",
   "/checkout/:courseID": "Checkout",
   "/auth": "Log in",
   "/auth/signup": "Sign up",
@@ -103,8 +100,6 @@ const useRoutesElements = () => {
             { path: "courses", element: <Courses /> },
             { path: "courses/:courseID", element: <CourseDetail /> },
             { path: "trainers", element: <Trainers /> },
-            // { path: "events", element: <Events /> },
-            // { path: "pricing", element: <Pricing /> },
             { path: "contact", element: <Contact /> },
             { path: "feedback", element: <RecentComments /> },
 

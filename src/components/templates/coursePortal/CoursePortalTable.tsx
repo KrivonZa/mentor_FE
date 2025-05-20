@@ -8,7 +8,7 @@ import LessonDetailModal from "./LessonDetailModal";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import lessonService from "../../../services/lessonService";
-import { Empty } from "antd";
+import { Empty, Input } from "antd";
 import Search from "antd/es/input/Search";
 import { Spin } from "antd";
 import {
@@ -16,6 +16,8 @@ import {
   toastLoadingSuccessAction,
 } from "../../../utils/functions.ts";
 import courseApprovalService from "../../../services/courseApprovalService.ts";
+import CustomSearch from "../../ui/CustomSearch.jsx";
+import { SearchOutlined } from "@ant-design/icons";
 
 export const CoursePortalTable = () => {
   const context = useContext(CoursePortalContext);
@@ -38,16 +40,19 @@ export const CoursePortalTable = () => {
   } = context;
 
   const handleDeleteLesson = async (lessonID: number) => {
-    const loadingId = toast.loading("Deleting lesson...");
+    const loadingId = toast.loading("Đang xoá nội dung khoá học...");
     try {
       const response = await lessonService.deleteLesson(lessonID);
       await fetchPortalDetail();
-      toastLoadingSuccessAction(loadingId, "Delete lesson success");
+      toastLoadingSuccessAction(loadingId, "Xoá nội dung khoá học thành công.");
       // toast.success(response.message);
     } catch (error) {
       console.error(error);
       // toast.error("Delete lesson failed");
-      toastLoadingFailAction(loadingId, "Delete lesson success");
+      toastLoadingFailAction(
+        loadingId,
+        "Xảy ra lỗi khi xoá nội dung khoá học."
+      );
     }
   };
 
@@ -55,11 +60,11 @@ export const CoursePortalTable = () => {
     try {
       const response = await courseService.deleteCourse(courseID);
       if (response) {
-        const loadingId = toast.loading("Deleting course...");
+        const loadingId = toast.loading("Đang xoá khoá học...");
         await fetchPortalDetail();
         toastLoadingSuccessAction(
           loadingId,
-          "Deleting course: " + response.data.courseName + " successfully!"
+          "Khoá Hoc: " + response.data.courseName + " đã được xoá thành công!"
         );
         return;
       }
@@ -81,44 +86,148 @@ export const CoursePortalTable = () => {
       <div id="webcrumbs">
         <div className="p-8">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-2xl font-bold">Course Management</h1>
+            <h1 className="text-2xl font-bold">Quản Lý Khoá Học Của Tôi</h1>
           </div>
-          <div className="flex justify-between items-center mb-3 pe-4">
-            <Search
-              placeholder="input search text"
-              allowClear
-              enterButton="Search"
-              size="large"
-              onSearch={(e) => {
-                setCourseNameQuery(e);
-              }}
-              className="w-50 border-black"
-            />
-            <button
-              onClick={() => {
-                showCourseDetailModal(-1);
-              }}
-              className="bg-[#5FCF80] hover:bg-[#4ab569] transform hover:scale-105 transition-all duration-300 text-white px-6 py-3 rounded-lg flex items-center gap-2"
-            >
-              <span className="material-symbols-outlined">add</span> Add New
-              Course
-            </button>
+          <div className="row">
+            <div className="col-sm-9 flex justify-between items-center mb-3 pe-4">
+              <Input.Search
+                placeholder="Tìm kiếm khoá học của bạn"
+                allowClear
+                enterButton={
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "white",
+                      height: "100%",
+                      fontWeight: "600",
+                    }}
+                  >
+                    <SearchOutlined style={{ marginRight: "5px" }} />
+                    <span>Tìm Kiếm</span>
+                  </div>
+                }
+                size="large"
+                onSearch={(e) => {
+                  setCourseNameQuery(e);
+                }}
+                style={{
+                  borderRadius: "10px",
+                  boxShadow: "0 5px 15px rgba(95, 207, 128, 0.2)",
+                  transition: "all 0.3s ease",
+                  border: "none",
+                  height: "56px",
+                }}
+                className="custom-search-input"
+              />
+
+              {/* CSS tùy chỉnh cho thanh search */}
+              <style>{`
+                .custom-search-input .ant-input-wrapper {
+                  height: 56px; /* Tăng chiều cao cho wrapper */
+                }
+
+                .custom-search-input .ant-input {
+                  border-top-left-radius: 10px !important;
+                  border-bottom-left-radius: 10px !important;
+                  border: none !important; /* Xóa viền xám */
+                  outline: none !important;
+                  font-size: 16px;
+                  padding: 10px 15px;
+                  height: 56px; /* Tăng chiều cao input */
+                  box-shadow: none !important;
+                  border-right: none !important;
+                  background-color: #f9f9f9; /* Màu nền nhẹ để phân biệt */
+                }
+
+                .custom-search-input .ant-input-group-addon {
+                  height: 56px;
+                }
+
+                /* Thay đổi styling khi focus */
+                .custom-search-input .ant-input:focus,
+                .custom-search-input .ant-input-focused {
+                  box-shadow: 0 0 0 1px #5fcf80 !important; /* Đổi thành viền xanh lá khi focus */
+                  border-color: #5fcf80 !important;
+                }
+
+                .custom-search-input .ant-input-affix-wrapper:focus,
+                .custom-search-input .ant-input-affix-wrapper-focused {
+                  box-shadow: 0 0 0 1px #5fcf80 !important;
+                  border-color: #5fcf80 !important;
+                }
+
+                .ant-input-search-button {
+                  height: 56px !important;
+                }
+
+                .custom-search-input .ant-input-search-button {
+                  border-top-right-radius: 10px !important;
+                  border-bottom-right-radius: 10px !important;
+                  background-color: rgb(21, 135, 55) !important;
+                  border-color: rgb(16, 113, 45) !important;
+                  height: 56px !important; /* Tăng chiều cao nút tìm kiếm */
+                  min-width: 120px;
+                  font-weight: 600;
+                  font-size: 16px;
+                  transition: all 0.3s ease;
+                }
+
+                .custom-search-input .ant-input-search-button:hover {
+                  background-color: #4baa6a !important;
+                  border-color: #4baa6a !important;
+                  box-shadow: 0 5px 15px rgba(75, 170, 106, 0.4);
+                }
+
+                .custom-search-input .ant-input-clear-icon {
+                  color: #5fcf80;
+                }
+
+                .custom-search-input:hover {
+                  box-shadow: 0 20px 40px rgba(16, 88, 38, 0.3);
+                }
+
+                .custom-search-input .ant-input:hover {
+                  border-color: transparent !important;
+                }
+
+                .custom-search-input .ant-input-affix-wrapper {
+                  height: 56px !important;
+                  border: none !important;
+                  padding: 0 11px !important;
+                  box-shadow: none !important;
+                }
+              `}</style>
+            </div>
+
+            <div className="col-sm-3 flex justify-content-end pb-3">
+              <button
+                onClick={() => {
+                  showCourseDetailModal(-1);
+                }}
+                className="bg-[#5FCF80] hover:bg-[#4ab569] transform hover:scale-105 transition-all duration-300 text-white px-6 py-3 rounded-lg flex items-center gap-2"
+              >
+                <span className="material-symbols-outlined">add</span> Thêm Khoá
+                Học
+              </button>
+            </div>
           </div>
           <div className="bg-white rounded-lg border">
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Course Name
+                    Tên Khoá Học
                   </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Level
+                    Trình Độ
                   </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Verify Status
+                    Trạng Thái Kiểm Duyệt
                   </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Actions
+                    Công Cụ Quản Lý
                   </th>
                 </tr>
               </thead>
@@ -157,13 +266,13 @@ export const CoursePortalTable = () => {
                                       color: "#00CC66",
                                     }}
                                   >
-                                    BEGINNER
+                                    CƠ BẢN
                                   </span>
                                 );
                               case "INTERMEDIATE":
                                 return (
                                   <span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800">
-                                    INTERMEDIATE
+                                    TRUNG CẤP
                                   </span>
                                 );
                               case "ADVANCED":
@@ -175,13 +284,13 @@ export const CoursePortalTable = () => {
                                       color: "#FF8000",
                                     }}
                                   >
-                                    ADVANCED
+                                    NÂNG CAO
                                   </span>
                                 );
                               default:
                                 return (
                                   <span className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-800">
-                                    BEGINNER
+                                    CƠ BẢN
                                   </span>
                                 );
                             }
@@ -201,7 +310,7 @@ export const CoursePortalTable = () => {
                                     className="px-3 py-1 rounded-full text-sm fw-bolder d-flex align-items-center"
                                     style={{ color: "#00CC66" }}
                                   >
-                                    Approved
+                                    Kiểm Duyệt Thành Công
                                   </span>
                                 );
                               case "PENDING":
@@ -210,7 +319,7 @@ export const CoursePortalTable = () => {
                                     className="px-3 py-1 rounded-full text-sm fw-bolder d-flex align-items-center"
                                     style={{ color: "#f3b25c" }}
                                   >
-                                    Pending
+                                    Chờ Xử Lý
                                   </span>
                                 );
                               case "REJECT":
@@ -219,7 +328,7 @@ export const CoursePortalTable = () => {
                                     className="px-3 py-1 rounded-full text-sm fw-bolder d-flex align-items-center"
                                     style={{ color: "purple" }}
                                   >
-                                    Not Approved
+                                    Cần Được Kiểm Duyệt
                                   </span>
                                 );
                               //BAN
@@ -229,7 +338,7 @@ export const CoursePortalTable = () => {
                                     className="px-3 py-1 rounded-full text-sm fw-bolder d-flex align-items-center"
                                     style={{ color: "red" }}
                                   >
-                                    Ban
+                                    Bị Cấm
                                   </span>
                                 );
                             }
@@ -256,16 +365,14 @@ export const CoursePortalTable = () => {
                                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                                   onClick={async () => {
                                     const result = await Swal.fire({
-                                      title:
-                                        "Delete " +
-                                        `"${course?.courseName}"` +
-                                        "?",
-                                      text: "You won't be able to revert this!",
+                                      title: "Bạn có chắc chắn muốn xoá?",
+                                      text: "Bạn sẽ không thể hoàn tác lại hành động này!",
                                       icon: "warning",
                                       showCancelButton: true,
-                                      confirmButtonColor: "#3085d6",
-                                      cancelButtonColor: "#d33",
-                                      confirmButtonText: "Yes, delete it!",
+                                      confirmButtonColor: "#288a57",
+                                      cancelButtonColor: "#81998a",
+                                      confirmButtonText: "Tôi Đồng Ý!",
+                                      cancelButtonText: "Huỷ",
                                     });
 
                                     if (result.isConfirmed) {
@@ -293,7 +400,7 @@ export const CoursePortalTable = () => {
                                 <button
                                   onClick={() => {
                                     toast.info(
-                                      "You only allow to edit when course NOT APPROVE by Staff"
+                                      "Bạn chỉ có thể chỉnh sửa các khoá học trước khi nộp yêu cầu kiểm duyệt nội dung."
                                     );
                                   }}
                                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -309,41 +416,43 @@ export const CoursePortalTable = () => {
                                 onClick={async () => {
                                   const currentStatus = course.verifyStatus;
                                   if (currentStatus == "APPROVE") {
-                                    toast.info("This course already approved!");
+                                    toast.info(
+                                      "Khoá học này đã được kiểm duyệt thành công"
+                                    );
                                     return;
                                   }
                                   if (currentStatus == "PENDING") {
                                     toast.info(
-                                      "This course will be review by our staff soon!"
+                                      "Khoá học này đang trong quá trình kiểm duyệt"
                                     );
                                     return;
                                   }
                                   if (currentStatus == "BAN") {
                                     toast.info(
-                                      "This course is no longer available"
+                                      "Khoá học này đã bị đình chỉ vĩnh viễn!"
                                     );
                                   }
 
                                   let title =
-                                    "Request staff to verify this course?";
+                                    "Bạn muốn gửi yêu cầu kiểm duyệt nội dung của khoá học này?";
                                   let text =
-                                    "You will no longer able to edit this course";
-                                  let message = "Request Sent";
-                                  let confirmText = "Yes, do it!";
+                                    "Sau khi gửi yêu cầu kiểm duyệt, bạn sẽ không thể chỉnh sửa nội dung của khoá học.";
+                                  let message = "Yêu cầu đã được gửi";
+                                  let confirmText = "Gửi yêu cầu.";
 
                                   const result = await Swal.fire({
                                     title: title,
                                     text: text,
                                     icon: "info",
                                     showCancelButton: true,
-                                    confirmButtonColor: "#3085d6",
-                                    cancelButtonColor: "#d33",
+                                    confirmButtonColor: "#288a57",
+                                    cancelButtonColor: "#81998a",
                                     confirmButtonText: confirmText,
                                   });
 
                                   if (result.isConfirmed) {
                                     const loadingId = toast.loading(
-                                      "Sending your request..."
+                                      "Yêu cầu kiểm duyệt đang được gửi..."
                                     );
                                     try {
                                       await courseApprovalService.createCourseApprovalRequest(
@@ -351,13 +460,13 @@ export const CoursePortalTable = () => {
                                       );
                                       toastLoadingSuccessAction(
                                         loadingId,
-                                        "Your request will be review by our staff soon"
+                                        "Yêu cầu kiểm duyệt khoá học của bạn sẽ được xử lý trong thời gian sớm nhất."
                                       );
                                       await fetchPortalDetail();
                                     } catch (error) {
                                       toastLoadingFailAction(
                                         loadingId,
-                                        "There's a problem with your request, please try again soon"
+                                        "Yêu cầu kiểm duyệt của bạn đang gặp vấn đề, hãy thử lại."
                                       );
                                     }
                                   }
@@ -377,7 +486,7 @@ export const CoursePortalTable = () => {
                         <td colSpan={8} className="px-6 py-4">
                           <details>
                             <summary className="cursor-pointer hover:text-[#5FCF80] transition-colors">
-                              <span>View Lesson</span>
+                              <span>Xem Nội Dung Khoá Học</span>
                             </summary>
                             <div className="mt-4 space-y-4">
                               <div className="d-flex justify-between">
@@ -396,7 +505,7 @@ export const CoursePortalTable = () => {
                                     <span className="material-symbols-outlined">
                                       add
                                     </span>{" "}
-                                    Add Lesson
+                                    Thêm Nội Dung Mới
                                   </button>
                                 )}
                               </div>
@@ -404,20 +513,22 @@ export const CoursePortalTable = () => {
                                 <thead className="bg-gray-100">
                                   <tr>
                                     <th className="px-4 py-3 text-left text-sm font-semibold text-center">
-                                      Lesson ID
+                                      Số Thứ Tự
                                     </th>
                                     <th className="px-4 py-3 text-left text-sm font-semibold text-center">
-                                      Description
+                                      Mô Tả Nội Dung
                                     </th>
                                     <th className="px-4 py-3 text-left text-sm font-semibold text-center">
-                                      Trial
+                                      Nội Dung Học Thử?
                                     </th>
                                     <th className="px-4 py-3 text-left text-sm font-semibold text-center">
-                                      Created At
+                                      Thời Điểm Tạo
                                     </th>
-                                    <th className="px-4 py-3 text-left text-sm font-semibold text-center">
-                                      Actions
-                                    </th>
+                                    {course.verifyStatus == "REJECT" && (
+                                      <th className="px-4 py-3 text-left text-sm font-semibold text-center">
+                                        Công Cụ Quản Lý
+                                      </th>
+                                    )}
                                   </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
@@ -469,15 +580,18 @@ export const CoursePortalTable = () => {
                                                 onClick={async () => {
                                                   const result =
                                                     await Swal.fire({
-                                                      title: "Are you sure?",
-                                                      text: "You won't be able to revert this!",
+                                                      title:
+                                                        "Bạn có chắc chắn muốn xoá?",
+                                                      text: "Bạn sẽ không thể hoàn tác lại hành động này!",
                                                       icon: "warning",
                                                       showCancelButton: true,
                                                       confirmButtonColor:
-                                                        "#3085d6",
-                                                      cancelButtonColor: "#d33",
+                                                        "#288a57",
+                                                      cancelButtonColor:
+                                                        "#81998a",
                                                       confirmButtonText:
-                                                        "Yes, delete it!",
+                                                        "Tôi Đồng Ý!",
+                                                      cancelButtonText: "Huỷ",
                                                     });
 
                                                   if (result.isConfirmed) {
@@ -538,8 +652,8 @@ export const CoursePortalTable = () => {
           </div>
           <div className="flex justify-between items-center mt-4">
             <p className="text-sm text-gray-500">
-              Showing {coursePortalPage} of {listCoursePortal?.totalPages}{" "}
-              entries
+              Hiển thị trang {coursePortalPage} trên tổng số {" "}
+              {listCoursePortal?.totalPages} trang
             </p>
             <div className="flex gap-2">
               <button
@@ -549,7 +663,7 @@ export const CoursePortalTable = () => {
                   setCoursePortalPage(coursePortalPage - 1);
                 }}
               >
-                Previous
+                Trang Trước
               </button>
               <button
                 className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
@@ -558,7 +672,7 @@ export const CoursePortalTable = () => {
                   setCoursePortalPage(coursePortalPage + 1);
                 }}
               >
-                Next
+                Kế Tiếp
               </button>
             </div>
           </div>

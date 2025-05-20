@@ -25,8 +25,8 @@ export function LoginForm() {
     if (check === "true") {
       Swal.fire({
         icon: "success",
-        title: "Tạo tài khoản thành công !",
-        text: "Tài khoản của bạn đã tạo thành công. Vui lòng đăng nhập !",
+        title: "Account Created!",
+        text: "Your account has been successfully created. Please log in.",
         confirmButtonText: "OK",
       }).then(() => {
         navigate("/auth", { replace: true }); // Remove ?check=true from URL
@@ -63,14 +63,14 @@ export function LoginForm() {
           <div className="w-[400px] bg-white rounded-xl shadow-2xl p-8 transform hover:scale-105 transition-all duration-300">
             <header className="mb-8">
               <h1 className="text-3xl font-bold text-[#5fd080] mb-2">
-                Chào Mừng Quay Lại !
+                Chào Mừng Quay Lại!
               </h1>
               <p className="text-neutral-600">Vui lòng đăng nhập để tiếp tục</p>
             </header>
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Địa Chỉ Email
+                 Địa Chỉ Email
                 </label>
                 <input
                   type="email"
@@ -87,21 +87,21 @@ export function LoginForm() {
                 <input
                   type="password"
                   className="w-full px-4 py-3 rounded-lg border border-neutral-200 focus:border-[#5fd080] focus:ring-2 focus:ring-[#5fd080] focus:ring-opacity-20 outline-none transition-all duration-200"
-                  placeholder="Điền mật khẩu"
+                  placeholder="Điền Mật Khẩu"
                   name="password"
                   value={loginData.password}
                   onChange={handleChange}
                   required
                 />
               </div>
-              <div className="flex items-center justify-between">
+              {/* <div className="flex items-center justify-between">
                 <a
                   href="auth/update-password"
                   className="text-sm text-[#5fd080] hover:text-[#4db068] transition-colors duration-200"
                 >
-                  Quên Mật Khẩu ?
+                  Forgot Password?
                 </a>
-              </div>
+              </div> */}
               <button
                 type="submit"
                 disabled={loading}
@@ -110,7 +110,7 @@ export function LoginForm() {
                 {loading && <Spin size="small" style={{ marginRight: '20px' }} />}
                 <span>Đăng Nhập</span>
               </button>
-              <p className="text-[#5fd080] text-center">Hoặc</p>
+              <p className="text-[#5fd080] text-center">Hay</p>
               <button
                 className="flex items-center justify-center w-full py-3 border border-gray-300 rounded-lg text-sm font-medium text-[#5fd080] hover:bg-gray-100 transition duration-200 hover:-translate-y-0.5"
                 type="button"
@@ -123,12 +123,12 @@ export function LoginForm() {
               </button>
             </form>
             <p className="mt-6 text-center text-sm text-neutral-600">
-              Chưa có tài khoản ?
+              Chưa có tài khoản?
               <Link
                 to={"/auth/signup"}
                 className="ml-1 text-[#5fd080] hover:text-[#4db068] transition-colors duration-200"
               >
-                Đăng kí
+                Đăng Kí
               </Link>
             </p>
           </div>

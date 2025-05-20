@@ -69,14 +69,14 @@ export const RequestWithdraw = () => {
     <div className="container py-5">
       <div className="card shadow" data-aos="fade-up" data-aos-delay="100">
         <div className="card-header" style={{ backgroundColor: "#5fd080", color: "white" }}>
-          <h4 className="text-center my-4 h1 fw-bold">Withdraw History</h4>
+          <h4 className="text-center my-4 h1 fw-bold">Lịch Sử Rút Tiền</h4>
         </div>
         <div className="card-body">
           {/* Filter theo status */}
           <div className="mb-3 d-flex justify-content-between align-items-center">
             <div className="d-flex align-items-center">
               <label htmlFor="statusFilter" className="me-2 fw-bold">
-                Status:
+                Bộ lọc Trạng Thái:
               </label>
               <select
                 id="statusFilter"
@@ -85,15 +85,15 @@ export const RequestWithdraw = () => {
                 onChange={handleStatusChange}
                 style={{ width: "200px" }}
               >
-                <option value="">All</option>
-                <option value="PENDING">Pending</option>
-                <option value="DONE">Approved</option>
-                <option value="REJECTED">Rejected</option>
+                <option value="">Tất Cả</option>
+                <option value="PENDING">Chờ Xét Duyệt</option>
+                <option value="DONE">Được Chấp Nhận</option>
+                <option value="REJECTED">Bị Từ Chối</option>
               </select>
             </div>
             <div>
               <button className="btn btn-secondary" onClick={handleReset}>
-                Reset
+                Xoá
               </button>
             </div>
           </div>
@@ -104,20 +104,20 @@ export const RequestWithdraw = () => {
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Amount (VND)</th>
-                  <th>Bank Name</th>
-                  <th>Account Number</th>
-                  <th>Holder Name</th>
-                  <th>Status</th>
-                  <th>Created At</th>
-                  <th>Creator</th>
+                  <th>Số Tiền (VND)</th>
+                  <th>Tên Ngân Hàng</th>
+                  <th>Số Tài Khoản</th>
+                  <th>Tên Chủ Tài Khoản</th>
+                  <th>Trạng Thái</th>
+                  <th>Thời Gian Tạo</th>
+                  <th>Người Tạo</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
                     <td colSpan="8" className="text-center">
-                      Loading...
+                      Đang lấy dữ liệu...
                     </td>
                   </tr>
                 ) : error ? (
@@ -129,7 +129,7 @@ export const RequestWithdraw = () => {
                 ) : requests.length === 0 ? (
                   <tr>
                     <td colSpan="8" className="text-center">
-                      No withdraw requests found
+                      Chưa có giao dịch rút tiền nào
                     </td>
                   </tr>
                 ) : (
@@ -184,7 +184,7 @@ export const RequestWithdraw = () => {
                     onClick={() => handlePageChange(pagination.current - 2)}
                     disabled={pagination.current === 1}
                   >
-                    Previous
+                    Trang Trước
                   </button>
                 </li>
                 {Array.from({ length: totalPages }, (_, index) => (
@@ -203,7 +203,7 @@ export const RequestWithdraw = () => {
                     onClick={() => handlePageChange(pagination.current)}
                     disabled={pagination.current === totalPages}
                   >
-                    Next
+                    Kế Tiếp
                   </button>
                 </li>
               </ul>

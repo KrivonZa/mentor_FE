@@ -53,15 +53,15 @@ export const CourseDetailModal = () => {
 
             }
 
-            const loadingId = toast.loading("Update course...");
+            const loadingId = toast.loading("Đang cập nhật thông tin khoá học...");
 
             const response = await courseService.updateCourse(request);
             if (!response) {
-                toastLoadingFailAction(loadingId, "Got error when update course!");
+                toastLoadingFailAction(loadingId, "Đã xảy ra lỗi khi cập nhật khoá học! Vui lòng thử lại.");
                 return
             } else {
                 await fetchPortalDetail();
-                toastLoadingSuccessAction(loadingId, "Update course: " + courseDetailFormData.courseName + " successfully!");
+                toastLoadingSuccessAction(loadingId, "Khoá học: " + courseDetailFormData.courseName + " đã được cập nhật thành công!");
             }
 
             handleCloseCourseModal();
@@ -75,7 +75,7 @@ export const CourseDetailModal = () => {
         <Modal
             maskClosable={false}
             wrapClassName='courseDetailModal'
-            title="Course Details"
+            title="Thông Tin Khoá Học"
             open={isCourseDetailModalOpen}
             onOk={handleCloseCourseModal}
             onCancel={handleCloseCourseModal}
@@ -90,11 +90,11 @@ export const CourseDetailModal = () => {
             {/* These button only appear for update course! */}
             {courseDetailFormData.courseID != -1 &&
                 <div className="text-right" style={{ marginTop: 16 }}>
-                    <Button onClick={handleCloseCourseModal} style={{ marginRight: 8 }}>
-                        Cancel
+                    <Button type="primary" style={{backgroundColor: "#1d4731", fontWeight: "600", border: "#32a852", marginRight: "16px"}}>
+                        Huỷ
                     </Button>
-                    <Button type="primary" style={{ background: '#5FCF80' }} htmlType="submit" onClick={handleUpdate}>
-                        Save
+                    <Button type="primary" style={{backgroundColor: "#32a852", fontWeight: "600", border: "#32a852"}} htmlType="submit" onClick={handleUpdate}>
+                        Lưu Thay Đổi
                     </Button>
                 </div>
             }

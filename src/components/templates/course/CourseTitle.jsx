@@ -24,7 +24,7 @@ export const CourseTitle = () => {
                         <li>
                             <a href="/">Trang Chủ</a>
                         </li>
-                        <li className="current">Các Khóa Học</li>
+                        <li className="current">Các Khoá Học</li>
                     </ol>
                 </div>
             </nav>

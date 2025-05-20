@@ -1,14 +1,13 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react"
 import { getUserByToken } from "../services/UserService";
 import { AppContext } from "../routes/AppProvider";
 
 export default function Header() {
-  const token = localStorage.getItem("USER");
-  const role = localStorage.getItem("ROLE");
+  const token = localStorage.getItem("USER")
+  const role = localStorage.getItem("ROLE")
   const navigate = useNavigate();
   const { setUser, user, logout } = useContext(AppContext);
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -27,83 +26,72 @@ export default function Header() {
   const handleLogout = () => {
     logout();
   };
-
-  const toggleMobileNav = () => {
-    setIsMobileNavOpen(!isMobileNavOpen);
-  };
-
-  const closeMobileNav = () => {
-    if (isMobileNavOpen) {
-      setIsMobileNavOpen(false);
-    }
-  };
   return (
-    <header id="header" className="header d-flex align-items-center sticky-top" style={{ zIndex: "10" }}>
-      <div className="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-        <a href="/" className="d-flex align-items-center">
-          <img
-            src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747233033623-duydtase183660%40fpt.edu.vn-logo.svg"
-            alt="Empower U Logo"
-            style={{ width: "55%", height: "30%" }}
-          />
+    <header id="header" className="header d-flex align-items-center sticky-top" style={{ zIndex: '10' }}>
+      <div className="container-fluid container-xl position-relative d-flex align-items-center">
+        <a href="/" className=" d-flex align-items-center me-auto">
+            <img
+              src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747233033623-duydtase183660%40fpt.edu.vn-logo.svg"
+              alt="Empower U Logo"
+              style={{ width: '55%',height:'30%'}}
+            />
         </a>
 
 
-        <nav id="navmenu" className={`navmenu ${isMobileNavOpen ? "navmenu-active" : ""}`}>
+        <nav id="navmenu" className="navmenu">
           <ul>
-            {role !== "MENTOR" && (
-              <>
-                <li>
-                  <NavLink
-                    to="/"
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                    onClick={closeMobileNav}
-                  >
-                    Trang Chủ
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/about"
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                    onClick={closeMobileNav}
-                  >
-                    Về Chúng Tôi
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/courses"
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                    onClick={closeMobileNav}
-                  >
-                    Các Khoá Học
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/trainers"
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                    onClick={closeMobileNav}
-                  >
-                    Đội Ngũ EmpowerU
-                  </NavLink>
-                </li>
-              </>
-            )}
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/about"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                About
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/courses"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Courses
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/trainers"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Trainers
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/contact"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Contact
+              </NavLink>
+            </li>
             {token ? (
               <li className="dropdown">
                 <NavLink
                   className="d-flex align-items-center"
                   to="/user"
-                  onClick={closeMobileNav}
                 >
                   <span className="me-3 font-bold">{user?.fullName}</span>
                   <img
                     loading="lazy"
                     src={user?.avatar || "https://www.shareicon.net/data/128x128/2016/07/26/802001_man_512x512.png"}
                     className="rounded-circle object-fit-cover"
-                    style={{ width: "40px", height: "40px" }}
+                    style={{ width: '40px', height: '40px' }}
                   />
                 </NavLink>
                 <ul>
@@ -111,36 +99,32 @@ export default function Header() {
                     <NavLink
                       to="/user"
                       className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={closeMobileNav}
                     >
-                      Hồ Sơ Của Tôi
+                      My Profile
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
                       to="/user/wallet"
                       className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={closeMobileNav}
                     >
-                      Ví EmpowerU
+                      My Wallet
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
                       to="/user/schedule"
                       className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={closeMobileNav}
                     >
-                      Lịch Học
+                      My Schedule
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
                       to="/user/request-withdraw"
                       className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={closeMobileNav}
                     >
-                      Lịch Sử Giao Dịch
+                      Withdraw Request
                     </NavLink>
                   </li>
                   {role !== "MENTOR" && (
@@ -148,23 +132,17 @@ export default function Header() {
                       <li>
                         <NavLink
                           to="/user/registered-class"
-                          className={({ isActive }) =>
-                            isActive ? "active" : ""
-                          }
-                          onClick={closeMobileNav}
+                          className={({ isActive }) => (isActive ? "active" : "")}
                         >
-                          Khóa Học Của Tôi
+                          Registered Classes
                         </NavLink>
                       </li>
                       <li>
                         <NavLink
                           to="/user/approval"
-                          className={({ isActive }) =>
-                            isActive ? "active" : ""
-                          }
-                          onClick={closeMobileNav}
+                          className={({ isActive }) => (isActive ? "active" : "")}
                         >
-                          Trở Thành Mentor
+                          Become Mentor
                         </NavLink>
                       </li>
                     </>
@@ -172,36 +150,18 @@ export default function Header() {
                   {role === "MENTOR" && (
                     <>
                       <li>
-                        <NavLink
-                          to="/user/course-portal"
-                          className={({ isActive }) =>
-                            isActive ? "active" : ""
-                          }
-                          onClick={closeMobileNav}
-                        >
-                          Khóa Học Của Tôi
+                        <NavLink to="/user/course-portal" className={({ isActive }) => (isActive ? "active" : "")}>
+                          My Course
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink
-                          to="/user/course-request"
-                          className={({ isActive }) =>
-                            isActive ? "active" : ""
-                          }
-                          onClick={closeMobileNav}
-                        >
-                          Khóa Học Chờ Duyệt
+                        <NavLink to="/user/course-request" className={({ isActive }) => (isActive ? "active" : "")}>
+                          Course Request
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink
-                          to="/user/class-portal"
-                          className={({ isActive }) =>
-                            isActive ? "active" : ""
-                          }
-                          onClick={closeMobileNav}
-                        >
-                          Quản Lý Lớp Học
+                        <NavLink to="/user/class-portal" className={({ isActive }) => (isActive ? "active" : "")}>
+                          Manage Classes
                         </NavLink>
                       </li>
                     </>
@@ -209,12 +169,9 @@ export default function Header() {
                   <li>
                     <NavLink
                       className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => {
-                        closeMobileNav();
-                        handleLogout();
-                      }}
+                      onClick={handleLogout}
                     >
-                      Đăng Xuất
+                      Logout
                     </NavLink>
                   </li>
                 </ul>
@@ -224,72 +181,15 @@ export default function Header() {
                 <NavLink
                   to="/auth"
                   className={({ isActive }) => (isActive ? "active" : "")}
-                  onClick={closeMobileNav}
                 >
-                  Đăng Nhập
+                  Login
                 </NavLink>
               </li>
             )}
           </ul>
-          <i
-            className={`mobile-nav-toggle d-xl-none bi ${isMobileNavOpen ? "bi-x" : "bi-list"
-              }`}
-            onClick={toggleMobileNav}
-          ></i>
+          <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
       </div>
-      <style jsx>{`
-        @media (max-width: 1199px) {
-          .navmenu {
-            position: fixed;
-            top: 70px;
-            right: -100%;
-            width: 80%;
-            max-width: 300px;
-            height: calc(100vh - 70px);
-            background: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            transition: all 0.3s ease;
-            overflow-y: auto;
-            z-index: 9999;
-          }
-
-          .navmenu-active {
-            right: 0;
-          }
-
-          .navmenu ul {
-            display: flex;
-            flex-direction: column;
-            padding-left: 0;
-          }
-
-          .navmenu ul li {
-            margin: 10px 0;
-            width: 100%;
-          }
-
-          .mobile-nav-toggle {
-            font-size: 28px;
-            cursor: pointer;
-            color: #444444;
-          }
-
-          .dropdown > ul {
-            position: static !important;
-            display: none;
-            padding-left: 15px;
-            background: transparent;
-            box-shadow: none;
-          }
-
-          .dropdown:hover > ul,
-          .dropdown:focus > ul {
-            display: block !important;
-          }
-        }
-      `}</style>
     </header>
   );
 }

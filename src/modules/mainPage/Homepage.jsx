@@ -5,7 +5,7 @@ export function Homepage() {
   const fetchedRef = useRef(false);
 
   useEffect(() => {
-    document.title = "Trang Chủ";
+    document.title = "Homepage";
     new PureCounter();
 
     const fetchJwtWithUuid = async () => {
@@ -34,9 +34,13 @@ export function Homepage() {
   }, []);
 
   return (
-    <main className="main">
+     <main className="main">
       <section id="hero" className="hero section dark-background">
-        <img src="/img/hero-bg.jpg" alt="hero-bg" data-aos="fade-in" />
+        <img
+          src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747729618506-abigailvo2005%40gmail.com-2149178706.jpg"
+          alt="hero-bg"
+          data-aos="fade-in"
+        />
 
         <div className="container">
           <h2 data-aos="fade-up" data-aos-delay="100">
@@ -48,7 +52,7 @@ export function Homepage() {
           </p>
           <div className="d-flex mt-4" data-aos="fade-up" data-aos-delay="300">
             <a href="/courses" className="btn-get-started">
-              Bắt Đầu Ngay !
+              Bắt Đầu Ngay!
             </a>
           </div>
         </div>
@@ -62,7 +66,12 @@ export function Homepage() {
               data-aos="fade-up"
               data-aos-delay="100"
             >
-              <img src="/img/about.jpg" className="img-fluid" alt="" />
+              <img
+                src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747729738692-abigailvo2005%40gmail.com-2566.jpg"
+                className="img-fluid"
+                alt=""
+                style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15" }}
+              />
             </div>
 
             <div
@@ -71,9 +80,6 @@ export function Homepage() {
               data-aos-delay="200"
             >
               <h3>Kết nối Mentors – Mở lối thành công</h3>
-              <p className="fst-italic">
-                Bạn sẽ không cô đơn khi có các chuyên gia đồng hành cùng bạn
-              </p>
               <ul>
                 <li>
                   <i className="bi bi-check-circle"></i>{" "}
@@ -122,7 +128,7 @@ export function Homepage() {
                   data-purecounter-duration="1"
                   className="purecounter"
                 ></span>
-                <p>Khóa Học</p>
+                <p>Khoá Học</p>
               </div>
             </div>
 
@@ -156,7 +162,11 @@ export function Homepage() {
       <section id="why-us" className="section why-us">
         <div className="container">
           <div className="row-gy4">
-            <div className="col-lg-12 mb-4" data-aos="fade-up" data-aos-delay="100">
+            <div
+              className="col-lg-12 mb-4"
+              data-aos="fade-up"
+              data-aos-delay="100"
+            >
               <div className="why-box">
                 <h3>EmpowerU – Đặt người học làm trọng tâm.</h3>
                 <p></p>
@@ -168,9 +178,11 @@ export function Homepage() {
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="row gy-4">
-              <div className="col-lg-12 d-flex align-items-stretch">
+          <div className="row gy-4">
+            <div className="col-lg-12 d-flex align-items-stretch">
+              <div className="row gy-4" data-aos="fade-up" data-aos-delay="200">
                 <div className="col-sm-3">
                   <div className="icon-box d-flex flex-column align-items-center">
                     <i className="bi bi-clipboard-data"></i>
@@ -209,8 +221,8 @@ export function Homepage() {
                 >
                   <div className="icon-box d-flex flex-column align-items-center">
                     <i className="bi bi-inboxes"></i>
-                    <h4>Giá Trị Cốt Lỗi</h4>
-                    <div>
+                    <h4>Giá Trị</h4>
+                    <p>
                       <p>
                         <span className="fw-bold">Chất Lượng:</span> Chất lượng:
                         Nội dung học tập được kiểm định bởi đội ngũ chuyên gia
@@ -233,7 +245,7 @@ export function Homepage() {
                         Không ngừng đổi mới để kiến tạo giá trị lâu dài, dẫn lối
                         thành công vững chắc.
                       </p>
-                    </div>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -254,7 +266,7 @@ export function Homepage() {
                 <i className="bi bi-eye" style={{ color: "#ffbb2c" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    IT &  Kĩ Thuật
+                    IT & Software
                   </a>
                 </h3>
               </div>
@@ -317,7 +329,7 @@ export function Homepage() {
                 <i className="bi bi-shuffle" style={{ color: "#47aeff" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Ngoại ngữ
+                    Ngoại Ngữ
                   </a>
                 </h3>
               </div>
@@ -332,7 +344,7 @@ export function Homepage() {
                 <i className="bi bi-star" style={{ color: "#ffa76e" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Thiết kế đồ họa
+                    Thiết Kế Đồ Hoạ
                   </a>
                 </h3>
               </div>
@@ -410,7 +422,7 @@ export function Homepage() {
                 <i className="bi bi-activity" style={{ color: "#ff5828" }}></i>
                 <h3>
                   <a href="" className="stretched-link">
-                    Financial accounting
+                    Tài Chính Kế Toán
                   </a>
                 </h3>
               </div>
@@ -436,6 +448,7 @@ export function Homepage() {
           </div>
         </div>
       </section>
+
       <section id="trainers-index" className="section trainers-index">
         <div className="container">
           <div className="row">
@@ -444,11 +457,12 @@ export function Homepage() {
               data-aos="fade-up"
               data-aos-delay="100"
             >
-              <div className="member">
+              <div className="member" style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15" }}>
                 <img
-                  src="/img/trainers/trainer-1.jpg"
+                  src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747730067531-abigailvo2005%40gmail.com-2148200953.jpg"
                   className="img-fluid"
                   alt=""
+                  style={{ height: "280px" }}
                 />
                 <div className="member-content">
                   <h4>Walter White</h4>
@@ -467,11 +481,12 @@ export function Homepage() {
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              <div className="member">
+              <div className="member" style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15" }}>
                 <img
-                  src="/img/trainers/trainer-2.jpg"
+                  src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747729880944-abigailvo2005%40gmail.com-59122.jpg"
                   className="img-fluid"
                   alt=""
+                  style={{ height: "280px" }}
                 />
                 <div className="member-content">
                   <h4>Sarah Jhinson</h4>
@@ -489,11 +504,13 @@ export function Homepage() {
               className="col-lg-4 col-md-6 d-flex"
               data-aos="fade-up"
               data-aos-delay="300"
+              
             >
-              <div className="member">
+              <div className="member" style={{ boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15" }}>
                 <img
-                  src="/img/trainers/trainer-3.jpg"
+                  src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747730035695-abigailvo2005%40gmail.com-2429.jpg"
                   className="img-fluid"
+                  style={{ height: "280px" }}
                   alt=""
                 />
                 <div className="member-content">

@@ -147,7 +147,7 @@ export const UserProfile = () => {
             <div className="bg-gray-50 p-4 w-full lg:p-8 min-h-screen sm:p-6" data-aos="fade-up" data-aos-delay="100">
                 <div className="bg-white rounded-2xl shadow-xl w-full max-w-7xl mx-auto overflow-hidden">
                     <div className="flex flex-col lg:flex-row min-h-[calc(100vh-4rem)]">
-                        <div className="bg-[#5fd080] p-4 w-full lg:p-8 lg:w-1/3 sm:p-6">
+                        <div className="p-4 w-full lg:p-8 lg:w-1/3 sm:p-6" style={{ backgroundImage: 'linear-gradient(to bottom, #5fd080, #2e8b57)' }}>
                             <div className="flex flex-col items-center lg:sticky lg:top-8">
                                 <div className="border-4 border-white h-32 rounded-full w-32 duration-300 hover:scale-105 overflow-hidden sm:h-40 sm:w-40 transform transition-all relative">
                                     <Avatar
@@ -178,10 +178,10 @@ export const UserProfile = () => {
                             </div>
                         </div>
                         <div className="p-4 w-full lg:p-8 lg:w-2/3 sm:p-6">
-                            <h2 className="text-xl font-bold mb-4 sm:mb-6 sm:text-2xl">Update Profile Information</h2>
+                            <h2 className="text-xl font-bold mb-4 sm:mb-6 sm:text-2xl">Hồ Sơ Cá Nhân</h2>
                             <form onSubmit={handleSubmit} className="sm:space-y-6 space-y-4">
                                 <div>
-                                    <label className="text-sm block font-medium mb-2">Full Name</label>
+                                    <label className="text-sm block font-medium mb-2">Họ Và Tên</label>
                                     <input
                                         type="text"
                                         name="fullName"
@@ -192,7 +192,7 @@ export const UserProfile = () => {
                                 </div>
 
                                 <div>
-                                    <label className="text-sm block font-medium mb-2">Email Address</label>
+                                    <label className="text-sm block font-medium mb-2">Địa Chỉ Email</label>
                                     <input
                                         disabled
                                         type="email"
@@ -204,7 +204,7 @@ export const UserProfile = () => {
                                 </div>
 
                                 <div>
-                                    <label className="text-sm block font-medium mb-2">Phone Number</label>
+                                    <label className="text-sm block font-medium mb-2">Số Điện Thoại</label>
                                     <input
                                         type="tel"
                                         name="phoneNumber"
@@ -217,7 +217,7 @@ export const UserProfile = () => {
                                 {formData?.role === "MENTOR" && (
                                     <>
                                         <div>
-                                            <label className="text-sm block font-medium mb-2">Bio</label>
+                                            <label className="text-sm block font-medium mb-2">Tiểu Sử</label>
                                             <textarea
                                                 name="bio"
                                                 value={formData?.bio || ""}
@@ -242,11 +242,11 @@ export const UserProfile = () => {
                                                         rel="noopener noreferrer"
                                                         className="flex text-[#5fd080] gap-2 hover:underline items-center"
                                                     >
-                                                        View CV (PDF)
+                                                        Xem CV (PDF)
                                                     </a>
                                                 </div>
                                             ) : (
-                                                <p className="text-gray-500">No CV uploaded</p>
+                                                <p className="text-gray-500">Chưa tải CV lên.</p>
                                             )}
                                         </div>
                                     </>
@@ -258,14 +258,14 @@ export const UserProfile = () => {
                                         className="bg-[#5fd080] rounded-lg text-white w-full duration-300 hover:bg-[#4cb869] hover:scale-105 px-6 py-2.5 sm:w-auto transform transition-all"
                                         disabled={loading}
                                     >
-                                        {loading ? "Saving..." : "Save Changes"}
+                                        {loading ? "Đang Lưu..." : "Lưu"}
                                     </button>
                                     <button
                                         type="button"
                                         onClick={showModal}
                                         className="bg-transparent border-2 border-[#5fd080] rounded-lg text-[#5fd080] w-full duration-300 hover:bg-[#5fd080] hover:scale-105 px-6 py-2.5 sm:w-auto transform transition-all"
                                     >
-                                        Change Password
+                                        Đổi Mật Khẩu
                                     </button>
                                 </div>
                             </form>

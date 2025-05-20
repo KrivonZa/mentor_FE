@@ -24,7 +24,7 @@ export const CourseDetailHeader = () => {
                         <li>
                             <a href="/">Trang Chủ</a>
                         </li>
-                        <li class="current">Chi Tiết Khóa Học</li>
+                        <li class="current">Chi Tiết Khoá Học</li>
                     </ol>
                 </div>
             </nav>
