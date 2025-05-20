@@ -40,7 +40,7 @@ export function Trainers() {
             >
               <div className="member-img">
                 <img
-                  src="src/assets/img/nguyen.jpg"
+                  src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747728397157-abigailvo2005%40gmail.com-nguyen.jpg"
                   className="img-fluid"
                   alt=""
                 />
@@ -70,7 +70,7 @@ export function Trainers() {
             >
               <div className="member-img">
                 <img
-                  src="src/assets/img/nhut.png"
+                  src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747728417599-abigailvo2005%40gmail.com-nhut.png"
                   className="img-fluid"
                   alt=""
                 />
@@ -101,7 +101,7 @@ export function Trainers() {
             >
               <div className="member-img">
                 <img
-                  src="src/assets/img/diem.jpg"
+                  src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747728339283-abigailvo2005%40gmail.com-diem.jpg"
                   className="img-fluid"
                   alt=""
                 />
@@ -133,7 +133,7 @@ export function Trainers() {
             >
               <div className="member-img">
                 <img
-                  src="src/assets/img/michael.jpg"
+                  src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747728379608-abigailvo2005%40gmail.com-michael.jpg"
                   className="img-fluid"
                   alt=""
                 />
@@ -163,7 +163,11 @@ export function Trainers() {
               data-aos-delay="500"
             >
               <div className="member-img">
-                <img src="src/assets/img/an.png" className="img-fluid" alt="" />
+                <img
+                  src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747728289766-abigailvo2005%40gmail.com-an.png"
+                  className="img-fluid"
+                  alt=""
+                />
                 <div className="social">
                   <a href="https://www.facebook.com/abigail.vban/">
                     <i className="bi bi-facebook"></i>
@@ -180,7 +184,9 @@ export function Trainers() {
                   <br />
                 </span>
                 <p>
-                  Người không ngừng tìm tòi những tính năng đột phá, mang đến những giải pháp hiệu quả và tối ưu hoá trải nghiệm cho người dùng của EmpowerU.
+                  Người không ngừng tìm tòi những tính năng đột phá, mang đến
+                  những giải pháp hiệu quả và tối ưu hoá trải nghiệm cho người
+                  dùng của EmpowerU.
                 </p>
               </div>
             </div>
@@ -192,7 +198,7 @@ export function Trainers() {
             >
               <div className="member-img">
                 <img
-                  src="src/assets/img/dung.jpg"
+                  src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747728360541-abigailvo2005%40gmail.com-dung.jpg"
                   className="img-fluid"
                   alt=""
                 />
@@ -209,7 +215,9 @@ export function Trainers() {
                 <h4>Nguyễn Đỗ Phương Dung</h4>
                 <span>Art Director</span>
                 <p>
-                  Người luôn sáng tạo không ngừng và thấu hiểu mong cầu của người dùng để kiến tạo những bản sắc, hình ảnh độc đáo và trải nghiệm trực quan của EmpowerU.
+                  Người luôn sáng tạo không ngừng và thấu hiểu mong cầu của
+                  người dùng để kiến tạo những bản sắc, hình ảnh độc đáo và trải
+                  nghiệm trực quan của EmpowerU.
                 </p>
               </div>
             </div>

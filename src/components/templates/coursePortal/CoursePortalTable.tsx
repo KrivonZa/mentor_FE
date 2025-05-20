@@ -40,16 +40,19 @@ export const CoursePortalTable = () => {
   } = context;
 
   const handleDeleteLesson = async (lessonID: number) => {
-    const loadingId = toast.loading("Deleting lesson...");
+    const loadingId = toast.loading("Đang xoá nội dung khoá học...");
     try {
       const response = await lessonService.deleteLesson(lessonID);
       await fetchPortalDetail();
-      toastLoadingSuccessAction(loadingId, "Delete lesson success");
+      toastLoadingSuccessAction(loadingId, "Xoá nội dung khoá học thành công.");
       // toast.success(response.message);
     } catch (error) {
       console.error(error);
       // toast.error("Delete lesson failed");
-      toastLoadingFailAction(loadingId, "Delete lesson success");
+      toastLoadingFailAction(
+        loadingId,
+        "Xảy ra lỗi khi xoá nội dung khoá học."
+      );
     }
   };
 
@@ -57,11 +60,11 @@ export const CoursePortalTable = () => {
     try {
       const response = await courseService.deleteCourse(courseID);
       if (response) {
-        const loadingId = toast.loading("Deleting course...");
+        const loadingId = toast.loading("Đang xoá khoá học...");
         await fetchPortalDetail();
         toastLoadingSuccessAction(
           loadingId,
-          "Deleting course: " + response.data.courseName + " successfully!"
+          "Khoá Hoc: " + response.data.courseName + " đã được xoá thành công!"
         );
         return;
       }
@@ -198,7 +201,7 @@ export const CoursePortalTable = () => {
               `}</style>
             </div>
 
-            <div className="col-sm-3">
+            <div className="col-sm-3 flex justify-content-end pb-3">
               <button
                 onClick={() => {
                   showCourseDetailModal(-1);
@@ -224,7 +227,7 @@ export const CoursePortalTable = () => {
                     Trạng Thái Kiểm Duyệt
                   </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Quản Lý
+                    Công Cụ Quản Lý
                   </th>
                 </tr>
               </thead>
@@ -363,16 +366,14 @@ export const CoursePortalTable = () => {
                                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                                   onClick={async () => {
                                     const result = await Swal.fire({
-                                      title:
-                                        "Delete " +
-                                        `"${course?.courseName}"` +
-                                        "?",
-                                      text: "You won't be able to revert this!",
+                                      title: "Bạn có chắc chắn muốn xoá?",
+                                      text: "Bạn sẽ không thể hoàn tác lại hành động này!",
                                       icon: "warning",
                                       showCancelButton: true,
-                                      confirmButtonColor: "#3085d6",
-                                      cancelButtonColor: "#d33",
-                                      confirmButtonText: "Yes, delete it!",
+                                      confirmButtonColor: "#288a57",
+                                      cancelButtonColor: "#81998a",
+                                      confirmButtonText: "Tôi Đồng Ý!",
+                                      cancelButtonText: "Huỷ",
                                     });
 
                                     if (result.isConfirmed) {
@@ -400,7 +401,7 @@ export const CoursePortalTable = () => {
                                 <button
                                   onClick={() => {
                                     toast.info(
-                                      "You only allow to edit when course NOT APPROVE by Staff"
+                                      "Bạn chỉ có thể chỉnh sửa các khoá học trước khi nộp yêu cầu kiểm duyệt nội dung."
                                     );
                                   }}
                                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -445,8 +446,8 @@ export const CoursePortalTable = () => {
                                     text: text,
                                     icon: "info",
                                     showCancelButton: true,
-                                    confirmButtonColor: "#3085d6",
-                                    cancelButtonColor: "#d33",
+                                    confirmButtonColor: "#288a57",
+                                    cancelButtonColor: "#81998a",
                                     confirmButtonText: confirmText,
                                   });
 
@@ -505,7 +506,7 @@ export const CoursePortalTable = () => {
                                     <span className="material-symbols-outlined">
                                       add
                                     </span>{" "}
-                                    Add Lesson
+                                    Thêm Nội Dung Mới
                                   </button>
                                 )}
                               </div>
@@ -513,20 +514,22 @@ export const CoursePortalTable = () => {
                                 <thead className="bg-gray-100">
                                   <tr>
                                     <th className="px-4 py-3 text-left text-sm font-semibold text-center">
-                                      Lesson ID
+                                      Số Thứ Tự
                                     </th>
                                     <th className="px-4 py-3 text-left text-sm font-semibold text-center">
-                                      Description
+                                      Mô Tả Nội Dung
                                     </th>
                                     <th className="px-4 py-3 text-left text-sm font-semibold text-center">
-                                      Trial
+                                      Nội Dung Học Thử?
                                     </th>
                                     <th className="px-4 py-3 text-left text-sm font-semibold text-center">
-                                      Created At
+                                      Thời Điểm Tạo
                                     </th>
-                                    <th className="px-4 py-3 text-left text-sm font-semibold text-center">
-                                      Actions
-                                    </th>
+                                    {course.verifyStatus == "REJECT" && (
+                                      <th className="px-4 py-3 text-left text-sm font-semibold text-center">
+                                        Công Cụ Quản Lý
+                                      </th>
+                                    )}
                                   </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
@@ -578,15 +581,18 @@ export const CoursePortalTable = () => {
                                                 onClick={async () => {
                                                   const result =
                                                     await Swal.fire({
-                                                      title: "Are you sure?",
-                                                      text: "You won't be able to revert this!",
+                                                      title:
+                                                        "Bạn có chắc chắn muốn xoá?",
+                                                      text: "Bạn sẽ không thể hoàn tác lại hành động này!",
                                                       icon: "warning",
                                                       showCancelButton: true,
                                                       confirmButtonColor:
-                                                        "#3085d6",
-                                                      cancelButtonColor: "#d33",
+                                                        "#288a57",
+                                                      cancelButtonColor:
+                                                        "#81998a",
                                                       confirmButtonText:
-                                                        "Yes, delete it!",
+                                                        "Tôi Đồng Ý!",
+                                                      cancelButtonText: "Huỷ",
                                                     });
 
                                                   if (result.isConfirmed) {
@@ -647,8 +653,8 @@ export const CoursePortalTable = () => {
           </div>
           <div className="flex justify-between items-center mt-4">
             <p className="text-sm text-gray-500">
-              Showing {coursePortalPage} of {listCoursePortal?.totalPages}{" "}
-              entries
+              Hiển thị trang {coursePortalPage} trên tổng số {" "}
+              {listCoursePortal?.totalPages} trang
             </p>
             <div className="flex gap-2">
               <button
@@ -658,7 +664,7 @@ export const CoursePortalTable = () => {
                   setCoursePortalPage(coursePortalPage - 1);
                 }}
               >
-                Previous
+                Trang Trước
               </button>
               <button
                 className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
@@ -667,7 +673,7 @@ export const CoursePortalTable = () => {
                   setCoursePortalPage(coursePortalPage + 1);
                 }}
               >
-                Next
+                Kế Tiếp
               </button>
             </div>
           </div>

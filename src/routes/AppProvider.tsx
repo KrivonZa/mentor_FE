@@ -61,7 +61,11 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         navigate("/auth");
       }
     } catch (err) {
-      Swal.fire("Error", "Invalid Email or Password", "error");
+      Swal.fire(
+        "Xảy Ra Lỗi",
+        "Email hoặc mật khẩu của bạn hiện đang chưa đúng. Vui lòng thử lại.",
+        "error"
+      );
       throw err;
     }
   };

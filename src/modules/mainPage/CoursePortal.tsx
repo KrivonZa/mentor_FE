@@ -251,7 +251,7 @@ export const CoursePortalProvider = ({ children }) => {
 
     // Validate course name
     if (courseDetailFormData.courseName.trim() === "") {
-      newCourseDetailError.courseName = "Course Name is required";
+      newCourseDetailError.courseName = "Vui lòng nhập tên khoá học.";
       errCount++;
     } else {
       newCourseDetailError.courseName = "";
@@ -259,23 +259,15 @@ export const CoursePortalProvider = ({ children }) => {
 
     // Validate description
     if (courseDetailFormData.description.trim() === "") {
-      newCourseDetailError.description = "Course Description is required";
+      newCourseDetailError.description = "Vui lòng nhập mô tả khoá học.";
       errCount++;
     } else {
       newCourseDetailError.description = "";
     }
 
-    // Validate price
-    // if (courseDetailFormData.price == 0) {
-    //   newCourseDetailError.price = "Course Price must be greater than 0";
-    //   errCount++;
-    // } else {
-    //   newCourseDetailError.price = "";
-    // }
-
     // Validate thumbnail
     if (fileList.length == 0) {
-      newCourseDetailError.thumbnail = "Course Thumbnail is required";
+      newCourseDetailError.thumbnail = "Vui lòng tải hình đại diện cho khoá học.";
       errCount++;
     } else {
       newCourseDetailError.thumbnail = "";
@@ -283,19 +275,11 @@ export const CoursePortalProvider = ({ children }) => {
 
     // Validate skill
     if (courseDetailFormData.skill.length == 0) {
-      newCourseDetailError.skill = "At least one skill is required";
+      newCourseDetailError.skill = "Vui lòng chọn ít nhất một kĩ năng liên quan.";
       errCount++;
     } else {
       newCourseDetailError.skill = "";
     }
-
-    // Validate total student
-    // if (courseDetailFormData.totalStudent == 0) {
-    //   newCourseDetailError.totalStudent = "Total Student must be greater than 0";
-    //   errCount++;
-    // } else {
-    //   newCourseDetailError.totalStudent = "";
-    // }
 
     // Update state to trigger re-render
     setCourseDetailError(newCourseDetailError);

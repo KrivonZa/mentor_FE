@@ -1,195 +1,226 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import Search from "antd/es/input/Search";
-import { Select, SelectProps, Spin } from 'antd';
-import courseApprovalService from '../../../services/courseApprovalService';
+import { Select, SelectProps, Spin } from "antd";
+import courseApprovalService from "../../../services/courseApprovalService";
 
 export const CourseRequestPortalTable = () => {
-    const [statusFilter, setStatusFilter] = useState(null);
-    const [pageStat, setPageStat] = useState({
-        currentPage: 1,
-        totalPage: 0
-    });
+  const [statusFilter, setStatusFilter] = useState(null);
+  const [pageStat, setPageStat] = useState({
+    currentPage: 1,
+    totalPage: 0,
+  });
 
-    const [requestList, setRequestList] = useState<any>();
-    const [loading, setLoading] = useState<boolean>(false);
+  const [requestList, setRequestList] = useState<any>();
+  const [loading, setLoading] = useState<boolean>(false);
 
-    const approvedStatusOption: SelectProps['options'] = [
-        {
-            label: 'None',
-            value: null
-        },
-        {
-            label: 'PENDING',
-            value: 'PENDING'
-        },
-        {
-            label: 'APPROVED',
-            value: 'APPROVED'
-        },
-        {
-            label: 'REJECTED',
-            value: 'REJECTED'
-        }
-    ]
+  const approvedStatusOption: SelectProps["options"] = [
+    {
+      label: "Tất Cả",
+      value: null,
+    },
+    {
+      value: "PENDING",
+      label: "Đang Xử Lý",
+    },
+    {
+      value: "APPROVED",
+      label: "Duyệt Thành Công",
+    },
+    {
+      value: "REJECTED",
+      label: "Bị Từ Chối",
+    },
+  ];
 
-    const fetchRequest = async () => {
-        setLoading(true)
-        const data = await courseApprovalService.fetchRequestForMentor(statusFilter, pageStat.currentPage, null)
-        setRequestList(data.data.content)
+  const fetchRequest = async () => {
+    setLoading(true);
+    const data = await courseApprovalService.fetchRequestForMentor(
+      statusFilter,
+      pageStat.currentPage,
+      null
+    );
+    setRequestList(data.data.content);
 
-        setPageStat((prev) => ({
-            ...prev,
-            totalPage: data.data.totalPages
-        }))
+    setPageStat((prev) => ({
+      ...prev,
+      totalPage: data.data.totalPages,
+    }));
 
-        setLoading(false)
-    }
+    setLoading(false);
+  };
 
-    useEffect(() => {
-        fetchRequest()
-    }, [statusFilter, pageStat.currentPage])
+  useEffect(() => {
+    fetchRequest();
+  }, [statusFilter, pageStat.currentPage]);
 
-    return (
-        <div id="course-portal">
-            <div id="webcrumbs">
-                <div className="p-8">
-                    <div className="flex justify-between items-center mb-8">
-                        <h1 className="text-2xl font-bold">Course Management</h1>
-                    </div>
-                    <div className="flex justify-between items-center mb-3 pe-4">
-                        <Select
-                            className="w-25"
-                            placeholder="Select level"
-                            onChange={(selectedOption) => {
-                                setStatusFilter(selectedOption)
-                            }}
-                            options={approvedStatusOption}
-                            value={statusFilter}
-                        />
-                    </div>
-                    <div className="bg-white rounded-lg border">
-                        <table className="w-full">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold">
-                                        #
-                                    </th>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold">
-                                        Course
-                                    </th>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold">
-                                        AssigneeNote
-                                    </th>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold">
-                                        Status
-                                    </th>
-                                    <th className="px-6 py-4 text-left text-sm font-semibold">
-                                        Created At
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y">
-                                {!loading &&
-                                    requestList?.map(request => (
-                                        <tr key={request?.courseApprovalRequestID} className="hover:bg-gray-50 transition-colors">
-                                            <td className="px-6 py-4">
-                                                {request?.courseApprovalRequestID}
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <div className="flex items-center gap-3">
-                                                    <img
-                                                        src={
-                                                            request?.courseDetail?.thumbnail || "https://placehold.co/100x70"
-                                                        }
-                                                        alt="thumbnail"
-                                                        className="rounded-lg w-[100px] h-[70px] object-cover"
-                                                    />
-                                                    <div>
-                                                        <p className="font-medium">{request?.courseDetail?.courseName}</p>
-                                                        <p className="text-sm text-gray-500">
-                                                            {request?.courseDetail?.description}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                {request?.assigneeNote
-                                                    ? <div className="flex items-center gap-3">
-                                                        <div>
-                                                            <p className="font-medium">{request?.assigneeNote}</p>
-                                                            <p className="text-sm text-gray-500">
-                                                                {request?.updatedAt}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    : <></>
-                                                }
-                                            </td>
-
-                                            <td className="px-6 py-4">
-                                                <span className={`badge rounded-pill text-white px-3 py-2 
-                                                        ${request?.status === 'PENDING' ? 'bg-warning' :
-                                                        request?.status === 'APPROVED' ? 'bg-success' :
-                                                            request?.status === 'REJECTED' ? 'bg-danger' : ''}`}>
-                                                    {request?.status}
-                                                </span>
-                                            </td>
-
-                                            <td className="px-6 py-4">
-                                                {request?.createdAt}
-                                            </td>
-                                        </tr>
-                                    ))
-                                }
-                            </tbody>
-                        </table>
-                        {loading &&
-                            <div className="w-100">
-                                <Spin tip="Loading" size="small">
-                                    <div style={{
-                                        padding: 50,
-                                        background: 'rgba(0, 0, 0, 0.05)',
-                                        borderRadius: 4,
-                                    }} ></div>
-                                </Spin>
-                            </div>
-                        }
-                    </div>
-                    <div className="flex justify-between items-center mt-4">
-                        <p className="text-sm text-gray-500">Showing {pageStat.currentPage} of {pageStat.totalPage} entries</p>
-                        <div className="flex gap-2">
-                                <button
-                                    className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
-                                    disabled={pageStat.currentPage <=1 }
-                                    onClick={() => {
-                                        const newPage = pageStat.currentPage - 1
-                                        setPageStat((prev) => ({
-                                            ...prev,
-                                            currentPage: newPage
-                                        }))
-                                    }}
-                                >
-                                    Previous
-                                </button>
-                                <button
-                                    className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
-                                    disabled={pageStat.currentPage == pageStat.totalPage}
-                                    onClick={() => {
-                                        const newPage = pageStat.currentPage + 1
-                                        setPageStat((prev)=> ({
-                                            ...prev,
-                                            currentPage: newPage
-                                        }))
-                                    }}
-                                >
-                                    Next
-                                </button>
+  return (
+    <div id="course-portal">
+      <div id="webcrumbs">
+        <div className="p-8">
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-2xl font-bold">
+              Quản Lý Các Yêu Cầu Duyệt Khoá Học
+            </h1>
+          </div>
+          <div className="flex  items-center mb-3 pe-4">
+            <span style={{ marginRight: "8px" }}>Trạng Thái Yêu Cầu: </span>
+            <Select
+              className="w-25"
+              placeholder="Select level"
+              onChange={(selectedOption) => {
+                setStatusFilter(selectedOption);
+              }}
+              options={approvedStatusOption}
+              value={statusFilter}
+            />
+          </div>
+          <div className="bg-white rounded-lg border">
+            <table className="w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                    STT
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                    Tên Khoá Học
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                    Ghi Chú Sau Duyệt
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                    Trạng Thái
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                    Ngày Gửi Yêu Cầu
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y">
+                {!loading &&
+                  requestList?.map((request) => (
+                    <tr
+                      key={request?.courseApprovalRequestID}
+                      className="hover:bg-gray-50 transition-colors"
+                    >
+                      <td className="px-6 py-4">
+                        {request?.courseApprovalRequestID}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={
+                              request?.courseDetail?.thumbnail ||
+                              "https://placehold.co/100x70"
+                            }
+                            alt="thumbnail"
+                            className="rounded-lg w-[100px] h-[70px] object-cover"
+                          />
+                          <div>
+                            <p className="font-medium">
+                              {request?.courseDetail?.courseName}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              {request?.courseDetail?.description}
+                            </p>
+                          </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
+                      </td>
+                      <td className="px-6 py-4">
+                        {request?.assigneeNote ? (
+                          <div className="flex items-center gap-3">
+                            <div>
+                              <p className="font-medium">
+                                {request?.assigneeNote}
+                              </p>
+                              <p className="text-sm text-gray-500">
+                                {request?.updatedAt}
+                              </p>
+                            </div>
+                          </div>
+                        ) : (
+                          <></>
+                        )}
+                      </td>
 
-export default CourseRequestPortalTable
+                      <td className="px-6 py-4">
+                        <span
+                          className={`badge rounded-pill text-white px-3 py-2 
+                                                        ${
+                                                          request?.status ===
+                                                          "PENDING"
+                                                            ? "bg-warning"
+                                                            : request?.status ===
+                                                              "APPROVED"
+                                                            ? "bg-success"
+                                                            : request?.status ===
+                                                              "REJECTED"
+                                                            ? "bg-danger"
+                                                            : ""
+                                                        }`}
+                        >
+                          {request?.status == "PENDING" && "Đang Xử Lý"}
+                          {request?.status == "APPROVED" && "Duyệt Thành Công"}
+                          {request?.status == "REJECTED" && "Bị Từ Chối"}
+                        </span>
+                      </td>
+
+                      <td className="px-6 py-4">{request?.createdAt}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+            {loading && (
+              <div className="w-100">
+                <Spin tip="Loading" size="small">
+                  <div
+                    style={{
+                      padding: 50,
+                      background: "rgba(0, 0, 0, 0.05)",
+                      borderRadius: 4,
+                    }}
+                  ></div>
+                </Spin>
+              </div>
+            )}
+          </div>
+          <div className="flex justify-between items-center mt-4">
+            <p className="text-sm text-gray-500">
+              Hiển thị trang {pageStat.currentPage} trên tổng số{" "}
+              {pageStat.totalPage} trang
+            </p>
+            <div className="flex gap-2">
+              <button
+                className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+                disabled={pageStat.currentPage <= 1}
+                onClick={() => {
+                  const newPage = pageStat.currentPage - 1;
+                  setPageStat((prev) => ({
+                    ...prev,
+                    currentPage: newPage,
+                  }));
+                }}
+              >
+                Trang Trước
+              </button>
+              <button
+                className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+                disabled={pageStat.currentPage == pageStat.totalPage}
+                onClick={() => {
+                  const newPage = pageStat.currentPage + 1;
+                  setPageStat((prev) => ({
+                    ...prev,
+                    currentPage: newPage,
+                  }));
+                }}
+              >
+                Kế Tiếp
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CourseRequestPortalTable;
