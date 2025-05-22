@@ -17,19 +17,19 @@ export const SchedulePlanModal = () => {
         if (scheduleFormData.lessonID == -1
             || scheduleFormData.startTime == null
             || scheduleFormData.endTime == null) {
-            toast.error("Please fill the time!")
+            toast.error("Vui lòng nhập thời gian bắt đầu và kết thúc buổi học!")
             return;
         }
-        const loadingId = toast.loading("Creating schedule...");
+        const loadingId = toast.loading("Đang tạo lớp học...");
         try {
             const response = await scheduleService.addSchedule(scheduleFormData)
             if (response) {
                 await fetchPortalDetail();
-                toastLoadingSuccessAction(loadingId, "Create schedule success!");
+                toastLoadingSuccessAction(loadingId, "Lớp học được tạo thành công!");
                 setIsScheduleModalOpen(false);
             }
         } catch (error) {
-            toastLoadingSuccessAction(loadingId, "Failed when create schedule");
+            toastLoadingSuccessAction(loadingId, "Không thể tạo lớp học!");
             setIsScheduleModalOpen(false);
         }
     };
@@ -40,7 +40,7 @@ export const SchedulePlanModal = () => {
 
     return (
         <Modal
-            title="Add Schedule"
+            title="Tạo Lớp Học"
             open={isScheduleModalOpen}
             onOk={handleSubmitForm}
             onCancel={handleCancel}
@@ -204,7 +204,7 @@ export const SchedulePlanModal = () => {
                         }}
                     />
                 </Form.Item>
-                <Button className='w-100' type="primary" htmlType="submit">Create Schedule</Button>
+                <Button className='w-100' type="primary" htmlType="submit">Tạo Lớp</Button>
             </Form>
         </Modal>
     )

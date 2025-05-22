@@ -19,7 +19,7 @@ export const AuthVerify = () => {
                 if (decodedJwt.exp * 1000 < Date.now()) {
                     Swal.fire({
                         title: "Expired",
-                        text: "Session expired. Please log in again",
+                        text: "Vui lòng đăng nhập lại.",
                         icon: "warning",
                         confirmButtonText: "Log in again",
                         confirmButtonColor: "#d33",

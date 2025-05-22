@@ -96,8 +96,7 @@ export const Checkout = () => {
                 className="card-img-top"
                 style={{
                   borderRadius: "10px 10px 0 0",
-                  width: "300px",
-                  height: "300px",
+                  height: "275px",
                 }}
               />
             </div>

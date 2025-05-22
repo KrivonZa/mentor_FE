@@ -65,7 +65,7 @@ export function UserSchedule({ scheduleData }) {
           ? `<a href="${
               event.googleMeetUrl
             }" target="_blank" rel="noopener noreferrer">Course ${
-              event.className
+              event.className || "không lấy dc className"
             }</a><br>${formatTime(event.startTime)}-${formatTime(
               event.endTime
             )}`

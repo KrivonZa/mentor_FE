@@ -101,7 +101,7 @@ export const CreateMentorApproval = () => {
             const response = await createMentorRequest(mentorApplicationData);
 
             toast.update(loadingId, {
-                render: response?.data?.message || "Mentor application submitted successfully!",
+                render: response ? "Hồ sơ ứng tuyển chuyên gia đã được gửi thành công!" : "Đã xảy ra lỗi khi gửi hồ sơ ứng tuyển chuyên gia.",
                 type: "success",
                 isLoading: false,
                 autoClose: 3000,

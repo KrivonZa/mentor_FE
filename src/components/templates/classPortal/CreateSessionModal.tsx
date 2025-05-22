@@ -49,14 +49,14 @@ const CreateSessionModal = () => {
       // googleMeetUrl: values.googleMeetUrl
       googleMeetUrl: "",
     };
-    const loadingId = toast.loading("Creating Session...");
+    const loadingId = toast.loading("Đang tạo phòng học trực tuyến...");
     setIsLoading(true);
 
     try {
       await classService.createSession(updatedData);
       await fetchClassSessions(createSessionModalData.classID);
       handleCloseCreateSessionModal();
-      toastLoadingSuccessAction(loadingId, "Create Session Success!");
+      toastLoadingSuccessAction(loadingId, "Tạo phòng học trực tuyến thành công!");
     } catch (error) {
       toastLoadingFailAction(loadingId, error.response.data.message);
     }

@@ -78,7 +78,7 @@ const courseService = {
       return response.data;
     } catch (error) {
       console.error("Error creating course:", error);
-      toast.error(error.response.data.message)
+      toast.error("Xảy ra lỗi trong quá trình tạo khoá học.");
     }
   },
 
@@ -120,7 +120,7 @@ const courseService = {
       return response.data;
     } catch (error) {
       console.error("Error deleting course:", error);
-      toast.error(error.response.data.message);
+      toast.error("Xảy ra lỗi trong quá trình xoá khoá học.");
       return null;
     }
   },
@@ -149,7 +149,7 @@ const courseService = {
       return response.data;
     } catch (error) {
       console.error("Error deleting course:", error);
-      toast.error(error.response.data.message);
+      toast.error("Xảy ra lỗi trong quá trình lấy danh sách khoá học đã đăng ký.");
       return null;
     }
   },
@@ -160,7 +160,7 @@ const courseService = {
       return response.data;
     } catch (error) {
       console.error("Error deleting course:", error);
-      toast.error(error.response.data.message);
+      toast.error("Xảy ra lỗi trong quá trình lấy danh sách khoá học đã đăng ký.");
       return null;
     }
   },

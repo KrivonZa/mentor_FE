@@ -10,18 +10,42 @@ export function UserSidebar() {
     { to: "/user", label: "Hồ Sơ Cá Nhân", icon: "man" },
     { to: "/user/wallet", label: "Ví EmpowerU", icon: "wallet" },
     { to: "/user/schedule", label: "Lịch Học", icon: "calendar_month" },
-    { to: "/user/request-withdraw", label: "Lịch Sử Giao Dịch", icon: "request_page" },
+    {
+      to: "/user/request-withdraw",
+      label: "Lịch Sử Giao Dịch",
+      icon: "request_page",
+    },
   ];
 
   if (role !== "MENTOR") {
-    menuItems.push({ to: "/user/registered-class", label: "Khoá Học Của Tôi", icon: "dataset" });
-    menuItems.push({ to: "/user/approval", label: "Đăng Kí Dạy!", icon: "school" });
+    menuItems.push({
+      to: "/user/registered-class",
+      label: "Khoá Học Của Tôi",
+      icon: "dataset",
+    });
+    menuItems.push({
+      to: "/user/approval",
+      label: "Đăng Kí Dạy!",
+      icon: "school",
+    });
   }
 
   if (role === "MENTOR") {
-    menuItems.push({ to: "/user/course-portal", label: "Khoá Học Của Tôi", icon: "list_alt" });
-    menuItems.push({ to: "/user/course-request", label: "Khoá Học Chờ Duyệt", icon: "local_activity" });
-    menuItems.push({ to: "/user/class-portal", label: "Quản Lý Lớp Học", icon: "school" });
+    menuItems.push({
+      to: "/user/course-portal",
+      label: "Khoá Học Của Tôi",
+      icon: "list_alt",
+    });
+    menuItems.push({
+      to: "/user/course-request",
+      label: "Yêu Cầu Kiểm Duyệt",
+      icon: "local_activity",
+    });
+    menuItems.push({
+      to: "/user/class-portal",
+      label: "Quản Lý Lớp Học",
+      icon: "school",
+    });
   }
 
   const isActive = (itemTo) => {
@@ -40,9 +64,14 @@ export function UserSidebar() {
                 to={item.to}
                 className={`d-flex align-items-center pe-4 p-2 text-success text-decoration-none rounded fw-bold transition 
                   ${isActive(item.to) ? "bg-success text-white" : ""}`}
-                style={{ transition: "all 0.3s ease-in-out", position: "relative" }}
+                style={{
+                  transition: "all 0.3s ease-in-out",
+                  position: "relative",
+                }}
               >
-                <span className="me-2 material-symbols-outlined">{item.icon}</span>
+                <span className="me-2 material-symbols-outlined">
+                  {item.icon}
+                </span>
                 <span
                   className={`chevron-icon position-absolute end-0 ms-2 material-symbols-outlined 
                     ${isActive(item.to) ? "show" : ""}`}

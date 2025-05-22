@@ -93,7 +93,7 @@ export function Wallet() {
         });
       } catch (error) {
         toast.update(loadingId, {
-          render: error?.response?.data?.message || "Không nạp được tiền!",
+          render: "Không nạp được tiền! Vui lòng thử lại.",
           type: "error",
           isLoading: false,
           autoClose: 3000,
@@ -117,7 +117,7 @@ export function Wallet() {
         });
       } catch (error) {
         toast.update(loadingId, {
-          render: error?.response?.data?.message || "Không rút được tiền!",
+          render: "Yêu cầu rút tiền không thành công! Vui lòng thử lại.",
           type: "error",
           isLoading: false,
           autoClose: 3000,

@@ -118,7 +118,7 @@ export const LessonFormTab = () => {
       }
 
       const response = await courseService.createCourse(request);
-      if (response.data) toastLoadingSuccessAction(loadingId, "Không thể tạo nội dung khoá học");
+      if (response.data) toastLoadingSuccessAction(loadingId, "Tạo khoá học mới thành công.");
 
       await fetchPortalDetail();
       handleCloseCourseModal();

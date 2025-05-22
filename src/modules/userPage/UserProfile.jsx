@@ -114,21 +114,21 @@ export const UserProfile = () => {
             setCvPreviewUrl(cvUrl);
             setAvatarFile(null);
             setAvatarPreview(avatarUrl);
-            setMessage("Profile updated successfully!");
+            setMessage("Cập nhật hồ sơ cá nhân thành công!");
             toast.update(loadingId, {
-                render: "Profile updated successfully!",
+                render: "Cập nhật hồ sơ cá nhân thành công!",
                 type: "success",
                 isLoading: false,
                 autoClose: 3000,
             });
         } catch (error) {
             toast.update(loadingId, {
-                render: error?.response?.data?.message,
+                render: "Không cập nhật được hồ sơ cá nhân. Xin vui lòng thử lại.",
                 type: "error",
                 isLoading: false,
                 autoClose: 3000,
             });
-            setMessage(error?.response?.data?.message || "Error updating profile. Please try again.");
+            setMessage("Không cập nhật được hồ sơ cá nhân. Xin vui lòng thử lại.");
         } finally {
             setLoading(false);
         }

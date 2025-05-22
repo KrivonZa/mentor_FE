@@ -231,52 +231,87 @@ export const ClassPortalProvider = ({ children }) => {
     // Validate classDescription
     if (classModalFormData.classDescription.trim() === "") {
       // setClassFormDataError(prevState => ({ ...prevState, classDescription: "Class Description is required" }));
-      newCourseDetailError.classDescription = "Class Description is required";
+      newCourseDetailError.classDescription = "Vui lòng nhập mô tả lớp học";
       errCount++;
     }
 
     if (classModalFormData.totalStudent <= 0) {
-      newCourseDetailError.totalStudent = "Class must have at least 1 student";
+      newCourseDetailError.totalStudent = "Vui lòng nhập số lượng học viên";
       errCount++;
     }
 
     if (classModalFormData.totalStudent > 100) {
-      newCourseDetailError.totalStudent = "Class must not exceed 100 students";
+      newCourseDetailError.totalStudent = "Số lượng học viên không thể lớn hơn 100 người";
       errCount++;
     }
 
     if (classModalFormData.price < 10000) {
-      newCourseDetailError.price = "Price must be above 10000VND";
+      newCourseDetailError.price = "Học phí phải lớn hơn 10.000đ";
       errCount++;
     }
 
     if (!classModalFormData.courseID) {
-      newCourseDetailError.courseID = "Please select a course";
+      newCourseDetailError.courseID = "Vui lòng chọn khoá học của lớp học này";
       errCount++;
     }
 
     if (!classModalFormData.expectedStartDate) {
-      newCourseDetailError.expectedStartDate = "Please select a valid date";
+      newCourseDetailError.expectedStartDate = "Vui lòng chọn ngày bắt đầu lớp học.";
       errCount++;
     } else if (dayjs(classModalFormData.expectedStartDate).isBefore(dayjs(), "day")) {
-      newCourseDetailError.expectedStartDate = "Date must not be in the past";
+      newCourseDetailError.expectedStartDate = "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại.";
       errCount++;
     }
 
     if (classModalFormData.totalSession <= 0) {
-      newCourseDetailError.totalSession = "Class must have at least 1 session"
+      newCourseDetailError.totalSession = "Lớp học phải có tối thiểu 1 buổi học";
       errCount++;
     }
 
     if (classModalFormData.totalSession > 50) {
-      newCourseDetailError.totalSession = "Class must not exceed 50 sessions"
+      newCourseDetailError.totalSession = "Một lớp học không thể kéo dài quá 50 buổi học.";
       errCount++;
     }
 
     if (classModalFormData.classSchedules.length <= 0) {
-      newCourseDetailError.classSchedules = "Class must have at least 1 session"
+      newCourseDetailError.classSchedules = "Lịch học phải có ít nhất 1 ngày học";
       errCount++;
     }
+
+    classModalFormData.classSchedules.forEach((schedule: ClassSchedules) => {
+      if (!schedule.startTime || !schedule.endTime) {
+        newCourseDetailError.classSchedules = "Vui lòng chọn thời gian bắt đầu và kết thúc cho lịch học";
+        errCount++;
+      } else if (dayjs(schedule.startTime).isAfter(dayjs(schedule.endTime))) {
+        newCourseDetailError.classSchedules = "Thời gian bắt đầu phải trước thời gian kết thúc";
+        errCount++;
+      } else if (dayjs(schedule.startTime) == (dayjs(schedule.endTime))) {
+        newCourseDetailError.classSchedules = "Thời gian bắt đầu không được trùng với thời gian kết thúc";
+        errCount++; 
+      }
+      
+      // CASE if want to validate the time range
+      // if (schedule.startTime && schedule.endTime) {
+      //   const startTime = dayjs(schedule.startTime, 'HH:mm:ss');
+      //   const endTime = dayjs(schedule.endTime, 'HH:mm:ss');
+      //   const startTimeString = startTime.format('HH:mm');
+      //   const endTimeString = endTime.format('HH:mm');
+      //   const startTimeHour = parseInt(startTimeString.split(':')[0]);
+      //   const startTimeMinute = parseInt(startTimeString.split(':')[1]);
+      //   const endTimeHour = parseInt(endTimeString.split(':')[0]);
+      //   const endTimeMinute = parseInt(endTimeString.split(':')[1]);
+      //   if (startTimeHour < 8 || (startTimeHour === 8 && startTimeMinute < 0)) {
+      //     newCourseDetailError.classSchedules = "Thời gian bắt đầu phải lớn hơn hoặc bằng 08:00";
+      //     errCount++;
+      //   }
+      //   if (endTimeHour > 22 || (endTimeHour === 22 && endTimeMinute > 0)) {
+      //     newCourseDetailError.classSchedules = "Thời gian kết thúc phải nhỏ hơn hoặc bằng 22:00";
+      //     errCount++;
+      //   } 
+      // }
+
+    }
+  );
 
     setClassFormDataError(newCourseDetailError);
 
@@ -311,12 +346,12 @@ export const ClassPortalProvider = ({ children }) => {
     }
 
     setLoading(true);
-    const loadingId = toast.loading("Creating class...");
+    const loadingId = toast.loading("Đang tạo lớp học...");
     try {
       const response = await classService.createClass(classCreateReq)
       if (response) {
-        toast.success(response.message);
-        toastLoadingSuccessAction(loadingId, "Create Session Success!");
+        toast.success("Tạo Lớp Học Thành Công!");
+        toastLoadingSuccessAction(loadingId, "Đang tạo lớp học...");
         fetchClassPortal()
         closeClassModel()
         setLoading(false);
@@ -343,7 +378,7 @@ export const ClassPortalProvider = ({ children }) => {
     try {
       const response = await classService.updateClass(classUpdateReq)
       if (response) {
-        toast.success(response.message);
+        toast.success("Cập nhật lớp học thành công!");
         fetchClassPortal()
       }
     } catch (error) {
@@ -352,7 +387,7 @@ export const ClassPortalProvider = ({ children }) => {
   }
 
   const handleDeleteClass = async (classID: number) => {
-    const loadingId = toast.loading("Update course...");
+    const loadingId = toast.loading("Đang cập nhật khoá học...");
     try {
       const response = await classService.deleteClass(classID)
       if (response) {

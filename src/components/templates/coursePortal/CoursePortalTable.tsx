@@ -216,17 +216,17 @@ export const CoursePortalTable = () => {
           <div className="bg-white rounded-lg border">
             <table className="w-full">
               <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                <tr className="row">
+                  <th className="col-sm-8 py-4 px-4 text-center font-semibold">
                     Tên Khoá Học
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                  <th className="col-sm-2 py-4 px-4 text-center font-semibold">
                     Trình Độ
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                  <th className="col-sm-1 py-4 px-4 text-center font-semibold">
                     Trạng Thái Kiểm Duyệt
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                  <th className="col-sm-1 py-4 px-4 text-center font-semibold">
                     Công Cụ Quản Lý
                   </th>
                 </tr>
@@ -235,18 +235,18 @@ export const CoursePortalTable = () => {
                 {!loading &&
                   listCoursePortal?.content?.map((course, index) => (
                     <React.Fragment key={course.courseID}>
-                      <tr className="hover:bg-gray-50 transition-colors">
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
+                      <tr className="hover:bg-gray-50 transition-colors row">
+                        <td className="px-6 py-4 col-sm-8">
+                          <div className="row items-center">
                             <img
                               src={
                                 course.thumbnail ||
                                 "https://placehold.co/100x70"
                               }
                               alt="thumbnail"
-                              className="rounded-lg w-[100px] h-[70px] object-cover"
+                              className="rounded-lg h-100 object-cover col-sm-2"
                             />
-                            <div>
+                            <div className="col-sm-10">
                               <p className="font-medium">{course.courseName}</p>
                               <p className="text-sm text-gray-500">
                                 {course.description}
@@ -254,7 +254,7 @@ export const CoursePortalTable = () => {
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-4 col-sm-2 text-center">
                           {(() => {
                             switch (course.level) {
                               case "BEGINNER":
@@ -297,7 +297,7 @@ export const CoursePortalTable = () => {
                           })()}
                           {/* <span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800">{course.level}</span> */}
                         </td>
-                        <td className="px-6 py-4 text-center">
+                        <td className="px-6 py-4 text-center col-sm-1">
                           {(() => {
                             switch (course.verifyStatus) {
                               // BAN,
@@ -344,7 +344,7 @@ export const CoursePortalTable = () => {
                             }
                           })()}
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-4 col-sm-1 text-center">
                           <div className="flex items-center gap-2 flex-column">
                             <div className="d-flex">
                               {course.verifyStatus == "PENDING" ? (
@@ -352,7 +352,7 @@ export const CoursePortalTable = () => {
                                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                                   onClick={async () => {
                                     toast.info(
-                                      "This course is going to view by our staff, cannot delete!"
+                                      "Khoá học đang trong quá trình kiểm duyệt, vui lòng không xoá!"
                                     );
                                   }}
                                 >

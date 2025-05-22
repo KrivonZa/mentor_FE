@@ -202,7 +202,7 @@ export default function Header() {
                           }
                           onClick={closeMobileNav}
                         >
-                          Khoá Học Chờ Duyệt
+                          Yêu Cầu Kiểm Duyệt
                         </NavLink>
                       </li>
                       <li>

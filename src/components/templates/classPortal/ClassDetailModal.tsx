@@ -263,7 +263,8 @@ export const ClassDetailModal = () => {
                             if (
                               !value ||
                               !endTime ||
-                              dayjs(value).isBefore(dayjs(endTime))
+                              dayjs(value).isBefore(dayjs(endTime)) ||
+                              dayjs(value).isSame(dayjs(endTime), "second")
                             ) {
                               return Promise.resolve();
                             }
@@ -316,7 +317,8 @@ export const ClassDetailModal = () => {
                             if (
                               !value ||
                               !startTime ||
-                              dayjs(startTime).isBefore(dayjs(value))
+                              dayjs(startTime).isBefore(dayjs(value) || 
+                              dayjs(startTime).isSame(dayjs(value), "second"))
                             ) {
                               return Promise.resolve();
                             }
