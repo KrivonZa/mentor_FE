@@ -86,7 +86,6 @@ export const RegisteredClasses = () => {
                   <th style={{ padding: "10px" }}>Người Hướng Dẫn</th>
                   <th style={{ padding: "10px" }}>Học Phí</th>
                   <th style={{ padding: "10px" }}>Ngày Bắt Đầu</th>
-                  <th style={{ padding: "10px" }}>Sỉ Số Lớp</th>
                   <th style={{ padding: "10px" }}>Tổng Số Buổi</th>
                   <th style={{ padding: "10px" }}>Chi Tiết</th>{" "}
                   {/* New column for the eye icon */}
@@ -112,16 +111,13 @@ export const RegisteredClasses = () => {
                         {classItem.expectedStartDate}
                       </td>
                       <td style={{ padding: "10px" }}>
-                        {classItem.registeredStudent}/{classItem.totalStudent}
-                      </td>
-                      <td style={{ padding: "10px" }}>
                         {classItem.totalSession}
                       </td>
                       <td style={{ padding: "10px", textAlign: "center" }}>
                         <Button
                           type="link"
                           style={{ color: "#52c41a" }}
-                          icon={<EyeOutlined style={{ fontSize: "24px" }} />}
+                          icon={<EyeOutlined style={{ fontSize: "24px", marginRight:"25px" }} />}
                           onClick={() => showModal(classItem)}
                         />
                       </td>
@@ -231,9 +227,7 @@ export const RegisteredClasses = () => {
               <Descriptions.Item label="Tổng Số Buổi">
                 {selectedClass.totalSession}
               </Descriptions.Item>
-              <Descriptions.Item label="Sỉ Số Lớp">
-                {selectedClass.registeredStudent}/{selectedClass.totalStudent}
-              </Descriptions.Item>
+
             </Descriptions>
 
             <Title level={4} style={{ marginTop: "40px" }}>

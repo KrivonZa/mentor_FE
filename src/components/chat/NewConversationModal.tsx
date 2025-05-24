@@ -28,7 +28,7 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({
     const fetchUsers = async () => {
       try {
         // Replace with your actual API call
-        // const response = await fetch('http://localhost:8080/api/users');
+        // const response = await fetch('http://localhost:9090/api/users');
         const response = await fetch('http://empower-u.sytes.net:9090/api/users');
         const data = await response.json();
         setUsers(data);

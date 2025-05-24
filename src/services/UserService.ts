@@ -88,6 +88,7 @@ const createUser = async (user: User): Promise<void> => {
   }
 };
 
+
 const getAllUsers = async ({ page, size }): Promise<User[]> => {
   try {
     const response = await userPrivateApi.get<User[]>(
@@ -136,7 +137,7 @@ const getUserByToken = async (
     }
 
     const response = await userPrivateApi.get<StudentDetailResponse | MentorDetailResponse>(endpoint);
-
+    
     return response.data;
   } catch (error) {
     console.error("Error fetching user by token:", error);

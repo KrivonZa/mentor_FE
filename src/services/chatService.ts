@@ -2,6 +2,7 @@ import axios from 'axios';
 import athenService from './authenService'
 import { apiInstance, apiPrivateInstance } from '../constants';
 import { Conversation, Message, GroupConversationCreateRequest} from '../types/chatModel';
+import { API_BASE_URL} from "../constants";
 
 const API_URL_LOCAL = 'http://localhost:9090/empoweru/sba/chat';
 // const API_URL = 'http://empoweru.trangiangkhanh.site/empoweru/sba/chat';

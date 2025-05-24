@@ -2,7 +2,9 @@ import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import CourseDetailInfoSkeleton from './skeleton/CourseDetailInfoSkeleton'
 import { CourseDetailContext } from '../../../modules/mainPage/CourseDetail';
-
+import { API_BASE_URL } from '../../../constants';
+import { toast } from "react-toastify";
+import axios from "axios";
 const buttonStyles = {
     backgroundColor: "#5fd080",
     border: "none",
@@ -15,6 +17,28 @@ export const CourseDetailInfo = () => {
 
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
+
+    const handleCheckAndNavigate = async () => {
+    try {
+        const userId = localStorage.getItem("ID");
+        const classID = courseDetail?.classID;
+
+        const res = await axios.get(
+            `${API_BASE_URL}/class/check-registered/${classID}?userID=${userId}`
+        );
+
+        const isAlreadyRegistered = res.data?.data === true;
+
+        if (isAlreadyRegistered) {
+            toast.error("Bạn đã đăng ký khóa học này!");
+        } else {
+            navigate(`/checkout/${classID}`);
+        }
+    } catch (error) {
+        console.error(error);
+        toast.error("Lỗi khi kiểm tra đăng ký. Vui lòng thử lại.");
+    }
+};
 
     const expectedStartDate = courseDetail?.expectedStartDate
         ? new Date(courseDetail.expectedStartDate[0], courseDetail.expectedStartDate[1] - 1, courseDetail.expectedStartDate[2])
@@ -68,7 +92,7 @@ export const CourseDetailInfo = () => {
                     <div className="container" data-aos="fade-up">
                         <div className="row">
                             <div className="col-lg-7">
-                                <img src={courseDetail?.courseInfo?.thumbnail} className="img-fluid" alt="" style={{width: "90%", borderRadius:"30px", boxShadow:"0 12px 25px rgba(0, 0, 0, 0.2)"}}/>
+                                <img src={courseDetail?.courseInfo?.thumbnail} className="img-fluid" alt="" style={{ width: "90%", borderRadius: "30px", boxShadow: "0 12px 25px rgba(0, 0, 0, 0.2)" }} />
                                 <h3>{courseDetail?.courseInfo?.courseName}</h3>
                                 <p>
                                     {courseDetail?.classDescription}
@@ -107,7 +131,7 @@ export const CourseDetailInfo = () => {
                                         disabled={isDisabled}
                                         className="d-flex btn btn-lg align-items-center justify-content-between rounded shadow-sm w-100 course-info fw-semibold gap-2 px-4"
                                         style={buttonStyles}
-                                        onClick={() => navigate(`/checkout/${courseDetail?.classID}`)}
+                                        onClick={handleCheckAndNavigate}
                                     >
                                         <h5 className="text-white">
                                             Thanh Toán Ngay: {courseDetail?.price?.toLocaleString()}đ
