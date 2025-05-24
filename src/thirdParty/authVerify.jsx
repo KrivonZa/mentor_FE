@@ -18,10 +18,10 @@ export const AuthVerify = () => {
                 const decodedJwt = jwtDecode(userData);
                 if (decodedJwt.exp * 1000 < Date.now()) {
                     Swal.fire({
-                        title: "Expired",
+                        title: "Phiên đăng nhập đã hết hạn",
                         text: "Vui lòng đăng nhập lại.",
                         icon: "warning",
-                        confirmButtonText: "Log in again",
+                        confirmButtonText: "Đăng Nhập",
                         confirmButtonColor: "#d33",
                         allowOutsideClick: false
                     }).then(() => {

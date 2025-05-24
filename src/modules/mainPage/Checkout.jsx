@@ -57,7 +57,7 @@ export const Checkout = () => {
       }
       await Swal.fire({
         title: "Đang xử lý",
-        text: "Yêu cầu của bạn đã được gửi cho Momo xử lý",
+        text: "Yêu cầu của bạn đã được xử lý",
         icon: "success",
         confirmButtonColor: "#3085d6",
         confirmButtonText: "OK",
