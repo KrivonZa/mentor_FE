@@ -85,11 +85,11 @@ export function MentorApprovalRequest() {
   };
 
   const handleUpdateStatus = async (id, status) => {
-    const loadingId = toast.loading("Submitting mentor application...");
+    const loadingId = toast.loading("Hồ sơ của bạn đang được gửi xét duyệt...");
     try {
       const response = await updateMentorRequest(id, status);
       toast.update(loadingId, {
-        render: response?.data?.message || `Request status updated to ${status}!`,
+        render: response?.data?.message || `Trạng thái được cập nhật sang ${status}!`,
         type: "success",
         isLoading: false,
         autoClose: 3000,
@@ -97,7 +97,7 @@ export function MentorApprovalRequest() {
       fetchRequests();
     } catch (err) {
       toast.update(loadingId, {
-        render: err?.response?.data?.message || "Error updating status",
+        render: err?.response?.data?.message ||  "Không cập nhật được trạng thái hồ sơ. Xin vui lòng thử lại.",
         type: "error",
         isLoading: false,
         autoClose: 3000,

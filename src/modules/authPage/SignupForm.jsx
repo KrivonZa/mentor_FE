@@ -23,7 +23,7 @@ export const SignupForm = () => {
     setLoading(true)
     const phoneRegex = /^(?:\+84\s?|0)(\d{9})$/;
     if (!phoneRegex.test(phoneNumber)) {
-      toast.error("Please enter a valid phone number (e.g. +84 903307685 or 0903307685).");
+      toast.error("Số điện thoại không hợp lệ. Vui lòng nhập lại.");
       setLoading(false);
       return;
     }

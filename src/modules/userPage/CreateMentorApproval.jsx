@@ -76,7 +76,7 @@ export const CreateMentorApproval = () => {
         e.preventDefault();
         setLoading(true);
 
-        const loadingId = toast.loading("Submitting mentor application...");
+        const loadingId = toast.loading("Đang gửi yêu cầu...");
         try {
             let cvUrl = formData.cv;
             let videoUrl = formData.introductionVideo;
@@ -101,7 +101,7 @@ export const CreateMentorApproval = () => {
             const response = await createMentorRequest(mentorApplicationData);
 
             toast.update(loadingId, {
-                render: response?.data?.message || "Mentor application submitted successfully!",
+                render: response ? "Hồ sơ ứng tuyển chuyên gia đã được gửi thành công!" : "Đã xảy ra lỗi khi gửi hồ sơ ứng tuyển chuyên gia.",
                 type: "success",
                 isLoading: false,
                 autoClose: 3000,
@@ -115,7 +115,7 @@ export const CreateMentorApproval = () => {
 
         } catch (error) {
             toast.update(loadingId, {
-                render: error?.response?.data?.message || "Error submitting application. Please try again.",
+                render: error?.response?.data?.message || "Lỗi ứng tuyển vui lòng thử lại",
                 type: "error",
                 isLoading: false,
                 autoClose: 3000,

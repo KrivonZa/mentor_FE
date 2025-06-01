@@ -93,7 +93,7 @@ export function Wallet() {
         });
       } catch (error) {
         toast.update(loadingId, {
-          render: error?.response?.data?.message || "Không nạp được tiền!",
+          render: "Không nạp được tiền! Vui lòng thử lại.",
           type: "error",
           isLoading: false,
           autoClose: 3000,
@@ -117,7 +117,7 @@ export function Wallet() {
         });
       } catch (error) {
         toast.update(loadingId, {
-          render: error?.response?.data?.message || "Không rút được tiền!",
+          render: "Yêu cầu rút tiền không thành công! Vui lòng thử lại.",
           type: "error",
           isLoading: false,
           autoClose: 3000,
@@ -160,10 +160,10 @@ export function Wallet() {
             ? `${value}T00:00:00`
             : ""
           : name === "to"
-          ? value
-            ? `${value}T23:59:59`
-            : ""
-          : value,
+            ? value
+              ? `${value}T23:59:59`
+              : ""
+            : value,
     });
   };
 
@@ -259,9 +259,8 @@ export function Wallet() {
                   <input
                     type="number"
                     id="amount"
-                    className={`form-control form-control-lg rounded-3 ${
-                      errors.amount ? "is-invalid" : ""
-                    }`}
+                    className={`form-control form-control-lg rounded-3 ${errors.amount ? "is-invalid" : ""
+                      }`}
                     value={amount}
                     onChange={(e) => {
                       setAmount(e.target.value);
@@ -277,9 +276,8 @@ export function Wallet() {
                       <button
                         key={option}
                         type="button"
-                        className={`btn rounded-3 px-3 py-1 text-dark border ${
-                          amount === option.toString() ? "text-white" : ""
-                        }`}
+                        className={`btn rounded-3 px-3 py-1 text-dark border ${amount === option.toString() ? "text-white" : ""
+                          }`}
                         style={{
                           backgroundColor:
                             amount === option.toString()
@@ -325,9 +323,8 @@ export function Wallet() {
                       <input
                         type="text"
                         id="bankName"
-                        className={`form-control form-control-lg rounded-3 ${
-                          errors.bankName ? "is-invalid" : ""
-                        }`}
+                        className={`form-control form-control-lg rounded-3 ${errors.bankName ? "is-invalid" : ""
+                          }`}
                         value={bankName}
                         onChange={(e) => {
                           setBankName(e.target.value);
@@ -351,9 +348,8 @@ export function Wallet() {
                       <input
                         type="text"
                         id="accountNumber"
-                        className={`form-control form-control-lg rounded-3 ${
-                          errors.accountNumber ? "is-invalid" : ""
-                        }`}
+                        className={`form-control form-control-lg rounded-3 ${errors.accountNumber ? "is-invalid" : ""
+                          }`}
                         value={accountNumber}
                         onChange={(e) => {
                           setAccountNumber(e.target.value);
@@ -377,9 +373,8 @@ export function Wallet() {
                       <input
                         type="text"
                         id="accountHolderName"
-                        className={`form-control form-control-lg rounded-3 ${
-                          errors.accountHolderName ? "is-invalid" : ""
-                        }`}
+                        className={`form-control form-control-lg rounded-3 ${errors.accountHolderName ? "is-invalid" : ""
+                          }`}
                         value={accountHolderName}
                         onChange={(e) => {
                           setAccountHolderName(e.target.value);
@@ -528,8 +523,8 @@ export function Wallet() {
                               tx.status === "SUCCESS"
                                 ? "#5fd080"
                                 : tx.status === "PENDING"
-                                ? "#ffc107"
-                                : "#d33",
+                                  ? "#ffc107"
+                                  : "#d33",
                           }}
                         >
                           {tx.status}

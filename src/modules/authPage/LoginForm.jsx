@@ -25,8 +25,8 @@ export function LoginForm() {
     if (check === "true") {
       Swal.fire({
         icon: "success",
-        title: "Account Created!",
-        text: "Your account has been successfully created. Please log in.",
+        title: "Tạo Tài Khoản Thành Công!",
+        text: "Tài khoản của bạn đã được tạo thành công. Vui lòng đăng nhập để tiếp tục.",
         confirmButtonText: "OK",
       }).then(() => {
         navigate("/auth", { replace: true }); // Remove ?check=true from URL

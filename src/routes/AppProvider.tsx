@@ -55,8 +55,10 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       setUser({ token: data.token, role: data.role, id: data.id });
       if (data.role === "STAFF") {
         navigate("/admin");
-      } else if (data.role === "USER" || data.role === "MENTOR") {
+      } else if (data.role === "MENTOR") {
         navigate("/user");
+      } else if (data.role === "USER") {
+        navigate("/");
       } else {
         navigate("/auth");
       }
