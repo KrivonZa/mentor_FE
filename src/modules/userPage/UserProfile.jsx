@@ -88,7 +88,7 @@ export const UserProfile = () => {
         setLoading(true);
         setMessage("");
 
-        const loadingId = toast.loading("Uploading profile...");
+        const loadingId = toast.loading("Đang cập nhật hồ sơ cá nhân...");
         try {
             let cvUrl = formData.cv;
             let videoUrl = formData.introductionVideo;

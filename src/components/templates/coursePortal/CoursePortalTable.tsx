@@ -235,7 +235,7 @@ export const CoursePortalTable = () => {
                 {!loading &&
                   listCoursePortal?.content?.map((course, index) => (
                     <React.Fragment key={course.courseID}>
-                      <tr className="hover:bg-gray-50 transition-colors row">Add commentMore actions
+                      <tr className="hover:bg-gray-50 transition-colors row">
                         <td className="px-6 py-4 col-sm-8">
                           <div className="row items-center">
                             <img

@@ -88,7 +88,6 @@ const createUser = async (user: User): Promise<void> => {
   }
 };
 
-
 const getAllUsers = async ({ page, size }): Promise<User[]> => {
   try {
     const response = await userPrivateApi.get<User[]>(
@@ -136,8 +135,10 @@ const getUserByToken = async (
       throw new Error("Invalid role. Unable to fetch user data.");
     }
 
-    const response = await userPrivateApi.get<StudentDetailResponse | MentorDetailResponse>(endpoint);
-    
+    const response = await userPrivateApi.get<
+      StudentDetailResponse | MentorDetailResponse
+    >(endpoint);
+
     return response.data;
   } catch (error) {
     console.error("Error fetching user by token:", error);
@@ -157,14 +158,8 @@ const updateUserProfile = async (
     } else if (role === "USER") {
       endpoint = `${API_BASE_URL}/user/update-by-token`;
     }
-    // const response = await axios.put(`${endpoint}`, userProfileData, {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //     "Content-Type": "application/json",
-    //   },
-    // });
 
-    const response = await userPrivateApi.put(endpoint, userProfileData)
+    const response = await userPrivateApi.put(endpoint, userProfileData);
 
     return response.data;
   } catch (error) {
@@ -225,7 +220,7 @@ const changePassword = async (data: ChangePassword): Promise<void> => {
   }
 };
 
-const getRegisteredClass = async ({ page, perPage }): Promise<void> => {
+const getRegisteredClass = async ({ page, perPage }) => {
   try {
     const response = await userPrivateApi.get(
       `/get-registered-class?page=${page}&perPage=${perPage}`
@@ -233,6 +228,83 @@ const getRegisteredClass = async ({ page, perPage }): Promise<void> => {
     return response.data;
   } catch (error) {
     throw error;
+  }
+};
+
+const getRegisteredClassWithStatusFalse = async ({ registeredClasses, id }) => {
+  try {
+    console.log("Input data:", { registeredClasses, id });
+
+    // Validate inputs
+    if (!registeredClasses || !registeredClasses.data) {
+      console.warn("Invalid registeredClasses data");
+      return { data: { content: [] } };
+    }
+
+    if (!id) {
+      console.warn("Missing user ID");
+      return { data: { content: [] } };
+    }
+
+    // Extract classes array safely
+    const classesArray =
+      registeredClasses.data.content || registeredClasses.data || [];
+
+    if (!Array.isArray(classesArray)) {
+      console.warn("Classes data is not an array:", classesArray);
+      return { data: { content: [] } };
+    }
+
+    // Try to get history, but don't fail completely if it errors
+    let classHistory = [];
+    try {
+      const historyResponse = await axios.get(
+        `http://empoweru.com.vn:9090/empoweru/sba/class-registration/get-student-class-history/${id}`
+      );
+      classHistory = historyResponse.data || [];
+    } catch (historyError) {
+      console.warn("Could not fetch class history:", historyError.message);
+      // Return original data if history fetch fails
+      return registeredClasses;
+    }
+    console.log(classHistory);
+    // Ensure classHistory is array - ignore all errors here - only TS type error - still works
+    if (!Array.isArray(classHistory)) {
+      console.warn("Class history is not an array, converting to array");
+      classHistory = Array.isArray(classHistory.data)
+        ? classHistory.data
+        : [classHistory.data];
+    }
+
+    // Filter classes safely
+    const classesWithStatusFalse = classesArray.filter((regClass) => {
+      if (!regClass) {
+        return false;
+      }
+      const historyEntry = classHistory.find(
+        (history) =>
+          history &&
+          history.courseName === regClass.courseDetail.courseName &&
+          history.totalSessions === regClass.totalSession &&
+          history.price === regClass.price
+      );
+      return historyEntry && historyEntry.status === false;
+    });
+
+    console.log("Filtered classes:", classesWithStatusFalse);
+
+    return {
+      data: {
+        content: classesWithStatusFalse,
+        totalPages: registeredClasses.data.totalPages || 1,
+        totalElements: classesWithStatusFalse.length,
+      },
+    };
+  } catch (error) {
+    console.error("Error in getRegisteredClassWithStatusFalse:", error);
+    // Don't throw - return original data instead
+    console.log("Returning original data due to error");
+    return registeredClasses;
   }
 };
 
@@ -248,5 +320,6 @@ export {
   getTimeTable,
   changePassword,
   getRegisteredClass,
-  getAllRegisteredClass
+  getAllRegisteredClass,
+  getRegisteredClassWithStatusFalse,
 };

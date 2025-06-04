@@ -30,7 +30,6 @@ export default function Header() {
     logout();
   };
 
-
   const toggleMobileNav = () => {
     setIsMobileNavOpen(!isMobileNavOpen);
   };
@@ -51,7 +50,7 @@ export default function Header() {
         <a href="/" className="d-flex align-items-center">
           <img
             src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747233033623-duydtase183660%40fpt.edu.vn-logo.svg"
-            alt="Empower U Logo"
+            alt="EmpowerU Logo"
             style={{ width: "55%", height: "30%" }}
           />
         </a>
@@ -67,7 +66,7 @@ export default function Header() {
                   <NavLink
                     to="/"
                     className={({ isActive }) => (isActive ? "active" : "")}
-                    onClick={closeMobileNav} 
+                    onClick={closeMobileNav}
                   >
                     Trang Chủ
                   </NavLink>
@@ -157,6 +156,17 @@ export default function Header() {
                   </li>
                   {role !== "MENTOR" && (
                     <>
+                      <li>
+                        <NavLink
+                          to="/user/history"
+                          className={({ isActive }) =>
+                            isActive ? "active" : ""
+                          }
+                          onClick={closeMobileNav}
+                        >
+                          Lịch Sử Lớp Học
+                        </NavLink>
+                      </li>
                       <li>
                         <NavLink
                           to="/user/registered-class"

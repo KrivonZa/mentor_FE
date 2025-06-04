@@ -9,12 +9,14 @@ export function UserSidebar() {
   const menuItems = [
     { to: "/user", label: "Hồ Sơ Cá Nhân", icon: "man" },
     { to: "/user/wallet", label: "Ví EmpowerU", icon: "wallet" },
+  
     { to: "/user/schedule", label: "Lịch Học", icon: "calendar_month" },
     { to: "/user/request-withdraw", label: "Lịch Sử Giao Dịch", icon: "request_page" },
   ];
 
   if (role !== "MENTOR") {
-    menuItems.push({ to: "/user/registered-class", label: "Khoá Học Của Tôi", icon: "dataset" });
+    menuItems.push({ to: "/user/registered-class", label: "Lớp Học Của Tôi", icon: "dataset" });
+    menuItems.push( { to: "/user/history", label: "Lịch Sử Lớp Học", icon: "history" },);
     menuItems.push({ to: "/user/approval", label: "Đăng Kí Dạy!", icon: "school" });
   }
 

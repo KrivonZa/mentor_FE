@@ -28,7 +28,16 @@ import {
   UserBody,
   Report,
 } from "../modules/adminPage";
-import { UserProfile, Wallet, UserViewSchedule, ViewDetailSchedule, RegisteredClasses, CreateMentorApproval, RequestWithdraw } from "../modules/userPage";
+import {
+  UserProfile,
+  Wallet,
+  UserViewSchedule,
+  ViewDetailSchedule,
+  RegisteredClasses,
+  CreateMentorApproval,
+  RequestWithdraw,
+  History,
+} from "../modules/userPage";
 import { NotFound, ServerError } from "../modules/errorPage";
 import ClassPortal from "../modules/mainPage/ClassPortal";
 import CourseRequestPortal from "../modules/mainPage/CourseRequestPortal";
@@ -51,6 +60,7 @@ const titleMap = {
   "/auth/update-password": "Forget Password",
   "/user": "My Profile",
   "/user/wallet": "My Wallet",
+  "/user/history": "My History",
   "/user/schedule": "My Schedule",
   // "/user/schedule/:id": "Detail Schedule",
   "/user/registered-class": "Registered Class",
@@ -91,26 +101,24 @@ const useRoutesElements = () => {
     },
     ...(role !== "STAFF" // STAFF users don't get public main routes
       ? [
-        {
-          path: "",
-          element: <MainLayout />,
-          children: [
-            { index: true, element: <Homepage /> }, // Root route
-            { path: "about", element: <About /> },
-            { path: "courses", element: <Courses /> },
-            { path: "courses/:courseID", element: <CourseDetail /> },
-            { path: "trainers", element: <Trainers /> },
-            { path: "contact", element: <Contact /> },
-            { path: "feedback", element: <RecentComments /> },
+          {
+            path: "",
+            element: <MainLayout />,
+            children: [
+              { index: true, element: <Homepage /> }, // Root route
+              { path: "about", element: <About /> },
+              { path: "courses", element: <Courses /> },
+              { path: "courses/:courseID", element: <CourseDetail /> },
+              { path: "trainers", element: <Trainers /> },
+              { path: "contact", element: <Contact /> },
+              { path: "feedback", element: <RecentComments /> },
 
-            ...(role === "USER" || role === "MENTOR" // Additional routes only for MENTOR
-              ? [
-                { path: "checkout/:courseID", element: <Checkout /> },
-              ]
-              : []),
-          ],
-        },
-      ]
+              ...(role === "USER" || role === "MENTOR" // Additional routes only for MENTOR
+                ? [{ path: "checkout/:courseID", element: <Checkout /> }]
+                : []),
+            ],
+          },
+        ]
       : []),
   ];
 
@@ -126,16 +134,20 @@ const useRoutesElements = () => {
         // { path: "schedule/:courseID", element: <ViewDetailSchedule /> },
         { path: "request-withdraw", element: <RequestWithdraw /> },
         { path: "checkout/:courseID", element: <Checkout /> },
-        ...(role === "USER" ? [ // Additional routes only for USER
-          { path: "approval", element: <CreateMentorApproval /> },
-          { path: "registered-class", element: <RegisteredClasses /> },
-        ] : []),
+        ...(role === "USER"
+          ? [
+              // Additional routes only for USER
+              { path: "history", element: <History /> },
+              { path: "approval", element: <CreateMentorApproval /> },
+              { path: "registered-class", element: <RegisteredClasses /> },
+            ]
+          : []),
         ...(role === "MENTOR" // Additional routes only for MENTOR
           ? [
-            { path: "course-portal", element: <CoursePortal /> },
-            { path: "class-portal", element: <ClassPortal /> },
-            { path: "course-request", element: <CourseRequestPortal /> },
-          ]
+              { path: "course-portal", element: <CoursePortal /> },
+              { path: "class-portal", element: <ClassPortal /> },
+              { path: "course-request", element: <CourseRequestPortal /> },
+            ]
           : []),
       ],
     },

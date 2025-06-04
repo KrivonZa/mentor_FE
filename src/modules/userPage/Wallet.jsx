@@ -469,6 +469,7 @@ export function Wallet() {
                 <option value="">Tất Cả</option>
                 <option value="DEPOSIT">Nạp Tiền</option>
                 <option value="WITHDRAW">Rút Tiền</option>
+                <option value="COURSE_PAYMENT">Giao Dịch Thanh Toán</option>
               </select>
             </div>
             <div className="col-md-2">

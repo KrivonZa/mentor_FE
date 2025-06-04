@@ -73,7 +73,7 @@ export const RegisteredClasses = () => {
             level={2}
             style={{ color: "white", textAlign: "center", margin: 0 }}
           >
-            Những Khoá Học Đã Đăng Kí
+            Lớp Học Đang Diễn Ra
           </Title>
         </div>
         <div style={{ padding: "20px" }}>
