@@ -30,6 +30,7 @@
     "react-bootstrap": "^2.10.7",
     "react-dom": "^18.3.1",
     "react-modal": "^3.16.3",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^7.1.1",
     "react-toastify": "^11.0.3",
     "sockjs-client": "^1.6.1",

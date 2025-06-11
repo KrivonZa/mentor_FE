@@ -221,6 +221,9 @@ export const CoursePortalTable = () => {
                     Tên Khoá Học
                   </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">
+                    Mô tả
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">
                     Trình Độ
                   </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">
@@ -248,98 +251,90 @@ export const CoursePortalTable = () => {
                             />
                             <div>
                               <p className="font-medium">{course.courseName}</p>
-                              <p className="text-sm text-gray-500">
-                                {course.description}
-                              </p>
                             </div>
                           </div>
                         </td>
+                        <td>
+                          <div
+                            className="rich-text-content"
+                            dangerouslySetInnerHTML={{
+                              __html: course.description,
+                            }}
+                          />
+                        </td>
                         {/* <td className="px-6 py-4">Bob Smith</td> */}
-                        <td className="px-6 py-4">
+                        <td className="text-center align-middle">
                           {(() => {
-                            switch (course.level) {
+                            const level = course.level?.toUpperCase();
+                            switch (level) {
                               case "BEGINNER":
                                 return (
-                                  <span
-                                    className="px-3 py-1 rounded-full text-sm"
-                                    style={{
-                                      background: "#CCFFCC",
-                                      color: "#00CC66",
-                                    }}
-                                  >
+                                  <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-2 d-inline-flex align-items-center">
+                                    <span className="dot bg-success me-2"></span>
                                     CƠ BẢN
                                   </span>
                                 );
                               case "INTERMEDIATE":
                                 return (
-                                  <span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800">
+                                  <span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-2 d-inline-flex align-items-center">
+                                    <span className="dot bg-primary me-2"></span>
                                     TRUNG CẤP
                                   </span>
                                 );
                               case "ADVANCED":
                                 return (
-                                  <span
-                                    className="px-3 py-1 rounded-full text-sm bg-red-100 text-red-800"
-                                    style={{
-                                      background: "#FFCC99",
-                                      color: "#FF8000",
-                                    }}
-                                  >
+                                  <span className="badge bg-warning bg-opacity-10 text-warning-emphasis border border-warning border-opacity-25 rounded-pill px-3 py-2 d-inline-flex align-items-center">
+                                    <span className="dot bg-warning me-2"></span>
                                     NÂNG CAO
                                   </span>
                                 );
                               default:
                                 return (
-                                  <span className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-800">
-                                    CƠ BẢN
+                                  <span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 rounded-pill px-3 py-2 d-inline-flex align-items-center">
+                                    <span className="dot bg-secondary me-2"></span>
+                                    KHÔNG RÕ
                                   </span>
                                 );
                             }
                           })()}
-                          {/* <span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800">{course.level}</span> */}
                         </td>
-                        <td className="px-6 py-4 text-center">
+                        <td className="text-center align-middle">
                           {(() => {
                             switch (course.verifyStatus) {
-                              // BAN,
-                              // REJECT,
-                              // PENDING,
-                              // APPROVE
                               case "APPROVE":
                                 return (
-                                  <span
-                                    className="px-3 py-1 rounded-full text-sm fw-bolder d-flex align-items-center"
-                                    style={{ color: "#00CC66" }}
-                                  >
-                                    Kiểm Duyệt Thành Công
+                                  <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-2 d-inline-flex align-items-center">
+                                    <span className="material-symbols-outlined fs-6 me-1">
+                                      check_circle
+                                    </span>
+                                    Đã duyệt
                                   </span>
                                 );
                               case "PENDING":
                                 return (
-                                  <span
-                                    className="px-3 py-1 rounded-full text-sm fw-bolder d-flex align-items-center"
-                                    style={{ color: "#f3b25c" }}
-                                  >
-                                    Chờ Xử Lý
+                                  <span className="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 rounded-pill px-3 py-2 d-inline-flex align-items-center">
+                                    <span className="material-symbols-outlined fs-6 me-1">
+                                      schedule
+                                    </span>
+                                    Chờ xử lý
                                   </span>
                                 );
-                              case "REJECT":
+                              case "REJECT": // Cần kiểm duyệt - Màu vàng cảnh báo
                                 return (
-                                  <span
-                                    className="px-3 py-1 rounded-full text-sm fw-bolder d-flex align-items-center"
-                                    style={{ color: "purple" }}
-                                  >
-                                    Cần Được Kiểm Duyệt
+                                  <span className="badge bg-warning bg-opacity-15 text-warning-emphasis border border-warning border-opacity-50 rounded-pill px-3 py-2 d-inline-flex align-items-center">
+                                    <span className="material-symbols-outlined fs-6 me-1">
+                                      warning
+                                    </span>
+                                    Cần kiểm duyệt
                                   </span>
                                 );
-                              //BAN
-                              default:
+                              default: // BAN
                                 return (
-                                  <span
-                                    className="px-3 py-1 rounded-full text-sm fw-bolder d-flex align-items-center"
-                                    style={{ color: "red" }}
-                                  >
-                                    Bị Cấm
+                                  <span className="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-3 py-2 d-inline-flex align-items-center">
+                                    <span className="material-symbols-outlined fs-6 me-1">
+                                      block
+                                    </span>
+                                    Bị cấm
                                   </span>
                                 );
                             }
@@ -653,7 +648,7 @@ export const CoursePortalTable = () => {
           </div>
           <div className="flex justify-between items-center mt-4">
             <p className="text-sm text-gray-500">
-              Hiển thị trang {coursePortalPage} trên tổng số {" "}
+              Hiển thị trang {coursePortalPage} trên tổng số{" "}
               {listCoursePortal?.totalPages} trang
             </p>
             <div className="flex gap-2">
