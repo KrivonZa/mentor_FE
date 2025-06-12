@@ -53,7 +53,7 @@ export const Checkout = () => {
     try {
       const response = await transactionService.classPayment(course);
       if (response?.transaction?.paymentResponse?.payUrl) {
-        window.open(response.transaction.paymentResponse.payUrl, "_blank");
+        window.location.href = response.transaction.paymentResponse.payUrl;
       }
       await Swal.fire({
         title: "Thanh Toán Thành Công",
@@ -95,8 +95,10 @@ export const Checkout = () => {
                 className="card-img-top"
                 style={{
                   borderRadius: "10px 10px 0 0",
-                  width: "300px",
+                  width: "100%",
                   height: "300px",
+                  objectFit: "fill",
+                  objectPosition: "center",
                 }}
               />
             </div>

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { toastLoadingSuccessAction } from "../../../utils/functions";
 import Swal from "sweetalert2";
 import classService from "../../../services/classService";
-import { Calendar, Input, Modal } from "antd";
+import { Calendar, Input, Modal, Tabs, Spin } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 export const ClassPortalTable = () => {
@@ -14,6 +14,7 @@ export const ClassPortalTable = () => {
   const [isStudentModalVisible, setIsStudentModalVisible] = useState(false);
   const [selectedClassId, setSelectedClassId] = useState(null);
   const [students, setStudents] = useState<Student[]>([]);
+  const [activeTab, setActiveTab] = useState<string>("ALL");
 
   interface Student {
     userID: string;
@@ -22,6 +23,38 @@ export const ClassPortalTable = () => {
     phoneNumber: string;
     status: boolean;
   }
+
+  const tabItems = [
+    {
+      key: "ALL",
+      label: (
+        <div className="flex items-center gap-2">
+          <span className="material-symbols-outlined text-primary">apps</span>
+          <span>Tất Cả</span>
+        </div>
+      ),
+    },
+    {
+      key: "ACTIVE",
+      label: (
+        <div className="flex items-center gap-2">
+          <span className="material-symbols-outlined text-warning">
+            check_circle
+          </span>
+          <span>Đang Hoạt Động</span>
+        </div>
+      ),
+    },
+    {
+      key: "INACTIVE",
+      label: (
+        <div className="flex items-center gap-2">
+          <span className="material-symbols-outlined">visibility_off</span>
+          <span>Đã Ẩn</span>
+        </div>
+      ),
+    },
+  ];
 
   if (!context)
     throw new Error("Component must be used within a Class Portal Provider");
@@ -57,6 +90,22 @@ export const ClassPortalTable = () => {
     setStudents([]);
   };
 
+  const handleTabChange = (key: string) => {
+    setActiveTab(key);
+
+    let visibleStatus: boolean | null = null;
+
+    if (key === "ACTIVE") visibleStatus = true;
+    else if (key === "INACTIVE") visibleStatus = false;
+    // "ALL" sẽ giữ giá trị null
+
+    setClassPaginationParam((prev) => ({
+      ...prev,
+      page: 1,
+      visibleStatus,
+    }));
+  };
+
   return (
     <div id="course-portal">
       <div id="webcrumbs">
@@ -64,6 +113,7 @@ export const ClassPortalTable = () => {
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-2xl font-bold">Quản Lý Lớp Học Theo Lịch</h1>
           </div>
+
           <div className="row">
             <div className="col-sm-9 flex justify-between items-center mb-3 pe-4">
               <Input.Search
@@ -89,6 +139,7 @@ export const ClassPortalTable = () => {
                   setClassPaginationParam({
                     ...classPaginationParam,
                     name: e,
+                    page: 1,
                   });
                 }}
                 style={{
@@ -103,81 +154,81 @@ export const ClassPortalTable = () => {
 
               {/* CSS tùy chỉnh cho thanh search */}
               <style>{`
-                          .custom-search-input .ant-input-wrapper {
-                            height: 56px; /* Tăng chiều cao cho wrapper */
-                          }
-          
-                          .custom-search-input .ant-input {
-                            border-top-left-radius: 10px !important;
-                            border-bottom-left-radius: 10px !important;
-                            border: none !important; /* Xóa viền xám */
-                            outline: none !important;
-                            font-size: 16px;
-                            padding: 10px 15px;
-                            height: 56px; /* Tăng chiều cao input */
-                            box-shadow: none !important;
-                            border-right: none !important;
-                            background-color: #f9f9f9; /* Màu nền nhẹ để phân biệt */
-                          }
-          
-                          .custom-search-input .ant-input-group-addon {
-                            height: 56px;
-                          }
-          
-                          /* Thay đổi styling khi focus */
-                          .custom-search-input .ant-input:focus,
-                          .custom-search-input .ant-input-focused {
-                            box-shadow: 0 0 0 1px #5fcf80 !important; /* Đổi thành viền xanh lá khi focus */
-                            border-color: #5fcf80 !important;
-                          }
-          
-                          .custom-search-input .ant-input-affix-wrapper:focus,
-                          .custom-search-input .ant-input-affix-wrapper-focused {
-                            box-shadow: 0 0 0 1px #5fcf80 !important;
-                            border-color: #5fcf80 !important;
-                          }
-          
-                          .ant-input-search-button {
-                            height: 56px !important;
-                          }
-          
-                          .custom-search-input .ant-input-search-button {
-                            border-top-right-radius: 10px !important;
-                            border-bottom-right-radius: 10px !important;
-                            background-color: rgb(21, 135, 55) !important;
-                            border-color: rgb(16, 113, 45) !important;
-                            height: 56px !important; /* Tăng chiều cao nút tìm kiếm */
-                            min-width: 120px;
-                            font-weight: 600;
-                            font-size: 16px;
-                            transition: all 0.3s ease;
-                          }
-          
-                          .custom-search-input .ant-input-search-button:hover {
-                            background-color: #4baa6a !important;
-                            border-color: #4baa6a !important;
-                            box-shadow: 0 5px 15px rgba(75, 170, 106, 0.4);
-                          }
-          
-                          .custom-search-input .ant-input-clear-icon {
-                            color: #5fcf80;
-                          }
-          
-                          .custom-search-input:hover {
-                            box-shadow: 0 20px 40px rgba(16, 88, 38, 0.3);
-                          }
-          
-                          .custom-search-input .ant-input:hover {
-                            border-color: transparent !important;
-                          }
-          
-                          .custom-search-input .ant-input-affix-wrapper {
-                            height: 56px !important;
-                            border: none !important;
-                            padding: 0 11px !important;
-                            box-shadow: none !important;
-                          }
-                        `}</style>
+                .custom-search-input .ant-input-wrapper {
+                  height: 56px; /* Tăng chiều cao cho wrapper */
+                }
+    
+                .custom-search-input .ant-input {
+                  border-top-left-radius: 10px !important;
+                  border-bottom-left-radius: 10px !important;
+                  border: none !important; /* Xóa viền xám */
+                  outline: none !important;
+                  font-size: 16px;
+                  padding: 10px 15px;
+                  height: 56px; /* Tăng chiều cao input */
+                  box-shadow: none !important;
+                  border-right: none !important;
+                  background-color: #f9f9f9; /* Màu nền nhẹ để phân biệt */
+                }
+    
+                .custom-search-input .ant-input-group-addon {
+                  height: 56px;
+                }
+    
+                /* Thay đổi styling khi focus */
+                .custom-search-input .ant-input:focus,
+                .custom-search-input .ant-input-focused {
+                  box-shadow: 0 0 0 1px #5fcf80 !important; /* Đổi thành viền xanh lá khi focus */
+                  border-color: #5fcf80 !important;
+                }
+    
+                .custom-search-input .ant-input-affix-wrapper:focus,
+                .custom-search-input .ant-input-affix-wrapper-focused {
+                  box-shadow: 0 0 0 1px #5fcf80 !important;
+                  border-color: #5fcf80 !important;
+                }
+    
+                .ant-input-search-button {
+                  height: 56px !important;
+                }
+    
+                .custom-search-input .ant-input-search-button {
+                  border-top-right-radius: 10px !important;
+                  border-bottom-right-radius: 10px !important;
+                  background-color: rgb(21, 135, 55) !important;
+                  border-color: rgb(16, 113, 45) !important;
+                  height: 56px !important; /* Tăng chiều cao nút tìm kiếm */
+                  min-width: 120px;
+                  font-weight: 600;
+                  font-size: 16px;
+                  transition: all 0.3s ease;
+                }
+    
+                .custom-search-input .ant-input-search-button:hover {
+                  background-color: #4baa6a !important;
+                  border-color: #4baa6a !important;
+                  box-shadow: 0 5px 15px rgba(75, 170, 106, 0.4);
+                }
+    
+                .custom-search-input .ant-input-clear-icon {
+                  color: #5fcf80;
+                }
+    
+                .custom-search-input:hover {
+                  box-shadow: 0 20px 40px rgba(16, 88, 38, 0.3);
+                }
+    
+                .custom-search-input .ant-input:hover {
+                  border-color: transparent !important;
+                }
+    
+                .custom-search-input .ant-input-affix-wrapper {
+                  height: 56px !important;
+                  border: none !important;
+                  padding: 0 11px !important;
+                  box-shadow: none !important;
+                }
+              `}</style>
             </div>
 
             <div className="col-sm-3 flex justify-content-end pb-3">
@@ -189,255 +240,312 @@ export const ClassPortalTable = () => {
                 Học
               </button>
             </div>
+            <Tabs
+              activeKey={activeTab}
+              items={tabItems}
+              onChange={handleTabChange}
+              className="mb-4"
+            />
           </div>
           <div className="bg-white border rounded-lg">
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="text-left text-sm font-semibold px-6 py-4">
+                  <th
+                    style={{
+                      borderTopLeftRadius: 25,
+                      background: "#148636",
+                      color: "white",
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
                     Mô Tả Lớp Học
                   </th>
-                  <th className="text-left text-sm font-semibold px-6 py-4">
+                  <th
+                    style={{
+                      background: "#148636",
+                      color: "white",
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
                     Tên Khoá Học
                   </th>
-                  <th className="text-left text-sm font-semibold px-6 py-4">
-                   Thông Tin Chung
+                  <th
+                    style={{
+                      background: "#148636",
+                      color: "white",
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
+                    Thông Tin Chung
                   </th>
-                  <th className="text-left text-sm font-semibold px-6 py-4">
+                  <th
+                    style={{
+                      background: "#148636",
+                      color: "white",
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
                     Học Phí
                   </th>
-                  <th className="text-left text-sm font-semibold px-6 py-4">
+                  <th
+                    style={{
+                      background: "#148636",
+                      color: "white",
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
                     Lịch Học
                   </th>
-                  <th className="text-left text-sm font-semibold px-6 py-4">
+                  <th
+                    style={{
+                      background: "#148636",
+                      color: "white",
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
                     Trạng Thái
                   </th>
-                  <th className="text-left text-sm font-semibold px-6 py-4">
+                  <th
+                    style={{
+                      borderTopRightRadius: 25,
+                      background: "#148636",
+                      color: "white",
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
                     Công Cụ Quản Lý
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y">
                 {!loading &&
-                  classPagination?.content?.map((item) => (
-                    <React.Fragment key={item.classID}>
-                      <tr className="hover:bg-gray-50 transition-colors">
-                        <td className="px-6 py-4">{item.classDescription}</td>
-                        <td className="px-6 py-4">
-                          <div className="flex gap-3 items-center">
-                            <img
-                              src={
-                                item.courseDetail.thumbnail ||
-                                "https://placehold.co/100x70"
-                              }
-                              alt="thumbnail"
-                              className="h-[70px] rounded-lg w-[100px] object-cover"
-                            />
-                            <div>
-                              <p className="font-medium">
-                                {item.courseDetail.courseName}
-                              </p>
+                  classPagination?.content
+                    ?.filter((x) =>
+                      activeTab === "ACTIVE"
+                        ? x.visibleStatus === true
+                        : activeTab !== "ALL"
+                        ? x.visibleStatus === false
+                        : true
+                    )
+                    .map((item) => (
+                      <React.Fragment key={item.classID}>
+                        <tr className="hover:bg-gray-50 transition-colors">
+                          <td className="px-6 py-4">{item.classDescription}</td>
+                          <td className="px-6 py-4">
+                            <div className="flex gap-3 items-center">
+                              <img
+                                src={
+                                  item.courseDetail.thumbnail ||
+                                  "https://placehold.co/100x70"
+                                }
+                                alt="thumbnail"
+                                className="h-[70px] rounded-lg w-[100px] object-cover"
+                              />
+                              <div>
+                                <p className="font-medium">
+                                  {item.courseDetail.courseName}
+                                </p>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="d-flex align-content-center">
-                            <span className="material-symbols-outlined">
-                              person
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="d-flex align-content-center">
+                              <span className="material-symbols-outlined">
+                                person
+                              </span>
+                              {": "}
+                              {item.totalStudent}
+                            </div>
+                            <div className="d-flex align-content-center">
+                              <span className="material-symbols-outlined">
+                                timer
+                              </span>
+                              {": "}
+                              {item.totalSession}
+                            </div>
+                            <div className="d-flex align-content-center">
+                              <span className="material-symbols-outlined">
+                                personal_places
+                              </span>
+                              {": "}
+                              {item.expectedStartDate}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">{item.price}</td>
+                          <td className="px-6 py-4">
+                            <button
+                              className="btn btn-outline-primary btn-sm text-decoration-underline"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                              style={{ color: "#198754" }}
+                            >
+                              Xem Lịch Chi Tiết
+                            </button>
+                            <div className="dropdown-menu p-2">
+                              <div className="d-flex flex-wrap justify-content-between gap-2">
+                                {[
+                                  "Thứ 2",
+                                  "Thứ 3",
+                                  "Thứ 4",
+                                  "Thứ 5",
+                                  "Thứ 6",
+                                  "Thứ 7",
+                                  "Chủ Nhật",
+                                ].map((day, index) => {
+                                  const dayOfWeek = index + 1;
+                                  const schedule = item.classSchedules.find(
+                                    (s) => s.dayOfWeek === dayOfWeek
+                                  );
+                                  return (
+                                    <div
+                                      key={day}
+                                      className={`p-2 text-center rounded flex-grow-1 ${
+                                        schedule
+                                          ? "bg-success-subtle text-success"
+                                          : "bg-secondary-subtle text-muted"
+                                      }`}
+                                      style={{ minWidth: "100px" }}
+                                    >
+                                      <div className="fw-medium">{day}</div>
+                                      {schedule ? (
+                                        <div className="d-flex align-items-center justify-content-center gap-1">
+                                          <span style={{ fontWeight: "700" }}>
+                                            {schedule.startTime.slice(0, 5)}-
+                                            {schedule.endTime.slice(0, 5)}
+                                          </span>
+                                        </div>
+                                      ) : (
+                                        <div>-</div>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span
+                              className={`badge rounded-pill text-white px-3 py-2 ${
+                                !item.visibleStatus
+                                  ? "bg-warning"
+                                  : "bg-success"
+                              }`}
+                            >
+                              {item.visibleStatus ? "Đã Xuất Bản" : "Đang Ẩn"}
                             </span>
-                            {": "}
-                            {item.totalStudent}
-                          </div>
-                          <div className="d-flex align-content-center">
-                            <span className="material-symbols-outlined">
-                              timer
-                            </span>
-                            {": "}
-                            {item.totalSession}
-                          </div>
-                          <div className="d-flex align-content-center">
-                            <span className="material-symbols-outlined">
-                              personal_places
-                            </span>
-                            {": "}
-                            {item.expectedStartDate}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">{item.price}</td>
-                        <td className="px-6 py-4">
-                          <button
-                            className="btn btn-outline-primary btn-sm text-decoration-underline"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                            style={{ color: "#198754" }}
-                          >
-                            Xem Lịch Chi Tiết
-                          </button>
-                          <div className="dropdown-menu p-2">
-                            <div className="d-flex flex-wrap justify-content-between gap-2">
-                              {[
-                                "Thứ 2",
-                                "Thứ 3",
-                                "Thứ 4",
-                                "Thứ 5",
-                                "Thứ 6",
-                                "Thứ 7",
-                                "Chủ Nhật",
-                              ].map((day, index) => {
-                                const dayOfWeek = index + 1;
-                                const schedule = item.classSchedules.find(
-                                  (s) => s.dayOfWeek === dayOfWeek
-                                );
-                                return (
-                                  <div
-                                    key={day}
-                                    className={`p-2 text-center rounded flex-grow-1 ${
-                                      schedule
-                                        ? "bg-success-subtle text-success"
-                                        : "bg-secondary-subtle text-muted"
-                                    }`}
-                                    style={{ minWidth: "100px" }}
-                                  >
-                                    <div className="fw-medium">{day}</div>
-                                    {schedule ? (
-                                      <div className="d-flex align-items-center justify-content-center gap-1">
-                                        <span style={{fontWeight: "700"}}>
-                                          {schedule.startTime.slice(0, 5)}-
-                                          {schedule.endTime.slice(0, 5)}
-                                        </span>
-                                        {/* <span className="fs-6 material-symbols-outlined">
-                                          check
-                                        </span> */}
-                                      </div>
-                                    ) : (
-                                      <div>-</div>
-                                    )}
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <span
-                            className={`badge rounded-pill text-white px-3 py-2 ${
-                              !item.visibleStatus ? "bg-warning" : "bg-success"
-                            }`}
-                          >
-                            {item.visibleStatus ? "Đã Xuất Bản" : "Đang Ẩn"}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex flex-column gap-2 items-center">
-                            <div className="d-flex">
-                              <button
-                                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                                onClick={async () => {
-                                  const result = await Swal.fire({
-                                    title: "Bạn có chắc chắn muốn xoá?",
-                                    text: "Bạn sẽ không thể hoàn tác lại hành động này!",
-                                    icon: "warning",
-                                    showCancelButton: true,
-                                    confirmButtonColor: "#288a57",
-                                    cancelButtonColor: "#81998a",
-                                    confirmButtonText: "Tôi Đồng Ý!",
-                                    cancelButtonText: "Huỷ",
-                                  });
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="flex flex-column gap-2 items-center">
+                              <div className="d-flex">
+                                <button
+                                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                                  onClick={async () => {
+                                    const result = await Swal.fire({
+                                      title: "Bạn có chắc chắn muốn xoá?",
+                                      text: "Bạn sẽ không thể hoàn tác lại hành động này!",
+                                      icon: "warning",
+                                      showCancelButton: true,
+                                      confirmButtonColor: "#288a57",
+                                      cancelButtonColor: "#81998a",
+                                      confirmButtonText: "Tôi Đồng Ý!",
+                                      cancelButtonText: "Huỷ",
+                                    });
 
-                                  if (result.isConfirmed) {
-                                    handleDeleteClass(item.classID);
-                                  }
-                                }}
-                              >
-                                <span className="material-symbols-outlined">
-                                  delete
-                                </span>
-                              </button>
-                              <button
-                                onClick={() => showClassModal(item)}
-                                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                              >
-                                <span className="material-symbols-outlined">
-                                  edit
-                                </span>
-                              </button>
-                            </div>
-                            <div className="d-flex">
-                              <button
-                                onClick={async () => {
-                                  const currentStatus =
-                                    item?.visibleStatus || false;
-                                  let title = "Xuất bản lớp học này?";
-                                  let text =
-                                    "Sau khi lớp học này được xuất bản, toàn bộ các học viên trên EmpowerU đều sẽ có thể nhìn thấy và đăng ký học lớp học này.";
-                                  let message = "Xuất bản thành công!";
-                                  let confirmText = "Tôi đã hiểu và đồng ý!";
-                                  let reqStatus = true;
-                                  if (currentStatus) {
-                                    title = "Ẩn lớp học này?";
-                                    text =
-                                      "Sau khi ẩn lớp học này, toàn bộ các học viên trên EmpowerU đều sẽ không thể xem được khóa học này nữa.";
-                                    message = "Ẩn lớp học thành công!";
-                                    confirmText = "Tôi đã hiểu và đồng ý!";
+                                    if (result.isConfirmed) {
+                                      handleDeleteClass(item.classID);
+                                    }
+                                  }}
+                                >
+                                  <span className="material-symbols-outlined">
+                                    delete
+                                  </span>
+                                </button>
+                                <button
+                                  onClick={() => showClassModal(item)}
+                                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                                >
+                                  <span className="material-symbols-outlined">
+                                    edit
+                                  </span>
+                                </button>
+                              </div>
+                              <div className="d-flex">
+                                <button
+                                  onClick={async () => {
+                                    const currentStatus =
+                                      item?.visibleStatus || false;
+                                    let title = "Xuất bản lớp học này?";
+                                    let text =
+                                      "Sau khi lớp học này được xuất bản, toàn bộ các học viên trên EmpowerU đều sẽ có thể nhìn thấy và đăng ký học lớp học này.";
+                                    let message = "Xuất bản thành công!";
+                                    let confirmText = "Tôi đã hiểu và đồng ý!";
+                                    let reqStatus = true;
+                                    if (currentStatus) {
+                                      title = "Ẩn lớp học này?";
+                                      text =
+                                        "Sau khi ẩn lớp học này, toàn bộ các học viên trên EmpowerU đều sẽ không thể xem được khóa học này nữa.";
+                                      message = "Ẩn lớp học thành công!";
+                                      confirmText = "Tôi đã hiểu và đồng ý!";
 
-                                    reqStatus = false;
-                                  }
-                                  const result = await Swal.fire({
-                                    title: title,
-                                    text: text,
-                                    icon: "info",
-                                    showCancelButton: true,
-                                    confirmButtonColor: "#288a57",
-                                    cancelButtonColor: "#81998a",
-                                    confirmButtonText: confirmText,
-                                  });
+                                      reqStatus = false;
+                                    }
+                                    const result = await Swal.fire({
+                                      title: title,
+                                      text: text,
+                                      icon: "info",
+                                      showCancelButton: true,
+                                      confirmButtonColor: "#288a57",
+                                      cancelButtonColor: "#81998a",
+                                      confirmButtonText: confirmText,
+                                    });
 
-                                  if (result.isConfirmed) {
-                                    const loadingId = toast.loading(
-                                      "Đang cập nhật lớp học..."
-                                    );
-                                    await classService.setClassVisibility(
-                                      item.classID,
-                                      reqStatus
-                                    );
-                                    await fetchClassPortal();
-                                    toastLoadingSuccessAction(
-                                      loadingId,
-                                      message
-                                    );
-                                  }
-                                }}
-                                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                              >
-                                <span className="material-symbols-outlined">
-                                  visibility
-                                </span>
-                              </button>
-                              <button
-                                onClick={async () => {
-                                  setClassSchedules(item.classSchedules);
-                                  showSessionModal(item);
-                                }}
-                                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                              >
-                                <span className="material-symbols-outlined">
-                                  edit_calendar
-                                </span>
-                              </button>
-                              <button
-                                onClick={() => fetchStudents(item.classID)}
-                                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                              >
-                                <span className="material-symbols-outlined">
-                                  group
-                                </span>
-                              </button>
+                                    if (result.isConfirmed) {
+                                      const loadingId = toast.loading(
+                                        "Đang cập nhật lớp học..."
+                                      );
+                                      await classService.setClassVisibility(
+                                        item.classID,
+                                        reqStatus
+                                      );
+                                      await fetchClassPortal();
+                                      toastLoadingSuccessAction(
+                                        loadingId,
+                                        message
+                                      );
+                                    }
+                                  }}
+                                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                                >
+                                  <span className="material-symbols-outlined">
+                                    visibility
+                                  </span>
+                                </button>
+                                <button
+                                  onClick={async () => {
+                                    setClassSchedules(item.classSchedules);
+                                    showSessionModal(item);
+                                  }}
+                                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                                >
+                                  <span className="material-symbols-outlined">
+                                    edit_calendar
+                                  </span>
+                                </button>
+                                <button
+                                  onClick={() => fetchStudents(item.classID)}
+                                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                                >
+                                  <span className="material-symbols-outlined">
+                                    group
+                                  </span>
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </React.Fragment>
-                  ))}
+                          </td>
+                        </tr>
+                      </React.Fragment>
+                    ))}
               </tbody>
             </table>
           </div>
@@ -518,7 +626,9 @@ export const ClassPortalTable = () => {
               </tbody>
             </table>
           ) : (
-            <p className="text-center py-4">Hiện tại lớp học này chưa có học viên nào.</p>
+            <p className="text-center py-4">
+              Hiện tại lớp học này chưa có học viên nào.
+            </p>
           )}
         </div>
       </Modal>

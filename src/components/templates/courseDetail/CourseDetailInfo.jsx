@@ -83,7 +83,12 @@ export const CourseDetailInfo = () => {
                   }}
                 />
                 <h3>{courseDetail?.courseInfo?.courseName}</h3>
-                <p>{courseDetail?.classDescription}</p>
+                <div
+                  className="rich-text-content"
+                  dangerouslySetInnerHTML={{
+                    __html: courseDetail?.courseInfo?.description,
+                  }}
+                />
               </div>
               <div className="col-lg-5">
                 <div
@@ -345,7 +350,7 @@ export const CourseDetailInfo = () => {
                         background:
                           courseDetail?.remainSlot <= 0
                             ? "#bdc3c7"
-                            : "linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%)",
+                            : "linear-gradient(135deg,  #00b09b 0%,  #96c93d 100%)",
                         borderRadius: "12px",
                         color: "white",
                         transition: "all 0.3s ease",

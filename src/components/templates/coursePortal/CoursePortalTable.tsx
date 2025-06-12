@@ -8,16 +8,14 @@ import LessonDetailModal from "./LessonDetailModal";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import lessonService from "../../../services/lessonService";
-import { Empty, Input } from "antd";
-import Search from "antd/es/input/Search";
-import { Spin } from "antd";
+import { Empty, Input, Tabs } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import {
   toastLoadingFailAction,
   toastLoadingSuccessAction,
 } from "../../../utils/functions.ts";
 import courseApprovalService from "../../../services/courseApprovalService.ts";
-import CustomSearch from "../../ui/CustomSearch.jsx";
-import { SearchOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
 
 export const CoursePortalTable = () => {
   const context = useContext(CoursePortalContext);
@@ -39,16 +37,16 @@ export const CoursePortalTable = () => {
     setLoading,
   } = context;
 
+  const [activeTab, setActiveTab] = useState<string>("all");
+
   const handleDeleteLesson = async (lessonID: number) => {
     const loadingId = toast.loading("Đang xoá nội dung khoá học...");
     try {
       const response = await lessonService.deleteLesson(lessonID);
       await fetchPortalDetail();
       toastLoadingSuccessAction(loadingId, "Xoá nội dung khoá học thành công.");
-      // toast.success(response.message);
     } catch (error) {
       console.error(error);
-      // toast.error("Delete lesson failed");
       toastLoadingFailAction(
         loadingId,
         "Xảy ra lỗi khi xoá nội dung khoá học."
@@ -80,6 +78,26 @@ export const CoursePortalTable = () => {
 
     fetchData();
   }, [courseNameQuery, coursePortalPage]);
+
+  // Lọc khóa học theo trạng thái
+  const getFilteredCourses = () => {
+    if (!listCoursePortal?.content) return [];
+
+    switch (activeTab) {
+      case "approved":
+        return listCoursePortal.content.filter(
+          (course) => course.verifyStatus === "APPROVE"
+        );
+      case "pending":
+        return listCoursePortal.content.filter(
+          (course) => course.verifyStatus === "PENDING"
+        );
+      default:
+        return listCoursePortal.content;
+    }
+  };
+
+  const filteredCourses = getFilteredCourses();
 
   return (
     <div id="course-portal">
@@ -122,76 +140,63 @@ export const CoursePortalTable = () => {
                 className="custom-search-input"
               />
 
-              {/* CSS tùy chỉnh cho thanh search */}
               <style>{`
                 .custom-search-input .ant-input-wrapper {
-                  height: 56px; /* Tăng chiều cao cho wrapper */
+                  height: 56px;
                 }
-
                 .custom-search-input .ant-input {
                   border-top-left-radius: 10px !important;
                   border-bottom-left-radius: 10px !important;
-                  border: none !important; /* Xóa viền xám */
+                  border: none !important;
                   outline: none !important;
                   font-size: 16px;
                   padding: 10px 15px;
-                  height: 56px; /* Tăng chiều cao input */
+                  height: 56px;
                   box-shadow: none !important;
                   border-right: none !important;
-                  background-color: #f9f9f9; /* Màu nền nhẹ để phân biệt */
+                  background-color: #f9f9f9;
                 }
-
                 .custom-search-input .ant-input-group-addon {
                   height: 56px;
                 }
-
-                /* Thay đổi styling khi focus */
                 .custom-search-input .ant-input:focus,
                 .custom-search-input .ant-input-focused {
-                  box-shadow: 0 0 0 1px #5fcf80 !important; /* Đổi thành viền xanh lá khi focus */
+                  box-shadow: 0 0 0 1px #5fcf80 !important;
                   border-color: #5fcf80 !important;
                 }
-
                 .custom-search-input .ant-input-affix-wrapper:focus,
                 .custom-search-input .ant-input-affix-wrapper-focused {
                   box-shadow: 0 0 0 1px #5fcf80 !important;
                   border-color: #5fcf80 !important;
                 }
-
                 .ant-input-search-button {
                   height: 56px !important;
                 }
-
                 .custom-search-input .ant-input-search-button {
                   border-top-right-radius: 10px !important;
                   border-bottom-right-radius: 10px !important;
                   background-color: rgb(21, 135, 55) !important;
                   border-color: rgb(16, 113, 45) !important;
-                  height: 56px !important; /* Tăng chiều cao nút tìm kiếm */
+                  height: 56px !important;
                   min-width: 120px;
                   font-weight: 600;
                   font-size: 16px;
                   transition: all 0.3s ease;
                 }
-
                 .custom-search-input .ant-input-search-button:hover {
                   background-color: #4baa6a !important;
                   border-color: #4baa6a !important;
                   box-shadow: 0 5px 15px rgba(75, 170, 106, 0.4);
                 }
-
                 .custom-search-input .ant-input-clear-icon {
                   color: #5fcf80;
                 }
-
                 .custom-search-input:hover {
                   box-shadow: 0 20px 40px rgba(16, 88, 38, 0.3);
                 }
-
                 .custom-search-input .ant-input:hover {
                   border-color: transparent !important;
                 }
-
                 .custom-search-input .ant-input-affix-wrapper {
                   height: 56px !important;
                   border: none !important;
@@ -213,30 +218,103 @@ export const CoursePortalTable = () => {
               </button>
             </div>
           </div>
+
+          {/* Thêm Tabs ở đây */}
+          <Tabs
+            activeKey={activeTab}
+            onChange={setActiveTab}
+            items={[
+              {
+                key: "all",
+                label: (
+                  <span className="flex items-center">
+                    <span className="material-symbols-outlined me-2">apps</span>
+                    Tất cả
+                  </span>
+                ),
+              },
+              {
+                key: "approved",
+                label: (
+                  <span className="flex items-center">
+                    <span className="material-symbols-outlined text-success me-2">
+                      check_circle
+                    </span>
+                    Đã duyệt
+                  </span>
+                ),
+              },
+              {
+                key: "pending",
+                label: (
+                  <span className="flex items-center">
+                    <span className="material-symbols-outlined text-warning me-2">
+                      schedule
+                    </span>
+                    Chờ duyệt
+                  </span>
+                ),
+              },
+            ]}
+            className="mb-4"
+          />
+
           <div className="bg-white rounded-lg border">
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                  <th
+                    className="px-6 py-4 text-left fw-bold"
+                    style={{
+                      borderTopLeftRadius: "25px",
+                      background: "#148636",
+                      color: "white",
+                    }}
+                  >
                     Tên Khoá Học
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                  <th
+                    style={{
+                      background: "#148636",
+                      color: "white",
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
                     Mô tả
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                  <th
+                    style={{
+                      background: "#148636",
+                      color: "white",
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
                     Trình Độ
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                  <th
+                    style={{
+                      background: "#148636",
+                      color: "white",
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
                     Trạng Thái Kiểm Duyệt
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                  <th
+                    style={{
+                      borderTopRightRadius: "25px",
+                      background: "#148636",
+                      color: "white",
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
                     Công Cụ Quản Lý
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y">
-                {!loading &&
-                  listCoursePortal?.content?.map((course, index) => (
+                {!loading && filteredCourses.length > 0 ? (
+                  filteredCourses.map((course) => (
                     <React.Fragment key={course.courseID}>
                       <tr className="hover:bg-gray-50 transition-colors">
                         <td className="px-6 py-4">
@@ -262,7 +340,6 @@ export const CoursePortalTable = () => {
                             }}
                           />
                         </td>
-                        {/* <td className="px-6 py-4">Bob Smith</td> */}
                         <td className="text-center align-middle">
                           {(() => {
                             const level = course.level?.toUpperCase();
@@ -319,7 +396,7 @@ export const CoursePortalTable = () => {
                                     Chờ xử lý
                                   </span>
                                 );
-                              case "REJECT": // Cần kiểm duyệt - Màu vàng cảnh báo
+                              case "REJECT":
                                 return (
                                   <span className="badge bg-warning bg-opacity-15 text-warning-emphasis border border-warning border-opacity-50 rounded-pill px-3 py-2 d-inline-flex align-items-center">
                                     <span className="material-symbols-outlined fs-6 me-1">
@@ -328,7 +405,7 @@ export const CoursePortalTable = () => {
                                     Cần kiểm duyệt
                                   </span>
                                 );
-                              default: // BAN
+                              default:
                                 return (
                                   <span className="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-3 py-2 d-inline-flex align-items-center">
                                     <span className="material-symbols-outlined fs-6 me-1">
@@ -593,7 +670,7 @@ export const CoursePortalTable = () => {
                                                   if (result.isConfirmed) {
                                                     await handleDeleteLesson(
                                                       lesson.lessonID
-                                                    ); // Wait for deletion
+                                                    );
                                                   }
                                                 }}
                                                 className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors"
@@ -629,7 +706,14 @@ export const CoursePortalTable = () => {
                         </td>
                       </tr>
                     </React.Fragment>
-                  ))}
+                  ))
+                ) : !loading ? (
+                  <tr>
+                    <td colSpan={5} className="text-center py-8">
+                      <Empty description="Không tìm thấy khoá học nào" />
+                    </td>
+                  </tr>
+                ) : null}
               </tbody>
             </table>
             {loading && (

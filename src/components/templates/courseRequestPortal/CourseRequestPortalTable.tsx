@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Search from "antd/es/input/Search";
-import { Select, SelectProps, Spin } from "antd";
+import { Tabs, Spin } from "antd";
 import courseApprovalService from "../../../services/courseApprovalService";
 
 export const CourseRequestPortalTable = () => {
-  const [statusFilter, setStatusFilter] = useState(null);
+  const [activeTab, setActiveTab] = useState<string>("ALL");
   const [pageStat, setPageStat] = useState({
     currentPage: 1,
     totalPage: 0,
@@ -13,45 +12,72 @@ export const CourseRequestPortalTable = () => {
   const [requestList, setRequestList] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const approvedStatusOption: SelectProps["options"] = [
+  const tabItems = [
     {
-      label: "Tất Cả",
-      value: null,
+      key: "ALL",
+      label: (
+        <div className="flex items-center gap-2">
+          <span className="material-symbols-outlined">apps</span>
+          <span>Tất Cả</span>
+        </div>
+      ),
     },
     {
-      value: "PENDING",
-      label: "Đang Xử Lý",
+      key: "PENDING",
+      label: (
+        <div className="flex items-center gap-2">
+          <span className="material-symbols-outlined text-warning">
+            pending
+          </span>
+          <span>Đang Xử Lý</span>
+        </div>
+      ),
     },
     {
-      value: "APPROVED",
-      label: "Duyệt Thành Công",
+      key: "APPROVED",
+      label: (
+        <div className="flex items-center gap-2">
+          <span className="material-symbols-outlined text-success">
+            check_circle
+          </span>
+          <span>Duyệt Thành Công</span>
+        </div>
+      ),
     },
     {
-      value: "REJECTED",
-      label: "Bị Từ Chối",
+      key: "REJECTED",
+      label: (
+        <div className="flex items-center gap-2">
+          <span className="material-symbols-outlined text-danger">cancel</span>
+          <span>Bị Từ Chối</span>
+        </div>
+      ),
     },
   ];
 
-  const fetchRequest = async () => {
+  const fetchRequest = async (status: string | null) => {
     setLoading(true);
     const data = await courseApprovalService.fetchRequestForMentor(
-      statusFilter,
+      status === "ALL" ? null : status,
       pageStat.currentPage,
       null
     );
     setRequestList(data.data.content);
-
     setPageStat((prev) => ({
       ...prev,
       totalPage: data.data.totalPages,
     }));
-
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchRequest();
-  }, [statusFilter, pageStat.currentPage]);
+    fetchRequest(activeTab === "ALL" ? null : activeTab);
+  }, [activeTab, pageStat.currentPage]);
+
+  const handleTabChange = (key: string) => {
+    setActiveTab(key);
+    setPageStat((prev) => ({ ...prev, currentPage: 1 }));
+  };
 
   return (
     <div id="course-portal">
@@ -62,35 +88,63 @@ export const CourseRequestPortalTable = () => {
               Quản Lý Các Yêu Cầu Duyệt Khoá Học
             </h1>
           </div>
-          <div className="flex  items-center mb-3 pe-4">
-            <span style={{ marginRight: "8px" }}>Trạng Thái Yêu Cầu: </span>
-            <Select
-              className="w-25"
-              placeholder="Select level"
-              onChange={(selectedOption) => {
-                setStatusFilter(selectedOption);
-              }}
-              options={approvedStatusOption}
-              value={statusFilter}
-            />
-          </div>
+
+          <Tabs
+            activeKey={activeTab}
+            items={tabItems}
+            onChange={handleTabChange}
+            className="mb-4"
+          />
+
           <div className="bg-white rounded-lg border">
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                  <th
+                    style={{
+                      borderTopLeftRadius: "25px",
+                      background: "#148636",
+                      color: "white",
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
                     STT
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                  <th
+                    style={{
+                      background: "#148636",
+                      color: "white",
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
                     Tên Khoá Học
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                  <th
+                    style={{
+                      background: "#148636",
+                      color: "white",
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
                     Ghi Chú Sau Duyệt
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                  <th
+                    style={{
+                      background: "#148636",
+                      color: "white",
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
                     Trạng Thái
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                  <th
+                    style={{
+                      background: "#148636",
+                      color: "white",
+                      borderTopRightRadius: 25,
+                    }}
+                    className="px-6 py-4 text-left fw-bold"
+                  >
                     Ngày Gửi Yêu Cầu
                   </th>
                 </tr>
@@ -119,9 +173,12 @@ export const CourseRequestPortalTable = () => {
                             <p className="font-medium">
                               {request?.courseDetail?.courseName}
                             </p>
-                            <p className="text-sm text-gray-500">
-                              {request?.courseDetail?.description}
-                            </p>
+                            <div
+                              className="rich-text-content"
+                              dangerouslySetInnerHTML={{
+                                __html: request?.courseDetail?.description,
+                              }}
+                            />
                           </div>
                         </div>
                       </td>
@@ -145,18 +202,15 @@ export const CourseRequestPortalTable = () => {
                       <td className="px-6 py-4">
                         <span
                           className={`badge rounded-pill text-white px-3 py-2 
-                                                        ${
-                                                          request?.status ===
-                                                          "PENDING"
-                                                            ? "bg-warning"
-                                                            : request?.status ===
-                                                              "APPROVED"
-                                                            ? "bg-success"
-                                                            : request?.status ===
-                                                              "REJECTED"
-                                                            ? "bg-danger"
-                                                            : ""
-                                                        }`}
+                            ${
+                              request?.status === "PENDING"
+                                ? "bg-warning"
+                                : request?.status === "APPROVED"
+                                ? "bg-success"
+                                : request?.status === "REJECTED"
+                                ? "bg-danger"
+                                : ""
+                            }`}
                         >
                           {request?.status == "PENDING" && "Đang Xử Lý"}
                           {request?.status == "APPROVED" && "Duyệt Thành Công"}

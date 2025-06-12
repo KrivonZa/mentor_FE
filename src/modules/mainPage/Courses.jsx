@@ -11,11 +11,11 @@ export const CourseProvider = ({ children }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [classFilter, setClassFilter] = useState({
     page: 1,
-    name: '',
-    perPage: 6,
+    name: "",
+    perPage: 8,
     priceStart: 0,
-    priceEnd: 0
-  })
+    priceEnd: 0,
+  });
 
   const fetchCoursePagi = async () => {
     setIsLoading(true);
@@ -34,10 +34,15 @@ export const CourseProvider = ({ children }) => {
   }, [classFilter]);
 
   return (
-    <CourseContext.Provider value={{
-      courseList, isLoading,
-      classFilter, setClassFilter, setCourseList
-    }}>
+    <CourseContext.Provider
+      value={{
+        courseList,
+        isLoading,
+        classFilter,
+        setClassFilter,
+        setCourseList,
+      }}
+    >
       {children}
     </CourseContext.Provider>
   );
