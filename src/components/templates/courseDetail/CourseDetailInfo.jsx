@@ -3,12 +3,6 @@ import { useNavigate } from "react-router-dom";
 import CourseDetailInfoSkeleton from "./skeleton/CourseDetailInfoSkeleton";
 import { CourseDetailContext } from "../../../modules/mainPage/CourseDetail";
 
-const buttonStyles = {
-  backgroundColor: "#5fd080",
-  border: "none",
-  transition: "transform 0.2s ease-in-out",
-};
-
 export const CourseDetailInfo = () => {
   const { courseDetail, isLoading } = useContext(CourseDetailContext);
   const navigate = useNavigate();
@@ -33,31 +27,19 @@ export const CourseDetailInfo = () => {
   const isMentorActive = courseDetail?.mentorInfo?.isActive;
 
   let isDisabled = false;
-  let message = null;
-  let messageClass = "";
 
   if (isMentorActive === false) {
     isDisabled = true;
-    message = "This mentor has been banned!";
-    messageClass = "text-danger";
   } else if (hasSlots && isActive && !isPast) {
     // Active course with available slots and start date today or in future - button enabled
   } else if (hasSlots && !isActive && !isDeleted) {
     isDisabled = true;
-    message = "Enrollment for the course was closed.";
-    messageClass = "text-warning";
   } else if (hasSlots && isDeleted) {
     isDisabled = true;
-    message = "The course no longer exists.";
-    messageClass = "text-danger";
   } else if (isFull) {
     isDisabled = true;
-    message = "The course slots are full.";
-    messageClass = "text-danger";
   } else if (hasSlots && isPast) {
     isDisabled = true;
-    message = "The course start date has passed.";
-    messageClass = "text-danger";
   }
 
   return (

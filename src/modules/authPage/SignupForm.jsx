@@ -15,11 +15,18 @@ export const SignupForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(false)
 
+
   const navigate = useNavigate();
 
   const handleSignup = async (event) => {
     event.preventDefault();
     setLoading(true)
+    const phoneRegex = /^(?:\+84\s?|0)(\d{9})$/;
+    if (!phoneRegex.test(phoneNumber)) {
+      toast.error("Số điện thoại không hợp lệ. Vui lòng nhập lại.");
+      setLoading(false);
+      return;
+    }
     const loadingId = toast.loading("Đang tạo tài khoản...");
 
     const userData = {
@@ -34,10 +41,9 @@ export const SignupForm = () => {
     try {
       await authenService.register(userData);
       navigate('/auth')
-      toastLoadingSuccessAction(loadingId, "Vui lòng kiểm tra email để xác thực tài khoản của bạn!");
+      toastLoadingSuccessAction(loadingId, "Vui lòng kiểm tra email để xác thực tài khoản của bạn !");
     } catch (error) {
-      console.error("Signup failed:", error.message );
-      toastLoadingFailAction(loadingId, error.message || "Signup failed");
+      toastLoadingFailAction(loadingId, error.message || "Đăng ký thất bại");
     }
     setLoading(false)
   };
@@ -57,7 +63,7 @@ export const SignupForm = () => {
           <div className="w-[480px] bg-white rounded-xl p-8 shadow-lg m-auto">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold mb-2">Tạo Tài Khoản</h1>
-              <p className="text-neutral-600">Tham gia vào cộng đồng EmpowerU ngay bây giờ!</p>
+              <p className="text-neutral-600">Tham gia vào cộng đồng EmpowerU ngay bây giờ !</p>
             </div>
 
             <form className="space-y-4" onSubmit={handleSignup}>
@@ -114,11 +120,10 @@ export const SignupForm = () => {
               </button>
             </form>
             <p className="mt-6 text-center text-sm text-neutral-600">
-              Đã có tài khoản?
+              Đã có tài khoản ?
               <Link
                 to={"/auth"}
                 style={{ marginLeft: '5px', color: '#5fd080' }}
-              // className="ml-1 text-[#5fd080] hover:text-[#4db068] transition-colors duration-200"
               >
                 Đăng Nhập
               </Link>

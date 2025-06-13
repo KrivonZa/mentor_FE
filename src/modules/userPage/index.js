@@ -5,3 +5,4 @@ export * from "./ViewDetailSchedule";
 export * from "./RegisteredClass";
 export * from "./CreateMentorApproval";
 export * from "./RequestWithdraw";
+export * from "./History";

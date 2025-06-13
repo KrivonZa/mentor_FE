@@ -1,28 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import PureCounter from "@srexi/purecounterjs";
 import axios from "axios";
 export function Homepage() {
+  const fetchedRef = useRef(false);
+
   useEffect(() => {
-    document.title = "Trang Chủ";
+    document.title = "Homepage";
     new PureCounter();
 
     const fetchJwtWithUuid = async () => {
+      if (fetchedRef.current) return; // prevent repeat
+      fetchedRef.current = true;
+
       const urlParams = new URLSearchParams(window.location.search);
       const uuid = urlParams.get("uuid");
 
       if (uuid) {
         try {
-          const response = await axios.get(
-            `http://localhost:9090/empoweru/sba/user/google-principal?uuid=${uuid}`
-          );
+          // const response = await axios.get(`http://localhost:9090/empoweru/sba/user/google-principal?uuid=${uuid}`);
+          const response = await axios.get(`http://empower-u.sytes.net:9090/empoweru/sba/user/google-principal?uuid=${uuid}`);
           const token = response.data.data.token;
           localStorage.setItem("ROLE", response.data.data.role);
           localStorage.setItem("USER", token);
-          window.history.replaceState(
-            {},
-            document.title,
-            window.location.pathname
-          );
+          window.history.replaceState({}, document.title, window.location.pathname);
+          window.location.reload();
         } catch (error) {
           console.error("Error exchanging UUID for JWT:", error);
         }
@@ -31,8 +32,9 @@ export function Homepage() {
 
     fetchJwtWithUuid();
   }, []);
+
   return (
-    <main className="main">
+     <main className="main">
       <section id="hero" className="hero section dark-background">
         <img
           src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747729618506-abigailvo2005%40gmail.com-2149178706.jpg"

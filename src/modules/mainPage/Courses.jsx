@@ -21,7 +21,7 @@ export const CourseProvider = ({ children }) => {
     setIsLoading(true);
     try {
       const response = await classService.getClassPagination(classFilter);
-      setCourseList(response.data || {}); // ✅ REPLACES instead of appending
+      setCourseList(response.data || {}); 
     } catch (error) {
       console.error("Error fetching courses:", error);
     } finally {

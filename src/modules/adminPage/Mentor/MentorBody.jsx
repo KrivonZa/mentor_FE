@@ -273,7 +273,7 @@ export function MentorBody() {
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
             onClick={handleModalClose}
           >
-            Close
+            Huỷ
           </button>,
         ]}
       >

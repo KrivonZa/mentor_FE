@@ -50,7 +50,7 @@ export default function Header() {
         <a href="/" className="d-flex align-items-center">
           <img
             src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1747233033623-duydtase183660%40fpt.edu.vn-logo.svg"
-            alt="Empower U Logo"
+            alt="EmpowerU Logo"
             style={{ width: "55%", height: "30%" }}
           />
         </a>
@@ -158,6 +158,17 @@ export default function Header() {
                     <>
                       <li>
                         <NavLink
+                          to="/user/history"
+                          className={({ isActive }) =>
+                            isActive ? "active" : ""
+                          }
+                          onClick={closeMobileNav}
+                        >
+                          Lịch Sử Lớp Học
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
                           to="/user/registered-class"
                           className={({ isActive }) =>
                             isActive ? "active" : ""
@@ -201,7 +212,7 @@ export default function Header() {
                           }
                           onClick={closeMobileNav}
                         >
-                          Khoá Học Chờ Duyệt
+                          Yêu Cầu Kiểm Duyệt
                         </NavLink>
                       </li> */}
                       <li>

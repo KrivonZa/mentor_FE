@@ -56,19 +56,21 @@ export const Checkout = () => {
         window.location.href = response.transaction.paymentResponse.payUrl;
       }
       await Swal.fire({
-        title: "Thanh Toán Thành Công",
-        text: "Giao dịch của bạn đã được thực hiện thành công!",
+        title: "Đang xử lý",
+        text: "Yêu cầu của bạn đã được xử lý",
         icon: "success",
-        confirmButtonColor: "#288a57",
+        confirmButtonColor: "#3085d6",
         confirmButtonText: "OK",
       }).then(() => {
-        window.location.href = "http://localhost:3000/user/registered-class";
+        // window.location.href = "http://localhost:3000/user/registered-class";
+        window.location.href =
+          "http://empower-u.sytes.net:3000/user/registered-class";
       });
     } catch (error) {
       console.log("error: ", error);
       await Swal.fire({
         title: "Không thanh toán được lớp học",
-        text: "Số dư trong ví EmpowerU đang không đủ để thay toán. Vui lòng nạp thêm tiền vào ví hoặc chọn phương thức thanh toán khác!",
+        text: "Có lỗi xảy ra trong quá trình thanh toán!",
         icon: "info",
         confirmButtonColor: "#288a57",
         confirmButtonText: "OK",

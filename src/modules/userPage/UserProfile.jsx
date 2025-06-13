@@ -88,7 +88,7 @@ export const UserProfile = () => {
         setLoading(true);
         setMessage("");
 
-        const loadingId = toast.loading("Uploading profile...");
+        const loadingId = toast.loading("Đang cập nhật hồ sơ cá nhân...");
         try {
             let cvUrl = formData.cv;
             let videoUrl = formData.introductionVideo;
@@ -114,21 +114,21 @@ export const UserProfile = () => {
             setCvPreviewUrl(cvUrl);
             setAvatarFile(null);
             setAvatarPreview(avatarUrl);
-            setMessage("Profile updated successfully!");
+            setMessage("Cập nhật hồ sơ cá nhân thành công!");
             toast.update(loadingId, {
-                render: "Profile updated successfully!",
+                render: "Cập nhật hồ sơ cá nhân thành công!",
                 type: "success",
                 isLoading: false,
                 autoClose: 3000,
             });
         } catch (error) {
             toast.update(loadingId, {
-                render: error?.response?.data?.message,
+                render: "Không cập nhật được hồ sơ cá nhân. Xin vui lòng thử lại.",
                 type: "error",
                 isLoading: false,
                 autoClose: 3000,
             });
-            setMessage(error?.response?.data?.message || "Error updating profile. Please try again.");
+            setMessage("Không cập nhật được hồ sơ cá nhân. Xin vui lòng thử lại.");
         } finally {
             setLoading(false);
         }
@@ -151,7 +151,7 @@ export const UserProfile = () => {
                             <div className="flex flex-col items-center lg:sticky lg:top-8">
                                 <div className="border-4 border-white h-32 rounded-full w-32 duration-300 hover:scale-105 overflow-hidden sm:h-40 sm:w-40 transform transition-all relative">
                                     <Avatar
-                                        src={avatarPreview || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde"}
+                                        src={avatarPreview || "https://www.shareicon.net/data/128x128/2016/07/26/802001_man_512x512.png"}
                                         size={{ xs: 128, sm: 160 }}
                                         className="h-full w-full object-cover"
                                         onError={() => true}

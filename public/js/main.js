@@ -46,7 +46,7 @@ import GLightbox from "glightbox";
       }
       mobileNavToggleBtn.addEventListener("click", mobileNavToogle);
     } else {
-      console.error("Mobile nav toggle button not found");
+      // console.error("Mobile nav toggle button not found");
     }
   }
 
@@ -135,7 +135,7 @@ import GLightbox from "glightbox";
       window.addEventListener("load", toggleScrollTop);
       document.addEventListener("scroll", toggleScrollTop);
     } else {
-      console.error("Scroll top button not found");
+      // console.error("Scroll top button not found");
     }
   }
 
