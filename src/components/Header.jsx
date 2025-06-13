@@ -30,7 +30,6 @@ export default function Header() {
     logout();
   };
 
-
   const toggleMobileNav = () => {
     setIsMobileNavOpen(!isMobileNavOpen);
   };
@@ -67,7 +66,7 @@ export default function Header() {
                   <NavLink
                     to="/"
                     className={({ isActive }) => (isActive ? "active" : "")}
-                    onClick={closeMobileNav} 
+                    onClick={closeMobileNav}
                   >
                     Trang Chủ
                   </NavLink>
@@ -137,7 +136,7 @@ export default function Header() {
                       Ví EmpowerU
                     </NavLink>
                   </li>
-                  <li>
+                  {/* <li>
                     <NavLink
                       to="/user/schedule"
                       className={({ isActive }) => (isActive ? "active" : "")}
@@ -145,8 +144,8 @@ export default function Header() {
                     >
                       Lịch Học
                     </NavLink>
-                  </li>
-                  <li>
+                  </li> */}
+                  {/* <li>
                     <NavLink
                       to="/user/request-withdraw"
                       className={({ isActive }) => (isActive ? "active" : "")}
@@ -154,7 +153,7 @@ export default function Header() {
                     >
                       Lịch Sử Giao Dịch
                     </NavLink>
-                  </li>
+                  </li> */}
                   {role !== "MENTOR" && (
                     <>
                       <li>
@@ -194,7 +193,7 @@ export default function Header() {
                           Khoá Học Của Tôi
                         </NavLink>
                       </li>
-                      <li>
+                      {/* <li>
                         <NavLink
                           to="/user/course-request"
                           className={({ isActive }) =>
@@ -204,7 +203,7 @@ export default function Header() {
                         >
                           Khoá Học Chờ Duyệt
                         </NavLink>
-                      </li>
+                      </li> */}
                       <li>
                         <NavLink
                           to="/user/class-portal"

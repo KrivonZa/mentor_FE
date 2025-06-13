@@ -226,9 +226,14 @@ export const LessonFormTab = () => {
                     <Switch
                       onChange={(checked) => {
                         setLessonDetailFormDataList((prev) =>
-                          prev.map((lesson: LessonDetailFormData, index) =>
+                          prev.map((lesson, index) =>
                             index === name
-                              ? { ...lesson, trialLesson: checked }
+                              ? {
+                                  ...lesson,
+                                  trialLesson: checked,
+                                  // Reset nội dung học thử khi tắt switch
+                                  ...(!checked && { trialContent: undefined }),
+                                }
                               : lesson
                           )
                         );
@@ -238,6 +243,37 @@ export const LessonFormTab = () => {
                       }
                     />
                   </Form.Item>
+                  {/* Thêm trường nhập nội dung khi bật switch */}
+                  {lessonDetailFormDataList[name]?.trialLesson && (
+                    <Form.Item
+                      {...restField}
+                      label="Nội dung học thử"
+                      name={[name, "trialContent"]}
+                      rules={[
+                        {
+                          required: true,
+                          message: "Vui lòng nhập nội dung học thử",
+                        },
+                      ]}
+                    >
+                      <Input.TextArea
+                        rows={3}
+                        placeholder="Nhập mô tả chi tiết buổi học thử"
+                        onChange={(e) => {
+                          setLessonDetailFormDataList((prev) =>
+                            prev.map((lesson, index) =>
+                              index === name
+                                ? { ...lesson, trialLessonURL: e.target.value }
+                                : lesson
+                            )
+                          );
+                        }}
+                        value={
+                          lessonDetailFormDataList[name]?.trialLessonURL || ""
+                        }
+                      />
+                    </Form.Item>
+                  )}
 
                   {/* Remove Lesson Button */}
                   <Button
@@ -274,6 +310,7 @@ export const LessonFormTab = () => {
                   description: "",
                   lessonStatus: "",
                   trialLesson: false,
+                  trialLessonURL: "",
                   schedule: [],
                 };
                 setLessonDetailFormDataList((prev) => [...prev, newLesson]);

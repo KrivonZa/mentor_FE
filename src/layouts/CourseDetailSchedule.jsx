@@ -26,8 +26,8 @@ export const CourseDetailSchedule = () => {
                   <div
                     className="d-flex justify-content-between align-items-center p-3 rounded"
                     style={{
-                      backgroundColor: "#e8f5e9", // Màu nền xanh lá nhạt
-                      borderLeft: "4px solid #4caf50", // Bullet màu xanh lá đậm
+                      backgroundColor: "#e8f5e9",
+                      borderLeft: "4px solid #4caf50",
                       transition: "all 0.3s ease",
                       boxShadow: "0 2px 5px rgba(0,0,0,0.05)",
                     }}
@@ -40,7 +40,7 @@ export const CourseDetailSchedule = () => {
                       href={`#tab-${item.lessonID}`}
                       style={{
                         transition: "all 0.3s ease",
-                        color: "#2e7d32", // Màu chữ xanh lá đậm
+                        color: "#2e7d32",
                         paddingLeft: "10px",
                       }}
                     >
@@ -49,7 +49,7 @@ export const CourseDetailSchedule = () => {
                           display: "inline-block",
                           width: "24px",
                           height: "24px",
-                          backgroundColor: "#4caf50", // Bullet tròn
+                          backgroundColor: "#4caf50",
                           borderRadius: "50%",
                           marginRight: "12px",
                           color: "white",
@@ -66,12 +66,12 @@ export const CourseDetailSchedule = () => {
 
                     {item.trialLesson && (
                       <a
-                        href="https://www.youtube.com/watch?v=d26FPmk50sQ"
+                        href={item?.trialLessonURL}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="d-flex align-items-center text-decoration-none ms-2"
                         style={{
-                          backgroundColor: "#4caf50", // Màu xanh lá
+                          backgroundColor: "#4caf50",
                           color: "white",
                           padding: "5px 12px",
                           borderRadius: "20px",

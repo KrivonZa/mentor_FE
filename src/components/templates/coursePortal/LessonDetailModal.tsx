@@ -228,6 +228,30 @@ const LessonDetailModal = () => {
             />
           </Form.Item>
 
+          {lessonDetailFormData.trialLesson && (
+            <Form.Item
+              label="Nội dung học thử"
+              name="trialLessonURL"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập nội dung học thử",
+                },
+              ]}
+            >
+              <Input.TextArea
+                rows={3}
+                placeholder="Link buổi học thử"
+                value={lessonDetailFormData.trialLessonURL || ""}
+                onChange={(e) => {
+                  setLessonDetailFormData({
+                    ...lessonDetailFormData,
+                    trialLessonURL: e.target.value,
+                  });
+                }}
+              />
+            </Form.Item>
+          )}
           {/* Footer Buttons */}
           <Form.Item className="text-right">
             <Button

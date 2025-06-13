@@ -65,10 +65,7 @@ export const CourseDetailInfo = () => {
       {isLoading ? (
         <CourseDetailInfoSkeleton />
       ) : (
-        <section
-          id="courses-course-details"
-          className="courses-course-details section"
-        >
+        <section id="courses-course-details" className="courses-course-details">
           <div className="container" data-aos="fade-up">
             <div className="row">
               <div className="col-lg-7">

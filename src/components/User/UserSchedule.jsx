@@ -54,7 +54,9 @@ export function UserSchedule({ scheduleData }) {
     return (
       <div className="text-center">
         <div className="font-bold">{dayName}</div>
-        <div>{day}/{month}</div>
+        <div>
+          {day}/{month}
+        </div>
       </div>
     );
   };
@@ -221,22 +223,27 @@ export function UserSchedule({ scheduleData }) {
 
   return (
     <div className="pb-5 pt-2" data-aos="fade-up" data-aos-delay="100">
-      <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
         <button
-          className="btn btn-primary"
+          className="btn btn-primary flex-grow-1 flex-md-grow-0"
           onClick={handlePrevious}
           style={{
             backgroundColor: "#32a852",
             fontWeight: "600",
             border: "#32a852",
+            minWidth: "120px",
           }}
         >
-          Tuần Trước
+          ← Tuần Trước
         </button>
-        <div className="text-center">
-          <div className="flex gap-2 justify-content-center">
+
+        <div className="flex-grow-1 d-flex flex-column flex-md-row gap-2 justify-content-center">
+          <div className="d-flex flex-column w-100">
+            <label className="form-label mb-1 text-secondary small">
+              Năm học
+            </label>
             <select
-              className="form-select w-auto"
+              className="form-select shadow-sm"
               value={selectedYear}
               onChange={handleYearChange}
             >
@@ -246,8 +253,14 @@ export function UserSchedule({ scheduleData }) {
                 </option>
               ))}
             </select>
+          </div>
+
+          <div className="d-flex flex-column w-100">
+            <label className="form-label mb-1 text-secondary small">
+              Chọn tuần
+            </label>
             <select
-              className="form-select w-auto"
+              className="form-select shadow-sm"
               value={selectedWeekStart.toISOString().split("T")[0]}
               onChange={handleWeekChange}
             >
@@ -262,74 +275,132 @@ export function UserSchedule({ scheduleData }) {
             </select>
           </div>
         </div>
+
         <button
-          className="btn btn-primary"
+          className="btn btn-primary flex-grow-1 flex-md-grow-0"
           onClick={handleNext}
           style={{
             backgroundColor: "#32a852",
             fontWeight: "600",
             border: "#32a852",
+            minWidth: "120px",
           }}
         >
-          Tuần Sau
+          Tuần Sau →
         </button>
       </div>
 
       <div className="row justify-content-center">
         <div className="col-12">
-          <div className="card shadow-sm border-0">
+          <div className="card shadow-sm border-0 overflow-hidden">
             <div className="card-body p-0">
               <style>
                 {`
-                                    .fc-timegrid-slot {
-                                        height: 2.5em !important;
-                                        position: relative;
-                                        min-width: 120px;
-                                    }
-                                    .fc-timegrid-event {
-                                        margin: 2px;
-                                        font-size: 12px;
-                                        line-height: 1.2;
-                                        padding: 2px !important;
-                                        min-width: 0;
-                                        overflow: hidden;
-                                        text-overflow: ellipsis;
-                                        white-space: nowrap;
-                                        box-sizing: border-box;
-                                        border-radius: 4px;
-                                    }
-                                    .fc-timegrid-event.clickable-event {
-                                        cursor: pointer; /* Chỉ áp dụng con trỏ cho sự kiện có URL */
-                                    }
-                                    .fc-scroller {
-                                        max-height: 70vh !important;
-                                        overflow-y: auto !important;
-                                    }
-                                    .fc-timegrid-col {
-                                        position: relative;
-                                        width: 14.28%;
-                                        min-width: 120px;
-                                    }
-                                    .fc-daygrid-day {
-                                        min-width: 120px;
-                                    }
-                                    .fc-col-header-cell {
-                                        min-width: 120px;
-                                    }
-                                    .event-content {
-                                        display: flex;
-                                        flex-direction: column;
-                                        justify-content: center;
-                                        height: 100%;
-                                    }
-                                    .event-content a {
-                                        color: white;
-                                        text-decoration: none;
-                                    }
-                                    .event-content a:hover {
-                                        text-decoration: underline;
-                                    }
-                                `}
+                  .fc {
+                    --fc-border-color: #eaeaea;
+                    --fc-page-bg-color: #fff;
+                    --fc-today-bg-color: #f8f9fa;
+                    --fc-neutral-bg-color: #f8f9fa;
+                  }
+                  
+                  .fc-timegrid-slot {
+                    height: 3em !important;
+                    position: relative;
+                  }
+                  
+                  .fc-timegrid-event {
+                    margin: 1px 2px;
+                    font-size: 12px;
+                    line-height: 1.3;
+                    padding: 4px !important;
+                    min-width: 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    box-sizing: border-box;
+                    border-radius: 4px;
+                    border: none;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    transition: all 0.2s ease;
+                  }
+                  
+                  .fc-timegrid-event:hover {
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                  }
+                  
+                  .fc-timegrid-event.clickable-event {
+                    cursor: pointer;
+                  }
+                  
+                  .fc-scroller {
+                    max-height: 70vh !important;
+                    overflow-y: auto !important;
+                  }
+                  
+                  .fc-col-header-cell {
+                    padding: 10px 0;
+                    background: #f8f9fa;
+                    font-weight: 500;
+                  }
+                  
+                  .fc-timegrid-axis {
+                    background: #f8f9fa;
+                  }
+                  
+                  .fc-timegrid-slot-label {
+                    padding-top: 8px;
+                  }
+                  
+                  .event-content {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    height: 100%;
+                    padding: 2px 4px;
+                  }
+                  
+                  .event-content a {
+                    color: white;
+                    text-decoration: none;
+                    font-weight: 500;
+                  }
+                  
+                  .event-content a:hover {
+                    text-decoration: underline;
+                  }
+                  
+                  .fc .fc-timegrid-now-indicator-arrow {
+                    border-color: #ff6b6b;
+                  }
+                  
+                  .fc .fc-timegrid-now-indicator-line {
+                    border-color: #ff6b6b;
+                  }
+                  
+                  .fc-day-today {
+                    background-color: rgba(50, 168, 82, 0.05) !important;
+                  }
+                  
+                  .fc-toolbar-title {
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                  }
+                  
+                  .fc-button {
+                    background-color: #f8f9fa;
+                    border: 1px solid #dee2e6;
+                    color: #495057;
+                  }
+                  
+                  .fc-button:hover {
+                    background-color: #e9ecef;
+                  }
+                  
+                  .fc-button-active {
+                    background-color: #e9ecef;
+                  }
+                `}
               </style>
               <FullCalendar
                 ref={calendarRef}
@@ -351,7 +422,6 @@ export function UserSchedule({ scheduleData }) {
                 firstDay={1}
                 locale="en-GB"
                 dayHeaderContent={dayHeaderContent}
-                // dayHeaderFormat={{ weekday: "long", day: "2-digit", month: "2-digit" }}
                 slotLabelFormat={{
                   hour: "2-digit",
                   minute: "2-digit",
@@ -360,8 +430,12 @@ export function UserSchedule({ scheduleData }) {
                 slotLabelInterval="01:00"
                 slotEventOverlap={true}
                 eventMinHeight={50}
+                nowIndicator={true}
                 slotLabelContent={(slotInfo) => (
-                  <div style={{ width: "80px", textAlign: "center" }}>
+                  <div
+                    className="fw-medium"
+                    style={{ width: "80px", textAlign: "center" }}
+                  >
                     {slotInfo.text}
                   </div>
                 )}

@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import classService from "../../../services/classService";
 import { Calendar, Input, Modal, Tabs, Spin } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import { UserViewSchedule } from "../../../modules/userPage";
 
 export const ClassPortalTable = () => {
   const context = useContext(ClassPortalContext);
@@ -51,6 +52,15 @@ export const ClassPortalTable = () => {
         <div className="flex items-center gap-2">
           <span className="material-symbols-outlined">visibility_off</span>
           <span>Đã Ẩn</span>
+        </div>
+      ),
+    },
+    {
+      key: "SCHEDULE",
+      label: (
+        <div className="flex items-center gap-2">
+          <span className="material-symbols-outlined">calendar_today</span>
+          <span>Lịch Học</span>
         </div>
       ),
     },
@@ -247,344 +257,362 @@ export const ClassPortalTable = () => {
               className="mb-4"
             />
           </div>
-          <div className="bg-white border rounded-lg">
-            <table className="w-full">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th
-                    style={{
-                      borderTopLeftRadius: 25,
-                      background: "#148636",
-                      color: "white",
-                    }}
-                    className="px-6 py-4 text-left fw-bold"
-                  >
-                    Mô Tả Lớp Học
-                  </th>
-                  <th
-                    style={{
-                      background: "#148636",
-                      color: "white",
-                    }}
-                    className="px-6 py-4 text-left fw-bold"
-                  >
-                    Tên Khoá Học
-                  </th>
-                  <th
-                    style={{
-                      background: "#148636",
-                      color: "white",
-                    }}
-                    className="px-6 py-4 text-left fw-bold"
-                  >
-                    Thông Tin Chung
-                  </th>
-                  <th
-                    style={{
-                      background: "#148636",
-                      color: "white",
-                    }}
-                    className="px-6 py-4 text-left fw-bold"
-                  >
-                    Học Phí
-                  </th>
-                  <th
-                    style={{
-                      background: "#148636",
-                      color: "white",
-                    }}
-                    className="px-6 py-4 text-left fw-bold"
-                  >
-                    Lịch Học
-                  </th>
-                  <th
-                    style={{
-                      background: "#148636",
-                      color: "white",
-                    }}
-                    className="px-6 py-4 text-left fw-bold"
-                  >
-                    Trạng Thái
-                  </th>
-                  <th
-                    style={{
-                      borderTopRightRadius: 25,
-                      background: "#148636",
-                      color: "white",
-                    }}
-                    className="px-6 py-4 text-left fw-bold"
-                  >
-                    Công Cụ Quản Lý
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y">
-                {!loading &&
-                  classPagination?.content
-                    ?.filter((x) =>
-                      activeTab === "ACTIVE"
-                        ? x.visibleStatus === true
-                        : activeTab !== "ALL"
-                        ? x.visibleStatus === false
-                        : true
-                    )
-                    .map((item) => (
-                      <React.Fragment key={item.classID}>
-                        <tr className="hover:bg-gray-50 transition-colors">
-                          <td className="px-6 py-4">{item.classDescription}</td>
-                          <td className="px-6 py-4">
-                            <div className="flex gap-3 items-center">
-                              <img
-                                src={
-                                  item.courseDetail.thumbnail ||
-                                  "https://placehold.co/100x70"
-                                }
-                                alt="thumbnail"
-                                className="h-[70px] rounded-lg w-[100px] object-cover"
-                              />
-                              <div>
-                                <p className="font-medium">
-                                  {item.courseDetail.courseName}
-                                </p>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4">
-                            <div className="d-flex align-content-center">
-                              <span className="material-symbols-outlined">
-                                person
-                              </span>
-                              {": "}
-                              {item.totalStudent}
-                            </div>
-                            <div className="d-flex align-content-center">
-                              <span className="material-symbols-outlined">
-                                timer
-                              </span>
-                              {": "}
-                              {item.totalSession}
-                            </div>
-                            <div className="d-flex align-content-center">
-                              <span className="material-symbols-outlined">
-                                personal_places
-                              </span>
-                              {": "}
-                              {item.expectedStartDate}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4">{item.price}</td>
-                          <td className="px-6 py-4">
-                            <button
-                              className="btn btn-outline-primary btn-sm text-decoration-underline"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                              style={{ color: "#198754" }}
-                            >
-                              Xem Lịch Chi Tiết
-                            </button>
-                            <div className="dropdown-menu p-2">
-                              <div className="d-flex flex-wrap justify-content-between gap-2">
-                                {[
-                                  "Thứ 2",
-                                  "Thứ 3",
-                                  "Thứ 4",
-                                  "Thứ 5",
-                                  "Thứ 6",
-                                  "Thứ 7",
-                                  "Chủ Nhật",
-                                ].map((day, index) => {
-                                  const dayOfWeek = index + 1;
-                                  const schedule = item.classSchedules.find(
-                                    (s) => s.dayOfWeek === dayOfWeek
-                                  );
-                                  return (
-                                    <div
-                                      key={day}
-                                      className={`p-2 text-center rounded flex-grow-1 ${
-                                        schedule
-                                          ? "bg-success-subtle text-success"
-                                          : "bg-secondary-subtle text-muted"
-                                      }`}
-                                      style={{ minWidth: "100px" }}
-                                    >
-                                      <div className="fw-medium">{day}</div>
-                                      {schedule ? (
-                                        <div className="d-flex align-items-center justify-content-center gap-1">
-                                          <span style={{ fontWeight: "700" }}>
-                                            {schedule.startTime.slice(0, 5)}-
-                                            {schedule.endTime.slice(0, 5)}
-                                          </span>
+          {activeTab !== "SCHEDULE" ? (
+            <>
+              <div className="bg-white border rounded-lg">
+                <table className="w-full">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th
+                        style={{
+                          borderTopLeftRadius: 25,
+                          background: "#148636",
+                          color: "white",
+                        }}
+                        className="px-6 py-4 text-left fw-bold"
+                      >
+                        Mô Tả Lớp Học
+                      </th>
+                      <th
+                        style={{
+                          background: "#148636",
+                          color: "white",
+                        }}
+                        className="px-6 py-4 text-left fw-bold"
+                      >
+                        Tên Khoá Học
+                      </th>
+                      <th
+                        style={{
+                          background: "#148636",
+                          color: "white",
+                        }}
+                        className="px-6 py-4 text-left fw-bold"
+                      >
+                        Thông Tin Chung
+                      </th>
+                      <th
+                        style={{
+                          background: "#148636",
+                          color: "white",
+                        }}
+                        className="px-6 py-4 text-left fw-bold"
+                      >
+                        Học Phí
+                      </th>
+                      <th
+                        style={{
+                          background: "#148636",
+                          color: "white",
+                        }}
+                        className="px-6 py-4 text-left fw-bold"
+                      >
+                        Lịch Học
+                      </th>
+                      <th
+                        style={{
+                          background: "#148636",
+                          color: "white",
+                        }}
+                        className="px-6 py-4 text-left fw-bold"
+                      >
+                        Trạng Thái
+                      </th>
+                      <th
+                        style={{
+                          borderTopRightRadius: 25,
+                          background: "#148636",
+                          color: "white",
+                        }}
+                        className="px-6 py-4 text-left fw-bold"
+                      >
+                        Công Cụ Quản Lý
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y">
+                    {!loading &&
+                      classPagination?.content
+                        ?.filter((x) =>
+                          activeTab === "ACTIVE"
+                            ? x.visibleStatus === true
+                            : activeTab !== "ALL"
+                            ? x.visibleStatus === false
+                            : true
+                        )
+                        .map((item) => (
+                          <React.Fragment key={item.classID}>
+                            <tr className="hover:bg-gray-50 transition-colors">
+                              <td className="px-6 py-4">
+                                {item.classDescription}
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="flex gap-3 items-center">
+                                  <img
+                                    src={
+                                      item.courseDetail.thumbnail ||
+                                      "https://placehold.co/100x70"
+                                    }
+                                    alt="thumbnail"
+                                    className="h-[70px] rounded-lg w-[100px] object-cover"
+                                  />
+                                  <div>
+                                    <p className="font-medium">
+                                      {item.courseDetail.courseName}
+                                    </p>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="d-flex align-content-center">
+                                  <span className="material-symbols-outlined">
+                                    person
+                                  </span>
+                                  {": "}
+                                  {item.totalStudent}
+                                </div>
+                                <div className="d-flex align-content-center">
+                                  <span className="material-symbols-outlined">
+                                    timer
+                                  </span>
+                                  {": "}
+                                  {item.totalSession}
+                                </div>
+                                <div className="d-flex align-content-center">
+                                  <span className="material-symbols-outlined">
+                                    personal_places
+                                  </span>
+                                  {": "}
+                                  {item.expectedStartDate}
+                                </div>
+                              </td>
+                              <td className="px-6 py-4">{item.price}</td>
+                              <td className="px-6 py-4">
+                                <button
+                                  className="btn btn-outline-primary btn-sm text-decoration-underline"
+                                  data-bs-toggle="dropdown"
+                                  aria-expanded="false"
+                                  style={{ color: "#198754" }}
+                                >
+                                  Xem Lịch Chi Tiết
+                                </button>
+                                <div className="dropdown-menu p-2">
+                                  <div className="d-flex flex-wrap justify-content-between gap-2">
+                                    {[
+                                      "Thứ 2",
+                                      "Thứ 3",
+                                      "Thứ 4",
+                                      "Thứ 5",
+                                      "Thứ 6",
+                                      "Thứ 7",
+                                      "Chủ Nhật",
+                                    ].map((day, index) => {
+                                      const dayOfWeek = index + 1;
+                                      const schedule = item.classSchedules.find(
+                                        (s) => s.dayOfWeek === dayOfWeek
+                                      );
+                                      return (
+                                        <div
+                                          key={day}
+                                          className={`p-2 text-center rounded flex-grow-1 ${
+                                            schedule
+                                              ? "bg-success-subtle text-success"
+                                              : "bg-secondary-subtle text-muted"
+                                          }`}
+                                          style={{ minWidth: "100px" }}
+                                        >
+                                          <div className="fw-medium">{day}</div>
+                                          {schedule ? (
+                                            <div className="d-flex align-items-center justify-content-center gap-1">
+                                              <span
+                                                style={{ fontWeight: "700" }}
+                                              >
+                                                {schedule.startTime.slice(0, 5)}
+                                                -{schedule.endTime.slice(0, 5)}
+                                              </span>
+                                            </div>
+                                          ) : (
+                                            <div>-</div>
+                                          )}
                                         </div>
-                                      ) : (
-                                        <div>-</div>
-                                      )}
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4">
-                            <span
-                              className={`badge rounded-pill text-white px-3 py-2 ${
-                                !item.visibleStatus
-                                  ? "bg-warning"
-                                  : "bg-success"
-                              }`}
-                            >
-                              {item.visibleStatus ? "Đã Xuất Bản" : "Đang Ẩn"}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4">
-                            <div className="flex flex-column gap-2 items-center">
-                              <div className="d-flex">
-                                <button
-                                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                                  onClick={async () => {
-                                    const result = await Swal.fire({
-                                      title: "Bạn có chắc chắn muốn xoá?",
-                                      text: "Bạn sẽ không thể hoàn tác lại hành động này!",
-                                      icon: "warning",
-                                      showCancelButton: true,
-                                      confirmButtonColor: "#288a57",
-                                      cancelButtonColor: "#81998a",
-                                      confirmButtonText: "Tôi Đồng Ý!",
-                                      cancelButtonText: "Huỷ",
-                                    });
-
-                                    if (result.isConfirmed) {
-                                      handleDeleteClass(item.classID);
-                                    }
-                                  }}
-                                >
-                                  <span className="material-symbols-outlined">
-                                    delete
-                                  </span>
-                                </button>
-                                <button
-                                  onClick={() => showClassModal(item)}
-                                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                                >
-                                  <span className="material-symbols-outlined">
-                                    edit
-                                  </span>
-                                </button>
-                              </div>
-                              <div className="d-flex">
-                                <button
-                                  onClick={async () => {
-                                    const currentStatus =
-                                      item?.visibleStatus || false;
-                                    let title = "Xuất bản lớp học này?";
-                                    let text =
-                                      "Sau khi lớp học này được xuất bản, toàn bộ các học viên trên EmpowerU đều sẽ có thể nhìn thấy và đăng ký học lớp học này.";
-                                    let message = "Xuất bản thành công!";
-                                    let confirmText = "Tôi đã hiểu và đồng ý!";
-                                    let reqStatus = true;
-                                    if (currentStatus) {
-                                      title = "Ẩn lớp học này?";
-                                      text =
-                                        "Sau khi ẩn lớp học này, toàn bộ các học viên trên EmpowerU đều sẽ không thể xem được khóa học này nữa.";
-                                      message = "Ẩn lớp học thành công!";
-                                      confirmText = "Tôi đã hiểu và đồng ý!";
-
-                                      reqStatus = false;
-                                    }
-                                    const result = await Swal.fire({
-                                      title: title,
-                                      text: text,
-                                      icon: "info",
-                                      showCancelButton: true,
-                                      confirmButtonColor: "#288a57",
-                                      cancelButtonColor: "#81998a",
-                                      confirmButtonText: confirmText,
-                                    });
-
-                                    if (result.isConfirmed) {
-                                      const loadingId = toast.loading(
-                                        "Đang cập nhật lớp học..."
                                       );
-                                      await classService.setClassVisibility(
-                                        item.classID,
-                                        reqStatus
-                                      );
-                                      await fetchClassPortal();
-                                      toastLoadingSuccessAction(
-                                        loadingId,
-                                        message
-                                      );
-                                    }
-                                  }}
-                                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                                    })}
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="px-6 py-4">
+                                <span
+                                  className={`badge rounded-pill text-white px-3 py-2 ${
+                                    !item.visibleStatus
+                                      ? "bg-warning"
+                                      : "bg-success"
+                                  }`}
                                 >
-                                  <span className="material-symbols-outlined">
-                                    visibility
-                                  </span>
-                                </button>
-                                <button
-                                  onClick={async () => {
-                                    setClassSchedules(item.classSchedules);
-                                    showSessionModal(item);
-                                  }}
-                                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                                >
-                                  <span className="material-symbols-outlined">
-                                    edit_calendar
-                                  </span>
-                                </button>
-                                <button
-                                  onClick={() => fetchStudents(item.classID)}
-                                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                                >
-                                  <span className="material-symbols-outlined">
-                                    group
-                                  </span>
-                                </button>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                      </React.Fragment>
-                    ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="flex justify-between items-center mt-4">
-            <p className="text-gray-500 text-sm">
-              Hiển thị trang {classPaginationParam?.page} trên tổng số{" "}
-              {classPagination?.totalPages} trang
-            </p>
-            <div className="flex gap-2">
-              <button
-                className="border rounded-lg disabled:opacity-50 hover:bg-gray-50 px-4 py-2 transition-colors"
-                disabled={classPaginationParam?.page <= 1}
-                onClick={() => {
-                  const newPage = classPaginationParam?.page - 1;
-                  setClassPaginationParam((prev) => ({
-                    ...prev,
-                    page: newPage,
-                  }));
-                }}
-              >
-                Trang Trước
-              </button>
-              <button
-                className="border rounded-lg disabled:opacity-50 hover:bg-gray-50 px-4 py-2 transition-colors"
-                disabled={
-                  classPaginationParam?.page == classPagination?.totalPages
-                }
-                onClick={() => {
-                  const newPage = classPaginationParam?.page + 1;
-                  setClassPaginationParam((prev) => ({
-                    ...prev,
-                    page: newPage,
-                  }));
-                }}
-              >
-                Kế Tiếp
-              </button>
-            </div>
-          </div>
+                                  {item.visibleStatus
+                                    ? "Đã Xuất Bản"
+                                    : "Đang Ẩn"}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="flex flex-column gap-2 items-center">
+                                  <div className="d-flex">
+                                    <button
+                                      className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                                      onClick={async () => {
+                                        const result = await Swal.fire({
+                                          title: "Bạn có chắc chắn muốn xoá?",
+                                          text: "Bạn sẽ không thể hoàn tác lại hành động này!",
+                                          icon: "warning",
+                                          showCancelButton: true,
+                                          confirmButtonColor: "#288a57",
+                                          cancelButtonColor: "#81998a",
+                                          confirmButtonText: "Tôi Đồng Ý!",
+                                          cancelButtonText: "Huỷ",
+                                        });
+
+                                        if (result.isConfirmed) {
+                                          handleDeleteClass(item.classID);
+                                        }
+                                      }}
+                                    >
+                                      <span className="material-symbols-outlined">
+                                        delete
+                                      </span>
+                                    </button>
+                                    <button
+                                      onClick={() => showClassModal(item)}
+                                      className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                                    >
+                                      <span className="material-symbols-outlined">
+                                        edit
+                                      </span>
+                                    </button>
+                                  </div>
+                                  <div className="d-flex">
+                                    <button
+                                      onClick={async () => {
+                                        const currentStatus =
+                                          item?.visibleStatus || false;
+                                        let title = "Xuất bản lớp học này?";
+                                        let text =
+                                          "Sau khi lớp học này được xuất bản, toàn bộ các học viên trên EmpowerU đều sẽ có thể nhìn thấy và đăng ký học lớp học này.";
+                                        let message = "Xuất bản thành công!";
+                                        let confirmText =
+                                          "Tôi đã hiểu và đồng ý!";
+                                        let reqStatus = true;
+                                        if (currentStatus) {
+                                          title = "Ẩn lớp học này?";
+                                          text =
+                                            "Sau khi ẩn lớp học này, toàn bộ các học viên trên EmpowerU đều sẽ không thể xem được khóa học này nữa.";
+                                          message = "Ẩn lớp học thành công!";
+                                          confirmText =
+                                            "Tôi đã hiểu và đồng ý!";
+
+                                          reqStatus = false;
+                                        }
+                                        const result = await Swal.fire({
+                                          title: title,
+                                          text: text,
+                                          icon: "info",
+                                          showCancelButton: true,
+                                          confirmButtonColor: "#288a57",
+                                          cancelButtonColor: "#81998a",
+                                          confirmButtonText: confirmText,
+                                        });
+
+                                        if (result.isConfirmed) {
+                                          const loadingId = toast.loading(
+                                            "Đang cập nhật lớp học..."
+                                          );
+                                          await classService.setClassVisibility(
+                                            item.classID,
+                                            reqStatus
+                                          );
+                                          await fetchClassPortal();
+                                          toastLoadingSuccessAction(
+                                            loadingId,
+                                            message
+                                          );
+                                        }
+                                      }}
+                                      className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                                    >
+                                      <span className="material-symbols-outlined">
+                                        visibility
+                                      </span>
+                                    </button>
+                                    <button
+                                      onClick={async () => {
+                                        setClassSchedules(item.classSchedules);
+                                        showSessionModal(item);
+                                      }}
+                                      className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                                    >
+                                      <span className="material-symbols-outlined">
+                                        edit_calendar
+                                      </span>
+                                    </button>
+                                    <button
+                                      onClick={() =>
+                                        fetchStudents(item.classID)
+                                      }
+                                      className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                                    >
+                                      <span className="material-symbols-outlined">
+                                        group
+                                      </span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </React.Fragment>
+                        ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="flex justify-between items-center mt-4">
+                <p className="text-gray-500 text-sm">
+                  Hiển thị trang {classPaginationParam?.page} trên tổng số{" "}
+                  {classPagination?.totalPages} trang
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    className="border rounded-lg disabled:opacity-50 hover:bg-gray-50 px-4 py-2 transition-colors"
+                    disabled={classPaginationParam?.page <= 1}
+                    onClick={() => {
+                      const newPage = classPaginationParam?.page - 1;
+                      setClassPaginationParam((prev) => ({
+                        ...prev,
+                        page: newPage,
+                      }));
+                    }}
+                  >
+                    Trang Trước
+                  </button>
+                  <button
+                    className="border rounded-lg disabled:opacity-50 hover:bg-gray-50 px-4 py-2 transition-colors"
+                    disabled={
+                      classPaginationParam?.page == classPagination?.totalPages
+                    }
+                    onClick={() => {
+                      const newPage = classPaginationParam?.page + 1;
+                      setClassPaginationParam((prev) => ({
+                        ...prev,
+                        page: newPage,
+                      }));
+                    }}
+                  >
+                    Kế Tiếp
+                  </button>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <UserViewSchedule></UserViewSchedule>
+            </>
+          )}
         </div>
       </div>
 
