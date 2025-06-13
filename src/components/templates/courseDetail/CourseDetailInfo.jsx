@@ -130,14 +130,18 @@ export const CourseDetailInfo = () => {
                             height: "48px",
                             background:
                               "linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%)",
-                            borderRadius: "12px",
+                            borderRadius: "25px",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
                             color: "white",
                           }}
                         >
-                          <i className="bi bi-person-check fs-4"></i>
+                          <img
+                            className="rounded-circle"
+                            src={courseDetail?.mentorInfo?.avatar}
+                            alt=""
+                          />
                         </div>
                       </div>
                       <div className="ms-3">
@@ -338,9 +342,14 @@ export const CourseDetailInfo = () => {
                             ? "none"
                             : "0 4px 15px rgba(58,123,213,0.3)",
                       }}
-                      onClick={() =>
-                        navigate(`/checkout/${courseDetail?.classID}`)
-                      }
+                      onClick={() => {
+                        console.log(localStorage.getItem("USER"));
+                        if (localStorage.getItem("USER")) {
+                          navigate(`/checkout/${courseDetail?.classID}`);
+                        } else {
+                          navigate(`/auth`);
+                        }
+                      }}
                     >
                       <i className="bi bi-pencil-square"></i>
                       <span>

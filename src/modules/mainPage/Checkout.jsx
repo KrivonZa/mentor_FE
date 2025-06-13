@@ -4,6 +4,7 @@ import courseService from "../../services/courseService";
 import transactionService from "../../services/transactionService";
 import Swal from "sweetalert2";
 import classService from "../../services/classService";
+import momo from "../../../public/img/MOMO.png";
 
 export const Checkout = () => {
   const [courseDetail, setCourseDetail] = useState(null);
@@ -147,12 +148,7 @@ export const Checkout = () => {
                   backgroundColor: paymentMethod === "MOMO" && "#cfcfcf",
                 }}
               >
-                <img
-                  src="../../../public/img/MOMO.png"
-                  alt="MoMo"
-                  width="64"
-                  className="me-2"
-                />
+                <img src={momo} alt="MoMo" width="64" className="me-2" />
               </button>
 
               <button
