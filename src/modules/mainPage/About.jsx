@@ -217,7 +217,7 @@ export function About() {
               <div className="row d-flex justify-content-center text-center">
                 <div className="col-lg-8">
                   <h1 className="mb-4">Về Chúng Tôi</h1>
-                  <p className="mb-0 fs-5">
+                  <p className="mb-0">
                     Nền tảng sáng tạo kết nối Mentor và Mentee trực tiếp, giúp
                     bạn phát triển kỹ năng, đạt được mục tiêu cá nhân, thăng
                     tiến sự nghiệp nhanh và vững chắc hơn.
