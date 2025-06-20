@@ -63,7 +63,6 @@ export const Checkout = () => {
         confirmButtonColor: "#3085d6",
         confirmButtonText: "OK",
       }).then(() => {
-        // window.location.href = "http://localhost:3000/user/registered-class";
         window.location.href =
           "http://empower-u.sytes.net:3000/user/registered-class";
       });
