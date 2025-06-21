@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useChatbot } from "./ChatBotContext";
-import "./Chatbot.css";
+import "./chatbot.css";
 
 export const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -283,3 +283,6 @@ export const Chatbot = () => {
 };
 
 export default Chatbot;
+
+
+
