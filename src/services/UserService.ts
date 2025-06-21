@@ -259,7 +259,7 @@ const getRegisteredClassWithStatusFalse = async ({ registeredClasses, id }) => {
     let classHistory = [];
     try {
       const historyResponse = await axios.get(
-        `https://empoweru.com.vn:9090/empoweru/sba/class-registration/get-student-class-history/${id}`
+        `https://empoweru.com.vn:8080/empoweru/sba/class-registration/get-student-class-history/${id}`
       );
       classHistory = historyResponse.data || [];
     } catch (historyError) {
