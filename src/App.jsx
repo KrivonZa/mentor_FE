@@ -14,6 +14,18 @@ const ScrollToTop = () => {
 
 function App() {
   const routesElements = useRoutesElements();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Track page views khi route thay đổi
+    if (window.gtag) {
+      console.log("Tracking page view for:", location.pathname + location.search);
+      window.gtag("config", "G-874WGDED57", {
+        page_path: location.pathname + location.search,
+      });
+    }
+  }, [location]);
+
   return (
     <ConfigProvider theme={{}}>
       <ScrollToTop />
