@@ -6,7 +6,7 @@ import { API_BASE_URL} from "../constants";
 
 const API_URL_LOCAL = 'http://localhost:9090/empoweru/sba/chat';
 // const API_URL = 'http://empoweru.trangiangkhanh.site/empoweru/sba/chat';
-const API_URL = 'http://empower-u.sytes.net:9090/empoweru/sba/chat';
+const API_URL = 'https://empoweru.com.vn:9090/empoweru/sba/chat';
 
 const courseApi = apiInstance({
     // baseURL: API_URL

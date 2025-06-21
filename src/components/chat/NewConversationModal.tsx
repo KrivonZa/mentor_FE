@@ -29,7 +29,7 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({
       try {
         // Replace with your actual API call
         // const response = await fetch('http://localhost:9090/api/users');
-        const response = await fetch('http://empower-u.sytes.net:9090/api/users');
+        const response = await fetch('https://empoweru.com.vn:9090/api/users');
         const data = await response.json();
         setUsers(data);
         setLoading(false);

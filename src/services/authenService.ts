@@ -42,7 +42,7 @@ export const authenService = {
     // http://localhost:9090/oauth2/authorization/google
     try {
       window.location.href =
-        "http://empower-u.sytes.net:9090/oauth2/authorization/google";
+        "https://empoweru.com.vn:9090/oauth2/authorization/google";
       // "http://localhost:9090/oauth2/authorization/google";
     } catch (error) {
       throw error.response?.data || "Login failed";
