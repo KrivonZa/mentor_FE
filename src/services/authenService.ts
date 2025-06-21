@@ -39,11 +39,11 @@ export const authenService = {
     }
   },
   loginGoogle: async (data: LoginRequest) => {
-    // http://localhost:9090/oauth2/authorization/google
+    // http://localhost:8080/oauth2/authorization/google
     try {
       window.location.href =
-        "http://empower-u.sytes.net:9090/oauth2/authorization/google";
-      // "http://localhost:9090/oauth2/authorization/google";
+        "https://empoweru.com.vn:8080/oauth2/authorization/google";
+      // "http://localhost:8080/oauth2/authorization/google";
     } catch (error) {
       throw error.response?.data || "Login failed";
     }
