@@ -69,7 +69,7 @@ const CustomSearch = () => {
     const fetchSkills = async () => {
       try {
         const response = await fetch(
-          "http://empower-u.sytes.net:9090/empoweru/sba/skill/get-all-skill"
+          "https://empoweru.com.vn:8443/empoweru/sba/skill/get-all-skill"
         );
         const data = await response.json();
         setSkillsList(data.data || []); // Adjust if API response shape is different

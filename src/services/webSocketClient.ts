@@ -17,8 +17,8 @@ class WebSocketClient {
 
 
     this.client = new Client({
-      // webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
-      webSocketFactory: () => new SockJS('https://empoweru.com.vn:8080/ws'),
+      // webSocketFactory: () => new SockJS('http://localhost:8443/ws'),
+      webSocketFactory: () => new SockJS('https://empoweru.com.vn:8443/ws'),
       connectHeaders: {
         Authorization: `Bearer ${userToken}`,
       },

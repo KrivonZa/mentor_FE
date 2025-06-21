@@ -28,8 +28,8 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({
     const fetchUsers = async () => {
       try {
         // Replace with your actual API call
-        // const response = await fetch('http://localhost:8080/api/users');
-        const response = await fetch('https://empoweru.com.vn:8080/api/users');
+        // const response = await fetch('http://localhost:8443/api/users');
+        const response = await fetch('https://empoweru.com.vn:8443/api/users');
         const data = await response.json();
         setUsers(data);
         setLoading(false);

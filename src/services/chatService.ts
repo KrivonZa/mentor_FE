@@ -4,9 +4,8 @@ import { apiInstance, apiPrivateInstance } from '../constants';
 import { Conversation, Message, GroupConversationCreateRequest} from '../types/chatModel';
 import { API_BASE_URL} from "../constants";
 
-const API_URL_LOCAL = 'http://localhost:8080/empoweru/sba/chat';
-// const API_URL = 'http://empoweru.trangiangkhanh.site/empoweru/sba/chat';
-const API_URL = 'https://empoweru.com.vn:8080/empoweru/sba/chat';
+const API_URL_LOCAL = 'http://localhost:8443/empoweru/sba/chat';
+const API_URL = 'https://empoweru.com.vn:8443/empoweru/sba/chat';
 
 const courseApi = apiInstance({
     // baseURL: API_URL
