@@ -777,15 +777,18 @@ h6 {
   --------------------------------------------------------------*/
 .page-title {
   --default-color: var(--contrast-color);
-  --background-color: var(--accent-color);
   --heading-color: var(--contrast-color);
   color: var(--default-color);
-  background-color: var(--background-color);
   position: relative;
+
+  background-image: url('https://t4.ftcdn.net/jpg/11/42/76/13/360_F_1142761323_M37kynq0dbKY5nQ5ZgsldLdrPCmfcZD4.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .page-title .heading {
-  padding: 40px 0;
+  padding: 60px 0;
   border-top: 1px solid
     color-mix(in srgb, var(--default-color), transparent 90%);
 }
@@ -796,7 +799,7 @@ h6 {
 }
 
 .page-title nav {
-  background-color: color-mix(in srgb, var(--accent-color) 90%, black 5%);
+  background-image: url('https://img.freepik.com/premium-vector/green-black-color-digital-noise-texture-with-soft-grain_1044202-2671.jpg?semt=ais_items_boosted&w=740');
   padding: 12px 0;
 }
 

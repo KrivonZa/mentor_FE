@@ -290,8 +290,8 @@ export function Homepage() {
                         }}
                       ></i>
                       <span>
-                        <strong>Kết nối chuẩn</strong> – chìa khóa vàng để bứt phá sự nghiệp cùng
-                        EmpowerU.
+                        <strong>Kết nối chuẩn</strong> – chìa khóa vàng để bứt
+                        phá sự nghiệp cùng EmpowerU.
                       </span>
                     </div>
                   </div>
@@ -1139,19 +1139,22 @@ export function Homepage() {
             </div>
 
             <div className="row gy-4">
+              {/* Testimonial 1 */}
               <div className="col-lg-4" data-aos="fade-up" data-aos-delay="100">
                 <div className="testimonial-card">
                   <div className="d-flex align-items-center mb-3">
                     <img
-                      src="https://randomuser.me/api/portraits/women/44.jpg"
-                      alt=""
+                      src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-1/471658618_8965243623589054_1479541952948398784_n.jpg?stp=dst-jpg_s480x480_tt6&_nc_cat=109&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeFqUnJlbM9ul12qiUQ6gce28_0diYZGq_Xz_R2Jhkar9Z_ATEPzr1Qvr9NXeqnnU_OdAC2mBxAsdVFCr9Mob9F-&_nc_ohc=j6bnq0EBeewQ7kNvwHeZKzf&_nc_oc=Adl5AOJvK93uoOjrvVWrF36vD1MtnBViDZ1LKp4KZHm0Hl1rPt_TXEPrjDfbcVz_tO8&_nc_pt=1&_nc_zt=24&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=XBFHIHqHEPAc4hKWCgh1SA&oh=00_AfOZnm4E332kbJdnxLvY6XUFj2a8rw7w0U8bJNcvUhh_0Q&oe=68641FCE" // Placeholder - tìm hình sau
+                      alt="Vĩnh Văn"
                       className="rounded-circle me-3"
                       width="50"
                       height="50"
                     />
                     <div>
-                      <h6 className="mb-0 fw-bold">Nguyễn Thị Lan</h6>
-                      <small className="text-muted">Marketing Executive</small>
+                      <h6 className="mb-0 fw-bold">Vĩnh Văn</h6>
+                      <small className="text-muted">
+                        Software Engineer tại FPT Software
+                      </small>
                     </div>
                   </div>
                   <div className="mb-3">
@@ -1162,25 +1165,29 @@ export function Homepage() {
                     <i className="bi bi-star-fill text-warning"></i>
                   </div>
                   <p className="text-muted">
-                    "Mentor rất nhiệt tình và giàu kinh nghiệm. Tôi đã học được
-                    rất nhiều kỹ năng thực tế và áp dụng ngay vào công việc."
+                    "Sau 3 tháng học React với mentor Tuấn, mình đã tự tin
+                    deploy được 2 dự án thực tế. Phương pháp học cá nhân hoá giúp mình tiến
+                    bộ nhanh hơn gấp 3 lần so với tự học."
                   </p>
                 </div>
               </div>
 
+              {/* Testimonial 2 */}
               <div className="col-lg-4" data-aos="fade-up" data-aos-delay="200">
                 <div className="testimonial-card">
                   <div className="d-flex align-items-center mb-3">
                     <img
-                      src="https://randomuser.me/api/portraits/men/32.jpg"
-                      alt=""
+                      src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-1/506728910_1750030112568112_7624135112482092038_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=108&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeH50OOV4U_d6fyl1_LmileJYhV1JEnwspRiFXUkSfCylGmkChPZYDz8JMRF1kknubE0IQiKUzyoe_5SQJapaQOP&_nc_ohc=I4mjo-toT8wQ7kNvwHAmCEp&_nc_oc=AdnWCWG4nNV9yzYTjYlcZDkIFzXYkqJ6Uu7ddstEu4FPHxES19ElZrT5oPdtIC2oHts&_nc_pt=1&_nc_zt=24&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=0PIgEWochK_Ym2U8ImmeBw&oh=00_AfO_02OW2oDkHvcT7P3DyLnHJoGIMg1U14daf6D2LEpYcw&oe=68641C7B" // Placeholder - tìm hình sau
+                      alt="Hoàng Yến"
                       className="rounded-circle me-3"
                       width="50"
                       height="50"
                     />
                     <div>
-                      <h6 className="mb-0 fw-bold">Trần Văn Nam</h6>
-                      <small className="text-muted">Software Developer</small>
+                      <h6 className="mb-0 fw-bold">Hoàng Yến</h6>
+                      <small className="text-muted">
+                        Digital Marketing Manager
+                      </small>
                     </div>
                   </div>
                   <div className="mb-3">
@@ -1191,25 +1198,60 @@ export function Homepage() {
                     <i className="bi bi-star-fill text-warning"></i>
                   </div>
                   <p className="text-muted">
-                    "Nền tảng rất dễ sử dụng, nội dung được cập nhật liên tục.
-                    Tôi đã tự tin hơn rất nhiều trong công việc."
+                    "Khóa học Google Ads với mentor Linh thật sự đáng đồng tiền bát
+                    gạo! ROAS của mình đã tăng gấp đôi chỉ sau 1 tháng, nhờ sự hỗ trợ
+                    tận tình và chiến lược đúng đắn từ mentor."
                   </p>
                 </div>
               </div>
 
+              {/* Testimonial 3 */}
               <div className="col-lg-4" data-aos="fade-up" data-aos-delay="300">
                 <div className="testimonial-card">
                   <div className="d-flex align-items-center mb-3">
                     <img
-                      src="https://randomuser.me/api/portraits/women/68.jpg"
-                      alt=""
+                      src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-1/471384798_2396379380698415_8644363173297026760_n.jpg?stp=dst-jpg_s480x480_tt6&_nc_cat=110&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeH3dzasnT1NCT-0lRnRDUSfU0qc_VrxfIhTSpz9WvF8iJpaXF91S7xpbcrohcXKD7RtZdWrum3DofwqZXY1zZ84&_nc_ohc=uagHbzxGbXYQ7kNvwGVqIPx&_nc_oc=AdkKHSyXRGiCmhh0Vb-NbMj5QJVyCkRVIhHYos9ijNT2iQbXlkW02iwU96ClS1L4J6g&_nc_pt=1&_nc_zt=24&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=pzlppxFnbDbQv1faL73riQ&oh=00_AfOEdErS6L-L0C8yO3y3YJFZYjlx1NLqN7jbbX6GH3Kokg&oe=6863FA5B" // Placeholder - tìm hình sau
+                      alt="Đinh Phước Tú"
                       className="rounded-circle me-3"
                       width="50"
                       height="50"
                     />
                     <div>
-                      <h6 className="mb-0 fw-bold">Lê Thị Hương</h6>
-                      <small className="text-muted">Business Owner</small>
+                      <h6 className="mb-0 fw-bold">Đinh Phước Tú</h6>
+                      <small className="text-muted">FPT University Student</small>
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <i className="bi bi-star-fill text-warning"></i>
+                    <i className="bi bi-star-fill text-warning"></i>
+                    <i className="bi bi-star-fill text-warning"></i>
+                    <i className="bi bi-star-fill text-warning"></i>
+                    <i className="bi bi-star text-warning"></i>
+                  </div>
+                  <p className="text-muted">
+                    "Mentor business của mình không chỉ dạy lý thuyết mà còn
+                    review từng bước business plan thực tế. Nhờ đó mình đã có những
+                    tiến bộ rõ rệt trong việc xây dựng và triển khai ý tưởng."
+                  </p>
+                </div>
+              </div>
+
+              {/* Testimonial 4 */}
+              <div className="col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                <div className="testimonial-card">
+                  <div className="d-flex align-items-center mb-3">
+                    <img
+                      src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-6/441052533_767460062196798_1490947258541484121_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeG0JEq70WM_rVBc8os0M-y-gs3ITvULBIuCzchO9QsEi1aa7CREiI4JHijuPhxj9VROlKGs_UPIvJ7udVIVdmgo&_nc_ohc=qpzKAtU137kQ7kNvwGu5c_O&_nc_oc=AdkBSGJJpl_grfz6PXZPvg2LKIr1UwmP5BzzHxgUMmXHXKbQzCrkvnTpz2qPV5FY0zs&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=_2P4M5lXnHdfWBrz55xoiw&oh=00_AfMbUOXORPaVBuG_fWNnkmsVK5p_DB75yth75lGCcZ1KGA&oe=6863FF25" // Placeholder - tìm hình sau
+                      alt="Tiểu My"
+                      className="rounded-circle me-3"
+                      width="50"
+                      height="50"
+                    />
+                    <div>
+                      <h6 className="mb-0 fw-bold">Tiểu My</h6>
+                      <small className="text-muted">
+                        UI/UX Designer tại VNG
+                      </small>
                     </div>
                   </div>
                   <div className="mb-3">
@@ -1220,10 +1262,121 @@ export function Homepage() {
                     <i className="bi bi-star-fill text-warning"></i>
                   </div>
                   <p className="text-muted">
-                    "Đầu tư tốt nhất tôi từng thực hiện! Kiến thức từ mentor đã
-                    giúp doanh nghiệp của tôi tăng trưởng 200%."
+                    "Từ con số 0 về Figma đến hoàn thành portfolio chuyên nghiệp
+                    chỉ trong 2 tháng. Anh mentor rất kiên trì và feedback rất
+                    chi tiết từng pixel."
                   </p>
                 </div>
+              </div>
+
+              {/* Testimonial 5 */}
+              <div className="col-lg-4" data-aos="fade-up" data-aos-delay="500">
+                <div className="testimonial-card">
+                  <div className="d-flex align-items-center mb-3">
+                    <img
+                      src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-1/474751461_990330106293631_883054065601089045_n.jpg?stp=dst-jpg_s480x480_tt6&_nc_cat=109&ccb=1-7&_nc_sid=1d2534&_nc_eui2=AeGeRxiK7Z6JI5hhmFht5tjni87ocCXXGImLzuhwJdcYiabX5oa3tJ7_QencJQcc7ffWQ_NHiG1FuLhZs9IesIVw&_nc_ohc=y3o4Iu3VQBoQ7kNvwGZIhR7&_nc_oc=Adm59mB8ONtTbbhkz8o5ZJkUKoI7c5xqaEg8RVZfJ6fhgN8sHtgHHzn2mb28RnE8Tno&_nc_pt=1&_nc_zt=24&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=I37GCR52e-APwBH-gI6L9Q&oh=00_AfMJlHaAnuiLCs4xzZNXDgj_yohg3JH-K3y5Z7H5wBa2Hw&oe=6863F51A" // Placeholder - tìm hình sau
+                      alt="Trần Thư"
+                      className="rounded-circle me-3"
+                      width="50"
+                      height="50"
+                    />
+                    <div>
+                      <h6 className="mb-0 fw-bold">Trần Thư</h6>
+                      <small className="text-muted">
+                        Data Analyst tại Shopee
+                      </small>
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <i className="bi bi-star-fill text-warning"></i>
+                    <i className="bi bi-star-fill text-warning"></i>
+                    <i className="bi bi-star-fill text-warning"></i>
+                    <i className="bi bi-star-fill text-warning"></i>
+                    <i className="bi bi-star text-warning"></i>
+                  </div>
+                  <p className="text-muted">
+                    "Python và Machine Learning từ cơ bản đến nâng cao với
+                    mentor có 8 năm kinh nghiệm. Giờ mình đã tự tin handle các
+                    project data science phức tạp."
+                  </p>
+                </div>
+              </div>
+
+              {/* Testimonial 6 */}
+              <div className="col-lg-4" data-aos="fade-up" data-aos-delay="600">
+                <div className="testimonial-card">
+                  <div className="d-flex align-items-center mb-3">
+                    <img
+                      src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-1/491409111_1733466070571604_8026655050355217285_n.jpg?stp=dst-jpg_s480x480_tt6&_nc_cat=104&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeE5RBbd3pdcAetC1O_c63wi9gd1Bpu7K2v2B3UGm7sra1_nfzzF3B62EoEFqaoh7B--bx-PvHat61ZElr2vQr8j&_nc_ohc=QJ8nC2FrIggQ7kNvwE5YlLZ&_nc_oc=AdmVzm4zfORLJ4P6O72COBgwdX-NoFTMGYECzoy6BT2wouVrrys3mOn1uf4YzqnM74A&_nc_pt=1&_nc_zt=24&_nc_ht=scontent.fsgn19-1.fna&_nc_gid=0xFXYiXhnGpJOFuMLDwXbw&oh=00_AfM-LmrFYKdns7YITHChLgXw0Lr087jrQJ-xJr6xLP13MQ&oe=6863F6BD" // Placeholder - tìm hình sau
+                      alt="Tạ Đào Phương Thảo"
+                      className="rounded-circle me-3"
+                      width="50"
+                      height="50"
+                    />
+                    <div>
+                      <h6 className="mb-0 fw-bold">Tạ Đào Phương Thảo</h6>
+                      <small className="text-muted">
+                        Freelance Content Creator
+                      </small>
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <i className="bi bi-star-fill text-warning"></i>
+                    <i className="bi bi-star-fill text-warning"></i>
+                    <i className="bi bi-star-fill text-warning"></i>
+                    <i className="bi bi-star-fill text-warning"></i>
+                    <i className="bi bi-star-fill text-warning"></i>
+                  </div>
+                  <p className="text-muted">
+                    "Khóa Content Marketing đã thay đổi hoàn toàn cách mình viết
+                    content. Thu nhập tăng gấp đôi, từ 8 triệu lên 16
+                    triệu/tháng sau 4 tháng học."
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Statistics */}
+            <div className="row mt-5 pt-5 border-top">
+              <div
+                className="col-md-3 text-center"
+                data-aos="fade-up"
+                data-aos-delay="100"
+              >
+                <h3 className="fw-bold" style={{ color: "#5fd080" }}>
+                  98%
+                </h3>
+                <p className="text-muted">Tỷ lệ hài lòng</p>
+              </div>
+              <div
+                className="col-md-3 text-center"
+                data-aos="fade-up"
+                data-aos-delay="200"
+              >
+                <h3 className="fw-bold" style={{ color: "#5fd080" }}>
+                  4.9/5
+                </h3>
+                <p className="text-muted">Đánh giá trung bình</p>
+              </div>
+              <div
+                className="col-md-3 text-center"
+                data-aos="fade-up"
+                data-aos-delay="300"
+              >
+                <h3 className="fw-bold" style={{ color: "#5fd080" }}>
+                  2,847
+                </h3>
+                <p className="text-muted">Học viên đã tốt nghiệp</p>
+              </div>
+              <div
+                className="col-md-3 text-center"
+                data-aos="fade-up"
+                data-aos-delay="400"
+              >
+                <h3 className="fw-bold" style={{ color: "#5fd080" }}>
+                  89%
+                </h3>
+                <p className="text-muted">Có việc làm mới sau khóa học</p>
               </div>
             </div>
           </div>
