@@ -107,14 +107,13 @@ const CustomSearch = () => {
   return (
     <div
       style={{
-        background: "linear-gradient(135deg, #ffffff 0%, #f8fffe 100%)",
+        background: "linear-gradient(135deg,rgb(114, 209, 135) 0%,rgb(206, 243, 238) 100%)",
         borderRadius: "25px",
         padding: "32px",
-        boxShadow: "0 20px 60px rgba(95, 207, 128, 0.15)",
-        border: "1px solid rgba(95, 207, 128, 0.1)",
         marginBottom: "40px",
         position: "relative",
         overflow: "hidden",
+        boxShadow: "0 15px 32px rgba(95, 207, 128, 0.18)",
       }}
     >
       {/* Background decoration */}
@@ -128,7 +127,6 @@ const CustomSearch = () => {
           borderRadius: "50%",
           background:
             "linear-gradient(135deg, rgba(95, 207, 128, 0.1) 0%, rgba(75, 170, 106, 0.05) 100%)",
-          filter: "blur(40px)",
         }}
       />
 
@@ -229,8 +227,8 @@ const CustomSearch = () => {
 
         {/* Quick stats */}
         <div className="d-flex justify-content-between align-items-center mt-3">
-          <div style={{ color: "#666", fontSize: "0.95rem" }}>
-            <span style={{ fontWeight: "600", color: "#5fcf80" }}>
+          <div style={{ color: "white", fontSize: "0.95rem" }}>
+            <span style={{ fontWeight: "600", color: "white" }}>
               {filteredCoursesCount}
             </span>{" "}
             khóa học được tìm thấy
