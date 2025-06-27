@@ -358,40 +358,97 @@ export function About() {
         ></section>
 
         {/* Why Become Mentor & Why Learn */}
-        <section className="section py-5">
+        <section
+          className="section py-5"
+          style={{
+            background: "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
+          }}
+        >
           <div className="container">
             <div className="row gy-5">
-              {/* Why Become Mentor */}
+              {/* Why Become Mentor - Gradient Style */}
               <div className="col-lg-6" data-aos="fade-right">
-                <div className="card-hover  h-100 p-4">
-                  <h3
-                    className="fw-bold mb-4 text-center"
-                    style={{ color: "#2c3e50" }}
-                  >
+                <div
+                  className="mentor-card h-100 p-4 position-relative overflow-hidden"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    borderRadius: "24px",
+                    boxShadow: "0 20px 40px rgba(102, 126, 234, 0.3)",
+                    border: "none",
+                    transition: "all 0.3s ease",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-8px)";
+                    e.currentTarget.style.boxShadow =
+                      "0 30px 60px rgba(102, 126, 234, 0.4)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow =
+                      "0 20px 40px rgba(102, 126, 234, 0.3)";
+                  }}
+                >
+                  {/* Decorative Elements */}
+                  <div
+                    className="position-absolute"
+                    style={{
+                      top: "-50px",
+                      right: "-50px",
+                      width: "150px",
+                      height: "150px",
+                      background: "rgba(255, 255, 255, 0.1)",
+                      borderRadius: "50%",
+                      backdropFilter: "blur(10px)",
+                    }}
+                  ></div>
+
+                  <h3 className="fw-bold mb-4 text-center text-white">
                     🚀 Tại sao nên trở thành Mentor?
                   </h3>
 
-                  <div className="row gy-2">
+                  <div className="row gy-3">
                     <div className="col-12">
                       <div
-                        className="d-flex align-items-center p-3 rounded-4"
-                        style={{ backgroundColor: "#f8f9fa" }}
+                        className="d-flex align-items-center p-4 rounded-4 position-relative"
+                        style={{
+                          background: "rgba(255, 255, 255, 0.15)",
+                          backdropFilter: "blur(10px)",
+                          border: "1px solid rgba(255, 255, 255, 0.2)",
+                          transition: "all 0.3s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background =
+                            "rgba(255, 255, 255, 0.25)";
+                          e.currentTarget.style.transform = "translateX(8px)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background =
+                            "rgba(255, 255, 255, 0.15)";
+                          e.currentTarget.style.transform = "translateX(0)";
+                        }}
                       >
                         <div
-                          className="benefit-icon me-3"
+                          className="d-flex align-items-center justify-content-center me-3"
                           style={{
                             width: "60px",
                             height: "60px",
-                            fontSize: "1.5rem",
-                            margin: "0 !important",
+                            background:
+                              "linear-gradient(135deg, #ffeaa7, #fab1a0)",
+                            borderRadius: "16px",
+                            fontSize: "1.8rem",
+                            boxShadow: "0 8px 20px rgba(255, 234, 167, 0.4)",
                           }}
                         >
                           💰
                         </div>
                         <div>
-                          <h6 className="mb-1 fw-bold">Thu nhập ổn định</h6>
-                          <small className="text-muted">
-                            Kiếm tiền từ kiến thức chuyên môn của bạn
+                          <h6 className="mb-1 fw-bold text-white">
+                            Thu nhập ổn định
+                          </h6>
+                          <small style={{ color: "rgba(255, 255, 255, 0.8)" }}>
+                            Kiếm 15-50 triệu/tháng từ kiến thức chuyên môn
                           </small>
                         </div>
                       </div>
@@ -399,23 +456,44 @@ export function About() {
 
                     <div className="col-12">
                       <div
-                        className="d-flex align-items-center p-3 rounded-4"
-                        style={{ backgroundColor: "#f8f9fa" }}
+                        className="d-flex align-items-center p-4 rounded-4"
+                        style={{
+                          background: "rgba(255, 255, 255, 0.15)",
+                          backdropFilter: "blur(10px)",
+                          border: "1px solid rgba(255, 255, 255, 0.2)",
+                          transition: "all 0.3s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background =
+                            "rgba(255, 255, 255, 0.25)";
+                          e.currentTarget.style.transform = "translateX(8px)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background =
+                            "rgba(255, 255, 255, 0.15)";
+                          e.currentTarget.style.transform = "translateX(0)";
+                        }}
                       >
                         <div
-                          className="benefit-icon me-3"
+                          className="d-flex align-items-center justify-content-center me-3"
                           style={{
                             width: "60px",
                             height: "60px",
-                            fontSize: "1.5rem",
+                            background:
+                              "linear-gradient(135deg, #a8e6cf, #81c784)",
+                            borderRadius: "16px",
+                            fontSize: "1.8rem",
+                            boxShadow: "0 8px 20px rgba(168, 230, 207, 0.4)",
                           }}
                         >
                           ⏰
                         </div>
                         <div>
-                          <h6 className="mb-1 fw-bold">Thời gian linh hoạt</h6>
-                          <small className="text-muted">
-                            Tự chủ lịch trình theo ý muốn
+                          <h6 className="mb-1 fw-bold text-white">
+                            Thời gian linh hoạt
+                          </h6>
+                          <small style={{ color: "rgba(255, 255, 255, 0.8)" }}>
+                            Tự chủ lịch trình, work-life balance hoàn hảo
                           </small>
                         </div>
                       </div>
@@ -423,23 +501,44 @@ export function About() {
 
                     <div className="col-12">
                       <div
-                        className="d-flex align-items-center p-3 rounded-4"
-                        style={{ backgroundColor: "#f8f9fa" }}
+                        className="d-flex align-items-center p-4 rounded-4"
+                        style={{
+                          background: "rgba(255, 255, 255, 0.15)",
+                          backdropFilter: "blur(10px)",
+                          border: "1px solid rgba(255, 255, 255, 0.2)",
+                          transition: "all 0.3s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background =
+                            "rgba(255, 255, 255, 0.25)";
+                          e.currentTarget.style.transform = "translateX(8px)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background =
+                            "rgba(255, 255, 255, 0.15)";
+                          e.currentTarget.style.transform = "translateX(0)";
+                        }}
                       >
                         <div
-                          className="benefit-icon me-3"
+                          className="d-flex align-items-center justify-content-center me-3"
                           style={{
                             width: "60px",
                             height: "60px",
-                            fontSize: "1.5rem",
+                            background:
+                              "linear-gradient(135deg, #ffb3ba, #ff9ff3)",
+                            borderRadius: "16px",
+                            fontSize: "1.8rem",
+                            boxShadow: "0 8px 20px rgba(255, 179, 186, 0.4)",
                           }}
                         >
                           🌟
                         </div>
                         <div>
-                          <h6 className="mb-1 fw-bold">Xây dựng thương hiệu</h6>
-                          <small className="text-muted">
-                            Nâng cao uy tín và danh tiếng cá nhân
+                          <h6 className="mb-1 fw-bold text-white">
+                            Xây dựng thương hiệu
+                          </h6>
+                          <small style={{ color: "rgba(255, 255, 255, 0.8)" }}>
+                            Trở thành chuyên gia được công nhận trong ngành
                           </small>
                         </div>
                       </div>
@@ -447,47 +546,104 @@ export function About() {
 
                     <div className="col-12">
                       <div
-                        className="d-flex align-items-center p-3 rounded-4"
-                        style={{ backgroundColor: "#f8f9fa" }}
+                        className="d-flex align-items-center p-4 rounded-4"
+                        style={{
+                          background: "rgba(255, 255, 255, 0.15)",
+                          backdropFilter: "blur(10px)",
+                          border: "1px solid rgba(255, 255, 255, 0.2)",
+                          transition: "all 0.3s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background =
+                            "rgba(255, 255, 255, 0.25)";
+                          e.currentTarget.style.transform = "translateX(8px)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background =
+                            "rgba(255, 255, 255, 0.15)";
+                          e.currentTarget.style.transform = "translateX(0)";
+                        }}
                       >
                         <div
-                          className="benefit-icon me-3"
+                          className="d-flex align-items-center justify-content-center me-3"
                           style={{
                             width: "60px",
                             height: "60px",
-                            fontSize: "1.5rem",
+                            background:
+                              "linear-gradient(135deg, #87ceeb, #98d8e8)",
+                            borderRadius: "16px",
+                            fontSize: "1.8rem",
+                            boxShadow: "0 8px 20px rgba(135, 206, 235, 0.4)",
                           }}
                         >
                           🤝
                         </div>
                         <div>
-                          <h6 className="mb-1 fw-bold">Mở rộng network</h6>
-                          <small className="text-muted">
-                            Kết nối với nhiều người trong ngành
+                          <h6 className="mb-1 fw-bold text-white">
+                            Mở rộng network
+                          </h6>
+                          <small style={{ color: "rgba(255, 255, 255, 0.8)" }}>
+                            Kết nối với 1000+ chuyên gia và doanh nghiệp
                           </small>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="text-center mt-4">
+                  <div className="text-center mt-5">
                     <a
                       href="/auth"
-                      className="btn btn-lg px-4 py-3 gradient-bg text-white"
+                      className="btn btn-lg px-5 py-3 text-white fw-bold"
                       style={{
-                        borderRadius: "20px",
-                        fontWeight: "600",
+                        background: "linear-gradient(135deg, #ff6b6b, #ff8e53)",
+                        border: "none",
+                        borderRadius: "25px",
+                        fontSize: "1.1rem",
+                        boxShadow: "0 8px 25px rgba(255, 107, 107, 0.4)",
+                        transition: "all 0.3s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = "translateY(-3px)";
+                        e.currentTarget.style.boxShadow =
+                          "0 12px 35px rgba(255, 107, 107, 0.6)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = "translateY(0)";
+                        e.currentTarget.style.boxShadow =
+                          "0 8px 25px rgba(255, 107, 107, 0.4)";
                       }}
                     >
-                      Đăng Ký Mentor Ngay
+                      💼 Đăng Ký Mentor Ngay
                     </a>
                   </div>
                 </div>
               </div>
 
-              {/* Why Learn on EmpowerU */}
+              {/* Why Learn on EmpowerU - Clean Modern Style */}
               <div className="col-lg-6" data-aos="fade-left">
-                <div className="card-hover h-100 p-4">
+                <div
+                  className="learn-card h-100 p-4"
+                  style={{
+                    background: "white",
+                    borderRadius: "24px",
+                    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.08)",
+                    border: "2px solid #f1f3f4",
+                    transition: "all 0.3s ease",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-8px)";
+                    e.currentTarget.style.boxShadow =
+                      "0 25px 50px rgba(95, 208, 128, 0.15)";
+                    e.currentTarget.style.borderColor = "#5fd080";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow =
+                      "0 10px 30px rgba(0, 0, 0, 0.08)";
+                    e.currentTarget.style.borderColor = "#f1f3f4";
+                  }}
+                >
                   <h3
                     className="fw-bold mb-4 text-center"
                     style={{ color: "#2c3e50" }}
@@ -495,26 +651,51 @@ export function About() {
                     📚 Tại sao nên học trên EmpowerU?
                   </h3>
 
-                  <div className="row gy-2">
+                  <div className="row gy-3">
                     <div className="col-12">
                       <div
-                        className="d-flex align-items-center p-3 rounded-4"
-                        style={{ backgroundColor: "#f8f9fa" }}
+                        className="d-flex align-items-center p-4 rounded-4"
+                        style={{
+                          background:
+                            "linear-gradient(135deg, #e8f5e8, #f0f8f0)",
+                          border: "1px solid #e0f2e0",
+                          transition: "all 0.3s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background =
+                            "linear-gradient(135deg, #d4f4d4, #e8f5e8)";
+                          e.currentTarget.style.transform = "translateX(8px)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background =
+                            "linear-gradient(135deg, #e8f5e8, #f0f8f0)";
+                          e.currentTarget.style.transform = "translateX(0)";
+                        }}
                       >
                         <div
-                          className="benefit-icon me-3"
+                          className="d-flex align-items-center justify-content-center me-3"
                           style={{
                             width: "60px",
                             height: "60px",
-                            fontSize: "1.5rem",
+                            background: "#5fd080",
+                            color: "white",
+                            borderRadius: "16px",
+                            fontSize: "1.8rem",
+                            boxShadow: "0 6px 20px rgba(95, 208, 128, 0.3)",
                           }}
                         >
                           🎯
                         </div>
                         <div>
-                          <h6 className="mb-1 fw-bold">Học 1-1 cá nhân hóa</h6>
+                          <h6
+                            className="mb-1 fw-bold"
+                            style={{ color: "#2c3e50" }}
+                          >
+                            Học 1-1 cá nhân hóa
+                          </h6>
                           <small className="text-muted">
-                            Chương trình được thiết kế riêng cho bạn
+                            Lộ trình học tập được thiết kế riêng cho từng cá
+                            nhân
                           </small>
                         </div>
                       </div>
@@ -522,23 +703,47 @@ export function About() {
 
                     <div className="col-12">
                       <div
-                        className="d-flex align-items-center p-3 rounded-4"
-                        style={{ backgroundColor: "#f8f9fa" }}
+                        className="d-flex align-items-center p-4 rounded-4"
+                        style={{
+                          background:
+                            "linear-gradient(135deg, #fff3cd, #fef7e0)",
+                          border: "1px solid #ffeaa7",
+                          transition: "all 0.3s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background =
+                            "linear-gradient(135deg, #ffeb9c, #fff3cd)";
+                          e.currentTarget.style.transform = "translateX(8px)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background =
+                            "linear-gradient(135deg, #fff3cd, #fef7e0)";
+                          e.currentTarget.style.transform = "translateX(0)";
+                        }}
                       >
                         <div
-                          className="benefit-icon me-3"
+                          className="d-flex align-items-center justify-content-center me-3"
                           style={{
                             width: "60px",
                             height: "60px",
-                            fontSize: "1.5rem",
+                            background: "#f39c12",
+                            color: "white",
+                            borderRadius: "16px",
+                            fontSize: "1.8rem",
+                            boxShadow: "0 6px 20px rgba(243, 156, 18, 0.3)",
                           }}
                         >
                           ⚡
                         </div>
                         <div>
-                          <h6 className="mb-1 fw-bold">Tiến bộ nhanh hơn</h6>
+                          <h6
+                            className="mb-1 fw-bold"
+                            style={{ color: "#2c3e50" }}
+                          >
+                            Tiến bộ nhanh hơn
+                          </h6>
                           <small className="text-muted">
-                            Học viên tiến bộ 5x nhanh hơn thông thường
+                            95% học viên đạt mục tiêu trong vòng 3 tháng
                           </small>
                         </div>
                       </div>
@@ -546,25 +751,47 @@ export function About() {
 
                     <div className="col-12">
                       <div
-                        className="d-flex align-items-center p-3 rounded-4"
-                        style={{ backgroundColor: "#f8f9fa" }}
+                        className="d-flex align-items-center p-4 rounded-4"
+                        style={{
+                          background:
+                            "linear-gradient(135deg, #e1f4fd, #f0f9ff)",
+                          border: "1px solid #b3e0ff",
+                          transition: "all 0.3s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background =
+                            "linear-gradient(135deg, #cce7f0, #e1f4fd)";
+                          e.currentTarget.style.transform = "translateX(8px)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background =
+                            "linear-gradient(135deg, #e1f4fd, #f0f9ff)";
+                          e.currentTarget.style.transform = "translateX(0)";
+                        }}
                       >
                         <div
-                          className="benefit-icon me-3"
+                          className="d-flex align-items-center justify-content-center me-3"
                           style={{
                             width: "60px",
                             height: "60px",
-                            fontSize: "1.5rem",
+                            background: "#3498db",
+                            color: "white",
+                            borderRadius: "16px",
+                            fontSize: "1.8rem",
+                            boxShadow: "0 6px 20px rgba(52, 152, 219, 0.3)",
                           }}
                         >
                           🏆
                         </div>
                         <div>
-                          <h6 className="mb-1 fw-bold">
+                          <h6
+                            className="mb-1 fw-bold"
+                            style={{ color: "#2c3e50" }}
+                          >
                             Mentor chất lượng cao
                           </h6>
                           <small className="text-muted">
-                            Được kiểm duyệt kỹ lưỡng bởi đội ngũ chuyên gia
+                            200+ chuyên gia được kiểm duyệt kỹ lưỡng
                           </small>
                         </div>
                       </div>
@@ -572,41 +799,78 @@ export function About() {
 
                     <div className="col-12">
                       <div
-                        className="d-flex align-items-center p-3 rounded-4"
-                        style={{ backgroundColor: "#f8f9fa" }}
+                        className="d-flex align-items-center p-4 rounded-4"
+                        style={{
+                          background:
+                            "linear-gradient(135deg, #fce4ec, #f8bbd9)",
+                          border: "1px solid #f8bbd9",
+                          transition: "all 0.3s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background =
+                            "linear-gradient(135deg, #f8bbd9, #fce4ec)";
+                          e.currentTarget.style.transform = "translateX(8px)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background =
+                            "linear-gradient(135deg, #fce4ec, #f8bbd9)";
+                          e.currentTarget.style.transform = "translateX(0)";
+                        }}
                       >
                         <div
-                          className="benefit-icon me-3"
+                          className="d-flex align-items-center justify-content-center me-3"
                           style={{
                             width: "60px",
                             height: "60px",
-                            fontSize: "1.5rem",
+                            background: "#e91e63",
+                            color: "white",
+                            borderRadius: "16px",
+                            fontSize: "1.8rem",
+                            boxShadow: "0 6px 20px rgba(233, 30, 99, 0.3)",
                           }}
                         >
                           💡
                         </div>
                         <div>
-                          <h6 className="mb-1 fw-bold">Kiến thức thực tế</h6>
+                          <h6
+                            className="mb-1 fw-bold"
+                            style={{ color: "#2c3e50" }}
+                          >
+                            Kiến thức thực tế
+                          </h6>
                           <small className="text-muted">
-                            Áp dụng ngay vào công việc và cuộc sống
+                            100% nội dung áp dụng được ngay vào công việc
                           </small>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="text-center mt-4">
+                  <div className="text-center mt-5">
                     <a
                       href="/courses"
-                      className="btn btn-outline-primary btn-lg px-4 py-3 btn-hover"
+                      className="btn btn-lg px-5 py-3 fw-bold"
                       style={{
-                        borderColor: "#5fd080",
-                        color: "#5fd080",
-                        borderRadius: "20px",
-                        fontWeight: "600",
+                        background: "linear-gradient(135deg, #5fd080, #4ab569)",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "25px",
+                        fontSize: "1.1rem",
+                        boxShadow: "0 8px 25px rgba(95, 208, 128, 0.3)",
+                        transition: "all 0.3s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = "translateY(-3px)";
+                        e.currentTarget.style.boxShadow =
+                          "0 12px 35px rgba(95, 208, 128, 0.5)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = "translateY(0)";
+                        e.currentTarget.style.boxShadow =
+                          "0 8px 25px rgba(95, 208, 128, 0.3)";
                       }}
                     >
-                      Khám Phá Khoá Học
+                      🚀 Khám Phá Khóa Học
                     </a>
                   </div>
                 </div>
@@ -994,11 +1258,12 @@ export function About() {
                         “Chúng mình tin rằng, mỗi người đều xứng đáng có một
                         người đồng hành – một mentor thực sự lắng nghe, truyền
                         cảm hứng và cùng nhau vượt qua những chặng đường phát
-                        triển bản thân.” <br/> <br/> Với niềm tin đó, nhóm WOAH gồm 6 sinh
-                        viên đến từ các ngành học khác nhau của Đại học FPT đã
-                        cùng nhau xây dựng dự án EmpowerU – một nền tảng
-                        mentoring 1:1 giúp kết nối mentor và mentee một cách cá
-                        nhân hóa, linh hoạt và hiệu quả. <strong>... Xem Tiếp</strong>
+                        triển bản thân.” <br /> <br /> Với niềm tin đó, nhóm
+                        WOAH gồm 6 sinh viên đến từ các ngành học khác nhau của
+                        Đại học FPT đã cùng nhau xây dựng dự án EmpowerU – một
+                        nền tảng mentoring 1:1 giúp kết nối mentor và mentee một
+                        cách cá nhân hóa, linh hoạt và hiệu quả.{" "}
+                        <strong>... Xem Tiếp</strong>
                       </p>
                     </div>
                   </div>
