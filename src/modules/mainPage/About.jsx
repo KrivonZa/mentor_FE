@@ -722,7 +722,7 @@ export function About() {
           <div className="container">
             <div className="text-center mb-5" data-aos="fade-up">
               <h2 className="fw-bold mb-3" style={{ color: "#2c3e50" }}>
-                🏢 EmpowerU Mentor Hub 🔥 <strong>HOT </strong>🔥
+                🏢 EmpowerU Mentoring Hub 🔥 <strong>HOT </strong>🔥
               </h2>
               <p className="text-muted fs-5">
                 Không gian làm việc hiện đại ngay tại TP.HCM
@@ -733,7 +733,7 @@ export function About() {
               <div className="col-lg-6" data-aos="fade-right">
                 <div className="card-hover p-4">
                   <h4 className="fw-bold mb-4" style={{ color: "#2c3e50" }}>
-                    📍 Vinhomes Grand Park Quận 9, TP.HCM
+                    📍 S9.03, Vinhomes Grand Park Quận 9, TP.HCM
                   </h4>
 
                   <div className="timeline-item">
@@ -787,7 +787,7 @@ export function About() {
                 <div className="office-gallery">
                   <div className="office-image">
                     <img
-                      src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=500"
+                      src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1751009672259-abigailvo2005%40gmail.com-z6740435710271_cf6326efd34d4c03bc5a48fbbe64efef.jpg"
                       alt="Không gian làm việc hiện đại"
                       className="img-fluid"
                       style={{
@@ -799,7 +799,7 @@ export function About() {
                   </div>
                   <div className="office-image">
                     <img
-                      src="https://images.unsplash.com/photo-1559223607-b4d0555ae227?w=500"
+                      src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1751009728144-abigailvo2005%40gmail.com-z6741263552128_21d21ecc3afd7b97d8514f5ae6159a76.jpg"
                       alt="Phòng học với thiết bị hiện đại"
                       className="img-fluid"
                       style={{
@@ -811,7 +811,7 @@ export function About() {
                   </div>
                   <div className="office-image">
                     <img
-                      src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500"
+                      src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1751009749613-abigailvo2005%40gmail.com-z6741263730460_5f2a25f0de9e9e077d0914dfd36d96b6.jpg"
                       alt="Khu vực nghỉ ngơi"
                       className="img-fluid"
                       style={{
@@ -823,7 +823,7 @@ export function About() {
                   </div>
                   <div className="office-image">
                     <img
-                      src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=500"
+                      src="https://empoweru.s3.ap-southeast-1.amazonaws.com/1751009770740-abigailvo2005%40gmail.com-z6741263802931_d4f024fd67b168ae260d627c59266e73.jpg"
                       alt="Phòng họp nhỏ"
                       className="img-fluid"
                       style={{
