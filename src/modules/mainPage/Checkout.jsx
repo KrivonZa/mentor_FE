@@ -4,7 +4,7 @@ import courseService from "../../services/courseService";
 import transactionService from "../../services/transactionService";
 import Swal from "sweetalert2";
 import classService from "../../services/classService";
-import momo from "../../../public/img/MOMO.png";
+import payos from "../../../public/img/payos.jpg";
 
 export const Checkout = () => {
   const [courseDetail, setCourseDetail] = useState(null);
@@ -54,7 +54,7 @@ export const Checkout = () => {
     try {
       const response = await transactionService.classPayment(course);
       if (response?.transaction?.paymentResponse?.payUrl) {
-        window.location.href = response.transaction.paymentResponse.payUrl;
+        window.open(response.transaction.paymentResponse.payUrl, "_blank")
       }
       await Swal.fire({
         title: "Đang xử lý",
@@ -64,7 +64,7 @@ export const Checkout = () => {
         confirmButtonText: "OK",
       }).then(() => {
         window.location.href =
-          "http://empower-u.sytes.net:3000/user/registered-class";
+          "https://empoweru.com.vn/user/registered-class";
       });
     } catch (error) {
       console.log("error: ", error);
@@ -147,7 +147,7 @@ export const Checkout = () => {
                   backgroundColor: paymentMethod === "MOMO" && "#cfcfcf",
                 }}
               >
-                <img src={momo} alt="MoMo" width="64" className="me-2" />
+                <img src={payos} width="64" className="me-2" />
               </button>
 
               <button

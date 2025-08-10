@@ -306,7 +306,7 @@ export function Wallet() {
                           checked={paymentMethod === "MOMO"}
                           onChange={(e) => setPaymentMethod(e.target.value)}
                         />
-                        <label className="form-check-label fs-5">MoMo</label>
+                        <label className="form-check-label fs-5">PAYOS</label>
                       </div>
                     </div>
                   </div>
@@ -455,7 +455,7 @@ export function Wallet() {
                 onChange={handleFilterChange}
               >
                 <option value="">Tất Cả</option>
-                <option value="MOMO">MOMO</option>
+                <option value="MOMO">PAYOS</option>
                 <option value="PAYPAL">PAYPAL</option>
               </select>
             </div>

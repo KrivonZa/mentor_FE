@@ -26,7 +26,7 @@ THÔNG TIN VỀ EMPOWERU:
 - 200+ mentor từ nhiều lĩnh vực: IT, Marketing, Business, Design, etc.
 - 64+ khóa học chất lượng cao với phương pháp học tương tác
 - Học phí từ 50,000đ - 2,000,000đ tùy theo khóa học
-- Thanh toán qua MoMo hoặc ví EmpowerU
+- Thanh toán qua PayOS hoặc ví EmpowerU
 - Hỗ trợ 24/7 qua nhiều kênh
 
 CÁC TRANG CHÍNH:
@@ -247,7 +247,7 @@ Hãy trả lời câu hỏi này theo định dạng yêu cầu:`;
 
     if (msg.includes("thanh toán") || msg.includes("payment")) {
       return {
-        text: "EmpowerU hỗ trợ thanh toán qua MoMo và ví điện tử EmpowerU. Giao dịch an toàn, nhanh chóng với nhiều ưu đãi!",
+        text: "EmpowerU hỗ trợ thanh toán qua PayOS và ví điện tử EmpowerU. Giao dịch an toàn, nhanh chóng với nhiều ưu đãi!",
         buttonText: "Tìm Hiểu Thêm",
         buttonLink: "/courses",
       };
